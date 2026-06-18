@@ -1,0 +1,16 @@
+# OS / editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+*.swp
+*.swo
+
+# Claude Design source files (not part of the deployable site)
+Claude design/
+
+# Archives
+_archive/
+
+# Node (if ever needed locally)
+node_modules/

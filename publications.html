@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publications — Vinicius Rosa · NUS Faculty of Dentistry</title>
+<meta name="description" content="Selected publications by A/P Vinicius Rosa on biomaterials, regeneration, AI-guided design and translational oral-health technologies.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+<div id="app">
+<main>
+
+  <!-- ── Page header ───────────────────────────────────────── -->
+  <div style="max-width:var(--container-base);margin:0 auto;padding:var(--space-10) var(--gutter) var(--space-8);">
+    <div class="eyebrow">Selected research</div>
+    <h1 class="display" style="font-size:clamp(2.2rem,4vw,3.2rem);margin-top:12px;">Publications</h1>
+    <p style="margin-top:16px;font-family:var(--font-serif);font-style:italic;font-size:20px;line-height:1.5;color:var(--text-muted);">Selected work on biomaterials, regeneration, AI-guided design and translational oral-health technologies.</p>
+  </div>
+
+  <!-- ── Filters ───────────────────────────────────────────── -->
+  <div class="pub-filters">
+    <div class="filter-row">
+      <button class="pill-btn active"   data-filter="all"  onclick="setPubFilter('all')">All</button>
+      <button class="pill-btn inactive" data-filter="bio"  onclick="setPubFilter('bio')">Biomaterials &amp; biointerfaces</button>
+      <button class="pill-btn inactive" data-filter="regen"onclick="setPubFilter('regen')">Regeneration &amp; living models</button>
+      <button class="pill-btn inactive" data-filter="ai"   onclick="setPubFilter('ai')">AI, methods &amp; translation</button>
+      <input class="pub-search-input" type="text" id="pub-search" placeholder="Search…" oninput="onPubSearch(this.value)" aria-label="Search publications">
+    </div>
+  </div>
+
+  <div id="pub-empty" class="empty-state" style="display:none;">No publications match this filter.</div>
+
+  <!-- ── Featured breakthroughs ────────────────────────────── -->
+  <div class="pub-section" id="featured-section">
+    <div class="section-divider">
+      <div class="eyebrow" style="color:var(--orange-600);">Selected breakthroughs</div>
+      <div class="section-divider-line"></div>
+    </div>
+    <div class="featured-grid" id="featured-grid"></div>
+  </div>
+
+  <!-- ── Archive ───────────────────────────────────────────── -->
+  <div class="pub-section" style="padding-bottom:var(--space-12);">
+    <div class="section-divider">
+      <div class="eyebrow">Selected archive</div>
+      <div class="section-divider-line"></div>
+    </div>
+    <div class="archive-list" id="archive-list"></div>
+  </div>
+
+</main>
+</div><!-- /app -->
+
+<script src="assets/js/data/pubs.js"></script>
+<script src="assets/js/shared.js"></script>
+<script>
+// ── State ──────────────────────────────────────────────────────
+let pubFilter = 'all';
+let pubQuery  = '';
+const openBlocks = {};
+
+// ── Category colours ───────────────────────────────────────────
+function catTone(cat) {
+  if (cat === 'ai')   return { wash:'var(--wash-orange)', ink:'var(--orange-600)', label:'AI, methods & translation',    cls:'tag-orange' };
+  if (cat === 'regen')return { wash:'var(--wash-teal)',   ink:'var(--teal-600)',   label:'Regeneration & living models',  cls:'tag-teal' };
+  if (cat === 'bio')  return { wash:'var(--wash-blue)',   ink:'var(--blue-600)',   label:'Biomaterials & biointerfaces',  cls:'tag-blue' };
+  return                     { wash:'var(--wash-teal)',   ink:'var(--teal-600)',   label:'Collaborative applications',    cls:'tag-teal' };
+}
+
+// ── HTML builders ──────────────────────────────────────────────
+function pubCardHTML(p) {
+  const ct = catTone(p.category);
+  return `<div class="pub-card">
+    <div class="pub-card-thumb" style="background:${ct.wash};">
+      <span class="pub-card-cat" style="color:${ct.ink};">${p.badge || ct.label}</span>
+    </div>
+    <div class="pub-card-body">
+      <div class="pub-title">${p.title}</div>
+      <div class="pub-venue-row">
+        <span class="pub-venue">${p.venue}</span>
+        <span class="pub-year">${p.year}</span>
+      </div>
+      ${p.summary ? `<div class="pub-authors" style="margin-top:8px;font-style:italic;">${p.summary}</div>` : ''}
+      <div class="pub-footer">
+        ${p.doi ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener" class="view-link">View study →</a>` : '<span class="view-link" style="color:var(--text-faint);">View study</span>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+function archiveItemHTML(p) {
+  const inner = `<span class="archive-item-year">${p.year}</span>
+    <span class="archive-item-body">
+      <span class="archive-title">${p.title}</span>
+      <span class="archive-meta">
+        <span class="archive-venue">${p.venue}</span>
+      </span>
+    </span>`;
+  return p.doi
+    ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener" class="archive-item">${inner}</a>`
+    : `<div class="archive-item">${inner}</div>`;
+}
+
+// ── Filters ────────────────────────────────────────────────────
+function setPubFilter(id) {
+  pubFilter = id;
+  document.querySelectorAll('[data-filter]').forEach(b => {
+    const active = b.dataset.filter === id;
+    b.classList.toggle('active', active);
+    b.classList.toggle('inactive', !active);
+  });
+  render();
+}
+
+function onPubSearch(val) {
+  pubQuery = val.toLowerCase();
+  render();
+}
+
+// ── Accordion toggle ───────────────────────────────────────────
+function toggleBlock(id) {
+  const cur = !!openBlocks[id];
+  openBlocks[id] = !cur;
+  const body = document.getElementById('ab-' + id);
+  const chev = document.getElementById('chev-' + id);
+  if (body) body.style.display = !cur ? 'block' : 'none';
+  if (chev) chev.textContent = !cur ? '▲' : '▼';
+}
+
+// ── Render ─────────────────────────────────────────────────────
+function render() {
+  const filtered = PUBS.filter(p => {
+    const matchCat = pubFilter === 'all' || p.category === pubFilter;
+    const matchQ   = !pubQuery || (p.title + p.venue).toLowerCase().includes(pubQuery);
+    return matchCat && matchQ;
+  });
+
+  document.getElementById('pub-empty').style.display = filtered.length === 0 ? 'block' : 'none';
+
+  // Featured
+  const featured = filtered.filter(p => p.featured).slice(0, 8);
+  const featSec  = document.getElementById('featured-section');
+  const featGrid = document.getElementById('featured-grid');
+  if (featured.length > 0) {
+    featSec.style.display = '';
+    featGrid.innerHTML = featured.map(pubCardHTML).join('');
+  } else {
+    featSec.style.display = 'none';
+  }
+
+  // Archive blocks
+  const blocks = [
+    { id:'b1', label:'2024 – 2026', min:2024, max:2026 },
+    { id:'b2', label:'2021 – 2023', min:2021, max:2023 },
+    { id:'b3', label:'2018 – 2020', min:2018, max:2020 },
+    { id:'b4', label:'2012 – 2017', min:2012, max:2017 },
+  ];
+  const archiveEl = document.getElementById('archive-list');
+  archiveEl.innerHTML = blocks.map(b => {
+    const items = filtered.filter(p => p.year >= b.min && p.year <= b.max).sort((a,z) => z.year - a.year);
+    if (!items.length) return '';
+    const open = !!openBlocks[b.id];
+    return `<div class="archive-group" id="ag-${b.id}">
+      <button class="archive-toggle" onclick="toggleBlock('${b.id}')">
+        <span class="archive-year-label">${b.label}</span>
+        <span style="display:flex;align-items:center;gap:10px;">
+          <span class="archive-count">${items.length} items</span>
+          <span class="archive-chevron" id="chev-${b.id}">${open ? '▲' : '▼'}</span>
+        </span>
+      </button>
+      <div id="ab-${b.id}" style="display:${open?'block':'none'};">
+        <div class="archive-items">${items.map(archiveItemHTML).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+render();
+</script>
+</body>
+</html>

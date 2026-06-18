@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<!--
+  ================================================================
+  NEWS ARTICLE TEMPLATE — rosa.expert
+  ================================================================
+  HOW TO CREATE A NEW NEWS PAGE:
+
+  1. Copy this file as   news/[slug].html
+     The slug must match NEWS[].slug and ARTICLES[].slug in news.js.
+
+  2. Add an entry to ARTICLES[] in assets/js/data/news.js:
+     {
+       id:             'nX',
+       slug:           'your-article-slug',
+       category:       'press',            // press | awards | appointments | institutional
+       tone:           'blue',             // blue | orange | teal (accent colour)
+       source:         'Publication Name',
+       date:           'Month Year',
+       readTime:       '4 min read',
+       headline:       'Full article headline',
+       deck:           'One- or two-sentence standfirst / subheading.',
+       heroVariant:    'teal-banner',      // image | teal-banner | orange-banner | video | stat
+       heroImage:      null,               // URL string — ONLY used when heroVariant:'image'
+       heroCaption:    'Caption text.',
+       heroPhotoCredit:'Credit: Source.',  // appears after caption, lighter
+       body:           [                   // paragraphs in reading order
+         'First paragraph text.',
+         'Second paragraph text.',
+         // pull-quote is injected automatically after the 3rd paragraph
+       ],
+       pullQuote:      'A memorable quote from the article.',  // optional
+       tags:           [
+         { label: 'Tag Label', tone: 'blue' },  // blue | orange | teal
+       ],
+       externalUrl:    'https://...',       // link to original article (or null)
+       externalCTA:    'Read full story on Source ↗',
+       relatedIds:     ['n2', 'n3'],        // up to 3 NEWS ids
+     }
+
+  3. Add a corresponding entry to NEWS[] in news.js (for cards):
+     {
+       id: 'nX', slug: 'your-article-slug',
+       source, date, tone, headline, category
+     }
+
+  HERO VARIANTS
+  ─────────────
+  'image'         Full-width photograph (16:7 ratio).
+                  Requires heroImage: 'https://...'
+                  Shows heroCaption + heroPhotoCredit below.
+
+  'teal-banner'   Full-width teal (#178C8C) banner.
+                  Headline and eyebrow are displayed on the banner.
+                  No image required.
+
+  'orange-banner' Full-width orange (#EF7C00) banner.
+                  Same structure as teal-banner.
+
+  'video'         16:9 iframe embed. Set heroImage to the embed URL:
+                  heroImage: 'https://www.youtube.com/embed/VIDEO_ID'
+
+  'stat'          Large centered stat callout (no image).
+                  Use heroCaption for the stat number, heroPhotoCredit for the label.
+
+  DESIGN SYSTEM NOTES
+  ────────────────────
+  • Accent colours are driven by article.tone (blue | orange | teal)
+  • container-narrow width is 760px (reading measure)
+  • container-base width is 1080px (full layout)
+  • Do NOT copy HTML structure from here — the page self-renders from news.js data
+  ================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Title and description are set dynamically from ARTICLES data -->
+<title>News — Vinicius Rosa · NUS Faculty of Dentistry</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+/* ── Article page layout ──────────────────────────────────── */
+.art-page {
+  min-height: 60vh;
+  padding-bottom: var(--space-20);
+}
+
+/* ── Article header ───────────────────────────────────────── */
+.art-header {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding: var(--space-10) var(--gutter) var(--space-8);
+}
+.art-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: var(--space-6);
+}
+.art-back:hover { color: var(--text-body); }
+.art-headline {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  line-height: 1.2;
+  color: var(--text-strong);
+  margin-top: var(--space-4);
+}
+.art-deck {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin-top: var(--space-5);
+}
+.art-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+.art-meta-source {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.art-meta-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  display: inline-block;
+}
+
+/* ── Hero variants ────────────────────────────────────────── */
+.art-hero-image {
+  width: 100%;
+  max-width: var(--container-base);
+  margin: 0 auto var(--space-2);
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+.art-hero-image img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.art-hero-video {
+  width: 100%;
+  max-width: var(--container-base);
+  margin: 0 auto var(--space-2);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+.art-hero-video iframe {
+  width: 100%; height: 100%;
+  border: none;
+}
+.art-hero-banner {
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-10) var(--gutter);
+  margin-bottom: var(--space-2);
+}
+.art-hero-banner-inner {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  width: 100%;
+}
+.art-hero-banner-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  opacity: .8;
+}
+.art-hero-banner-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.2;
+  color: #fff;
+}
+.art-hero-teal  { background: var(--teal-700); }
+.art-hero-orange { background: var(--orange-600); }
+.art-hero-stat {
+  width: 100%;
+  max-width: var(--container-base);
+  margin: 0 auto var(--space-2);
+  background: var(--wash-blue);
+  border-radius: var(--radius-md);
+  padding: var(--space-12) var(--gutter);
+  text-align: center;
+}
+.art-hero-stat-number {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: var(--blue-700);
+  line-height: 1;
+}
+.art-hero-stat-label {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  font-style: italic;
+}
+.art-hero-caption {
+  max-width: var(--container-base);
+  margin: 0 auto var(--space-8);
+  padding: 0 var(--gutter);
+  font-size: 13px;
+  color: var(--text-faint);
+  line-height: 1.5;
+}
+
+/* ── Body ─────────────────────────────────────────────────── */
+.art-body {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.art-body p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin-bottom: var(--space-6);
+}
+.art-pullquote {
+  border-left: 4px solid var(--brand-accent);
+  padding: var(--space-5) var(--space-8);
+  margin: var(--space-8) 0;
+  background: var(--wash-orange);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.art-pullquote p {
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 2.4vw, 24px) !important;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.35 !important;
+  color: var(--text-strong) !important;
+  margin: 0 !important;
+}
+.art-pullquote.tone-teal   { border-color: var(--teal-500);   background: var(--wash-teal); }
+.art-pullquote.tone-orange { border-color: var(--orange-500); background: var(--wash-orange); }
+.art-pullquote.tone-blue   { border-color: var(--blue-500);   background: var(--wash-blue); }
+
+/* ── Tags + CTA ───────────────────────────────────────────── */
+.art-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--space-10);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-subtle);
+}
+.art-external-cta {
+  margin-top: var(--space-8);
+}
+
+/* ── Related ──────────────────────────────────────────────── */
+.art-related {
+  margin-top: var(--space-14);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-subtle);
+  max-width: var(--container-base);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.art-related-header {
+  margin-bottom: var(--space-8);
+}
+.art-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+@media (max-width: 720px) {
+  .art-related-grid { grid-template-columns: 1fr; }
+  .art-hero-banner { padding: var(--space-8) var(--gutter); }
+}
+@media (max-width: 900px) {
+  .art-related-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div id="app">
+<main class="art-page">
+  <!-- All content is rendered by the script below from the ARTICLES data array -->
+  <div id="art-header"  class="art-header"></div>
+  <div id="art-hero"    style="padding:0 var(--gutter);max-width:var(--container-base);margin:0 auto;"></div>
+  <div id="art-caption" class="art-hero-caption"></div>
+  <div id="art-body"    class="art-body"></div>
+  <div id="art-related" class="art-related" style="display:none;"></div>
+</main>
+</div><!-- /app -->
+
+<script src="../assets/js/data/news.js"></script>
+<script src="../assets/js/shared.js"></script>
+<script>
+// ── Detect article slug from URL pathname ──────────────────
+const slug = window.location.pathname
+  .split('/').pop()
+  .replace(/\.html$/, '');
+
+// ── Find article data ──────────────────────────────────────
+const article = (typeof ARTICLES !== 'undefined')
+  ? ARTICLES.find(a => a.slug === slug) : null;
+
+// ── Update <title> and <meta description> ─────────────────
+if (article) {
+  document.title = article.headline + ' — Vinicius Rosa · NUS Faculty of Dentistry';
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', article.deck || '');
+}
+
+// ── Category display labels ────────────────────────────────
+const CATEGORY_LABELS = {
+  press:         'Press',
+  awards:        'Award',
+  appointments:  'Appointment',
+  institutional: 'Institutional',
+};
+
+// ── Tag colour map ─────────────────────────────────────────
+function tagClass(tone) {
+  if (tone === 'orange') return 'tag-orange';
+  if (tone === 'teal')   return 'tag-teal';
+  return 'tag-blue';
+}
+
+// ── Source colour map ──────────────────────────────────────
+function sourceClass(tone) {
+  if (tone === 'orange') return 'news-card-source-orange';
+  if (tone === 'teal')   return 'news-card-source-teal';
+  return 'news-card-source-blue';
+}
+
+// ── Hero HTML ──────────────────────────────────────────────
+function buildHero(a) {
+  switch (a.heroVariant) {
+
+    case 'image':
+      return `<div class="art-hero-image">
+        <img src="${a.heroImage || ''}" alt="${a.headline}">
+      </div>`;
+
+    case 'teal-banner':
+      return `<div class="art-hero-banner art-hero-teal">
+        <div class="art-hero-banner-inner">
+          <div class="art-hero-banner-eyebrow" style="color:rgba(255,255,255,.75);">${CATEGORY_LABELS[a.category] || a.category}</div>
+          <div class="art-hero-banner-title">${a.headline}</div>
+        </div>
+      </div>`;
+
+    case 'orange-banner':
+      return `<div class="art-hero-banner art-hero-orange">
+        <div class="art-hero-banner-inner">
+          <div class="art-hero-banner-eyebrow" style="color:rgba(255,255,255,.8);">${CATEGORY_LABELS[a.category] || a.category}</div>
+          <div class="art-hero-banner-title">${a.headline}</div>
+        </div>
+      </div>`;
+
+    case 'video':
+      return `<div class="art-hero-video">
+        <iframe src="${a.heroImage || ''}" allowfullscreen loading="lazy" title="${a.headline}"></iframe>
+      </div>`;
+
+    case 'stat':
+      return `<div class="art-hero-stat">
+        <div class="art-hero-stat-number">${a.heroCaption || ''}</div>
+        <div class="art-hero-stat-label">${a.heroPhotoCredit || ''}</div>
+      </div>`;
+
+    default:
+      return '';
+  }
+}
+
+// ── Caption HTML (only for image/video variants) ───────────
+function buildCaption(a) {
+  if (!['image', 'video'].includes(a.heroVariant)) return '';
+  if (!a.heroCaption && !a.heroPhotoCredit) return '';
+  let txt = a.heroCaption || '';
+  if (a.heroPhotoCredit) txt += (txt ? ' ' : '') + `<span style="color:var(--text-faint);">${a.heroPhotoCredit}</span>`;
+  return txt;
+}
+
+// ── Body HTML (paragraphs + pull-quote injection) ──────────
+function buildBody(a) {
+  const paras = a.body || [];
+  const pullIdx = 2; // inject after paragraph index 2 (3rd paragraph)
+  let html = '';
+
+  paras.forEach((p, i) => {
+    html += `<p>${p}</p>`;
+    if (i === pullIdx && a.pullQuote) {
+      html += `<blockquote class="art-pullquote tone-${a.tone}">
+        <p>"${a.pullQuote}"</p>
+      </blockquote>`;
+    }
+  });
+
+  // Tags
+  if (a.tags && a.tags.length) {
+    html += `<div class="art-tags">
+      ${a.tags.map(t => `<span class="tag ${tagClass(t.tone)}">${t.label}</span>`).join('')}
+    </div>`;
+  }
+
+  // External CTA
+  if (a.externalUrl) {
+    html += `<div class="art-external-cta">
+      <a href="${a.externalUrl}" target="_blank" rel="noopener" class="btn btn-primary btn-md">
+        ${a.externalCTA || 'Read original ↗'}
+      </a>
+    </div>`;
+  }
+
+  return html;
+}
+
+// ── Related news mini-card ─────────────────────────────────
+function relatedCardHTML(item) {
+  const barCls = 'news-card-bar-' + item.tone;
+  const srcCls = 'news-card-source-' + item.tone;
+  return `<a href="${item.slug}.html" class="news-card" style="text-decoration:none;">
+    <div class="news-card-bar ${barCls}"></div>
+    <div class="news-card-body">
+      <div class="news-card-meta">
+        <span class="${srcCls}">${item.source}</span>
+        <span style="width:3px;height:3px;border-radius:50%;background:var(--border-strong);"></span>
+        <span class="news-card-date">${item.date}</span>
+      </div>
+      <div class="news-card-headline">${item.headline}</div>
+      <span class="news-card-cta">Read more →</span>
+    </div>
+  </a>`;
+}
+
+// ── Render ─────────────────────────────────────────────────
+(function render() {
+  if (!article) {
+    document.getElementById('art-header').innerHTML =
+      `<p style="color:var(--text-muted);padding:var(--space-16) 0;">Article not found.</p>`;
+    return;
+  }
+
+  const a = article;
+  const catLabel = CATEGORY_LABELS[a.category] || a.category;
+
+  // Header
+  document.getElementById('art-header').innerHTML = `
+    <a href="../news.html" class="art-back">
+      ← Newsroom
+    </a>
+    <div>
+      <div class="eyebrow">${catLabel}</div>
+      <h1 class="art-headline">${a.headline}</h1>
+      ${a.deck ? `<p class="art-deck">${a.deck}</p>` : ''}
+      <div class="art-meta">
+        <span class="art-meta-source ${sourceClass(a.tone)}">${a.source}</span>
+        <span class="art-meta-dot"></span>
+        <span>${a.date}</span>
+        ${a.readTime ? `<span class="art-meta-dot"></span><span>${a.readTime}</span>` : ''}
+      </div>
+    </div>
+  `;
+
+  // Hero
+  document.getElementById('art-hero').innerHTML = buildHero(a);
+
+  // Caption (image/video only)
+  document.getElementById('art-caption').innerHTML = buildCaption(a);
+
+  // Body
+  document.getElementById('art-body').innerHTML = buildBody(a);
+
+  // Related
+  const relatedItems = (a.relatedIds || [])
+    .map(id => NEWS.find(n => n.id === id))
+    .filter(Boolean)
+    .slice(0, 3);
+
+  if (relatedItems.length) {
+    const relEl = document.getElementById('art-related');
+    relEl.style.display = '';
+    relEl.innerHTML = `
+      <div class="art-related-header">
+        <div class="eyebrow">More from the newsroom</div>
+      </div>
+      <div class="art-related-grid news-grid">
+        ${relatedItems.map(relatedCardHTML).join('')}
+      </div>
+    `;
+  }
+})();
+</script>
+</body>
+</html>
