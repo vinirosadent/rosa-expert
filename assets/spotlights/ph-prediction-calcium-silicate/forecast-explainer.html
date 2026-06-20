@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pH forecast — animated explainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#FBFDFD;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'DM Sans',system-ui,sans-serif}
+  .wrap{width:100%;max-width:1100px;padding:24px}
+  #stg text{font-family:'DM Sans',system-ui,sans-serif}
+  .fu{opacity:0;animation:fi .6s ease forwards}
+  @keyframes fi{to{opacity:1}}
+  .d1{animation-delay:.18s}.d2{animation-delay:.5s}.d3{animation-delay:.9s}.d4{animation-delay:1.3s}.d5{animation-delay:1.7s}
+  .dr{stroke-dasharray:100;stroke-dashoffset:100;animation:drw 1.8s ease-out .4s forwards}
+  .dr2{stroke-dasharray:100;stroke-dashoffset:100;animation:drw 1.9s ease-out 2s forwards}
+  @keyframes drw{to{stroke-dashoffset:0}}
+  .pulse{animation:pu 2.2s ease-in-out infinite}@keyframes pu{0%,100%{opacity:.5}50%{opacity:1}}
+  .shrink{transform-box:fill-box;transform-origin:left center;animation:sh 1.6s ease-out .6s forwards}@keyframes sh{to{transform:scaleX(.17)}}
+  button{font-family:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg id="stg" viewBox="0 0 1600 900" style="width:100%;height:auto;background:#FBFDFD;border-radius:14px" role="img" aria-label="Animated explainer: predicting calcium silicate cement pH with machine learning from early measurements, cutting weeks of testing to hours">
+<g id="stage"></g>
+</svg>
+<div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px">
+<button id="pp" style="font-size:14px;padding:6px 16px;border:1px solid #C0CBD3;border-radius:999px;background:#fff;color:#003D7C;cursor:pointer">Pause</button>
+<div id="dots" style="display:flex;gap:9px"></div>
+</div>
+</div>
+<script>
+(function(){
+var B="#003D7C",T="#178C8C",O="#EF7C00",S="#4A5A69",H="#C0CBD3";
+function head(h,s){return '<text x="140" y="120" class="fu" font-size="48" font-weight="500" fill="'+B+'">'+h+'</text>'+
+'<text x="140" y="178" class="fu d1" font-size="28" fill="'+S+'">'+s+'</text>';}
+function s1(){var c="";for(var i=0;i<28;i++){var col=i%7,row=Math.floor(i/7);var x=555+col*72,y=330+row*72;c+='<rect class="fu" style="animation-delay:'+(0.25+i*0.07).toFixed(2)+'s" x="'+x+'" y="'+y+'" width="58" height="58" rx="8" fill="#E1F5EE" stroke="#9FE1CB" stroke-width="2"/>';}
+return head("Mapping a cement&#8217;s pH takes weeks","Alkalinity (OH&#8315;) drives healing &#8212; but the full profile needs up to 28 days and many specimens")+
+'<text x="800" y="700" text-anchor="middle" font-size="30" font-weight="500" fill="'+T+'" class="fu d5">&#8776; 28 days of repeated pH testing</text>'+c;}
+function s2(){return head("What if the first hours were enough?","Use early pH at 3 h and 24 h, plus specimen size, to predict the rest")+
+'<path class="dr" pathLength="100" d="M360,640 C440,612 500,590 560,566" fill="none" stroke="'+T+'" stroke-width="7" stroke-linecap="round"/>'+
+'<path class="fu d3" pathLength="100" d="M560,566 C760,500 1040,430 1300,400" fill="none" stroke="'+H+'" stroke-width="6" stroke-dasharray="3 12" stroke-linecap="round"/>'+
+'<circle class="dr" cx="360" cy="640" r="12" fill="'+T+'"/><circle class="dr" cx="560" cy="566" r="12" fill="'+T+'"/>'+
+'<text x="930" y="500" font-size="120" font-weight="500" fill="'+H+'" class="fu d4">?</text>'+
+'<text x="338" y="688" font-size="22" fill="'+S+'">3 h</text><text x="538" y="610" font-size="22" fill="'+S+'">24 h</text>';}
+function net(){var n='';var c1=[420,500,580],c2=[400,480,560];for(var a=0;a<3;a++)for(var b=0;b<3;b++){n+='<line x1="600" y1="'+c1[a]+'" x2="700" y2="'+c2[b]+'" stroke="#9FB8D8" stroke-width="1"/>';}
+for(var a=0;a<3;a++){n+='<circle cx="600" cy="'+c1[a]+'" r="11" fill="#fff" stroke="'+T+'" stroke-width="2.5"/>';n+='<circle cx="700" cy="'+c2[a]+'" r="11" fill="#fff" stroke="'+O+'" stroke-width="2.5"/>';}
+return '<g class="pulse">'+n+'</g>';}
+function s3(){return head("A machine-learning model forecasts the curve","Boosted trees and a neural network, trained on literature data")+
+net()+
+'<path class="dr" pathLength="100" d="M300,650 C380,624 430,598 500,560" fill="none" stroke="'+T+'" stroke-width="7" stroke-linecap="round"/>'+
+'<path class="dr2" pathLength="100" d="M500,560 C640,498 720,410 860,345 C1020,275 1200,245 1430,236" fill="none" stroke="'+O+'" stroke-width="7" stroke-linecap="round"/>'+
+'<circle class="dr" cx="300" cy="650" r="12" fill="'+T+'"/><circle class="dr" cx="500" cy="560" r="12" fill="'+T+'"/>'+
+'<circle class="fu d4" cx="860" cy="345" r="12" fill="'+O+'"/><circle class="fu d5" cx="1150" cy="250" r="12" fill="'+O+'"/><circle class="fu d5" cx="1430" cy="236" r="14" fill="'+O+'"/>'+
+'<text x="1360" y="214" font-size="22" fill="'+S+'" class="fu d5">672 h</text>';}
+function s4(){return head("Predicted &#8776; Measured","R&#178; &gt; 0.8 across commercial and experimental cements")+
+'<path class="dr" pathLength="100" d="M300,650 C560,520 900,360 1430,280" fill="none" stroke="'+T+'" stroke-width="7" stroke-linecap="round"/>'+
+'<path class="dr2" pathLength="100" d="M300,664 C560,536 900,374 1430,294" fill="none" stroke="'+B+'" stroke-width="5" stroke-dasharray="2 11" stroke-linecap="round"/>'+
+'<g class="fu d5"><rect x="1120" y="470" width="320" height="64" rx="32" fill="#FFF6EC" stroke="'+O+'" stroke-width="2"/><text x="1280" y="512" text-anchor="middle" font-size="30" font-weight="500" fill="'+O+'">Predicted &#8776; Measured</text></g>'+
+'<g font-size="24" fill="'+S+'"><circle cx="320" cy="770" r="9" fill="'+T+'"/><text x="338" y="778">Measured</text><circle cx="560" cy="770" r="9" fill="'+B+'"/><text x="578" y="778">Predicted</text></g>';}
+function stat(x,n,l1,l2,d){return '<g class="fu '+d+'"><text x="'+x+'" y="500" text-anchor="middle" font-size="86" font-weight="500" fill="'+O+'">'+n+'</text><text x="'+x+'" y="556" text-anchor="middle" font-size="27" fill="'+S+'">'+l1+'</text><text x="'+x+'" y="592" text-anchor="middle" font-size="27" fill="'+S+'">'+l2+'</text></g>';}
+function s5(){return head("Weeks of testing &#8594; hours","The model cuts the cost of building the pH profile")+
+'<rect x="300" y="300" width="1000" height="20" rx="10" fill="#E1F5EE"/>'+
+'<rect class="shrink" x="300" y="300" width="1000" height="20" rx="10" fill="'+T+'"/>'+
+'<rect class="fu d4" x="300" y="300" width="170" height="20" rx="10" fill="'+O+'"/>'+
+stat(420,"&#8776;96%","less testing","time","d2")+stat(800,"&#8776;60%","fewer","specimens","d3")+stat(1180,"1","optimal","specimen size","d4");}
+var scenes=[s1,s2,s3,s4,s5],durs=[7000,5500,8500,6500,7500],i=0,playing=true,timer=null;
+var stage=document.getElementById('stage'),dotsEl=document.getElementById('dots'),pp=document.getElementById('pp');
+for(var k=0;k<scenes.length;k++){(function(k){var d=document.createElement('button');d.style.cssText='width:11px;height:11px;border-radius:50%;border:none;cursor:pointer;padding:0;background:#C0CBD3';d.onclick=function(){i=k;render();schedule();};dotsEl.appendChild(d);})(k);}
+function dots(){for(var k=0;k<dotsEl.children.length;k++){dotsEl.children[k].style.background=(k===i)?'#EF7C00':'#C0CBD3';}}
+function render(){stage.innerHTML=scenes[i]();dots();}
+function schedule(){clearTimeout(timer);if(playing)timer=setTimeout(function(){i=(i+1)%scenes.length;render();schedule();},durs[i]);}
+pp.onclick=function(){playing=!playing;pp.textContent=playing?'Pause':'Play';schedule();};
+render();schedule();
+})();
+</script>
+</body>
+</html>
