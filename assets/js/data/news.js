@@ -123,7 +123,7 @@ const ARTICLES = [
     readTime: '5 min read',
     headline: `A/P Rosa's AI-enabled "living" laboratory models featured by The Straits Times`,
     deck: `Research developed at NUS Dentistry was highlighted by Singapore's national newspaper for its potential to make biomedical testing safer, faster, and more predictive.`,
-    heroVariant: 'teal-banner',
+    heroVariant: 'image',
     heroImage: null,
     heroCaption: 'Associate Professor Vinicius Rosa at the National University Centre for Oral Health Singapore.',
     heroPhotoCredit: 'Source: The Straits Times.',
@@ -145,7 +145,7 @@ const ARTICLES = [
       { label: 'NUS Dentistry',        tone: 'blue' },
     ],
     externalUrl: 'https://www.straitstimes.com/singapore/health/living-lab-models-by-nus-dentistry-researchers-could-make-developing-medical-treatments-safer-faster',
-    externalCTA: 'Read the full feature on The Straits Times ↗',
+    externalCTA: 'Read the full feature on The Straits Times →',
     relatedIds: ['n2', 'n3', 'n4'],
   },
   // ── ADD NEW ARTICLES BELOW ──

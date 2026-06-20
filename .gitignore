@@ -9,6 +9,9 @@ desktop.ini
 # Claude Design source files (not part of the deployable site)
 Claude design/
 
+# Article working source (PDFs w/ copyright, raw figures, drafts, logs) — not deployed
+Research papers/
+
 # Archives
 _archive/
 

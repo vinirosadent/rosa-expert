@@ -15,7 +15,7 @@
   <!-- ── Page header ───────────────────────────────────────── -->
   <div style="max-width:var(--container-base);margin:0 auto;padding:var(--space-10) var(--gutter) var(--space-8);">
     <div class="eyebrow">Selected research</div>
-    <h1 class="display" style="font-size:clamp(2.2rem,4vw,3.2rem);margin-top:12px;">Publications</h1>
+    <h1 class="display" style="font-size:var(--fs-page-title);margin-top:12px;">Publications</h1>
     <p style="margin-top:16px;font-family:var(--font-serif);font-style:italic;font-size:20px;line-height:1.5;color:var(--text-muted);">Selected work on biomaterials, regeneration, AI-guided design and translational oral-health technologies.</p>
   </div>
 
@@ -74,6 +74,7 @@ function pubCardHTML(p) {
   const ct = catTone(p.category);
   return `<div class="pub-card">
     <div class="pub-card-thumb" style="background:${ct.wash};">
+      ${p.thumb ? `<img src="${p.thumb}" alt="" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">` : ''}
       <span class="pub-card-cat" style="color:${ct.ink};">${p.badge || ct.label}</span>
     </div>
     <div class="pub-card-body">
@@ -83,8 +84,9 @@ function pubCardHTML(p) {
         <span class="pub-year">${p.year}</span>
       </div>
       ${p.summary ? `<div class="pub-authors" style="margin-top:8px;font-style:italic;">${p.summary}</div>` : ''}
-      <div class="pub-footer">
-        ${p.doi ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener" class="view-link">View study →</a>` : '<span class="view-link" style="color:var(--text-faint);">View study</span>'}
+      <div class="pub-footer" style="display:flex;gap:1.25rem;flex-wrap:wrap;align-items:center;">
+        ${p.spotlight ? `<a href="${p.spotlight}" class="view-link" style="font-weight:700;">Read spotlight →</a>` : ''}
+        ${p.doi ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener" class="view-link">View study →</a>` : (p.spotlight ? '' : '<span class="view-link" style="color:var(--text-faint);">View study</span>')}
       </div>
     </div>
   </div>`;

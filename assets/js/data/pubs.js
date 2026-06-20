@@ -17,6 +17,9 @@ const PUBS = [
     title: 'Designing C3S cements with on-demand properties for precision endodontics',
     venue: 'Journal of Dental Research', year: 2023,
     featured: true, category: 'ai', badge: 'On-demand biomaterials',
+    doi: '10.1177/00220345231198185',
+    spotlight: 'publications/designing-c3s-cements-on-demand.html',
+    thumb: 'assets/spotlights/designing-c3s-cements-on-demand/card.png',
     summary: 'A genetic-algorithm study demonstrating that endodontic cements can be computationally designed with tailor-made handling, chemical, mechanical and bioactive properties.',
   },
   {

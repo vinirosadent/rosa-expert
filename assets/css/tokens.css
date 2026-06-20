@@ -105,6 +105,15 @@
   --text-3xl: 2.375rem;  /* 38 */
   --text-4xl: 3rem;      /* 48 */
 
+  /* ── Heading roles — shared ramp so titles are IDENTICAL across pages ─
+     Every page must pull its title size from one of these three tokens
+     instead of declaring its own clamp() inline. Each clamp reaches its
+     max by ~1280px viewport, so on wide/ultrawide monitors the size is
+     constant and pages stop drifting apart. */
+  --fs-hero:          clamp(1.95rem, 1.25rem + 2.0vw, 2.7rem); /* home hero sentence            */
+  --fs-page-title:    clamp(2rem,    1.30rem + 2.2vw, 3rem);   /* page H1: Who/To read/News/etc */
+  --fs-section-title: clamp(1.6rem,  1.15rem + 1.5vw, 2.35rem);/* section H2 inside a page      */
+
   /* ── Weights ─────────────────────────────────────────────── */
   --weight-regular:  400;
   --weight-medium:   500;
@@ -173,7 +182,19 @@
 
 /* ── Base element defaults ───────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Reserve the vertical-scrollbar space on EVERY page so the centered
+     max-width containers (header, sections, footer) never shift sideways
+     when navigating between a short page (no scrollbar) and a long one.
+     This is what kept the "Vinicius ROSA" logo jumping between pages. */
+  scrollbar-gutter: stable;
+}
+/* Fallback for engines without scrollbar-gutter (older Safari): always
+   show the vertical scrollbar track so the layout width is constant. */
+@supports not (scrollbar-gutter: stable) {
+  html { overflow-y: scroll; }
+}
 body {
   margin: 0;
   font-family: var(--font-sans);

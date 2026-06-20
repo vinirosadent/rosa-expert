@@ -13,61 +13,61 @@
        id:             'nX',
        slug:           'your-article-slug',
        category:       'press',            // press | awards | appointments | institutional
-       tone:           'blue',             // blue | orange | teal (accent colour)
+       tone:           'blue',             // blue | orange | teal  (accent colour)
        source:         'Publication Name',
        date:           'Month Year',
        readTime:       '4 min read',
-       headline:       'Full article headline',
-       deck:           'One- or two-sentence standfirst / subheading.',
-       heroVariant:    'teal-banner',      // image | teal-banner | orange-banner | video | stat
-       heroImage:      null,               // URL string — ONLY used when heroVariant:'image'
-       heroCaption:    'Caption text.',
-       heroPhotoCredit:'Credit: Source.',  // appears after caption, lighter
+       headline:       `Full article headline`,  // backtick — avoids quote escaping
+       deck:           `One- or two-sentence standfirst.`,
+       heroVariant:    'image',            // image | teal-banner | orange-banner | video | stat
+       heroImage:      null,               // URL string — only for heroVariant:'image'/'video'
+       heroCaption:    'Caption text.',    // image/video: photo caption
+                                           // teal-banner: subtitle below institution name
+                                           // orange-banner: award name
+                                           // stat: stat value (e.g. 'Top 2%')
+       heroPhotoCredit:'Credit: Source.', // image/video: credit line
+                                           // stat: label below the number
        body:           [                   // paragraphs in reading order
-         'First paragraph text.',
-         'Second paragraph text.',
-         // pull-quote is injected automatically after the 3rd paragraph
+         "First paragraph text.",
+         "Second paragraph text.",
+         "Third paragraph text.",          // ← pull-quote injected after this one
+         "Fourth paragraph text.",
+         // add as many as needed
        ],
        pullQuote:      'A memorable quote from the article.',  // optional
        tags:           [
-         { label: 'Tag Label', tone: 'blue' },  // blue | orange | teal
+         { label: 'Tag Label', tone: 'blue' },  // tone: blue | orange | teal
        ],
-       externalUrl:    'https://...',       // link to original article (or null)
+       externalUrl:    'https://...',       // optional — link to original article
        externalCTA:    'Read full story on Source ↗',
        relatedIds:     ['n2', 'n3'],        // up to 3 NEWS ids
      }
 
-  3. Add a corresponding entry to NEWS[] in news.js (for cards):
-     {
-       id: 'nX', slug: 'your-article-slug',
-       source, date, tone, headline, category
-     }
+  3. Add a matching entry to NEWS[] (for listing cards):
+     { id: 'nX', slug: '...', source, date, tone, headline, category }
 
   HERO VARIANTS
   ─────────────
-  'image'         Full-width photograph (16:7 ratio).
-                  Requires heroImage: 'https://...'
-                  Shows heroCaption + heroPhotoCredit below.
+  'image'         Photo (16:7). heroImage = URL.
+                  Falls back to blue-teal gradient if heroImage is null.
+                  heroCaption + heroPhotoCredit shown below.
 
-  'teal-banner'   Full-width teal (#178C8C) banner.
-                  Headline and eyebrow are displayed on the banner.
-                  No image required.
+  'teal-banner'   Light teal gradient panel (16:6). Institutional/appointments.
+                  Displays: eyebrow (category) · source (large) · heroCaption (subtitle).
 
-  'orange-banner' Full-width orange (#EF7C00) banner.
-                  Same structure as teal-banner.
+  'orange-banner' Light orange gradient panel (16:6). Awards/recognition.
+                  Medal ★ circle + heroCaption (award name) + source · date.
 
-  'video'         16:9 iframe embed. Set heroImage to the embed URL:
-                  heroImage: 'https://www.youtube.com/embed/VIDEO_ID'
+  'video'         16:9 iframe embed. heroImage = embed URL.
 
-  'stat'          Large centered stat callout (no image).
-                  Use heroCaption for the stat number, heroPhotoCredit for the label.
+  'stat'          Stat callout panel. heroCaption = stat value. heroPhotoCredit = label.
 
-  DESIGN SYSTEM NOTES
-  ────────────────────
-  • Accent colours are driven by article.tone (blue | orange | teal)
-  • container-narrow width is 760px (reading measure)
-  • container-base width is 1080px (full layout)
-  • Do NOT copy HTML structure from here — the page self-renders from news.js data
+  DESIGN RULES
+  ────────────
+  • Hero is inside the 760 px master wrapper — same bounds as body text.
+  • Back link and separator are in the global 1080 px grid (outside the 760 px column).
+  • Related posts break out to the full 1080 px grid.
+  • Do NOT copy HTML structure — the page self-renders from news.js data.
   ================================================================
 -->
 <html lang="en">
@@ -80,246 +80,195 @@
 <link rel="stylesheet" href="../assets/css/tokens.css">
 <link rel="stylesheet" href="../assets/css/components.css">
 <style>
-/* ── Article page layout ──────────────────────────────────── */
+/* ── Article page ─────────────────────────────────────────── */
 .art-page {
   min-height: 60vh;
   padding-bottom: var(--space-20);
 }
 
-/* ── Article header ───────────────────────────────────────── */
-.art-header {
+/* Global horizontal container (1080 px) ─────────────────── */
+.art-global {
+  max-width: var(--container-base);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ── Back link — outside 760 px, in 1080 px grid ─────────── */
+.art-back {
+  display: block;
+  padding: 28px 0 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-faint);
+  text-decoration: none;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.art-back:hover { color: var(--text-muted); }
+
+/* #art-nav carries the separator as its own border-bottom,
+   so the line spans the same border-box width as .art-related's border-top */
+#art-nav {
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 40px;
+}
+
+/* ── Article master column (760 px) ──────────────────────── */
+.art-master {
   max-width: var(--container-narrow);
   margin: 0 auto;
-  padding: var(--space-10) var(--gutter) var(--space-8);
 }
-.art-back {
-  display: inline-flex;
+
+/* ── Badge + extending rule row ──────────────────────────── */
+.art-badge-row {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .04em;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.art-badge {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .10em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  text-decoration: none;
-  margin-bottom: var(--space-6);
+  padding: 4px 12px;
+  border-radius: 100px;
+  white-space: nowrap;
 }
-.art-back:hover { color: var(--text-body); }
-.art-headline {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
-  line-height: 1.2;
-  color: var(--text-strong);
-  margin-top: var(--space-4);
+.art-badge-blue   { background: var(--wash-blue);   color: var(--blue-700); }
+.art-badge-orange { background: var(--wash-orange); color: var(--orange-600); }
+.art-badge-teal   { background: var(--wash-teal);   color: var(--teal-700); }
+.art-badge-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
 }
-.art-deck {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 18px;
-  line-height: 1.55;
-  color: var(--text-muted);
-  margin-top: var(--space-5);
-}
+
+/* ── Meta line ───────────────────────────────────────────── */
 .art-meta {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px 16px;
-  margin-top: var(--space-6);
-  padding-top: var(--space-5);
-  border-top: 1px solid var(--border-subtle);
-  font-size: 13px;
-  color: var(--text-faint);
-  font-weight: 500;
-}
-.art-meta-source {
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 11.5px;
   font-weight: 700;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  letter-spacing: .06em;
+  color: var(--text-faint);
 }
+.art-meta-source { white-space: nowrap; }
 .art-meta-dot {
   width: 3px; height: 3px;
   border-radius: 50%;
   background: var(--border-strong);
   display: inline-block;
+  flex-shrink: 0;
 }
 
-/* ── Hero variants ────────────────────────────────────────── */
-.art-hero-image {
-  width: 100%;
-  max-width: var(--container-base);
-  margin: 0 auto var(--space-2);
-  aspect-ratio: 16 / 7;
-  overflow: hidden;
-  border-radius: var(--radius-md);
-}
-.art-hero-image img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-.art-hero-video {
-  width: 100%;
-  max-width: var(--container-base);
-  margin: 0 auto var(--space-2);
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: var(--radius-md);
-}
-.art-hero-video iframe {
-  width: 100%; height: 100%;
-  border: none;
-}
-.art-hero-banner {
-  width: 100%;
-  min-height: 220px;
-  display: flex;
-  align-items: flex-end;
-  padding: var(--space-10) var(--gutter);
-  margin-bottom: var(--space-2);
-}
-.art-hero-banner-inner {
-  max-width: var(--container-narrow);
-  margin: 0 auto;
-  width: 100%;
-}
-.art-hero-banner-eyebrow {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  opacity: .8;
-}
-.art-hero-banner-title {
+/* ── Headline ────────────────────────────────────────────── */
+.art-headline {
   font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  line-height: 1.2;
-  color: #fff;
+  font-size: var(--fs-page-title);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.07;
+  color: var(--text-strong);
+  margin: 0 0 20px;
 }
-.art-hero-teal  { background: var(--teal-700); }
-.art-hero-orange { background: var(--orange-600); }
-.art-hero-stat {
-  width: 100%;
-  max-width: var(--container-base);
-  margin: 0 auto var(--space-2);
-  background: var(--wash-blue);
-  border-radius: var(--radius-md);
-  padding: var(--space-12) var(--gutter);
-  text-align: center;
-}
-.art-hero-stat-number {
+
+/* ── Deck ────────────────────────────────────────────────── */
+.art-deck {
   font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(3rem, 8vw, 6rem);
-  color: var(--blue-700);
-  line-height: 1;
-}
-.art-hero-stat-label {
-  font-size: 16px;
-  color: var(--text-muted);
-  margin-top: 12px;
   font-style: italic;
-}
-.art-hero-caption {
-  max-width: var(--container-base);
-  margin: 0 auto var(--space-8);
-  padding: 0 var(--gutter);
-  font-size: 13px;
-  color: var(--text-faint);
-  line-height: 1.5;
+  font-size: 18.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-/* ── Body ─────────────────────────────────────────────────── */
+/* ── Body ────────────────────────────────────────────────── */
 .art-body {
-  max-width: var(--container-narrow);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
+  margin-top: 32px;
 }
 .art-body p {
   font-size: 17px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--text-body);
-  margin-bottom: var(--space-6);
+  margin-bottom: 22px;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
-.art-pullquote {
-  border-left: 4px solid var(--brand-accent);
-  padding: var(--space-5) var(--space-8);
-  margin: var(--space-8) 0;
-  background: var(--wash-orange);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.art-pullquote p {
-  font-family: var(--font-serif);
-  font-size: clamp(18px, 2.4vw, 24px) !important;
-  font-style: italic;
-  font-weight: 600;
-  line-height: 1.35 !important;
-  color: var(--text-strong) !important;
-  margin: 0 !important;
-}
-.art-pullquote.tone-teal   { border-color: var(--teal-500);   background: var(--wash-teal); }
-.art-pullquote.tone-orange { border-color: var(--orange-500); background: var(--wash-orange); }
-.art-pullquote.tone-blue   { border-color: var(--blue-500);   background: var(--wash-blue); }
 
-/* ── Tags + CTA ───────────────────────────────────────────── */
+/* ── Photo caption (image/video only) ───────────────────── */
+.art-caption {
+  font-size: 13px;
+  color: var(--text-faint);
+  line-height: 1.5;
+  margin: 10px 0 32px;
+}
+
+/* ── Tags ────────────────────────────────────────────────── */
 .art-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: var(--space-10);
-  padding-top: var(--space-8);
-  border-top: 1px solid var(--border-subtle);
-}
-.art-external-cta {
   margin-top: var(--space-8);
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
 }
 
-/* ── Related ──────────────────────────────────────────────── */
+/* ── Related section (1080 px) ───────────────────────────── */
 .art-related {
-  margin-top: var(--space-14);
-  padding-top: var(--space-8);
-  border-top: 1px solid var(--border-subtle);
   max-width: var(--container-base);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--gutter);
-  padding-right: var(--gutter);
-}
-.art-related-header {
-  margin-bottom: var(--space-8);
+  width: 100%;
+  margin: var(--space-8) auto 0;
+  padding: 24px var(--gutter) 0;
+  border-top: 1px solid var(--border-subtle);
 }
 .art-related-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-6);
+  margin-top: var(--space-8);
 }
-@media (max-width: 720px) {
-  .art-related-grid { grid-template-columns: 1fr; }
-  .art-hero-banner { padding: var(--space-8) var(--gutter); }
-}
+
+/* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 900px) {
   .art-related-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .art-related-grid { grid-template-columns: 1fr; }
+  .art-headline { line-height: 1.12; }
 }
 </style>
 </head>
 <body>
 <div id="app">
 <main class="art-page">
-  <!-- All content is rendered by the script below from the ARTICLES data array -->
-  <div id="art-header"  class="art-header"></div>
-  <div id="art-hero"    style="padding:0 var(--gutter);max-width:var(--container-base);margin:0 auto;"></div>
-  <div id="art-caption" class="art-hero-caption"></div>
-  <div id="art-body"    class="art-body"></div>
+
+  <!-- Back link + separator — global 1080 px grid, NOT inside 760 px column -->
+  <div class="art-global" id="art-nav"></div>
+
+  <!-- Article master column (760 px) — hero lives inside this wrapper -->
+  <div class="art-global">
+    <div class="art-master">
+      <article id="art-content" lang="en"></article>
+    </div>
+  </div>
+
+  <!-- Related posts — breaks out to full 1080 px -->
   <div id="art-related" class="art-related" style="display:none;"></div>
+
 </main>
 </div><!-- /app -->
 
 <script src="../assets/js/data/news.js"></script>
 <script src="../assets/js/shared.js"></script>
 <script>
-// ── Detect article slug from URL pathname ──────────────────
+// ── Detect slug from URL pathname ──────────────────────────
 const slug = window.location.pathname
   .split('/').pop()
   .replace(/\.html$/, '');
@@ -343,177 +292,212 @@ const CATEGORY_LABELS = {
   institutional: 'Institutional',
 };
 
-// ── Tag colour map ─────────────────────────────────────────
+// ── Badge tone from category ───────────────────────────────
+function badgeTone(cat) {
+  if (cat === 'awards')                         return 'orange';
+  if (cat === 'appointments' || cat === 'institutional') return 'teal';
+  return 'blue';
+}
+
+// ── Source colour inline style by article tone ─────────────
+function sourceColor(tone) {
+  if (tone === 'orange') return 'color:var(--orange-600)';
+  if (tone === 'teal')   return 'color:var(--teal-600)';
+  return 'color:var(--blue-700)';
+}
+
+// ── Tag CSS class ──────────────────────────────────────────
 function tagClass(tone) {
   if (tone === 'orange') return 'tag-orange';
   if (tone === 'teal')   return 'tag-teal';
   return 'tag-blue';
 }
 
-// ── Source colour map ──────────────────────────────────────
-function sourceClass(tone) {
-  if (tone === 'orange') return 'news-card-source-orange';
-  if (tone === 'teal')   return 'news-card-source-teal';
-  return 'news-card-source-blue';
+// ── Caption string (image / video only) ───────────────────
+function buildCaptionHTML(a) {
+  if (!a.heroCaption && !a.heroPhotoCredit) return '';
+  let txt = a.heroCaption ? `${a.heroCaption}` : '';
+  if (a.heroPhotoCredit)
+    txt += (txt ? ' ' : '') + `<span style="color:var(--text-faint);">${a.heroPhotoCredit}</span>`;
+  return `<p class="art-caption">${txt}</p>`;
 }
 
-// ── Hero HTML ──────────────────────────────────────────────
+// ── Hero HTML — all variants sit inside the 760 px column ──
 function buildHero(a) {
+  const R   = 'border-radius:12px;';
+  const MT  = 'margin-top:36px;';
+  const cat = CATEGORY_LABELS[a.category] || a.category;
+
   switch (a.heroVariant) {
 
+    /* ── Variant A: photo / gradient fallback (press) ─────── */
     case 'image':
-      return `<div class="art-hero-image">
-        <img src="${a.heroImage || ''}" alt="${a.headline}">
-      </div>`;
+      return `
+        <div style="aspect-ratio:16/7;${MT}overflow:hidden;${R}background:linear-gradient(135deg,var(--blue-100),var(--teal-200));">
+          ${a.heroImage ? `<img src="${a.heroImage}" alt="${a.headline}" style="width:100%;height:100%;object-fit:cover;">` : ''}
+        </div>
+        ${buildCaptionHTML(a)}`;
 
+    /* ── Variant B: light teal panel (institutional / appt) ── */
     case 'teal-banner':
-      return `<div class="art-hero-banner art-hero-teal">
-        <div class="art-hero-banner-inner">
-          <div class="art-hero-banner-eyebrow" style="color:rgba(255,255,255,.75);">${CATEGORY_LABELS[a.category] || a.category}</div>
-          <div class="art-hero-banner-title">${a.headline}</div>
-        </div>
-      </div>`;
+      return `
+        <div style="aspect-ratio:16/6;${MT}${R}background:linear-gradient(135deg,var(--teal-50),var(--teal-100) 50%,#F5F8FA);border:1px solid var(--teal-200);display:flex;align-items:center;justify-content:center;text-align:center;padding:32px 40px;">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--teal-500);margin-bottom:16px;">${cat}</div>
+            <div style="font-family:var(--font-serif);font-size:clamp(1.4rem,3vw,2rem);font-weight:600;color:var(--teal-700);line-height:1.2;">${a.source}</div>
+            ${a.heroCaption
+              ? `<div style="width:40px;height:2px;background:var(--teal-300);margin:16px auto 12px;"></div>
+                 <div style="font-size:14px;font-style:italic;color:var(--teal-600);">${a.heroCaption}</div>`
+              : ''}
+          </div>
+        </div>`;
 
+    /* ── Variant C: light orange panel (awards) ───────────── */
     case 'orange-banner':
-      return `<div class="art-hero-banner art-hero-orange">
-        <div class="art-hero-banner-inner">
-          <div class="art-hero-banner-eyebrow" style="color:rgba(255,255,255,.8);">${CATEGORY_LABELS[a.category] || a.category}</div>
-          <div class="art-hero-banner-title">${a.headline}</div>
-        </div>
-      </div>`;
+      return `
+        <div style="aspect-ratio:16/6;${MT}${R}background:linear-gradient(135deg,var(--orange-50),var(--orange-100) 60%,var(--orange-200));border:1px solid var(--orange-200);display:flex;align-items:center;justify-content:center;gap:32px;padding:32px 40px;flex-wrap:wrap;">
+          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--orange-400),var(--orange-600));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <span style="font-size:26px;color:#fff;">&#9733;</span>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--orange-600);margin-bottom:8px;">${cat}</div>
+            <div style="font-family:var(--font-serif);font-size:clamp(1.1rem,2.5vw,1.6rem);font-weight:600;color:var(--text-strong);line-height:1.25;max-width:380px;">${a.heroCaption || a.source}</div>
+            <div style="font-size:12px;color:var(--orange-600);margin-top:8px;font-weight:500;">${a.source} &middot; ${a.date}</div>
+          </div>
+        </div>`;
 
+    /* ── Variant D: video embed ───────────────────────────── */
     case 'video':
-      return `<div class="art-hero-video">
-        <iframe src="${a.heroImage || ''}" allowfullscreen loading="lazy" title="${a.headline}"></iframe>
-      </div>`;
+      return `
+        <div style="aspect-ratio:16/9;${MT}overflow:hidden;${R}">
+          <iframe src="${a.heroImage || ''}" allowfullscreen loading="lazy" title="${a.headline}" style="width:100%;height:100%;border:none;display:block;"></iframe>
+        </div>
+        ${buildCaptionHTML(a)}`;
 
+    /* ── Variant E: stat callout panel ───────────────────── */
     case 'stat':
-      return `<div class="art-hero-stat">
-        <div class="art-hero-stat-number">${a.heroCaption || ''}</div>
-        <div class="art-hero-stat-label">${a.heroPhotoCredit || ''}</div>
-      </div>`;
+      return `
+        <div style="background:var(--wash-blue);border:1px solid var(--blue-100);border-radius:16px;padding:44px 48px;text-align:center;${MT}margin-bottom:40px;">
+          <div style="font-family:var(--font-serif);font-size:68px;font-weight:700;color:var(--blue-700);line-height:1;">${a.heroCaption || ''}</div>
+          <div style="width:60px;height:2px;background:var(--orange-400);margin:16px auto;"></div>
+          <div style="font-size:16px;color:var(--text-muted);font-style:italic;">${a.heroPhotoCredit || ''}</div>
+        </div>`;
 
     default:
       return '';
   }
 }
 
-// ── Caption HTML (only for image/video variants) ───────────
-function buildCaption(a) {
-  if (!['image', 'video'].includes(a.heroVariant)) return '';
-  if (!a.heroCaption && !a.heroPhotoCredit) return '';
-  let txt = a.heroCaption || '';
-  if (a.heroPhotoCredit) txt += (txt ? ' ' : '') + `<span style="color:var(--text-faint);">${a.heroPhotoCredit}</span>`;
-  return txt;
-}
-
-// ── Body HTML (paragraphs + pull-quote injection) ──────────
+// ── Body HTML (paragraphs + pull-quote + tags + CTA) ───────
 function buildBody(a) {
   const paras = a.body || [];
-  const pullIdx = 2; // inject after paragraph index 2 (3rd paragraph)
-  let html = '';
+  let html = '<div class="art-body">';
 
-  paras.forEach((p, i) => {
+  paras.forEach(function(p, i) {
     html += `<p>${p}</p>`;
-    if (i === pullIdx && a.pullQuote) {
-      html += `<blockquote class="art-pullquote tone-${a.tone}">
-        <p>"${a.pullQuote}"</p>
-      </blockquote>`;
+    // Pull-quote after the 3rd paragraph (index 2)
+    if (i === 2 && a.pullQuote) {
+      html += `
+        <div style="margin:10px 0 38px;text-align:center;">
+          <span style="font-family:var(--font-serif);font-size:88px;line-height:0.6;color:var(--orange-200);user-select:none;display:block;margin-bottom:10px;">“</span>
+          <p style="font-family:var(--font-serif);font-style:italic;font-size:23px;line-height:1.44;color:var(--text-strong);max-width:520px;margin:0 auto;">${a.pullQuote}</p>
+        </div>`;
     }
   });
 
   // Tags
   if (a.tags && a.tags.length) {
     html += `<div class="art-tags">
-      ${a.tags.map(t => `<span class="tag ${tagClass(t.tone)}">${t.label}</span>`).join('')}
+      ${a.tags.map(function(t){ return `<span class="tag ${tagClass(t.tone)}" style="text-transform:none;letter-spacing:.02em;">${t.label}</span>`; }).join('')}
     </div>`;
   }
 
-  // External CTA
+  // External CTA — ghost button style
   if (a.externalUrl) {
-    html += `<div class="art-external-cta">
-      <a href="${a.externalUrl}" target="_blank" rel="noopener" class="btn btn-primary btn-md">
-        ${a.externalCTA || 'Read original ↗'}
+    html += `<div style="margin-top:16px;">
+      <a href="${a.externalUrl}" target="_blank" rel="noopener"
+         style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--blue-700);border:1.5px solid var(--border-strong);padding:10px 20px;border-radius:10px;text-decoration:none;">
+        ${a.externalCTA || 'Read original →'}
       </a>
     </div>`;
   }
 
+  html += '</div>';
   return html;
 }
 
-// ── Related news mini-card ─────────────────────────────────
+// ── Related mini-card (image-top style) ───────────────────
 function relatedCardHTML(item) {
-  const barCls = 'news-card-bar-' + item.tone;
-  const srcCls = 'news-card-source-' + item.tone;
-  return `<a href="${item.slug}.html" class="news-card" style="text-decoration:none;">
-    <div class="news-card-bar ${barCls}"></div>
-    <div class="news-card-body">
-      <div class="news-card-meta">
-        <span class="${srcCls}">${item.source}</span>
-        <span style="width:3px;height:3px;border-radius:50%;background:var(--border-strong);"></span>
-        <span class="news-card-date">${item.date}</span>
-      </div>
-      <div class="news-card-headline">${item.headline}</div>
-      <span class="news-card-cta">Read more →</span>
+  return `<a href="${item.slug}.html" style="text-decoration:none;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:1px solid var(--border-subtle);background:#fff;">
+    <div class="nc-feat-img-${item.tone}" style="height:130px;flex-shrink:0;"></div>
+    <div style="padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;">
+      <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px;">${item.source} / ${item.date}</div>
+      <div style="font-size:14.5px;line-height:1.45;font-weight:500;color:var(--text-strong);flex:1;">${item.headline}</div>
+      <span style="display:inline-block;margin-top:12px;font-size:13px;font-weight:500;color:var(--text-muted);">Read more →</span>
     </div>
   </a>`;
 }
 
 // ── Render ─────────────────────────────────────────────────
 (function render() {
+  var navEl     = document.getElementById('art-nav');
+  var contentEl = document.getElementById('art-content');
+  var relatedEl = document.getElementById('art-related');
+
+  // Always render the back link + separator
+  navEl.innerHTML = '<a href="../news.html" class="art-back">← All news</a>';
+
   if (!article) {
-    document.getElementById('art-header').innerHTML =
-      `<p style="color:var(--text-muted);padding:var(--space-16) 0;">Article not found.</p>`;
+    contentEl.innerHTML =
+      '<p style="color:var(--text-muted);padding:var(--space-16) 0;">Article not found.</p>';
     return;
   }
 
-  const a = article;
-  const catLabel = CATEGORY_LABELS[a.category] || a.category;
+  var a        = article;
+  var catLabel = CATEGORY_LABELS[a.category] || a.category;
+  var bTone    = badgeTone(a.category);
 
-  // Header
-  document.getElementById('art-header').innerHTML = `
-    <a href="../news.html" class="art-back">
-      ← Newsroom
-    </a>
-    <div>
-      <div class="eyebrow">${catLabel}</div>
-      <h1 class="art-headline">${a.headline}</h1>
-      ${a.deck ? `<p class="art-deck">${a.deck}</p>` : ''}
-      <div class="art-meta">
-        <span class="art-meta-source ${sourceClass(a.tone)}">${a.source}</span>
-        <span class="art-meta-dot"></span>
-        <span>${a.date}</span>
-        ${a.readTime ? `<span class="art-meta-dot"></span><span>${a.readTime}</span>` : ''}
-      </div>
-    </div>
-  `;
+  // Full article content inside 760 px column
+  contentEl.innerHTML =
+    // Badge + extending rule
+    '<div class="art-badge-row">' +
+      '<span class="art-badge art-badge-' + bTone + '">' + catLabel + '</span>' +
+      '<div class="art-badge-rule"></div>' +
+    '</div>' +
 
-  // Hero
-  document.getElementById('art-hero').innerHTML = buildHero(a);
+    // Meta: source · date · read time
+    '<div class="art-meta">' +
+      '<span class="art-meta-source" style="' + sourceColor(a.tone) + '">' + a.source + '</span>' +
+      '<span class="art-meta-dot"></span>' +
+      '<span>' + a.date + '</span>' +
+      (a.readTime ? '<span class="art-meta-dot"></span><span>' + a.readTime + '</span>' : '') +
+    '</div>' +
 
-  // Caption (image/video only)
-  document.getElementById('art-caption').innerHTML = buildCaption(a);
+    // Headline
+    '<h1 class="art-headline">' + a.headline + '</h1>' +
 
-  // Body
-  document.getElementById('art-body').innerHTML = buildBody(a);
+    // Deck
+    (a.deck ? '<p class="art-deck">' + a.deck + '</p>' : '') +
 
-  // Related
-  const relatedItems = (a.relatedIds || [])
-    .map(id => NEWS.find(n => n.id === id))
+    // Hero (inside 760 px — same column as body text)
+    buildHero(a) +
+
+    // Body paragraphs, pull-quote, tags, CTA
+    buildBody(a);
+
+  // Related posts (1080 px)
+  var relatedItems = (a.relatedIds || [])
+    .map(function(id){ return NEWS.find(function(n){ return n.id === id; }); })
     .filter(Boolean)
     .slice(0, 3);
 
   if (relatedItems.length) {
-    const relEl = document.getElementById('art-related');
-    relEl.style.display = '';
-    relEl.innerHTML = `
-      <div class="art-related-header">
-        <div class="eyebrow">More from the newsroom</div>
-      </div>
-      <div class="art-related-grid news-grid">
-        ${relatedItems.map(relatedCardHTML).join('')}
-      </div>
-    `;
+    relatedEl.style.display = '';
+    relatedEl.innerHTML =
+      '<div class="eyebrow">More from the newsroom</div>' +
+      '<div class="art-related-grid news-grid">' +
+        relatedItems.map(relatedCardHTML).join('') +
+      '</div>';
   }
 })();
 </script>

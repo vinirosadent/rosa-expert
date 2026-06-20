@@ -320,7 +320,7 @@ footer { background: var(--blue-700); color: #fff; margin-top: var(--space-12); 
 .art-meta-src-orange { color: var(--orange-600); font-weight: 700; }
 .art-meta-faint  { color: var(--text-faint); font-weight: 500; }
 .art-meta-dot    { color: var(--border-strong); }
-.art-h1          { font-family: var(--font-serif); font-weight: 500; font-size: clamp(2.2rem,4vw,3rem); line-height: 1.07; letter-spacing: -0.025em; color: var(--text-strong); margin: 0 0 20px; }
+.art-h1          { font-family: var(--font-serif); font-weight: 500; font-size: var(--fs-page-title); line-height: 1.07; letter-spacing: -0.025em; color: var(--text-strong); margin: 0 0 20px; }
 .art-deck        { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0 0 36px; }
 .art-hero        { border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
 .art-hero-img    { aspect-ratio: 16/7; background: center/cover no-repeat; position: relative; }
