@@ -11,6 +11,9 @@ const PUBS = [
     title: 'pH prediction in commercial and experimental calcium silicate cements via material informatics',
     venue: 'Dental Materials', year: 2025,
     featured: true, category: 'ai', badge: 'Material informatics',
+    doi: '10.1016/j.dental.2025.08.018',
+    spotlight: 'publications/ph-prediction-calcium-silicate.html',
+    thumb: 'assets/spotlights/ph-prediction-calcium-silicate/card.png',
     summary: 'A machine-learning study showing how early experimental measurements can predict long-term properties of calcium silicate cements, supporting faster and more rational biomaterial development.',
   },
   {
@@ -30,8 +33,11 @@ const PUBS = [
   },
   {
     title: 'Guidance on the assessment of biocompatibility of biomaterials: Fundamentals and testing considerations',
-    venue: 'Dental Materials', year: 2025,
+    venue: 'Dental Materials', year: 2024,
     featured: true, category: 'ai', badge: 'Research standards',
+    doi: '10.1016/j.dental.2024.07.020',
+    spotlight: 'publications/guidance-biocompatibility-assessment.html',
+    thumb: 'assets/spotlights/guidance-biocompatibility-assessment/card.png',
     summary: 'A practical framework for stronger, more meaningful biocompatibility assessment in biomaterials research.',
   },
   {
