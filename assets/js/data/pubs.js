@@ -29,6 +29,9 @@ const PUBS = [
     title: 'Guidance for evaluating biomaterials\' properties and biological potential for dental pulp tissue engineering and regeneration research',
     venue: 'Dental Materials', year: 2025,
     featured: true, category: 'ai', badge: 'Field guidance',
+    doi: '10.1016/j.dental.2024.12.003',
+    spotlight: 'publications/guidance-pulp-regeneration.html',
+    thumb: 'assets/spotlights/guidance-pulp-regeneration/card.png',
     summary: 'A field-shaping guidance paper defining how biomaterials for dental pulp regeneration should be evaluated, linking material properties to biological and translational performance.',
   },
   {
