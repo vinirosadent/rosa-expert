@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cytotoxicity survey of commercial graphene materials — Research Spotlight · ROSA</title>
+<meta name="description" content="A worldwide survey of 36 commercial 'graphene' products: cytotoxicity ranged from harmless to highly toxic, and the cause was the contaminants — not the graphene itself.">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--surface-page); color:var(--text-body); font-family:var(--font-sans);}
+  a{color:var(--text-link);}
+  .eyebrow{font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700;}
+  .display{font-family:var(--font-serif); font-weight:500; color:var(--text-strong);}
+  .meta{font-size:.8125rem;}
+  .spotlight-prose p{text-wrap:pretty;}
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:.4rem; font-weight:600; font-size:.875rem; text-decoration:none; border-radius:var(--radius-pill); padding:0 1.15rem; height:44px; border:1px solid transparent; transition:filter .15s ease;}
+  .btn:hover{filter:brightness(.96);}
+  .btn-accent{background:var(--orange-500); color:#fff;}
+  .btn-primary{background:var(--blue-500); color:#fff;}
+  .btn-secondary{background:var(--surface-card); color:var(--text-body); border-color:var(--border-strong);}
+  .btn-sm{height:34px; font-size:.8125rem; padding:0 .9rem;}
+  .tag{display:inline-flex; align-items:center; height:26px; padding:0 .7rem; border-radius:var(--radius-pill); font-size:.78rem; font-weight:600;}
+  .tag-orange{background:var(--wash-orange); color:var(--orange-700);}
+  .tag-blue{background:var(--wash-blue); color:var(--blue-700);}
+  .tag-teal{background:var(--wash-teal); color:var(--teal-700);}
+  .card{background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:var(--space-6); height:100%;}
+  .ff-li{display:flex; gap:.5rem; font-size:1.0625rem; line-height:1.55;}
+  .navlink{font-size:.875rem; font-weight:600; color:var(--text-body); text-decoration:none;}
+  .navlink:hover{color:var(--orange-600);}
+  figure img{display:block; width:100%; height:100%; object-fit:cover; cursor:zoom-in;}
+  .zoom-hint{position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:var(--radius-pill); background:rgba(0,37,74,.55); color:#fff; display:flex; align-items:center; justify-content:center; pointer-events:none; opacity:0; transition:opacity .15s ease;}
+  figure:hover .zoom-hint{opacity:1;}
+  #lightbox{position:fixed; inset:0; z-index:200; background:rgba(12,27,42,.88); display:none; align-items:center; justify-content:center; padding:2.5rem; cursor:zoom-out;}
+  #lightbox.open{display:flex;}
+  #lightbox img{max-width:96vw; max-height:92vh; width:auto; height:auto; border-radius:10px; box-shadow:0 24px 70px rgba(0,0,0,.55);}
+  #lightbox .lb-close{position:fixed; top:16px; right:26px; color:#fff; font-size:2.4rem; line-height:1; cursor:pointer; opacity:.85;}
+  #lightbox .lb-close:hover{opacity:1;}
+</style>
+</head>
+<body>
+<main class="spotlight-main" style="font-family:var(--font-sans); color:var(--text-body); background:var(--surface-page); min-height:100vh; padding-bottom:0;">
+
+  <!-- STICKY HEADER -->
+  <header style="position:sticky; top:0; z-index:50; background:rgba(251,253,253,0.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--border-subtle);">
+    <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; height:var(--header-height); display:flex; align-items:center; justify-content:space-between; gap:1.5rem;">
+      <div style="display:flex; align-items:baseline; gap:0.75rem;">
+        <a href="../index.html" style="font-family:var(--font-serif); font-weight:500; font-size:1.5rem; letter-spacing:0.02em; color:var(--blue-700); text-decoration:none;">ROSA</a>
+        <span style="width:1px; height:18px; background:var(--border-strong);"></span>
+        <span class="eyebrow" style="color:var(--text-muted);">Research Spotlight</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:1.5rem;">
+        <a href="#abstract" class="navlink">Abstract</a>
+        <a href="#figures" class="navlink">Figures</a>
+        <a href="#cite" class="navlink">Cite</a>
+        <a href="https://doi.org/10.1038/s41699-022-00330-8" target="_blank" rel="noopener" class="btn btn-accent btn-sm">Read full paper →</a>
+      </div>
+    </div>
+  </header>
+
+  <article class="spotlight-prose" style="display:flex; flex-direction:column; align-items:center; gap:var(--space-16); padding-top:var(--space-16);">
+
+    <!-- MODULE 1 — META-HEADER -->
+    <section id="abstract" style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <a href="../publications.html" style="display:inline-flex; align-items:center; gap:0.375rem; font-size:0.875rem; font-weight:600; color:var(--text-muted); margin-bottom:var(--space-8); text-decoration:none;">← All publications</a>
+      <div style="display:flex; flex-wrap:wrap; align-items:stretch; gap:var(--space-12);">
+        <div style="flex:1 1 460px; min-width:0;">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem; margin-bottom:1.25rem;">
+            <span class="eyebrow" style="color:var(--orange-600);">Research Spotlight</span>
+            <span style="color:var(--border-strong);">·</span>
+            <span class="meta" style="font-weight:600; color:var(--text-muted);">2D Materials · Cytotoxicity</span>
+          </div>
+
+          <h1 class="display" style="font-size:clamp(2rem, 4.6vw, 3.1rem); line-height:1.08; margin:0 0 1.25rem;">What makes commercial &lsquo;graphene&rsquo; toxic isn&rsquo;t the graphene</h1>
+
+          <p style="font-family:var(--font-serif); font-style:italic; font-size:1.3rem; line-height:1.45; color:var(--slate-600); margin:0 0 1.75rem;">Thirty-six commercial products sold as &ldquo;graphene&rdquo; ranged from harmless to highly toxic. The cause was not graphene itself but the contaminants left behind &mdash; so every product must be checked.</p>
+
+          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <span class="tag tag-orange">Graphene</span>
+            <span class="tag tag-blue">2D Materials</span>
+            <span class="tag tag-teal">Cytotoxicity</span>
+            <span class="tag tag-orange">Safety Benchmark</span>
+          </div>
+        </div>
+
+        <aside style="flex:0 1 450px; min-width:0; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:var(--space-6); display:flex; flex-direction:column; gap:var(--space-5);">
+          <div>
+            <div style="font-size:1.2rem; font-weight:700; line-height:1.35; color:var(--text-strong);">Cytotoxicity survey of commercial graphene materials from worldwide</div>
+            <p style="margin-top:0.85rem; font-size:1rem; line-height:1.55; color:var(--text-muted);">Malhotra R, Halbig CE, Sim YF, Lim CT, Leong DT, Castro Neto AH, Garaj S, <span style="color:var(--text-strong); font-weight:700;">Rosa V</span></p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.85rem; padding-top:var(--space-4); border-top:1px solid var(--border-subtle);">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem;">
+              <span style="font-size:0.95rem; color:var(--text-muted);">Journal</span>
+              <span style="font-family:var(--font-serif); font-style:italic; font-size:1.05rem; font-weight:500; color:var(--blue-700); text-align:right;">npj 2D Materials and Applications</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem;">
+              <span style="font-size:0.95rem; color:var(--text-muted);">Status</span>
+              <span style="font-size:0.95rem; font-weight:600; color:var(--text-body); text-align:right;">2022 · 6:65</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem;">
+              <span style="font-size:0.95rem; color:var(--text-muted);">DOI</span>
+              <a href="https://doi.org/10.1038/s41699-022-00330-8" target="_blank" rel="noopener" style="font-size:0.95rem; font-weight:600; text-align:right;">10.1038/s41699-022-00330-8</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MODULE 2 — FAST FACTS -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="margin-bottom:1.25rem;">
+        <h2 style="font-size:1.05rem; font-weight:700; letter-spacing:-0.01em; color:var(--text-strong); margin:0;">Fast facts</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:var(--space-5);">
+
+        <div class="card" style="border-top:3px solid var(--teal-500);">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--teal-600); margin-bottom:0.875rem;">
+            <i data-lucide="boxes" width="22" height="22"></i>
+            <span class="eyebrow" style="color:var(--teal-600);">What it covers</span>
+          </div>
+          <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.625rem;">
+            <li class="ff-li"><span style="color:var(--teal-500); font-weight:700;">—</span>36 products sold as "graphene", from eight countries, tested as received.</li>
+            <li class="ff-li"><span style="color:var(--teal-500); font-weight:700;">—</span>Each one characterized (Raman, XPS, elemental analysis, thermogravimetry, microscopy).</li>
+            <li class="ff-li"><span style="color:var(--teal-500); font-weight:700;">—</span>Cytotoxicity by two assays — LDH and WST-1 — under ISO 10993-5.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-top:3px solid var(--blue-500);">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--blue-600); margin-bottom:0.875rem;">
+            <i data-lucide="bar-chart-3" width="22" height="22"></i>
+            <span class="eyebrow" style="color:var(--blue-600);">Key findings</span>
+          </div>
+          <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.625rem;">
+            <li class="ff-li"><span style="color:var(--blue-500); font-weight:700;">—</span>Cytotoxicity ranged from harmless to highly toxic; carbon content spanned 63–98 wt%.</li>
+            <li class="ff-li"><span style="color:var(--blue-500); font-weight:700;">—</span>No single graphene property predicted toxicity — near-identical samples differed sharply.</li>
+            <li class="ff-li"><span style="color:var(--blue-500); font-weight:700;">—</span>Toxicity rose with persistent inorganic impurities, not with graphene character.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-top:3px solid var(--orange-500);">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600); margin-bottom:0.875rem;">
+            <i data-lucide="shield-check" width="22" height="22"></i>
+            <span class="eyebrow" style="color:var(--orange-700);">Why it matters</span>
+          </div>
+          <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.625rem;">
+            <li class="ff-li"><span style="color:var(--orange-500); font-weight:700;">—</span>"Graphene" is a label, not a specification — products are not interchangeable.</li>
+            <li class="ff-li"><span style="color:var(--orange-500); font-weight:700;">—</span>Washing out impurities cut cytotoxicity by ≥30% in toxic products.</li>
+            <li class="ff-li"><span style="color:var(--orange-500); font-weight:700;">—</span>Buyers should characterize structure, purity and toxicity before use.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MODULE 3 — IMPACT STAT BAND -->
+    <section style="width:100%; background:var(--blue-700); padding-block:var(--space-16);">
+      <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:var(--space-8);">
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--orange-400);">36</div>
+          <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">Commercial "graphene" products surveyed, from eight countries</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--teal-300);">&gt;35%</div>
+          <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">Were highly defective graphene (Raman &amp; XPS)</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--orange-400);">63&#8211;98%</div>
+          <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">Span of carbon content — how heterogeneous "graphene" is</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--teal-300);">&#8805;30%</div>
+          <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">Cytotoxicity cut by washing out impurities (3 of 4 toxic products)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- READING SECTION — The problem (rail = pull-quote) -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
+        <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
+            <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+            <span class="eyebrow">The problem</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:700; letter-spacing:-0.015em; color:var(--text-strong); line-height:1.2; margin:0;">&lsquo;Graphene&rsquo; is a label, not a material</h2>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Graphene is moving fast into composites, electronics, membranes, drug delivery and implantable materials — but the supply has outrun quality control. Many products sold as "graphene" are poorly characterized black powders, and the published evidence on their safety is openly contradictory.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Part of the reason is that "graphene" names a whole family of materials, not a single substance. Across 36 commercial products, carbon content alone ranged from 63 to 98 wt%, alongside wide variation in flake size, number of layers, structural defects and contaminants — and more than a third were highly defective graphene.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">With suppliers' safety datasheets often missing or inadequate, a buyer has little way to know what is actually in the bottle — or whether it is safe for cells.</p>
+        </div>
+        <aside style="flex:1 1 300px; max-width:352px; align-self:flex-start; position:sticky; top:96px;">
+          <div style="border-top:2px solid var(--orange-500); padding-top:var(--space-4);">
+            <span class="eyebrow" style="color:var(--text-muted);">The core difficulty</span>
+            <p style="margin-top:0.75rem; font-family:var(--font-serif); font-style:italic; font-size:1.25rem; line-height:1.4; color:var(--blue-700);">&ldquo;Across 36 products sold as &lsquo;graphene&rsquo;, cytotoxicity ranged from completely harmless to highly toxic — with no shared specification.&rdquo;</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FIGURE 1 — PANORAMIC (24:9) -->
+    <figure id="figures" style="width:100%; margin:0;">
+      <div style="aspect-ratio:24 / 9; width:100%; border-block:1px solid var(--border-subtle); overflow:hidden;">
+        <img src="../assets/spotlights/graphene-cytotoxicity-survey/fig1_graphene-survey_24x9.png" alt="Thirty-six products sold worldwide as graphene are heterogeneous black powders; their cytotoxicity ranges from harmless to highly toxic, and the cause is the contaminant, not the graphene.">
+      </div>
+      <figcaption style="width:min(100% - 2.5rem, 1180px); margin:0.875rem auto 0; font-size:0.95rem; line-height:1.55; color:var(--text-muted);">
+        <b style="color:var(--text-strong);">Fig. 1</b> — Products sold worldwide as "graphene" span a wide cytotoxicity range, from harmless to highly toxic — and the cause traces to contaminants, not the graphene.
+      </figcaption>
+    </figure>
+
+    <!-- READING SECTION — The approach (rail = Fig. 2 margin 3:4) -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
+        <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
+            <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+            <span class="eyebrow">The approach</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:700; letter-spacing:-0.015em; color:var(--text-strong); line-height:1.2; margin:0;">How the toxicity was measured</h2>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Every product was tested as received, with no extra processing that could skew the result, on a standard fibroblast cell line following the ISO 10993-5 cytotoxicity protocol. In parallel, each material was characterized in depth — Raman and XPS for structure and defects, elemental analysis and thermogravimetry for composition and contaminants.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Toxicity was read two complementary ways. LDH release reports plasma-membrane rupture — the % cytotoxicity — while WST-1 reports mitochondrial activity: viable cells cleave the reagent into coloured formazan, so less colour means lower viability.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Dose mattered too. Some products that looked cytocompatible at low concentration became highly toxic at higher ones — a reminder that a single test condition cannot settle a material's safety.</p>
+        </div>
+        <aside style="flex:1 1 300px; max-width:352px; align-self:flex-start; position:sticky; top:96px;">
+          <figure style="margin:0;">
+            <div style="aspect-ratio:3 / 4; border-radius:var(--radius-lg); border:1px solid var(--border-subtle); overflow:hidden;">
+              <img src="../assets/spotlights/graphene-cytotoxicity-survey/fig2_how-measured_3x4.png" alt="A cell internalizing graphene flakes, with the two toxicity readouts: LDH release from a ruptured membrane (% cytotoxicity) and WST-1 cleaved into formazan by viable mitochondria (cell viability).">
+            </div>
+            <figcaption style="margin-top:0.625rem; font-size:0.92rem; line-height:1.5; color:var(--text-muted);"><b style="color:var(--text-strong);">Fig. 2</b> — Graphene meets cells; toxicity is read as membrane damage (LDH) and mitochondrial activity (WST-1).</figcaption>
+          </figure>
+        </aside>
+      </div>
+    </section>
+
+    <!-- READING SECTION — The finding (rail = key-result callout) -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
+        <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
+            <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+            <span class="eyebrow">The finding</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:700; letter-spacing:-0.015em; color:var(--text-strong); line-height:1.2; margin:0;">Same graphene, opposite outcome</h2>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">The decisive result came from comparing look-alikes. Two products with nearly identical graphene — the same high carbon content, the same low level of volatiles, the same intact structure — gave very different toxicity. Two others, both highly defective with the same low carbon content, also split: one harmless, one toxic. No single graphene property could explain it (Fig. 3 and Fig. 4).</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">What did track toxicity was contamination. The fraction of persistent inorganic impurities rose with cytotoxicity, and washing the products to strip surface impurities cut their cytotoxicity by at least 30% in three of four toxic samples. The harm came from the contaminants — residues of the raw graphite and the synthesis — not from the graphene.</p>
+        </div>
+        <aside style="flex:1 1 300px; max-width:352px; align-self:flex-start; position:sticky; top:96px;">
+          <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:var(--space-5);">
+            <span class="eyebrow" style="color:var(--teal-600);">The cause</span>
+            <div style="display:flex; align-items:baseline; gap:0.5rem; margin-top:0.75rem;">
+              <span style="font-family:var(--font-serif); font-weight:500; font-size:2.0rem; line-height:1.1; color:var(--text-strong);">Impurities, not graphene</span>
+            </div>
+            <div style="margin-top:0.625rem; font-size:0.85rem; line-height:1.5; color:var(--text-muted);">Persistent inorganic and organic contaminants — left by the raw graphite and synthesis — determined cytotoxicity; removing them made the products markedly safer.</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FIGURE 3 + 4 — SIDE-BY-SIDE PAIR (two 4:3) -->
+    <figure style="width:min(100% - 2.5rem, 1180px); margin:0 auto;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:var(--space-5);">
+        <div style="aspect-ratio:4 / 3; border-radius:var(--radius-lg); border:1px solid var(--border-subtle); overflow:hidden;">
+          <img src="../assets/spotlights/graphene-cytotoxicity-survey/fig3_harmless-lookalike_4x3.png" alt="Harmless: a clean, well-ordered graphene flake in a culture dish surrounded by healthy, well-spread cells, with a low % cytotoxicity readout.">
+        </div>
+        <div style="aspect-ratio:4 / 3; border-radius:var(--radius-lg); border:1px solid var(--border-subtle); overflow:hidden;">
+          <img src="../assets/spotlights/graphene-cytotoxicity-survey/fig4_toxic-lookalike_4x3.png" alt="Toxic: a near-identical graphene flake studded with impurity particles in a culture dish with sparse, rounded, dying cells, and a high % cytotoxicity readout.">
+        </div>
+      </div>
+      <figcaption style="margin-top:0.875rem; display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; font-size:0.95rem; line-height:1.55; color:var(--text-muted);">
+        <span style="flex:1 1 300px;"><b style="color:var(--text-strong);">Fig. 3</b> — Harmless: a clean, well-ordered graphene flake leaves the cells healthy, giving low cytotoxicity.</span>
+        <span style="flex:1 1 300px;"><b style="color:var(--text-strong);">Fig. 4</b> — Toxic: the same-looking graphene carrying impurity particles kills cells, giving high cytotoxicity.</span>
+      </figcaption>
+    </figure>
+
+    <!-- READING SECTION — Why it matters (rail = What's next) -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
+        <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
+            <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+            <span class="eyebrow">Why it matters</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:700; letter-spacing:-0.015em; color:var(--text-strong); line-height:1.2; margin:0;">From black box to benchmark</h2>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">For anyone using commercial graphene, the practical message is that a product label is not a specification. "Toxic" and "non-toxic" are not fixed properties of "graphene"; they depend on what each batch actually contains and on how it will be used.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Until shared standards and honest safety datasheets exist, the burden falls on the buyer: independently characterize structure, purity and toxicity before use, and consider a purification step for commercial material. Quality control and proper characterization are what make graphene safe to develop with.</p>
+        </div>
+        <aside style="flex:1 1 300px; max-width:352px; align-self:flex-start; position:sticky; top:96px;">
+          <div style="border-top:2px solid var(--teal-500); padding-top:var(--space-4);">
+            <span class="eyebrow" style="color:var(--teal-600);">What's next</span>
+            <p style="margin-top:0.75rem; font-size:0.95rem; line-height:1.6; color:var(--text-body);">Harmonized testing protocols, quality standards for commercial graphene, and routine purification and characterization before research or product use.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- GRAPHICAL ABSTRACT — full paper infographic (click to enlarge) -->
+    <figure style="width:min(100% - 2.5rem, 1180px); margin:0 auto;">
+      <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600); margin-bottom:1rem;">
+        <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+        <span class="eyebrow">Graphical abstract</span>
+      </div>
+      <div style="aspect-ratio:3 / 2; border-radius:var(--radius-lg); border:1px solid var(--border-subtle); overflow:hidden;">
+        <img src="../assets/spotlights/graphene-cytotoxicity-survey/infographic_graphical-abstract_3x2.png" alt="Full graphical abstract of the study: why it matters, what was done, the diversity of nominal graphene materials, the two cytotoxicity assays (LDH and WST-1), the range of cytotoxicity across the 36 products, and how impurities and quality drive safety.">
+      </div>
+      <figcaption style="margin-top:0.875rem; font-size:0.95rem; line-height:1.55; color:var(--text-muted);">
+        <b style="color:var(--text-strong);">The full study at a glance.</b> Click to enlarge.
+      </figcaption>
+    </figure>
+
+    <!-- MODULE 12 — CITATION -->
+    <section id="cite" style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:var(--space-8); display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-8);">
+        <div style="flex:1 1 520px; min-width:0;">
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.85rem; color:var(--blue-600);">
+            <i data-lucide="quote" width="18" height="18"></i>
+            <span class="eyebrow" style="color:var(--blue-600);">How to cite</span>
+          </div>
+          <p style="font-size:1.05rem; line-height:1.65; color:var(--text-body); margin:0;">Malhotra R, Halbig CE, Sim YF, Lim CT, Leong DT, Castro Neto AH, Garaj S, <span style="font-weight:700; color:var(--text-strong);">Rosa V</span>. Cytotoxicity survey of commercial graphene materials from worldwide. <i style="font-family:var(--font-serif);">npj 2D Materials and Applications</i>. 2022;6:65.</p>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:0.625rem; flex:0 0 auto; align-items:center;">
+          <a href="https://doi.org/10.1038/s41699-022-00330-8" target="_blank" rel="noopener" class="btn btn-primary">Read full paper →</a>
+          <a href="../assets/spotlights/graphene-cytotoxicity-survey/malhotra-2022-graphene-cytotoxicity.ris" download class="btn btn-secondary">Download .RIS (EndNote)</a>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <!-- FOOTER -->
+  <footer style="margin-top:var(--space-16); background:var(--blue-700); color:var(--text-on-dark); padding-block:var(--space-12);">
+    <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--space-8);">
+      <div style="max-width:320px;">
+        <div style="font-family:var(--font-serif); font-weight:500; font-size:1.5rem; letter-spacing:0.02em; margin-bottom:0.5rem;">ROSA</div>
+        <p style="font-size:0.875rem; line-height:1.6; color:var(--blue-200);">A/P Vinicius Rosa — Faculty of Dentistry, National University of Singapore. Biomaterials, pulp tissue engineering and regeneration.</p>
+      </div>
+      <div style="display:flex; gap:var(--space-12); flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <span style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--blue-300); margin-bottom:0.25rem;">Explore</span>
+          <a href="../publications.html" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">Publications</a>
+          <a href="../index.html" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">Home</a>
+          <a href="../news.html" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">News</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <span style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--blue-300); margin-bottom:0.25rem;">Contact</span>
+          <a href="mailto:vini@nus.edu.sg" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">vini@nus.edu.sg</a>
+          <a href="../contact.html" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">Contact page</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</main>
+<script>
+(function(){
+  function icons(){ if (window.lucide && window.lucide.createIcons) window.lucide.createIcons(); }
+  icons(); window.addEventListener('load', icons);
+
+  // Lightbox (click any figure to view full-screen)
+  var lb = document.createElement('div');
+  lb.id = 'lightbox';
+  lb.innerHTML = '<span class="lb-close" aria-label="Close">&times;</span><img alt="">';
+  document.body.appendChild(lb);
+  var lbimg = lb.querySelector('img');
+  function openLB(src, alt){ lbimg.src = src; lbimg.alt = alt || ''; lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeLB(){ lb.classList.remove('open'); lbimg.src = ''; document.body.style.overflow = ''; }
+  lb.addEventListener('click', closeLB);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLB(); });
+
+  document.querySelectorAll('figure img').forEach(function(im){
+    var box = im.parentElement;
+    if (box) {
+      if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
+      var hint = document.createElement('span');
+      hint.className = 'zoom-hint';
+      hint.innerHTML = '<i data-lucide="maximize-2" width="16" height="16"></i>';
+      box.appendChild(hint);
+    }
+    im.addEventListener('click', function(){ openLB(im.currentSrc || im.src, im.alt); });
+  });
+  icons();
+})();
+</script>
+</body>
+</html>

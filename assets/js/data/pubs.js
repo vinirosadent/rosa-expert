@@ -56,6 +56,9 @@ const PUBS = [
     title: 'Cytotoxicity survey of commercial graphene materials from worldwide',
     venue: 'npj 2D Materials & Applications', year: 2022,
     featured: true, category: 'bio', badge: 'Safety benchmark',
+    doi: '10.1038/s41699-022-00330-8',
+    spotlight: 'publications/graphene-cytotoxicity-survey.html',
+    thumb: 'assets/spotlights/graphene-cytotoxicity-survey/card.png',
     summary: 'A worldwide survey showing that commercial graphene materials are highly heterogeneous and that biological responses depend strongly on material quality, impurities and physicochemical features.',
   },
   {
