@@ -68,6 +68,9 @@ const PUBS = [
     title: 'Graphene nanocoating: high quality and stability upon several stressors',
     venue: 'Journal of Dental Research', year: 2021,
     featured: true, category: 'bio', badge: 'Translational robustness',
+    doi: '10.1177/00220345211024526',
+    spotlight: 'publications/graphene-nanocoating-stressors.html',
+    thumb: 'assets/spotlights/graphene-nanocoating-stressors/card.png',
     summary: 'A technology-validation study showing that graphene nanocoatings can maintain high quality and stability after multiple chemical, mechanical and biological stressors.',
   },
 
@@ -119,7 +122,13 @@ const PUBS = [
 
   /* ── 2019 ───────────────────────────────────────────────── */
   { title: 'Comparative study of different induction protocols for neural differentiation of human dental pulp stem cell in vitro', venue: 'Archives of Oral Biology', year: 2019, category: 'regen' },
-  { title: 'Taguchi methods to optimize the properties and bioactivity of 3D printed polycaprolactone/mineral trioxide aggregate scaffold: theoretical predictions and experimental validation', venue: 'Journal of Biomedical Materials Research Part B', year: 2019, category: 'ai' },
+  {
+    title: 'Taguchi methods to optimize the properties and bioactivity of 3D printed polycaprolactone/mineral trioxide aggregate scaffold: theoretical predictions and experimental validation',
+    venue: 'Journal of Biomedical Materials Research Part B', year: 2020, category: 'ai',
+    doi: '10.1002/jbm.b.34417',
+    spotlight: 'publications/taguchi-pcl-mta-scaffold.html',
+    thumb: 'assets/spotlights/taguchi-pcl-mta-scaffold/card.png',
+  },
 
   /* ── 2015 ───────────────────────────────────────────────── */
   { title: 'Bioactivity, physical and chemical properties of MTA mixed with propylene glycol', venue: 'Journal of Applied Oral Sciences', year: 2015, category: 'regen' },

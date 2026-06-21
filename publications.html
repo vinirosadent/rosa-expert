@@ -97,9 +97,10 @@ function archiveItemHTML(p) {
     <span class="archive-item-body">
       <span class="archive-title">${p.title}</span>
       <span class="archive-meta">
-        <span class="archive-venue">${p.venue}</span>
+        <span class="archive-venue">${p.venue}</span>${p.spotlight ? ' <span class="archive-venue" style="color:var(--orange-600); font-weight:700;">· Spotlight</span>' : ''}
       </span>
     </span>`;
+  if (p.spotlight) return `<a href="${p.spotlight}" class="archive-item">${inner}</a>`;
   return p.doi
     ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener" class="archive-item">${inner}</a>`
     : `<div class="archive-item">${inner}</div>`;

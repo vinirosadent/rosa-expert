@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taguchi optimization of a 3D-printed bioactive scaffold — Research Spotlight · ROSA</title>
+<meta name="description" content="Taguchi's design of experiments cut 81 scaffold trials to 9, identified composition and fibre diameter as the dominant inputs, and showed 4% MTA makes a 3D-printed PCL scaffold bioactive.">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--surface-page); color:var(--text-body); font-family:var(--font-sans);}
+  a{color:var(--text-link);}
+  .eyebrow{font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700;}
+  .display{font-family:var(--font-serif); font-weight:500; color:var(--text-strong);}
+  .meta{font-size:.8125rem;}
+  .spotlight-prose p{text-wrap:pretty;}
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:.4rem; font-weight:600; font-size:.875rem; text-decoration:none; border-radius:var(--radius-pill); padding:0 1.15rem; height:44px; border:1px solid transparent; transition:filter .15s ease;}
+  .btn:hover{filter:brightness(.96);}
+  .btn-accent{background:var(--orange-500); color:#fff;}
+  .btn-primary{background:var(--blue-500); color:#fff;}
+  .btn-secondary{background:var(--surface-card); color:var(--text-body); border-color:var(--border-strong);}
+  .btn-sm{height:34px; font-size:.8125rem; padding:0 .9rem;}
+  .tag{display:inline-flex; align-items:center; height:26px; padding:0 .7rem; border-radius:var(--radius-pill); font-size:.78rem; font-weight:600;}
+  .tag-orange{background:var(--wash-orange); color:var(--orange-700);}
+  .tag-blue{background:var(--wash-blue); color:var(--blue-700);}
+  .tag-teal{background:var(--wash-teal); color:var(--teal-700);}
+  .card{background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:var(--space-6); height:100%;}
+  .ff-li{display:flex; gap:.5rem; font-size:1.0625rem; line-height:1.55;}
+  .navlink{font-size:.875rem; font-weight:600; color:var(--text-body); text-decoration:none;}
+  .navlink:hover{color:var(--orange-600);}
+  figure img{display:block; width:100%; height:100%; object-fit:cover; cursor:zoom-in;}
+  .zoom-hint{position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:var(--radius-pill); background:rgba(0,37,74,.55); color:#fff; display:flex; align-items:center; justify-content:center; pointer-events:none; opacity:0; transition:opacity .15s ease;}
+  figure:hover .zoom-hint{opacity:1;}
+  #lightbox{position:fixed; inset:0; z-index:200; background:rgba(12,27,42,.88); display:none; align-items:center; justify-content:center; padding:2.5rem; cursor:zoom-out;}
+  #lightbox.open{display:flex;}
+  #lightbox img{max-width:96vw; max-height:92vh; width:auto; height:auto; border-radius:10px; box-shadow:0 24px 70px rgba(0,0,0,.55);}
+  #lightbox .lb-close{position:fixed; top:16px; right:26px; color:#fff; font-size:2.4rem; line-height:1; cursor:pointer; opacity:.85;}
+  #lightbox .lb-close:hover{opacity:1;}
+</style>
+</head>
+<body>
+<main class="spotlight-main" style="font-family:var(--font-sans); color:var(--text-body); background:var(--surface-page); min-height:100vh; padding-bottom:0;">
+
+  <!-- STICKY HEADER -->
+  <header style="position:sticky; top:0; z-index:50; background:rgba(251,253,253,0.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--border-subtle);">
+    <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; height:var(--header-height); display:flex; align-items:center; justify-content:space-between; gap:1.5rem;">
+      <div style="display:flex; align-items:baseline; gap:0.75rem;">
+        <a href="../index.html" style="font-family:var(--font-serif); font-weight:500; font-size:1.5rem; letter-spacing:0.02em; color:var(--blue-700); text-decoration:none;">ROSA</a>
+        <span style="width:1px; height:18px; background:var(--border-strong);"></span>
+        <span class="eyebrow" style="color:var(--text-muted);">Research Spotlight</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:1.5rem;">
+        <a href="#abstract" class="navlink">Abstract</a>
+        <a href="#figures" class="navlink">Figures</a>
+        <a href="#cite" class="navlink">Cite</a>
+        <a href="https://doi.org/10.1002/jbm.b.34417" target="_blank" rel="noopener" class="btn btn-accent btn-sm">Read full paper →</a>
+      </div>
+    </div>
+  </header>
+
+  <article class="spotlight-prose" style="display:flex; flex-direction:column; align-items:center; gap:var(--space-16); padding-top:var(--space-16);">
+
+    <!-- MODULE 1 — META-HEADER -->
+    <section id="abstract" style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <a href="../publications.html" style="display:inline-flex; align-items:center; gap:0.375rem; font-size:0.875rem; font-weight:600; color:var(--text-muted); margin-bottom:var(--space-8); text-decoration:none;">← All publications</a>
+      <div style="display:flex; flex-wrap:wrap; align-items:stretch; gap:var(--space-12);">
+        <div style="flex:1 1 460px; min-width:0;">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem; margin-bottom:1.25rem;">
+            <span class="eyebrow" style="color:var(--orange-600);">Research Spotlight</span>
+            <span style="color:var(--border-strong);">·</span>
+            <span class="meta" style="font-weight:600; color:var(--text-muted);">Biomaterials Informatics · Scaffolds</span>
+          </div>
+
+          <h1 class="display" style="font-size:clamp(2rem, 4.6vw, 3.1rem); line-height:1.08; margin:0 0 1.25rem;">Designing a bioactive scaffold — without testing everything</h1>
+
+          <p style="font-family:var(--font-serif); font-style:italic; font-size:1.3rem; line-height:1.45; color:var(--slate-600); margin:0 0 1.75rem;">Testing every scaffold recipe would take 81 experiments. Taguchi's orthogonal array found the answer in 9 — and showed that composition (4% MTA) is what makes a 3D-printed PCL scaffold bioactive.</p>
+
+          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <span class="tag tag-orange">Design of Experiments</span>
+            <span class="tag tag-blue">3D Printing</span>
+            <span class="tag tag-teal">PCL/MTA Scaffold</span>
+            <span class="tag tag-orange">Pulp Regeneration</span>
+          </div>
+        </div>
+
+        <aside style="flex:0 1 450px; min-width:0; background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:var(--space-6); display:flex; flex-direction:column; gap:var(--space-5);">
+          <div>
+            <div style="font-size:1.2rem; font-weight:700; line-height:1.35; color:var(--text-strong);">Taguchi's methods to optimize the properties and bioactivity of 3D printed polycaprolactone/mineral trioxide aggregate scaffold</div>
+            <p style="margin-top:0.85rem; font-size:1rem; line-height:1.55; color:var(--text-muted);">Bhargav A, Min KS, Wen Feng L, Fuh JYH, <span style="color:var(--text-strong); font-weight:700;">Rosa V</span></p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.85rem; padding-top:var(--space-4); border-top:1px solid var(--border-subtle);">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem;">
+              <span style="font-size:0.95rem; color:var(--text-muted);">Journal</span>
+              <span style="font-family:var(--font-serif); font-style:italic; font-size:1.05rem; font-weight:500; color:var(--blue-700); text-align:right;">J Biomed Mater Res Part B</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem;">
+              <span style="font-size:0.95rem; color:var(--text-muted);">Status</span>
+              <span style="font-size:0.95rem; font-weight:600; color:var(--text-body); text-align:right;">2020 · 108(3):629–637</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem;">
+              <span style="font-size:0.95rem; color:var(--text-muted);">DOI</span>
+              <a href="https://doi.org/10.1002/jbm.b.34417" target="_blank" rel="noopener" style="font-size:0.95rem; font-weight:600; text-align:right;">10.1002/jbm.b.34417</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MODULE 2 — FAST FACTS -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="margin-bottom:1.25rem;">
+        <h2 style="font-size:1.05rem; font-weight:700; letter-spacing:-0.01em; color:var(--text-strong); margin:0;">Fast facts</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:var(--space-5);">
+
+        <div class="card" style="border-top:3px solid var(--teal-500);">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--teal-600); margin-bottom:0.875rem;">
+            <i data-lucide="sliders-horizontal" width="22" height="22"></i>
+            <span class="eyebrow" style="color:var(--teal-600);">What it covers</span>
+          </div>
+          <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.625rem;">
+            <li class="ff-li"><span style="color:var(--teal-500); font-weight:700;">—</span>Optimizing a 3D-printed PCL/MTA scaffold for pulp regeneration with Taguchi's design of experiments.</li>
+            <li class="ff-li"><span style="color:var(--teal-500); font-weight:700;">—</span>Four inputs at three levels: composition (MTA%), pore size, fibre diameter, number of layers.</li>
+            <li class="ff-li"><span style="color:var(--teal-500); font-weight:700;">—</span>Five properties measured — pH, degradation, porosity, yield strength, Young's modulus — plus cell tests.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-top:3px solid var(--blue-500);">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--blue-600); margin-bottom:0.875rem;">
+            <i data-lucide="bar-chart-3" width="22" height="22"></i>
+            <span class="eyebrow" style="color:var(--blue-600);">Key findings</span>
+          </div>
+          <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.625rem;">
+            <li class="ff-li"><span style="color:var(--blue-500); font-weight:700;">—</span>Fibre diameter and composition were the most influential inputs; pore size and layers minor.</li>
+            <li class="ff-li"><span style="color:var(--blue-500); font-weight:700;">—</span>Predictions matched experiments — Taguchi worked as a predictive tool.</li>
+            <li class="ff-li"><span style="color:var(--blue-500); font-weight:700;">—</span>Only PCL and PCL + 4% MTA allowed cells to grow; 20% MTA was too alkaline.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-top:3px solid var(--orange-500);">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600); margin-bottom:0.875rem;">
+            <i data-lucide="heart-pulse" width="22" height="22"></i>
+            <span class="eyebrow" style="color:var(--orange-700);">Why it matters</span>
+          </div>
+          <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.625rem;">
+            <li class="ff-li"><span style="color:var(--orange-500); font-weight:700;">—</span>An orthogonal array cut 81 experiments to 9 — saving time and cost.</li>
+            <li class="ff-li"><span style="color:var(--orange-500); font-weight:700;">—</span>It pinpoints which inputs can be ignored when optimizing scaffolds.</li>
+            <li class="ff-li"><span style="color:var(--orange-500); font-weight:700;">—</span>4% MTA turned an inert polymer into a bioactive, cell-friendly scaffold.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MODULE 3 — IMPACT STAT BAND -->
+    <section style="width:100%; background:var(--blue-700); padding-block:var(--space-16);">
+      <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:var(--space-8);">
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--orange-400);">81&#8201;&rarr;&#8201;9</div>
+          <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">Experiments cut by the Taguchi L9 orthogonal array</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--teal-300);">2 of 4</div>
+          <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">Inputs that dominated: fibre diameter &amp; composition</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--orange-400);">4% MTA</div>
+          <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">The bioactive sweet spot — 20% was too alkaline</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--teal-300);">4 genes&#8201;&uarr;</div>
+          <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">ALP, COL-1, OCN &amp; MSX-1 in dental pulp stem cells</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- READING SECTION — The problem (rail = pull-quote) -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
+        <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
+            <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+            <span class="eyebrow">The problem</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:700; letter-spacing:-0.015em; color:var(--text-strong); line-height:1.2; margin:0;">Too many recipes to test</h2>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">A 3D-printed scaffold has many dials — composition, pore size, fibre diameter, number of layers — and each shifts its pH, degradation, porosity and mechanical strength. Tuning them one at a time, or testing every combination, is slow and expensive.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">With four inputs at three levels each, a full factorial study would mean 81 experiments (243 with triplicates). The team needed a way to find what actually matters without running them all.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Taguchi's methods — built on orthogonal arrays — promise exactly that: vary every factor at once, sample each level fairly, and infer which inputs drive the outcome from a small, balanced set of runs.</p>
+        </div>
+        <aside style="flex:1 1 300px; max-width:352px; align-self:flex-start; position:sticky; top:96px;">
+          <div style="border-top:2px solid var(--orange-500); padding-top:var(--space-4);">
+            <span class="eyebrow" style="color:var(--text-muted);">The core difficulty</span>
+            <p style="margin-top:0.75rem; font-family:var(--font-serif); font-style:italic; font-size:1.25rem; line-height:1.4; color:var(--blue-700);">“Testing one input while four others vary at three levels each would demand 81 experiments — costly and impractical.”</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FIGURE 1 — PANORAMIC (24:9) -->
+    <figure id="figures" style="width:100%; margin:0;">
+      <div style="aspect-ratio:24 / 9; width:100%; border-block:1px solid var(--border-subtle); overflow:hidden;">
+        <img src="../assets/spotlights/taguchi-pcl-mta-scaffold/fig1_screening-reduction_24x9.png" alt="From a large field of 81 possible scaffold designs, a Taguchi orthogonal array selects nine smart runs, which lead to an optimized, bioactive 3D-printed scaffold colonized by cells.">
+      </div>
+      <figcaption style="width:min(100% - 2.5rem, 1180px); margin:0.875rem auto 0; font-size:0.95rem; line-height:1.55; color:var(--text-muted);">
+        <b style="color:var(--text-strong);">Fig. 1</b> — From 81 possible experiments, a Taguchi orthogonal array selects 9 that point to the bioactive scaffold.
+      </figcaption>
+    </figure>
+
+    <!-- READING SECTION — The method (rail = key-result callout) -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
+        <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
+            <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+            <span class="eyebrow">The method</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:700; letter-spacing:-0.015em; color:var(--text-strong); line-height:1.2; margin:0;">Screen smart, not everything</h2>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Instead of all 81 combinations, the team used an L9 orthogonal array — just 9 runs, with each level of each factor appearing the same number of times to avoid bias (Fig. 2 and Fig. 3). Analysis of mean and the signal-to-noise ratio then ranked how strongly each input shaped each property.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">The predictions held up: when the designed scaffolds were printed and measured, the experimental pH, degradation, porosity and mechanics matched what the model forecast. Taguchi's method worked as a genuine predictive tool — and, just as usefully, flagged the inputs that can be safely ignored.</p>
+        </div>
+        <aside style="flex:1 1 300px; max-width:352px; align-self:flex-start; position:sticky; top:96px;">
+          <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:var(--space-5);">
+            <span class="eyebrow" style="color:var(--teal-600);">The economy</span>
+            <div style="display:flex; align-items:baseline; gap:0.5rem; margin-top:0.75rem;">
+              <span style="font-family:var(--font-serif); font-weight:500; font-size:2.6rem; line-height:1; color:var(--text-strong);">81&#8201;&rarr;&#8201;9</span>
+            </div>
+            <div style="margin-top:0.625rem; font-size:0.85rem; line-height:1.5; color:var(--text-muted);">An orthogonal array varies every factor at once and samples each level equally — the same insight from a fraction of the experiments.</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FIGURE 2 + 3 — SIDE-BY-SIDE PAIR (two 4:3) -->
+    <figure style="width:min(100% - 2.5rem, 1180px); margin:0 auto;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:var(--space-5);">
+        <div style="aspect-ratio:4 / 3; border-radius:var(--radius-lg); border:1px solid var(--border-subtle); overflow:hidden;">
+          <img src="../assets/spotlights/taguchi-pcl-mta-scaffold/fig3_full-factorial_4x3.png" alt="A dense grid of all 81 scaffold-design combinations — the full factorial — illustrating how exhaustive and costly testing every combination would be.">
+        </div>
+        <div style="aspect-ratio:4 / 3; border-radius:var(--radius-lg); border:1px solid var(--border-subtle); overflow:hidden;">
+          <img src="../assets/spotlights/taguchi-pcl-mta-scaffold/fig4_orthogonal-array_4x3.png" alt="The same grid with only nine cells selected — the Taguchi L9 orthogonal array — reaching the same insight from a fraction of the experiments.">
+        </div>
+      </div>
+      <figcaption style="margin-top:0.875rem; display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; font-size:0.95rem; line-height:1.55; color:var(--text-muted);">
+        <span style="flex:1 1 300px;"><b style="color:var(--text-strong);">Fig. 2</b> — Full factorial: testing every combination means 81 experiments — costly and slow.</span>
+        <span style="flex:1 1 300px;"><b style="color:var(--text-strong);">Fig. 3</b> — Taguchi's orthogonal array reaches the same insight from just 9 informative runs.</span>
+      </figcaption>
+    </figure>
+
+    <!-- READING SECTION — The finding (rail = Fig. 4 margin 3:4) -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
+        <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
+            <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+            <span class="eyebrow">The finding</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:700; letter-spacing:-0.015em; color:var(--text-strong); line-height:1.2; margin:0;">Composition drove the biology</h2>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Across all five properties, fibre diameter and composition were the most influential inputs; pore size and number of layers mattered far less. Of these, composition was the lever for bioactivity — so it was carried into the biological tests (Fig. 4).</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Adding MTA raised the scaffold's pH and degradation. In culture with dental pulp stem cells, only plain PCL and PCL with 4% MTA allowed the cells to grow — 20% MTA made the environment too alkaline. And 4% MTA did more than keep cells alive: it raised the odontogenic genes ALP, COL-1, OCN and MSX-1, turning an inert polymer into a bioactive scaffold.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">That ranking held across every property measured — pH, degradation, porosity, yield strength and Young's modulus — so pore size and the number of rolled layers could be set for printability without much penalty, while composition and fibre diameter were the inputs worth tuning. Crucially, the experimental scaffolds behaved as the model predicted, confirming Taguchi's method as a reliable, low-cost guide rather than a rough approximation.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Composition mattered on two fronts at once. The MTA fraction set the scaffold's chemistry — its alkalinity and how fast it broke down — and that same chemistry decided the biological outcome: too little and the polymer stayed inert, too much and the environment turned hostile, with only the intermediate dose supporting cells and driving odonto/osteogenic gene expression.</p>
+          <div style="border-left:3px solid var(--teal-500); padding:0.5rem 0 0.5rem 1.1rem; margin-top:0.25rem;">
+            <p style="font-family:var(--font-serif); font-style:italic; font-size:1.2rem; line-height:1.45; color:var(--blue-700); margin:0;">The lesson: a small, well-chosen dose of bioactive filler — not maximal loading — is what turns an inert printed polymer into a living, mineral-forming scaffold.</p>
+          </div>
+        </div>
+        <aside style="flex:1 1 300px; max-width:352px; align-self:flex-start; position:sticky; top:96px;">
+          <figure style="margin:0;">
+            <div style="aspect-ratio:3 / 4; border-radius:var(--radius-lg); border:1px solid var(--border-subtle); overflow:hidden;">
+              <img src="../assets/spotlights/taguchi-pcl-mta-scaffold/fig2_composition-to-biology_3x4.png" alt="A ranking shows composition and fibre diameter as the dominant inputs; composition (MTA %) is carried forward, where 4% MTA makes the PCL scaffold bioactive — pulp stem cells deposit mineral and odontogenic genes ALP, COL-1, OCN and MSX-1 rise.">
+            </div>
+            <figcaption style="margin-top:0.625rem; font-size:0.92rem; line-height:1.5; color:var(--text-muted);"><b style="color:var(--text-strong);">Fig. 4</b> — Composition (and fibre diameter) drove the properties; 4% MTA made the PCL scaffold bioactive.</figcaption>
+          </figure>
+        </aside>
+      </div>
+    </section>
+
+    <!-- READING SECTION — Why it matters (rail = What's next) -->
+    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
+        <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
+            <span style="width:24px; height:2px; background:var(--orange-500);"></span>
+            <span class="eyebrow">Why it matters</span>
+          </div>
+          <h2 style="font-size:1.6rem; font-weight:700; letter-spacing:-0.015em; color:var(--text-strong); line-height:1.2; margin:0;">A faster route to better scaffolds</h2>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">The advance is a way of working: let a small, well-designed set of experiments reveal which knobs matter, then tune only those. It turns scaffold optimization from brute-force trial-and-error into a directed, low-cost search.</p>
+          <p style="font-size:1.0625rem; line-height:1.75; color:var(--text-body); margin:0;">Here it delivered a printable PCL scaffold made bioactive by 4% MTA — cell-friendly and odontogenic — together with a clear map of which inputs are worth tuning next time.</p>
+        </div>
+        <aside style="flex:1 1 300px; max-width:352px; align-self:flex-start; position:sticky; top:96px;">
+          <div style="border-top:2px solid var(--teal-500); padding-top:var(--space-4);">
+            <span class="eyebrow" style="color:var(--teal-600);">What's next</span>
+            <p style="margin-top:0.75rem; font-size:0.95rem; line-height:1.6; color:var(--text-body);">Apply the same design-of-experiments approach to more inputs and materials, then validate the optimized scaffolds biologically and in vivo.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MODULE 12 — CITATION -->
+    <section id="cite" style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+      <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:var(--space-8); display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-8);">
+        <div style="flex:1 1 520px; min-width:0;">
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.85rem; color:var(--blue-600);">
+            <i data-lucide="quote" width="18" height="18"></i>
+            <span class="eyebrow" style="color:var(--blue-600);">How to cite</span>
+          </div>
+          <p style="font-size:1.05rem; line-height:1.65; color:var(--text-body); margin:0;">Bhargav A, Min KS, Wen Feng L, Fuh JYH, <span style="font-weight:700; color:var(--text-strong);">Rosa V</span>. Taguchi's methods to optimize the properties and bioactivity of 3D printed polycaprolactone/mineral trioxide aggregate scaffold: theoretical predictions and experimental validation. <i style="font-family:var(--font-serif);">J Biomed Mater Res B Appl Biomater</i>. 2020;108(3):629–637.</p>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:0.625rem; flex:0 0 auto; align-items:center;">
+          <a href="https://doi.org/10.1002/jbm.b.34417" target="_blank" rel="noopener" class="btn btn-primary">Read full paper →</a>
+          <a href="../assets/spotlights/taguchi-pcl-mta-scaffold/bhargav-2020-taguchi-pcl-mta.ris" download class="btn btn-secondary">Download .RIS (EndNote)</a>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <!-- FOOTER -->
+  <footer style="margin-top:var(--space-16); background:var(--blue-700); color:var(--text-on-dark); padding-block:var(--space-12);">
+    <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--space-8);">
+      <div style="max-width:320px;">
+        <div style="font-family:var(--font-serif); font-weight:500; font-size:1.5rem; letter-spacing:0.02em; margin-bottom:0.5rem;">ROSA</div>
+        <p style="font-size:0.875rem; line-height:1.6; color:var(--blue-200);">A/P Vinicius Rosa — Faculty of Dentistry, National University of Singapore. Biomaterials, pulp tissue engineering and regeneration.</p>
+      </div>
+      <div style="display:flex; gap:var(--space-12); flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <span style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--blue-300); margin-bottom:0.25rem;">Explore</span>
+          <a href="../publications.html" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">Publications</a>
+          <a href="../index.html" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">Home</a>
+          <a href="../news.html" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">News</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <span style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--blue-300); margin-bottom:0.25rem;">Contact</span>
+          <a href="mailto:vini@nus.edu.sg" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">vini@nus.edu.sg</a>
+          <a href="../contact.html" style="font-size:0.875rem; color:var(--blue-100); text-decoration:none;">Contact page</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</main>
+<script>
+(function(){
+  function icons(){ if (window.lucide && window.lucide.createIcons) window.lucide.createIcons(); }
+  icons(); window.addEventListener('load', icons);
+
+  var lb = document.createElement('div');
+  lb.id = 'lightbox';
+  lb.innerHTML = '<span class="lb-close" aria-label="Close">&times;</span><img alt="">';
+  document.body.appendChild(lb);
+  var lbimg = lb.querySelector('img');
+  function openLB(src, alt){ lbimg.src = src; lbimg.alt = alt || ''; lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeLB(){ lb.classList.remove('open'); lbimg.src = ''; document.body.style.overflow = ''; }
+  lb.addEventListener('click', closeLB);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLB(); });
+
+  document.querySelectorAll('figure img').forEach(function(im){
+    var box = im.parentElement;
+    if (box) {
+      if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
+      var hint = document.createElement('span');
+      hint.className = 'zoom-hint';
+      hint.innerHTML = '<i data-lucide="maximize-2" width="16" height="16"></i>';
+      box.appendChild(hint);
+    }
+    im.addEventListener('click', function(){ openLB(im.currentSrc || im.src, im.alt); });
+  });
+  icons();
+})();
+</script>
+</body>
+</html>
