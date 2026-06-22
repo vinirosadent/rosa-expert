@@ -46,13 +46,16 @@ const PUBS = [
   {
     title: 'A critical analysis of research methods and biological experimental models to study pulp regeneration',
     venue: 'International Endodontic Journal', year: 2022,
-    featured: true, category: 'ai', badge: 'Critical framework',
+    category: 'ai',
     summary: 'A conceptual and methodological analysis of how pulp regeneration research is designed, interpreted and translated, highlighting the need for more meaningful experimental models.',
   },
   {
     title: 'Functional odontoblastic-like cells from human iPSCs',
     venue: 'Journal of Dental Research', year: 2018,
     featured: true, category: 'regen', badge: 'First-in-field model',
+    doi: '10.1177/0022034517730026',
+    spotlight: 'publications/odontoblastic-cells-ipsc.html',
+    thumb: 'assets/spotlights/odontoblastic-cells-ipsc/card.png',
     summary: 'A stem-cell-derived odontoblastic model that opened new possibilities for studying dentin–pulp regeneration and biomaterial bioactivity.',
   },
   {
@@ -125,12 +128,21 @@ const PUBS = [
   {
     title: 'Taguchi methods to optimize the properties and bioactivity of 3D printed polycaprolactone/mineral trioxide aggregate scaffold: theoretical predictions and experimental validation',
     venue: 'Journal of Biomedical Materials Research Part B', year: 2020, category: 'ai',
+    featured: true, badge: 'Design of experiments',
     doi: '10.1002/jbm.b.34417',
     spotlight: 'publications/taguchi-pcl-mta-scaffold.html',
     thumb: 'assets/spotlights/taguchi-pcl-mta-scaffold/card.png',
+    summary: 'A Taguchi design-of-experiments approach optimized a 3D-printed PCL/MTA scaffold with a fraction of the experiments — revealing composition as the dominant factor for bioactivity.',
   },
 
   /* ── 2015 ───────────────────────────────────────────────── */
+  {
+    title: 'Two and three-dimensional graphene substrates to magnify osteogenic differentiation of periodontal ligament stem cells',
+    venue: 'Carbon', year: 2015, category: 'bio',
+    doi: '10.1016/j.carbon.2015.05.071',
+    spotlight: 'publications/graphene-2d-3d-osteogenic.html',
+    thumb: 'assets/spotlights/graphene-2d-3d-osteogenic/card.png',
+  },
   { title: 'Bioactivity, physical and chemical properties of MTA mixed with propylene glycol', venue: 'Journal of Applied Oral Sciences', year: 2015, category: 'regen' },
 
   /* ── 2014 ───────────────────────────────────────────────── */

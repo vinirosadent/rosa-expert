@@ -45,16 +45,18 @@
 
   <!-- STICKY HEADER -->
   <header style="position:sticky; top:0; z-index:50; background:rgba(251,253,253,0.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--border-subtle);">
-    <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; height:var(--header-height); display:flex; align-items:center; justify-content:space-between; gap:1.5rem;">
+    <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; min-height:var(--header-height); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.5rem 1.5rem; padding-block:0.5rem;">
       <div style="display:flex; align-items:baseline; gap:0.75rem;">
         <a href="../index.html" style="font-family:var(--font-serif); font-weight:500; font-size:1.5rem; letter-spacing:0.02em; color:var(--blue-700); text-decoration:none;">ROSA</a>
         <span style="width:1px; height:18px; background:var(--border-strong);"></span>
         <span class="eyebrow" style="color:var(--text-muted);">Research Spotlight</span>
       </div>
-      <div style="display:flex; align-items:center; gap:1.5rem;">
-        <a href="#abstract" class="navlink">Abstract</a>
-        <a href="#figures" class="navlink">Figures</a>
-        <a href="#cite" class="navlink">Cite</a>
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:0.6rem 1.1rem;">
+        <a href="../index.html" class="navlink">Home</a>
+        <a href="../who.html" class="navlink">Who</a>
+        <a href="../publications.html" class="navlink" style="color:var(--orange-600);">To read</a>
+        <a href="../news.html" class="navlink">News</a>
+        <a href="../contact.html" class="navlink">Contact</a>
         <a href="https://doi.org/10.1177/00220345231198185" target="_blank" rel="noopener" class="btn btn-accent btn-sm">Read full paper →</a>
       </div>
     </div>
