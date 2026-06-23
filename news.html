@@ -125,13 +125,10 @@ function renderGrid() {
   const grid = document.getElementById('news-grid');
   grid.innerHTML = rest.length
     ? rest.map(newsCardHTML).join('')
-    : '<p style="color:var(--text-muted);padding:var(--space-10) 0;grid-column:1/-1;">No items in this category.</p>';
+    : (newsFilter === 'all'
+        ? ''
+        : '<p style="color:var(--text-muted);padding:var(--space-10) 0;grid-column:1/-1;">No items in this category.</p>');
 }
 
 // ── Init ───────────────────────────────────────────────────────
-document.getElementById('news-feat-primary').innerHTML   = newsFeaturedHTML(NEWS[0]);
-document.getElementById('news-feat-secondary').innerHTML = NEWS.slice(1, 3).map(newsSecondaryHTML).join('');
-renderGrid();
-</script>
-</body>
-</html>
+document.getElementById('news-feat-primary').innerHTML  
