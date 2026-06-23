@@ -28,8 +28,17 @@
   .tag-teal{background:var(--wash-teal); color:var(--teal-700);}
   .card{background:var(--surface-card); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:var(--space-6); height:100%;}
   .ff-li{display:flex; gap:.5rem; font-size:1.0625rem; line-height:1.55;}
+  .ff-grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--space-5); align-items:stretch;}
+  @media (max-width:820px){ .ff-grid{grid-template-columns:1fr;} }
   .navlink{font-size:.875rem; font-weight:600; color:var(--text-body); text-decoration:none;}
   .navlink:hover{color:var(--orange-600);}
+  .logo{line-height:1; text-decoration:none; display:inline-block;}
+  .logo-top{font-family:var(--font-serif); font-style:italic; font-weight:400; font-size:15px; color:var(--text-muted);}
+  .logo-bottom{display:block; font-family:var(--font-serif); font-weight:500; font-size:24px; letter-spacing:.02em; color:var(--blue-700); margin-top:1px;}
+  .nav-link{position:relative; font-family:var(--font-sans); font-size:14.5px; font-weight:500; color:var(--text-muted); padding:8px 12px; border-radius:var(--radius-sm); text-decoration:none; display:inline-block; transition:color .15s ease;}
+  .nav-link:hover{color:var(--orange-600);}
+  .nav-link.active{font-weight:600; color:var(--blue-700);}
+  .nav-link.active::after{content:''; position:absolute; left:12px; right:12px; bottom:2px; height:2px; border-radius:2px; background:var(--orange-500);}
   figure img{display:block; width:100%; height:100%; object-fit:cover; cursor:zoom-in;}
   .zoom-hint{position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:var(--radius-pill); background:rgba(0,37,74,.55); color:#fff; display:flex; align-items:center; justify-content:center; pointer-events:none; opacity:0; transition:opacity .15s ease;}
   figure:hover .zoom-hint{opacity:1;}
@@ -44,28 +53,26 @@
 <main class="spotlight-prose" style="font-family:var(--font-sans); color:var(--text-body); background:var(--surface-page); min-height:100vh; padding-bottom:0;">
 
   <!-- STICKY HEADER -->
-  <header style="position:sticky; top:0; z-index:50; background:rgba(251,253,253,0.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--border-subtle);">
-    <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; min-height:var(--header-height); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.5rem 1.5rem; padding-block:0.5rem;">
-      <div style="display:flex; align-items:baseline; gap:0.75rem;">
-        <a href="../index.html" style="font-family:var(--font-serif); font-weight:500; font-size:1.5rem; letter-spacing:0.02em; color:var(--blue-700); text-decoration:none;">ROSA</a>
-        <span style="width:1px; height:18px; background:var(--border-strong);"></span>
-        <span class="eyebrow" style="color:var(--text-muted);">Research Spotlight</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:0.6rem 1.1rem;">
-        <a href="../index.html" class="navlink">Home</a>
-        <a href="../who.html" class="navlink">Who</a>
-        <a href="../publications.html" class="navlink" style="color:var(--orange-600);">To read</a>
-        <a href="../news.html" class="navlink">News</a>
-        <a href="../contact.html" class="navlink">Contact</a>
-        <a href="https://doi.org/10.1016/j.dental.2025.08.018" target="_blank" rel="noopener" class="btn btn-accent btn-sm">Read full paper →</a>
-      </div>
+  <header style="position:sticky; top:0; z-index:50; background:rgba(248,250,252,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border-subtle);">
+    <div style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto; min-height:var(--header-height); padding-block:0.4rem; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0.5rem 24px;">
+      <a class="logo" href="../index.html">
+        <span class="logo-top">Vinicius</span>
+        <span class="logo-bottom">ROSA</span>
+      </a>
+      <nav style="display:flex; flex-wrap:wrap; align-items:center; gap:4px;">
+        <a class="nav-link" href="../index.html">Home</a>
+        <a class="nav-link" href="../who.html">Who</a>
+        <a class="nav-link active" href="../publications.html">To read</a>
+        <a class="nav-link" href="../news.html">News</a>
+        <a class="nav-link" href="../contact.html">Contact</a>
+      </nav>
     </div>
   </header>
 
   <article style="display:flex; flex-direction:column; align-items:center; gap:var(--space-16); padding-top:var(--space-16);">
 
     <!-- MODULE 1 — META-HEADER -->
-    <section id="abstract" style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+    <section id="abstract" style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto;">
       <a href="../publications.html" style="display:inline-flex; align-items:center; gap:0.375rem; font-size:0.875rem; font-weight:600; color:var(--text-muted); margin-bottom:var(--space-8); text-decoration:none;">← All publications</a>
       <div style="display:flex; flex-wrap:wrap; align-items:stretch; gap:var(--space-12);">
         <div style="flex:1 1 460px; min-width:0;">
@@ -111,11 +118,11 @@
     </section>
 
     <!-- MODULE 2 — FAST FACTS -->
-    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+    <section style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto;">
       <div style="margin-bottom:1.25rem;">
         <h2 style="font-size:1.05rem; font-weight:700; letter-spacing:-0.01em; color:var(--text-strong); margin:0;">Fast facts</h2>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:var(--space-5);">
+      <div class="ff-grid">
 
         <div class="card" style="border-top:3px solid var(--teal-500);">
           <div style="display:flex; align-items:center; gap:0.625rem; color:var(--teal-600); margin-bottom:0.875rem;">
@@ -158,7 +165,7 @@
 
     <!-- MODULE 3 — IMPACT STAT BAND -->
     <section style="width:100%; background:var(--blue-700); padding-block:var(--space-16);">
-      <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:var(--space-8);">
+      <div style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:var(--space-8);">
         <div>
           <div style="font-family:var(--font-serif); font-weight:500; font-size:3.4rem; line-height:1.05; color:var(--orange-400);">3</div>
           <div style="font-size:0.95rem; color:var(--blue-200); margin-top:0.55rem; line-height:1.4;">Early clues: pH 3 h · pH 24 h · surface area</div>
@@ -179,7 +186,7 @@
     </section>
 
     <!-- READING SECTION — The problem (rail = pull-quote) -->
-    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+    <section style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto;">
       <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
         <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
           <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
@@ -205,13 +212,13 @@
       <div style="aspect-ratio:24 / 9; width:100%; border-block:1px solid var(--border-subtle); overflow:hidden;">
         <img src="../assets/spotlights/ph-prediction-calcium-silicate/fig1_pipeline_24x9.png" alt="A real cement specimen measured early with a pH probe; the early pH curve passes through a machine-learning model (boosted trees and a neural network) and emerges as a predicted long-term pH curve to 672 hours.">
       </div>
-      <figcaption style="width:min(100% - 2.5rem, 1180px); margin:0.875rem auto 0; font-size:0.95rem; line-height:1.55; color:var(--text-muted);">
+      <figcaption style="max-width:var(--container-base); padding-inline:var(--gutter); margin:0.875rem auto 0; font-size:0.95rem; line-height:1.55; color:var(--text-muted);">
         <b style="color:var(--text-strong);">Fig. 1</b> — Early pH readings plus specimen surface area, fed to a machine-learning model, forecast a cement's long-term alkalinity up to 672 h — a shorter feedback loop for screening. The model guides which materials deserve longer testing; it does not replace experimental validation.
       </figcaption>
     </figure>
 
     <!-- READING SECTION — The study (rail = Fig. 2 margin 3:4) -->
-    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+    <section style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto;">
       <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
         <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
           <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
@@ -239,7 +246,7 @@
     </section>
 
     <!-- VIDEO (16:9) — animated explainer (placeholder until final MP4) -->
-    <figure style="width:min(100% - 2.5rem, 1180px); margin:0 auto;">
+    <figure style="max-width:var(--container-base); padding-inline:var(--gutter); margin:0 auto;">
       <div style="aspect-ratio:16 / 9; width:100%; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); background:var(--surface-subtle);">
         <iframe src="../assets/spotlights/ph-prediction-calcium-silicate/forecast-explainer.html" title="Animated explainer: forecasting calcium silicate cement pH from early measurements" style="width:100%; height:100%; border:0; display:block;" loading="lazy"></iframe>
       </div>
@@ -249,7 +256,7 @@
     </figure>
 
     <!-- READING SECTION — The results (rail = key-result callout) -->
-    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+    <section style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto;">
       <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
         <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
           <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
@@ -274,7 +281,7 @@
     </section>
 
     <!-- READING SECTION — Why it matters (rail = What's next) -->
-    <section style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+    <section style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto;">
       <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-12);">
         <div style="flex:1 1 460px; max-width:780px; display:flex; flex-direction:column; gap:1.25rem;">
           <div style="display:flex; align-items:center; gap:0.625rem; color:var(--orange-600);">
@@ -295,7 +302,7 @@
     </section>
 
     <!-- MODULE 12 — CITATION -->
-    <section id="cite" style="width:min(100% - 2.5rem, 1180px); margin-inline:auto;">
+    <section id="cite" style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto;">
       <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:var(--space-8); display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-8);">
         <div style="flex:1 1 520px; min-width:0;">
           <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.85rem; color:var(--blue-600);">
@@ -315,7 +322,7 @@
 
   <!-- FOOTER -->
   <footer style="margin-top:var(--space-16); background:var(--blue-700); color:var(--text-on-dark); padding-block:var(--space-12);">
-    <div style="width:min(100% - 2.5rem, 1180px); margin-inline:auto; display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--space-8);">
+    <div style="max-width:var(--container-base); padding-inline:var(--gutter); margin-inline:auto; display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--space-8);">
       <div style="max-width:320px;">
         <div style="font-family:var(--font-serif); font-weight:500; font-size:1.5rem; letter-spacing:0.02em; margin-bottom:0.5rem;">ROSA</div>
         <p style="font-size:0.875rem; line-height:1.6; color:var(--blue-200);">A/P Vinicius Rosa — Faculty of Dentistry, National University of Singapore. Biomaterials, pulp tissue engineering and regeneration.</p>
@@ -366,3 +373,4 @@
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
