@@ -6,6 +6,7 @@ var NEWS = [
     image:'news/Assets/iadr-innovation-award-2026.png',
     headline:"A/P Rosa receives the 2026 IADR Innovation in Oral Care Award", category:'awards' },
   { id:'n3',  slug:'iso-tc194-mirror-group',                       source:'ISO / TC 194',                   date:'2026',          tone:'teal',
+    image:'news/Assets/iso-tc194-mirror-group.png',
     headline:"A/P Rosa appointed to Singapore&#39;s National Mirror Working Group for ISO/TC 194", category:'appointments' },
   { id:'n4',  slug:'top2pct-scientists-2026',                      source:'Stanford&#8211;Elsevier',        date:'2026',          tone:'orange',
     image:'news/Assets/top2pct-2026.png',
@@ -59,4 +60,6 @@ var NEWS = [
     headline:"A/P Rosa joins the Editorial Board of the Journal of Dental Research", category:'appointments' },
   { id:'n24', slug:'iadr-sea-hatton-junior-klara-koh-2018',        source:'IADR-SEA',                       date:'2018',          tone:'orange',
     headline:"Klara Koh receives the IADR-SEA Hatton Award Junior Category", category:'awards' },
+  { id:'n25', slug:'two-top-cited-papers-regenerative-endodontics-2018', source:'Journal of Endodontics', date:'2018', tone:'orange',
+    headline:"Two of A/P Rosa&#39;s papers among the 100 most-cited in regenerative endodontics", category:'awards' },
 ];
