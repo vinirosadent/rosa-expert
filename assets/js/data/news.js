@@ -1,5 +1,6 @@
 var NEWS = [
   { id:'n1',  slug:'straits-times-ai-models',                      source:'The Straits Times',              date:'May 2026',      tone:'blue',
+    image:'news/Assets/straits-times-ai-models.png',
     headline:"The Straits Times features A/P Rosa&#39;s AI-enabled living laboratory models", category:'press' },
   { id:'n2',  slug:'iadr-innovation-award-2026',                   source:'IADR',                           date:'March 2026',    tone:'orange',
     headline:"A/P Rosa receives the 2026 IADR Innovation in Oral Care Award", category:'awards' },
