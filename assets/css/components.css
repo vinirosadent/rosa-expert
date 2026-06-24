@@ -166,7 +166,7 @@ footer { background: var(--blue-700); color: #fff; margin-top: var(--space-12); 
 .nc-feat {
   background: var(--surface-card); border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
-  overflow: hidden; display: flex; flex-direction: row; min-height: 240px;
+  overflow: hidden; display: flex; flex-direction: row; height: 240px;
 }
 .nc-feat-img { flex: 0 0 42%; }
 .nc-feat-img-blue   { background: var(--blue-100); }
@@ -207,12 +207,14 @@ footer { background: var(--blue-700); color: #fff; margin-top: var(--space-12); 
 .stack-wrap   { position: relative; overflow: visible; padding-right: 16px; }
 .stack-back2  { position: absolute; inset: 0; transform: translate(14px,18px); border-radius: var(--radius-lg); background: var(--surface-card); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm); opacity: 0.4; pointer-events: none; }
 .stack-back1  { position: absolute; inset: 0; transform: translate(7px,9px); border-radius: var(--radius-lg); background: var(--surface-card); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm); opacity: 0.65; pointer-events: none; }
-.stack-card   { position: relative; z-index: 2; cursor: pointer; }
-.stack-nav    { display: flex; align-items: center; justify-content: flex-end; gap: 7px; margin-top: 12px; padding-right: 20px; }
+.stack-card   { position: relative; z-index: 2; }
+.stack-nav    { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 20px; padding-right: 4px; }
+.stack-btn    { width: 30px; height: 30px; border: 1px solid var(--border-subtle); border-radius: 50%; background: var(--surface-card); cursor: pointer; font-size: 14px; color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; padding: 0; line-height: 1; }
+.stack-btn:hover { background: var(--blue-50); color: var(--blue-700); border-color: var(--blue-300); }
 .dash         { display: inline-block; flex-shrink: 0; height: 2px; border-radius: 1px; transition: all 0.3s cubic-bezier(.22,1,.36,1); }
 .dash.active  { width: 22px; background: var(--orange-500); }
 .dash.inactive{ width: 12px; background: var(--border-strong); }
-.stack-pagination { font-size: 10.5px; letter-spacing: .08em; color: var(--text-faint); font-weight: 600; margin-left: 6px; }
+.stack-pagination { font-size: 10.5px; letter-spacing: .08em; color: var(--text-faint); font-weight: 600; }
 
 /* ── Stat band ───────────────────────────────────────────── */
 .stat-band       { background: var(--blue-700); }
