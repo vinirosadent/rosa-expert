@@ -3,6 +3,7 @@ var NEWS = [
     image:'news/Assets/straits-times-ai-models.png',
     headline:"The Straits Times features A/P Rosa&#39;s AI-enabled living laboratory models", category:'press' },
   { id:'n2',  slug:'iadr-innovation-award-2026',                   source:'IADR',                           date:'March 2026',    tone:'orange',
+    image:'news/Assets/iadr-innovation-award-2026.png',
     headline:"A/P Rosa receives the 2026 IADR Innovation in Oral Care Award", category:'awards' },
   { id:'n3',  slug:'iso-tc194-mirror-group',                       source:'ISO / TC 194',                   date:'2026',          tone:'teal',
     headline:"A/P Rosa appointed to Singapore&#39;s National Mirror Working Group for ISO/TC 194", category:'appointments' },
