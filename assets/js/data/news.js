@@ -29,6 +29,7 @@ const NEWS = [
     tone: 'orange',
     headline: "A/P Rosa receives the 2026 IADR Innovation in Oral Care Award",
     category: 'awards',
+    image: 'https://static.wixstatic.com/media/d8b7b0_0657c0ddf7f64489b6de910ea54c54fe~mv2.jpg/v1/fill/w_640,h_640,al_c,lg_1,q_85,enc_auto/rosa_new_edited_edited.jpg',
   },
   {
     id: 'n3',

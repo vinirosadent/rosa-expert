@@ -131,4 +131,9 @@ function renderGrid() {
 }
 
 // ── Init ───────────────────────────────────────────────────────
-document.getElementById('news-feat-primary').innerHTML  
+document.getElementById('news-feat-primary').innerHTML   = newsFeaturedHTML(NEWS[0]);
+document.getElementById('news-feat-secondary').innerHTML = NEWS.slice(1, 3).map(newsSecondaryHTML).join('');
+renderGrid();
+</script>
+</body>
+</html>
