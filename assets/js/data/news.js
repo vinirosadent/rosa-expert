@@ -49,7 +49,7 @@ var NEWS = [
     headline:"A/P Rosa joins the Editorial Board of JADA Foundational Science", category:'appointments' },
   { id:'n20', slug:'journal-prosthodontics-associate-editor-2020', source:'Journal of Prosthodontics',      date:'2020',          tone:'teal',
     headline:"A/P Rosa appointed Associate Editor of the Journal of Prosthodontics", category:'appointments' },
-  { id:'n21', slug:'emergent-materials-associate-editor-2019',     source:'Emergent Materials',             date:'2019',          tone:'teal',
+  { id:'n21', slug:'emergent-materials-associate-editor-2019',     source:'Emergent Materials',             date:'2019–2025',    tone:'teal',
     headline:"A/P Rosa appointed Associate Editor of Emergent Materials", category:'appointments' },
   { id:'n22', slug:'joe-scientific-advisory-board-2019',           source:'Journal of Endodontics',         date:'2019',          tone:'teal',
     headline:"A/P Rosa joins the Scientific Advisory Board of the Journal of Endodontics", category:'appointments' },
