@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Straits Times: Singapore's first Tooth Tissue Bank — Vinicius Rosa · NUS Faculty of Dentistry</title>
+<meta name="description" content="The Straits Times featured the NUCOHS Tooth Tissue Bank, Singapore's first centralised dental-tissue repository, built with NUS Dentistry and NUHS.">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+.art-page { min-height: 60vh; padding-bottom: var(--space-20); }
+.art-global { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter); }
+.art-back { display: inline-block; padding: 0; margin-bottom: 20px; font-size: 12px; font-weight: 500; color: var(--text-faint); text-decoration: none; }
+.art-back:hover { color: var(--text-muted); }
+.art-badge-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.art-badge { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
+.art-badge-blue { background: var(--wash-blue); color: var(--blue-700); }
+.art-badge-rule { flex: 1; height: 1px; background: var(--border-subtle); }
+.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
+.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
+.lang-opt:hover { color: var(--text-muted); }
+.lang-opt.active { color: var(--blue-700); }
+.lang-sep { color: var(--border-strong); user-select: none; }
+.art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
+.art-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); display: inline-block; flex-shrink: 0; }
+.art-headline { font-family: var(--font-serif); font-size: var(--fs-page-title); font-weight: 500; letter-spacing: -0.025em; line-height: 1.07; color: var(--text-strong); margin: 0 0 20px; }
+.art-deck { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0; }
+.aw-grid { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px; margin-top: 16px; }
+.aw-main { flex: 1 1 440px; max-width: 680px; min-width: 0; }
+.aw-main p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 22px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+.cov-figure { margin: 0 0 28px; }
+.cov-figure img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--border-subtle); }
+.cov-figcaption { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
+.art-pull { margin: 14px 0 34px; text-align: center; }
+.art-pull-mark { font-family: var(--font-serif); font-size: 88px; line-height: 0.6; color: var(--blue-200); user-select: none; display: block; margin-bottom: 10px; }
+.art-pull .art-pull-text { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
+.aw-rail { flex: 1 1 280px; max-width: 320px; min-width: 0; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px; }
+.aw-card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--blue-500); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; }
+.aw-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
+.aw-medal { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--blue-400), var(--blue-600)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow-sm); color: #fff; }
+.aw-card-head-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--blue-600); }
+.aw-card-head-org { font-family: var(--font-serif); font-size: 19px; font-weight: 500; color: var(--text-strong); line-height: 1.3; margin-top: 2px; }
+.aw-row { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); }
+.aw-row:last-of-type { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
+.aw-row-label { font-size: 13.5px; color: var(--text-muted); flex-shrink: 0; }
+.aw-row-value { font-size: 13.5px; font-weight: 600; color: var(--text-strong); text-align: right; }
+.aw-btn { margin-top: 22px; }
+.aw-callout { background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px 22px; }
+.aw-callout-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--blue-600); }
+.aw-callout p { margin: 11px 0 0; font-family: var(--font-serif); font-style: italic; font-size: 15px; line-height: 1.4; color: var(--text-strong); }
+.art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-8); padding-top: 20px; border-top: 1px solid var(--border-subtle); }
+.art-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--blue-700); border: 1.5px solid var(--border-strong); padding: 10px 20px; border-radius: 10px; text-decoration: none; }
+.art-cta:hover { border-color: var(--blue-400); }
+@media (max-width: 760px) { .aw-rail { position: static; max-width: none; flex-basis: 100%; } }
+@media (max-width: 600px) { .art-headline { line-height: 1.12; } }
+</style>
+</head>
+<body>
+<div id="app">
+<main class="art-page">
+  <div class="art-global" style="padding-top:24px;">
+    <a href="../news.html" class="art-back" data-i18n="back">← All news</a>
+    <div class="art-badge-row">
+      <span class="art-badge art-badge-blue" data-i18n="badge">Media Feature</span>
+      <div class="art-badge-rule"></div>
+      <div class="lang-switch" aria-label="Language">
+        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="zh">中文</button>
+      </div>
+    </div>
+    <div class="art-meta">
+      <span style="color:var(--blue-700);">The Straits Times</span>
+      <span class="art-meta-dot"></span>
+      <span data-i18n="date">July 2024</span>
+      <span class="art-meta-dot"></span>
+      <span data-i18n="read">4 min read</span>
+    </div>
+    <div class="aw-grid">
+      <div class="aw-main">
+        <h1 class="art-headline" data-i18n="headline">The Straits Times spotlights Singapore's first Tooth Tissue Bank and its role in advancing dental research</h1>
+        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">Singapore's national newspaper, The Straits Times, featured the NUCOHS Tooth Tissue Bank — Singapore's first dedicated repository of extracted human teeth for research, established at the National University Centre for Oral Health Singapore (NUCOHS) with the support of NUS Dentistry.</p>
+        <figure class="cov-figure">
+          <a href="https://www.straitstimes.com/multimedia/graphics/2024/07/tooth-tissue-bank-singapore/index.html?shell" target="_blank" rel="noopener"><img src="Assets/tooth-bank-st.png" alt="The Straits Times — Tooth Tissue Bank feature"></a>
+          <figcaption class="cov-figcaption"><span data-i18n="heroCaption">The Tooth Tissue Bank at the National University Centre for Oral Health Singapore (NUCOHS).</span> <span style="color:var(--text-faint);" data-i18n="heroSource">Source: The Straits Times.</span></figcaption>
+        </figure>
+        <p data-i18n="p1">What was once routinely discarded as biomedical waste is now being transformed into a valuable research resource.</p>
+        <p data-i18n="p2">Through a structured donation process, patients undergoing tooth extractions at NUCOHS are invited to contribute their extracted teeth for science. Donations are voluntary, donors remain anonymous to researchers, and samples are handled under established ethical and regulatory frameworks, including Singapore's Human Biomedical Research Act.</p>
+        <p data-i18n="p3">After collection, the teeth are decontaminated, stored, cleaned, sorted and catalogued by the Clinical Research Unit. Specimens are organised by tooth type — including incisors, canines, premolars and molars — and further classified according to their condition, such as intact, restored or carious teeth.</p>
+        <p data-i18n="p4">This creates a ready supply of biologically relevant samples for researchers who would otherwise spend months, or even years, recruiting patients and collecting teeth before a project could begin.</p>
+        <div class="art-pull"><span class="art-pull-mark">&ldquo;</span><p class="art-pull-text" data-i18n="pull">The Tooth Tissue Bank is more than a repository. It is research infrastructure.</p></div>
+        <p data-i18n="p5">The value of the Tooth Tissue Bank goes beyond storage. Teeth can be sectioned, trimmed and prepared into precise geometries for different experimental needs — from testing new restorative materials and bonding systems to studying caries, tooth structure, microbial infiltration and regenerative approaches.</p>
+        <p data-i18n="p6">As highlighted in the feature, one major research direction is dental pulp tissue engineering, where stem cells from extracted teeth may help regenerate the living soft tissue inside the tooth, including nerves and blood vessels.</p>
+        <p data-i18n="p7">By centralising access to high-quality donated teeth, the NUCOHS Tooth Tissue Bank removes a major bottleneck in translational dental research. It gives scientists faster access to standardised human dental tissues, supports more reproducible experiments, reduces biomedical waste and strengthens the link between clinical care and laboratory discovery.</p>
+        <p data-i18n="p8">In a field where new materials, therapies and regenerative technologies must be tested on real dental tissues before reaching patients, the Tooth Tissue Bank is more than a repository. It is research infrastructure — turning extracted teeth into a platform for developing better, safer and longer-lasting solutions for oral health.</p>
+        <div class="art-tags">
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagMedia">Media Feature</span>
+          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagBank">Tooth Tissue Bank</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagNucohs">NUCOHS</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span>
+        </div>
+        <div style="margin-top:16px;">
+          <a href="https://www.straitstimes.com/multimedia/graphics/2024/07/tooth-tissue-bank-singapore/index.html?shell" target="_blank" rel="noopener" class="art-cta" data-i18n="cta">Read the full feature on The Straits Times →</a>
+        </div>
+      </div>
+      <aside class="aw-rail">
+        <div class="aw-card">
+          <div class="aw-card-head">
+            <div class="aw-medal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg></div>
+            <div>
+              <div class="aw-card-head-label" data-i18n="cardKicker">The coverage</div>
+              <div class="aw-card-head-org">The Straits Times</div>
+            </div>
+          </div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowDate">Date</span><span class="aw-row-value" data-i18n="date">July 2024</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowType">Type</span><span class="aw-row-value" data-i18n="valType">National feature</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowReach">Reach</span><span class="aw-row-value" data-i18n="valReach">National daily</span></div>
+          <div class="aw-btn"><a href="https://www.straitstimes.com/multimedia/graphics/2024/07/tooth-tissue-bank-singapore/index.html?shell" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" data-i18n="cardBtn">Read the article →</a></div>
+        </div>
+        <div class="aw-callout">
+          <div class="aw-callout-label" data-i18n="calloutLabel">Headline</div>
+          <p data-i18n="calloutHeadline">Teeth wanted: How S'pore's first Tooth Tissue Bank is advancing dental research</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+</div><!-- /app -->
+<script src="../assets/js/shared.js"></script>
+<script>
+var I18N = {
+  en: {},
+  es: {
+    "back": "← Todas las noticias",
+    "badge": "Reportaje",
+    "date": "Julio de 2024",
+    "read": "4 min de lectura",
+    "headline": "The Straits Times destaca el primer Banco de Tejidos Dentarios de Singapur y su papel en el avance de la investigación dental",
+    "deck": "El periódico nacional de Singapur, The Straits Times, presentó el Banco de Tejidos Dentarios del NUCOHS, el primer repositorio especializado de Singapur de dientes humanos extraídos para investigación, establecido en el NUCOHS con el apoyo de la Facultad de Odontología de la NUS.",
+    "heroCaption": "El Banco de Tejidos Dentarios en el National University Centre for Oral Health Singapore (NUCOHS).",
+    "heroSource": "Fuente: The Straits Times.",
+    "p1": "Lo que antes se descartaba habitualmente como residuo biomédico ahora se está transformando en un valioso recurso de investigación.",
+    "p2": "A través de un proceso de donación estructurado, se invita a los pacientes que se someten a extracciones dentales en el NUCOHS a contribuir con sus dientes extraídos a la ciencia. Las donaciones son voluntarias, los donantes permanecen en el anonimato para los investigadores y las muestras se manejan bajo marcos éticos y regulatorios establecidos, incluida la Ley de Investigación Biomédica Humana de Singapur.",
+    "p3": "Después de la recolección, los dientes son descontaminados, almacenados, limpiados, clasificados y catalogados por la Unidad de Investigación Clínica. Los especímenes se organizan por tipo de diente —incluidos incisivos, caninos, premolares y molares— y se clasifican además según su condición, como dientes intactos, restaurados o cariados.",
+    "p4": "Esto crea un suministro disponible de muestras biológicamente relevantes para los investigadores que, de otro modo, pasarían meses o incluso años reclutando pacientes y recolectando dientes antes de que pudiera comenzar un proyecto.",
+    "pull": "El Banco de Tejidos Dentarios es más que un repositorio. Es infraestructura de investigación.",
+    "p5": "El valor del Banco de Tejidos Dentarios va más allá del almacenamiento. Los dientes se pueden seccionar, recortar y preparar en geometrías precisas para diferentes necesidades experimentales, desde probar nuevos materiales de restauración y sistemas de adhesión hasta estudiar la caries, la estructura dental, la infiltración microbiana y los enfoques regenerativos.",
+    "p6": "Como se destacó en el reportaje, una de las principales líneas de investigación es la ingeniería de tejidos de la pulpa dental, donde las células madre de los dientes extraídos pueden ayudar a regenerar el tejido blando vivo dentro del diente, incluidos los nervios y los vasos sanguíneos.",
+    "p7": "Al centralizar el acceso a dientes donados de alta calidad, el Banco de Tejidos Dentarios del NUCOHS elimina un cuello de botella importante en la investigación dental translacional. Permite a los científicos un acceso más rápido a tejidos dentales humanos estandarizados, respalda experimentos más reproducibles, reduce los residuos biomédicos y fortalece el vínculo entre la atención clínica y el descubrimiento de laboratorio.",
+    "p8": "En un campo donde los nuevos materiales, terapias y tecnologías regenerativas deben probarse en tejidos dentales reales antes de llegar a los pacientes, el Banco de Tejidos Dentarios es más que un repositorio. Es infraestructura de investigación: transforma los dientes extraídos en una plataforma para desarrollar soluciones mejores, más seguras y duraderas para la salud oral.",
+    "tagMedia": "Reportaje",
+    "tagBank": "Banco de Tejidos Dentarios",
+    "tagNucohs": "NUCOHS",
+    "cta": "Leer el reportaje completo en The Straits Times →",
+    "cardKicker": "La cobertura",
+    "rowDate": "Fecha",
+    "rowType": "Tipo",
+    "valType": "Reportaje nacional",
+    "rowReach": "Alcance",
+    "valReach": "Diario nacional",
+    "cardBtn": "Leer el artículo →",
+    "calloutLabel": "Titular",
+    "calloutHeadline": "Se buscan dientes: cómo el primer Banco de Tejidos Dentales de Singapur impulsa la investigación odontológica"
+  },
+  pt: {
+    "back": "← Todas as notícias",
+    "badge": "Reportagem",
+    "date": "Julho de 2024",
+    "read": "4 min de leitura",
+    "headline": "The Straits Times destaca o primeiro Banco de Tecidos Dentários de Cingapura e seu papel no avanço da pesquisa odontológica",
+    "deck": "O jornal nacional de Cingapura, The Straits Times, destacou o Banco de Tecidos Dentários do NUCOHS — o primeiro repositório especializado de Cingapura de dentes humanos extraídos para pesquisa, estabelecido no NUCOHS com o apoio da Faculdade de Odontologia da NUS.",
+    "heroCaption": "O Banco de Tecidos Dentários no National University Centre for Oral Health Singapore (NUCOHS).",
+    "heroSource": "Fonte: The Straits Times.",
+    "p1": "O que antes era rotineiramente descartado como lixo biomédico agora está sendo transformado em um valioso recurso de pesquisa.",
+    "p2": "Por meio de um processo de doação estruturado, os pacientes que passam por extrações dentárias no NUCOHS são convidados a contribuir com seus dentes extraídos para a ciência. As doações são voluntárias, os doadores permanecem anônimos para os pesquisadores e as amostras são manuseadas sob estruturas éticas e regulatórias estabelecidas, incluindo a Lei de Pesquisa Biomédica Humana de Cingapura (Human Biomedical Research Act).",
+    "p3": "Após a coleta, os dentes são descontaminados, armazenados, limpos, classificados e catalogados pela Unidade de Pesquisa Clínica. Os espécimes são organizados por tipo de dente — incluindo incisivos, caninos, pré-molares e molares — e posteriormente classificados de acordo com sua condição, como dentes intactos, restaurados ou cariados.",
+    "p4": "Isso cria um suprimento imediato de amostras biologicamente relevantes para pesquisadores que, de outra forma, passariam meses ou até anos recrutando pacientes e coletando dentes antes que um projeto pudesse começar.",
+    "pull": "O Banco de Tecidos Dentários é mais do que um repositório. É infraestrutura de pesquisa.",
+    "p5": "O valor do Banco de Tecidos Dentários vai além do armazenamento. Os dentes podem ser seccionados, desgastados e preparados em geometrias precisas para diferentes necessidades experimentais — desde o teste de novos materiais restauradores e sistemas de adesão até o estudo de cáries, estrutura dentária, infiltração microbiana e abordagens regenerativas.",
+    "p6": "Conforme destacado na reportagem, uma das principais linhas de pesquisa é a engenharia de tecidos da polpa dentária, onde células-tronco de dentes extraídos podem ajudar a regenerar o tecido mole vivo dentro do dente, incluindo nervos e vasos sanguíneos.",
+    "p7": "Ao centralizar o acesso a dentes doados de alta qualidade, o Banco de Tecidos Dentários do NUCOHS elimina um grande gargalo na pesquisa odontológica translacional. Ele dá aos cientistas um acesso mais rápido a tecidos dentários humanos padronizados, apoia experimentos mais reprodutíveis, reduz o lixo biomédico e fortalece o vínculo entre o atendimento clínico e a descoberta laboratorial.",
+    "p8": "Em um campo onde novos materiais, terapias e tecnologias regenerativas devem ser testados em tecidos dentários reais antes de chegar aos pacientes, o Banco de Tecidos Dentários é mais do que um repositório. É infraestrutura de pesquisa — transformando dentes extraídos em uma plataforma para o desenvolvimento de soluções melhores, mais seguras e duradouras para a saúde oral.",
+    "tagMedia": "Reportagem",
+    "tagBank": "Banco de Tecidos Dentários",
+    "tagNucohs": "NUCOHS",
+    "cta": "Ler a reportagem completa no The Straits Times →",
+    "cardKicker": "A cobertura",
+    "rowDate": "Data",
+    "rowType": "Tipo",
+    "valType": "Reportagem nacional",
+    "rowReach": "Alcance",
+    "valReach": "Jornal nacional",
+    "cardBtn": "Ler o artigo →",
+    "calloutLabel": "Manchete",
+    "calloutHeadline": "Procuram-se dentes: como o primeiro Banco de Tecidos Dentários de Cingapura impulsiona a pesquisa odontológica"
+  },
+  fr: {
+    "back": "← Toutes les actualités",
+    "badge": "Reportage",
+    "date": "Juillet 2024",
+    "read": "4 min de lecture",
+    "headline": "The Straits Times met en lumière la première banque de tissus dentaires de Singapour et son rôle dans l'avancement de la recherche dentaire",
+    "deck": "Le journal national de Singapour, The Straits Times, a présenté la banque de tissus dentaires du NUCOHS — le premier dépôt dédié de Singapour de dents humaines extraites pour la recherche, établi au Centre national universitaire de santé bucco-dentaire de Singapour (NUCOHS) avec le soutien de la faculté de médecine dentaire de la NUS.",
+    "heroCaption": "La Banque de tissus dentaires au National University Centre for Oral Health Singapore (NUCOHS).",
+    "heroSource": "Source : The Straits Times.",
+    "p1": "Ce qui était autrefois systématiquement jeté comme déchet biomédical est aujourd'hui transformé en une précieuse ressource de recherche.",
+    "p2": "Grâce à un processus de don structuré, les patients subissant des extractions dentaires au NUCOHS sont invités à faire don de leurs dents extraites à la science. Les dons sont volontaires, les donneurs restent anonymes pour les chercheurs et les échantillons sont manipulés dans des cadres éthiques et réglementaires établis, y compris la loi de Singapour sur la recherche biomédicale humaine (Human Biomedical Research Act).",
+    "p3": "Après la collecte, les dents sont décontaminées, stockées, nettoyées, triées et cataloguées par l'unité de recherche clinique. Les spécimens sont organisés par type de dent — y compris les incisives, les canines, les prémolaires et les molaires — et classés en outre selon leur état, comme les dents intactes, restaurées ou cariées.",
+    "p4": "Cela crée un approvisionnement immédiat en échantillons biologiquement pertinents pour les chercheurs qui, autrement, passeraient des mois, voire des années, à recruter des patients et à collecter des dents avant qu'un projet ne puisse commencer.",
+    "pull": "La banque de tissus dentaires est plus qu'un simple dépôt. Il s'agit d'une infrastructure de recherche.",
+    "p5": "La valeur de la banque de tissus dentaires va au-delà du stockage. Les dents peuvent être sectionnées, taillées et préparées selon des géométries précises pour différents besoins expérimentaux — du test de nouveaux matériaux de restauration et systèmes de collage à l'étude des caries, de la structure dentaire, de l'infiltration microbienne et des approches régénératives.",
+    "p6": "Comme le souligne le reportage, l'un des principaux axes de recherche est l'ingénierie tissulaire de la pulpe dentaire, où les cellules souches issues de dents extraites peuvent aider à régénérer le tissu mou vivant à l'intérieur de la dent, y compris les nerfs et les vaisseaux sanguins.",
+    "p7": "En centralisant l'accès à des dents données de haute qualité, la banque de tissus dentaires du NUCOHS élimine un goulot d'étranglement majeur dans la recherche dentaire translationnelle. Elle permet aux scientifiques d'accéder plus rapidement à des tissus dentaires humains standardisés, soutient des expériences plus reproductibles, réduit les déchets biomédicaux et renforce le lien entre les soins cliniques et les découvertes de laboratoire.",
+    "p8": "Dans un domaine où les nouveaux matériaux, les thérapies et les technologies régénératives doivent être testés sur de vrais tissus dentaires avant d'atteindre les patients, la banque de tissus dentaires est plus qu'un simple dépôt. Il s'agit d'une infrastructure de recherche qui transforme les dents extraites en une plateforme de développement de solutions meilleures, plus sûres et plus durables pour la santé bucco-dentaire.",
+    "tagMedia": "Reportage",
+    "tagBank": "Banque de tissus dentaires",
+    "tagNucohs": "NUCOHS",
+    "cta": "Lire le reportage complet dans The Straits Times →",
+    "cardKicker": "La couverture",
+    "rowDate": "Date",
+    "rowType": "Type",
+    "valType": "Reportage national",
+    "rowReach": "Audience",
+    "valReach": "Quotidien national",
+    "cardBtn": "Lire l'article →",
+    "calloutLabel": "Titre",
+    "calloutHeadline": "Dents recherchées : comment la première Banque de tissus dentaires de Singapour fait avancer la recherche"
+  },
+  zh: {
+    "back": "← 所有新闻",
+    "badge": "媒体报道",
+    "date": "2024年7月",
+    "read": "阅读时间 4 分钟",
+    "headline": "《海峡时报》聚焦新加坡首家牙齿组织库及其在推进牙科研究中的作用",
+    "deck": "新加坡国家日报《海峡时报》（The Straits Times）对新加坡国立大学口腔健康中心（NUCOHS）牙齿组织库进行了专题报道，该组织库是新加坡首家专门用于研究的人类离体牙齿存储机构，在新加坡国立大学牙医学院的支持下设立。",
+    "heroCaption": "位于新加坡国立大学口腔健康中心（NUCOHS）的牙齿组织库。",
+    "heroSource": "来源：《海峡时报》。",
+    "p1": "曾经被作为生物医药废物常规丢弃的离体牙齿，如今正在被转化为宝贵的科研资源。",
+    "p2": "通过系统化的捐赠流程，在 NUCOHS 接受拔牙手术的患者被邀请将其拔除的牙齿捐献给科学事业。捐赠完全遵循自愿原则，捐赠者对研究人员保持匿名，且所有样本的操作均在成熟的伦理与法规框架下进行，包括新加坡的《人类生物医学研究法》（Human Biomedical Research Act）。",
+    "p3": "样本采集后，将由临床研究部（Clinical Research Unit）进行去污染、储存、清洁、分类和编目。标本按牙齿类型（包括切牙、尖牙、前磨牙和磨牙）进行组织整理，并根据其健康状况（如完好牙、已修复牙或龋齿）进行进一步分类。",
+    "p4": "这为科研人员提供了即调即用的生物学相关样本，否则，在项目启动前，他们需要花费数月甚至数年的时间来招募患者并收集牙齿。",
+    "pull": "牙齿组织库绝非仅是一个存储库。它是一项核心科研基础设施。",
+    "p5": "牙齿组织库的价值绝不仅限于存储。离体牙齿可以被切片、修整并制备成精密几何形状，以满足不同的实验需求——从测试新型修复材料和粘接系统，到研究龋齿、牙齿结构、微生物浸润以及再生医学方法。",
+    "p6": "正如专题报道中所强调的，其中一个重大的研究方向是牙髓组织工程，即利用离体牙齿中的干细胞来帮助再生牙齿内部的活体软组织，包括神经和血管。",
+    "p7": "通过对高质量捐赠牙齿进行集中化管理与分拨，NUCOHS 牙齿组织库消除了口腔转化医学研究中的主要瓶颈。它使科学家能够更快地获取标准化的活体人类牙齿组织，支持更具可重复性的科学实验，减少了医药废弃物，并显著增强了临床护理与实验室发现之间的战略纽带。",
+    "p8": "在一个新型材料、疗法和再生技术在临床应用前必须先在真实人类牙齿组织上进行全面验证的领域中，牙齿组织库绝非仅是一个存储库。它是一项核心科研基础设施——将离体牙齿转化为一个开发更优、更安全、更长效口腔大健康解决方案的技术平台。",
+    "tagMedia": "媒体报道",
+    "tagBank": "牙齿组织库",
+    "tagNucohs": "NUCOHS",
+    "cta": "在《海峡时报》阅读完整报道 →",
+    "cardKicker": "媒体报道",
+    "rowDate": "日期",
+    "rowType": "类型",
+    "valType": "全国性报道",
+    "rowReach": "覆盖",
+    "valReach": "全国性日报",
+    "cardBtn": "阅读原文 →",
+    "calloutLabel": "标题",
+    "calloutHeadline": "征集牙齿：新加坡首家牙齿组织库如何推进牙科研究"
+  }
+};
+(function () {
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {}; nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; }); I18N.en = EN;
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'); if (dict[k] != null) el.innerHTML = dict[k]; });
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.querySelectorAll('.lang-opt').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); }); });
+})();
+</script>
+</body>
+</html>

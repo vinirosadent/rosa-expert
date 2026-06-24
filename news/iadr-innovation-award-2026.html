@@ -20,6 +20,13 @@
 .art-badge-orange { background: var(--wash-orange); color: var(--orange-600); }
 .art-badge-rule { flex: 1; height: 1px; background: var(--border-subtle); }
 
+/* language switch (text-only, elegant) */
+.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
+.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
+.lang-opt:hover { color: var(--text-muted); }
+.lang-opt.active { color: var(--blue-700); }
+.lang-sep { color: var(--border-strong); user-select: none; }
+
 /* meta line */
 .art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
 .art-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); display: inline-block; flex-shrink: 0; }
@@ -48,7 +55,7 @@
 /* pull-quote */
 .art-pull { margin: 14px 0 34px; text-align: center; }
 .art-pull-mark { font-family: var(--font-serif); font-size: 88px; line-height: 0.6; color: var(--orange-200); user-select: none; display: block; margin-bottom: 10px; }
-.art-pull-text { font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
+.art-pull .art-pull-text { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
 
 /* rail */
 .aw-rail { flex: 1 1 280px; max-width: 320px; min-width: 0; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px; }
@@ -88,19 +95,26 @@
 
   <div class="art-global" style="padding-top:24px;">
 
-    <a href="../news.html" class="art-back">← All news</a>
+    <a href="../news.html" class="art-back" data-i18n="back">← All news</a>
 
-    <!-- kicker: badge + extending rule + meta — full content width (estende a linha) -->
+    <!-- kicker: badge + extending rule + language switch -->
     <div class="art-badge-row">
-      <span class="art-badge art-badge-orange">Award</span>
+      <span class="art-badge art-badge-orange" data-i18n="badge">Award</span>
       <div class="art-badge-rule"></div>
+      <div class="lang-switch" id="lang-switch" aria-label="Language">
+        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="zh">中文</button>
+      </div>
     </div>
     <div class="art-meta">
       <span style="color:var(--orange-600);">IADR</span>
       <span class="art-meta-dot"></span>
-      <span>March 2026</span>
+      <span data-i18n="date">March 2026</span>
       <span class="art-meta-dot"></span>
-      <span>2 min read</span>
+      <span data-i18n="read">2 min read</span>
     </div>
 
     <!-- DISTINCTIVE: two-column body — card top aligns with the title -->
@@ -109,61 +123,61 @@
       <!-- main column -->
       <div class="aw-main">
 
-        <h1 class="art-headline">A/P Rosa receives the 2026 IADR Innovation in Oral Care Award</h1>
-        <p class="art-deck" style="margin-bottom:28px;">A highly competitive international award recognising technologies and biomaterials with the potential to improve oral health at population level.</p>
+        <h1 class="art-headline" data-i18n="headline">A/P Rosa receives the 2026 IADR Innovation in Oral Care Award</h1>
+        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">A highly competitive international award recognising technologies and biomaterials with the potential to improve oral health at population level.</p>
 
         <!-- award photo (locked 4:3) -->
         <figure class="award-figure">
           <div class="award-figure-box">
             <img src="Assets/iadr-ceremony.jpg" alt="A/P Vinicius Rosa holding the 2026 IADR Innovation in Oral Care Award at NUS Faculty of Dentistry" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <figcaption class="award-figcaption"><b style="color:var(--text-strong);">A/P Vinicius Rosa</b> receives the 2026 IADR Innovation in Oral Care Award. <span style="color:var(--text-faint);">Photo: IADR.</span></figcaption>
+          <figcaption class="award-figcaption"><b style="color:var(--text-strong);" data-i18n="figName">A/P Vinicius Rosa</b> <span data-i18n="figBody">receives the 2026 IADR Innovation in Oral Care Award.</span> <span style="color:var(--text-faint);" data-i18n="figCredit">Photo: IADR.</span></figcaption>
         </figure>
 
-        <p>Associate Professor Vinicius Rosa has received the 2026 IADR Innovation in Oral Care Award, a highly competitive international recognition given by the International Association for Dental, Oral and Craniofacial Research (IADR) and sponsored by Haleon.</p>
-        <p>The award supports the development of new technologies, biomaterials, compounds and devices with the potential to improve oral health in everyday settings and at the population level. It recognises work that bridges fundamental materials science and translational impact.</p>
+        <p data-i18n="p1">Associate Professor Vinicius Rosa has received the 2026 IADR Innovation in Oral Care Award, a highly competitive international recognition given by the International Association for Dental, Oral and Craniofacial Research (IADR) and sponsored by Haleon.</p>
+        <p data-i18n="p2">The award supports the development of new technologies, biomaterials, compounds and devices with the potential to improve oral health in everyday settings and at the population level. It recognises work that bridges fundamental materials science and translational impact.</p>
 
         <div class="art-pull">
           <span class="art-pull-mark">&ldquo;</span>
-          <p class="art-pull-text">The award supports technologies and biomaterials with the potential to improve oral health at the population level.</p>
+          <p class="art-pull-text" data-i18n="pull">The award supports technologies and biomaterials with the potential to improve oral health at the population level.</p>
         </div>
 
-        <p>A/P Rosa's research integrates biomaterials design with artificial intelligence to create more predictive, human-relevant platforms for testing the safety and bioactivity of dental materials — an approach with potential applications well beyond oral healthcare.</p>
-        <p>The recognition reflects the growing scientific, translational and societal relevance of A/P Rosa's research, and reinforces Singapore's role in advancing biomedical innovation with impact beyond oral healthcare.</p>
+        <p data-i18n="p3">A/P Rosa's research integrates biomaterials design with artificial intelligence to create more predictive, human-relevant platforms for testing the safety and bioactivity of dental materials — an approach with potential applications well beyond oral healthcare.</p>
+        <p data-i18n="p4">The recognition reflects the growing scientific, translational and societal relevance of A/P Rosa's research, and reinforces Singapore's role in advancing biomedical innovation with impact beyond oral healthcare.</p>
 
         <div class="art-tags">
-          <span class="tag tag-orange" style="text-transform:none;letter-spacing:.02em;">Award</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">Oral Care Innovation</span>
-          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">Biomaterials</span>
+          <span class="tag tag-orange" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagAward">Award</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagOCI">Oral Care Innovation</span>
+          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagBio">Biomaterials</span>
           <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">IADR</span>
         </div>
         <div style="margin-top:16px;">
-          <a href="https://www.iadr.org/awards/iadr-innovation-oral-care-awards" target="_blank" rel="noopener" class="art-cta">About the IADR Innovation in Oral Care Award →</a>
+          <a href="https://www.iadr.org/awards/iadr-innovation-oral-care-awards" target="_blank" rel="noopener" class="art-cta" data-i18n="cta">About the IADR Innovation in Oral Care Award →</a>
         </div>
       </div>
 
-      <!-- award card rail (like Nomeação) -->
+      <!-- award card rail -->
       <aside class="aw-rail">
         <div class="aw-card">
           <div class="aw-card-head">
             <div class="aw-medal"><span>&#9733;</span></div>
             <div>
-              <div class="aw-card-head-label">The award</div>
+              <div class="aw-card-head-label" data-i18n="cardKicker">The award</div>
               <div class="aw-card-head-org">IADR Innovation in Oral Care</div>
             </div>
           </div>
-          <div class="aw-row"><span class="aw-row-label">Presented by</span><span class="aw-row-value">International Association for Dental, Oral and Craniofacial Research</span></div>
-          <div class="aw-row"><span class="aw-row-label">Sponsor</span><span class="aw-row-value">Haleon</span></div>
-          <div class="aw-row"><span class="aw-row-label">Year</span><span class="aw-row-value">2026</span></div>
-          <div class="aw-row"><span class="aw-row-label">Field</span><span class="aw-row-value">Oral Care Innovation</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowPresentedBy">Presented by</span><span class="aw-row-value" data-i18n="valPresentedBy">International Association for Dental, Oral and Craniofacial Research</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowSponsor">Sponsor</span><span class="aw-row-value">Haleon</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowYear">Year</span><span class="aw-row-value">2026</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowField">Field</span><span class="aw-row-value" data-i18n="valField">Oral Care Innovation</span></div>
           <div class="aw-btn">
-            <a href="https://www.iadr.org/awards/iadr-innovation-oral-care-awards" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">About the award →</a>
+            <a href="https://www.iadr.org/awards/iadr-innovation-oral-care-awards" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" data-i18n="cardBtn">About the award →</a>
           </div>
         </div>
 
         <div class="aw-callout">
-          <div class="aw-callout-label">Why it matters</div>
-          <p>The award recognises work with the potential to improve oral health at population level — bridging materials science and translational impact.</p>
+          <div class="aw-callout-label" data-i18n="calloutLabel">Why it matters</div>
+          <p data-i18n="calloutP">The award recognises work with the potential to improve oral health at population level — bridging materials science and translational impact.</p>
         </div>
       </aside>
 
@@ -174,5 +188,99 @@
 </div><!-- /app -->
 
 <script src="../assets/js/shared.js"></script>
+<script>
+/* ── In-page translations (EN source + ES/PT/FR/ZH from rosa_news_*_full_translation) ── */
+var I18N = {
+  en: {},
+  es: {
+    back: "← Todas las noticias", badge: "Premio", date: "Marzo de 2026", read: "2 min de lectura",
+    headline: "A/P Rosa recibe el Premio a la Innovación en Cuidado Oral IADR 2026",
+    deck: "Un premio internacional altamente competitivo que reconoce tecnologías y biomateriales con el potencial de mejorar la salud oral a nivel poblacional.",
+    figName: "A/P Vinicius Rosa", figBody: "recibe el Premio a la Innovación en Cuidado Oral IADR 2026.", figCredit: "Foto: IADR.",
+    p1: "El Profesor Asociado Vinicius Rosa recibió el Premio a la Innovación en Cuidado Oral IADR 2026, un reconocimiento internacional altamente competitivo otorgado por la Asociación Internacional de Investigación Dental, Oral y Craneofacial (IADR) y patrocinado por Haleon.",
+    p2: "El premio respalda el desarrollo de nuevas tecnologías, biomateriales, compuestos y dispositivos con el potencial de mejorar la salud oral en entornos cotidianos y a nivel poblacional. Reconoce el trabajo que conecta la ciencia fundamental de los materiales con el impacto traslacional.",
+    pull: "El premio respalda tecnologías y biomateriales con el potencial de mejorar la salud oral a nivel poblacional.",
+    p3: "La investigación de A/P Rosa integra el diseño de biomateriales con la inteligencia artificial para crear plataformas más predictivas y relevantes para el ser humano, destinadas a evaluar la seguridad y la bioactividad de los materiales dentales — un enfoque con aplicaciones potenciales mucho más allá de la salud oral.",
+    p4: "El reconocimiento refleja la creciente relevancia científica, traslacional y social de la investigación de A/P Rosa, y refuerza el papel de Singapur en el avance de la innovación biomédica con un impacto que trasciende la salud oral.",
+    tagAward: "Premio", tagOCI: "Innovación en Cuidado Oral", tagBio: "Biomateriales",
+    cta: "Sobre el Premio a la Innovación en Cuidado Oral IADR →",
+    cardKicker: "El premio", rowPresentedBy: "Otorgado por", valPresentedBy: "Asociación Internacional de Investigación Dental, Oral y Craneofacial",
+    rowSponsor: "Patrocinador", rowYear: "Año", rowField: "Campo", valField: "Innovación en Cuidado Oral",
+    cardBtn: "Sobre el premio →", calloutLabel: "Por qué importa",
+    calloutP: "El premio reconoce un trabajo con el potencial de mejorar la salud oral a nivel poblacional, conectando la ciencia de los materiales con el impacto traslacional."
+  },
+  pt: {
+    back: "← Todas as notícias", badge: "Prêmio", date: "Março de 2026", read: "2 min de leitura",
+    headline: "A/P Rosa recebe o Prêmio de Inovação em Cuidados Orais da IADR 2026",
+    deck: "Um prêmio internacional altamente competitivo que reconhece tecnologias e biomateriais com potencial para melhorar a saúde oral em nível populacional.",
+    figName: "A/P Vinicius Rosa", figBody: "recebe o Prêmio de Inovação em Cuidados Orais da IADR 2026.", figCredit: "Foto: IADR.",
+    p1: "O Professor Associado Vinicius Rosa recebeu o Prêmio de Inovação em Cuidados Orais da IADR 2026, um reconhecimento internacional altamente competitivo concedido pela Associação Internacional de Pesquisa Dental, Oral e Craniofacial (IADR) e patrocinado pela Haleon.",
+    p2: "O prêmio apoia o desenvolvimento de novas tecnologias, biomateriais, compostos e dispositivos com potencial para melhorar a saúde oral no dia a dia e em nível populacional. Reconhece o trabalho que conecta a ciência fundamental dos materiais ao impacto translacional.",
+    pull: "O prêmio apoia tecnologias e biomateriais com potencial para melhorar a saúde oral em nível populacional.",
+    p3: "A pesquisa de A/P Rosa integra o design de biomateriais à inteligência artificial para criar plataformas mais preditivas e relevantes para o ser humano, voltadas a avaliar a segurança e a bioatividade dos materiais dentários — uma abordagem com aplicações potenciais muito além da saúde oral.",
+    p4: "O reconhecimento reflete a crescente relevância científica, translacional e social da pesquisa de A/P Rosa e reforça o papel de Singapura no avanço da inovação biomédica, com impacto além da saúde oral.",
+    tagAward: "Prêmio", tagOCI: "Inovação em Cuidados Orais", tagBio: "Biomateriais",
+    cta: "Sobre o Prêmio de Inovação em Cuidados Orais da IADR →",
+    cardKicker: "O prêmio", rowPresentedBy: "Concedido por", valPresentedBy: "Associação Internacional de Pesquisa Dental, Oral e Craniofacial",
+    rowSponsor: "Patrocínio", rowYear: "Ano", rowField: "Área", valField: "Inovação em Cuidados Orais",
+    cardBtn: "Sobre o prêmio →", calloutLabel: "Por que importa",
+    calloutP: "O prêmio reconhece um trabalho com potencial para melhorar a saúde oral em nível populacional, conectando a ciência dos materiais ao impacto translacional."
+  },
+  fr: {
+    back: "← Toutes les actualités", badge: "Prix", date: "Mars 2026", read: "2 min de lecture",
+    headline: "A/P Rosa reçoit le prix IADR Innovation in Oral Care 2026",
+    deck: "Une distinction internationale très compétitive qui récompense les technologies et les biomatériaux susceptibles d'améliorer la santé bucco-dentaire à l'échelle des populations.",
+    figName: "A/P Vinicius Rosa", figBody: "reçoit le prix IADR Innovation in Oral Care 2026.", figCredit: "Photo : IADR.",
+    p1: "Le professeur associé Vinicius Rosa a reçu le prix IADR Innovation in Oral Care 2026, une reconnaissance internationale très compétitive décernée par l'Association internationale pour la recherche dentaire, orale et craniofaciale (IADR) et parrainée par Haleon.",
+    p2: "Le prix soutient le développement de nouvelles technologies, de biomatériaux, de composés et de dispositifs susceptibles d'améliorer la santé bucco-dentaire au quotidien et à l'échelle des populations. Il récompense les travaux qui relient la science fondamentale des matériaux à l'impact translationnel.",
+    pull: "Le prix soutient des technologies et des biomatériaux susceptibles d'améliorer la santé bucco-dentaire à l'échelle des populations.",
+    p3: "Les recherches de A/P Rosa associent la conception de biomatériaux à l'intelligence artificielle afin de créer des plateformes plus prédictives et pertinentes pour l'humain, destinées à évaluer la sécurité et la bioactivité des matériaux dentaires — une approche dont les applications potentielles dépassent largement la santé bucco-dentaire.",
+    p4: "Cette distinction reflète la pertinence scientifique, translationnelle et sociétale croissante des travaux de A/P Rosa et renforce le rôle de Singapour dans l'avancement de l'innovation biomédicale, avec un impact qui dépasse la santé bucco-dentaire.",
+    tagAward: "Prix", tagOCI: "Innovation en soins bucco-dentaires", tagBio: "Biomatériaux",
+    cta: "À propos du prix IADR Innovation in Oral Care →",
+    cardKicker: "Le prix", rowPresentedBy: "Décerné par", valPresentedBy: "Association internationale pour la recherche dentaire, orale et craniofaciale",
+    rowSponsor: "Parrain", rowYear: "Année", rowField: "Domaine", valField: "Innovation en soins bucco-dentaires",
+    cardBtn: "À propos du prix →", calloutLabel: "Pourquoi c'est important",
+    calloutP: "Le prix récompense des travaux susceptibles d'améliorer la santé bucco-dentaire à l'échelle des populations, en reliant la science des matériaux à l'impact translationnel."
+  },
+  zh: {
+    back: "← 所有新闻", badge: "奖项", date: "2026年3月", read: "阅读时间 2 分钟",
+    headline: "Rosa 副教授荣获 2026 年 IADR 口腔护理创新奖",
+    deck: "这是一项竞争激烈的国际大奖，旨在表彰有望在人群层面改善口腔健康的技术与生物材料。",
+    figName: "Rosa 副教授", figBody: "荣获 2026 年 IADR 口腔护理创新奖。", figCredit: "图片：IADR。",
+    p1: "副教授 Vinicius Rosa 荣获 2026 年 IADR 口腔护理创新奖。这是一项竞争激烈的国际荣誉，由国际牙科、口腔和颅面研究协会（IADR）颁发，并由赫力昂（Haleon）赞助。",
+    p2: "该奖项支持开发有望在日常场景和人群层面改善口腔健康的新技术、生物材料、化合物与器械，并表彰将基础材料科学与转化应用相衔接的研究工作。",
+    pull: "该奖项支持有望在人群层面改善口腔健康的技术与生物材料。",
+    p3: "Rosa 副教授的研究将生物材料设计与人工智能相结合，构建更具预测性、更贴近人体的平台，用于检测牙科材料的安全性与生物活性——其潜在应用远不止于口腔健康领域。",
+    p4: "这一荣誉体现了 Rosa 副教授研究日益增长的科学、转化与社会意义，也彰显了新加坡在推动生物医学创新方面的作用——其影响超越口腔健康领域。",
+    tagAward: "奖项", tagOCI: "口腔护理创新", tagBio: "生物材料",
+    cta: "了解 IADR 口腔护理创新奖 →",
+    cardKicker: "该奖项", rowPresentedBy: "颁发机构", valPresentedBy: "国际牙科、口腔和颅面研究协会",
+    rowSponsor: "赞助商", rowYear: "年份", rowField: "领域", valField: "口腔护理创新",
+    cardBtn: "了解该奖项 →", calloutLabel: "意义所在",
+    calloutP: "该奖项表彰有望在人群层面改善口腔健康的研究，将材料科学与转化应用相连接。"
+  }
+};
+(function () {
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {};
+  nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; });
+  I18N.en = EN;
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    nodes.forEach(function (el) {
+      var k = el.getAttribute('data-i18n');
+      if (dict[k] != null) el.innerHTML = dict[k];
+    });
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.querySelectorAll('.lang-opt').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); });
+  });
+})();
+</script>
 </body>
 </html>

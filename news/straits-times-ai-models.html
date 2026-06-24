@@ -8,145 +8,145 @@
 <link rel="stylesheet" href="../assets/css/tokens.css">
 <link rel="stylesheet" href="../assets/css/components.css">
 <style>
-/* ── Article page (shared with news/_template.html) ───────── */
 .art-page { min-height: 60vh; padding-bottom: var(--space-20); }
 .art-global { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter); }
 .art-back { display: inline-block; padding: 0; margin-bottom: 20px; font-size: 12px; font-weight: 500; color: var(--text-faint); text-decoration: none; }
 .art-back:hover { color: var(--text-muted); }
-.art-master { max-width: 100%; margin: 0; }
-
-/* badge + extending rule */
 .art-badge-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
 .art-badge { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
 .art-badge-blue { background: var(--wash-blue); color: var(--blue-700); }
 .art-badge-rule { flex: 1; height: 1px; background: var(--border-subtle); }
-
-/* meta line */
+.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
+.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
+.lang-opt:hover { color: var(--text-muted); }
+.lang-opt.active { color: var(--blue-700); }
+.lang-sep { color: var(--border-strong); user-select: none; }
 .art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
 .art-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); display: inline-block; flex-shrink: 0; }
-
-/* headline + deck */
-.art-headline { font-family: var(--font-serif); font-size: var(--fs-page-title); font-weight: 500; letter-spacing: -0.025em; line-height: 1.07; color: var(--text-strong); margin: 0 0 20px; max-width: 900px; }
-.art-deck { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0; max-width: 720px; }
-
-/* body */
-.art-body { margin-top: 36px; }
-.art-body p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 22px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; max-width: 760px; }
-
-/* tags */
-.art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-8); padding-top: 20px; border-top: 1px solid var(--border-subtle); }
-
-/* ── DISTINCTIVE: coverage card lead (Media · "Cobertura em destaque") ── */
-.cov-card {
-  margin-top: 36px;
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  background: var(--surface-card);
-}
-.cov-head { padding: 22px 24px 18px; border-bottom: 1px solid var(--border-subtle); }
-.cov-head-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-.cov-source { font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--blue-700); }
-.cov-label { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--teal-600); }
-.cov-quote { margin-top: 12px; font-family: var(--font-serif); font-size: clamp(20px, 2.6vw, 26px); line-height: 1.28; color: var(--text-strong); }
-.cov-img { aspect-ratio: 16/9; background: linear-gradient(135deg, var(--teal-100), var(--blue-100) 65%, var(--blue-200)); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--teal-600); }
-.cov-img svg { opacity: .8; }
-.cov-img span { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
-.cov-foot { padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-.cov-caption { flex: 1 1 280px; min-width: 0; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
-
-/* pull-quote */
-.art-pull { margin: 10px 0 38px; text-align: center; }
+.art-headline { font-family: var(--font-serif); font-size: var(--fs-page-title); font-weight: 500; letter-spacing: -0.025em; line-height: 1.07; color: var(--text-strong); margin: 0 0 20px; }
+.art-deck { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0; }
+.aw-grid { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px; margin-top: 16px; }
+.aw-main { flex: 1 1 440px; max-width: 680px; min-width: 0; }
+.aw-main p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 22px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+.cov-figure { margin: 0 0 28px; }
+.cov-ph { aspect-ratio: 16/9; border-radius: 12px; border: 1px solid var(--border-subtle); background: linear-gradient(135deg, var(--teal-100), var(--blue-100) 65%, var(--blue-200)); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--teal-600); }
+.cov-ph span { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.cov-figcaption { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
+.art-pull { margin: 14px 0 34px; text-align: center; }
 .art-pull-mark { font-family: var(--font-serif); font-size: 88px; line-height: 0.6; color: var(--blue-200); user-select: none; display: block; margin-bottom: 10px; }
-.art-pull-text { font-family: var(--font-serif); font-style: italic; font-size: 23px; line-height: 1.44; color: var(--text-strong); max-width: 460px; margin: 0 auto; }
-
+.art-pull .art-pull-text { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 23px; line-height: 1.44; color: var(--text-strong); max-width: 460px; margin: 0 auto; }
+.aw-rail { flex: 1 1 280px; max-width: 320px; min-width: 0; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px; }
+.aw-card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--blue-500); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; }
+.aw-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
+.aw-medal { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--blue-400), var(--blue-600)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow-sm); color: #fff; }
+.aw-card-head-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--blue-600); }
+.aw-card-head-org { font-family: var(--font-serif); font-size: 19px; font-weight: 500; color: var(--text-strong); line-height: 1.3; margin-top: 2px; }
+.aw-row { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); }
+.aw-row:last-of-type { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
+.aw-row-label { font-size: 13.5px; color: var(--text-muted); flex-shrink: 0; }
+.aw-row-value { font-size: 13.5px; font-weight: 600; color: var(--text-strong); text-align: right; }
+.aw-btn { margin-top: 22px; }
+.aw-callout { background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px 22px; }
+.aw-callout-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--blue-600); }
+.aw-callout p { margin: 11px 0 0; font-family: var(--font-serif); font-style: italic; font-size: 15px; line-height: 1.4; color: var(--text-strong); }
+.art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-8); padding-top: 20px; border-top: 1px solid var(--border-subtle); }
 .art-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--blue-700); border: 1.5px solid var(--border-strong); padding: 10px 20px; border-radius: 10px; text-decoration: none; }
 .art-cta:hover { border-color: var(--blue-400); }
-
+@media (max-width: 760px) { .aw-rail { position: static; max-width: none; flex-basis: 100%; } }
 @media (max-width: 600px) { .art-headline { line-height: 1.12; } }
 </style>
 </head>
 <body>
 <div id="app">
 <main class="art-page">
-
-  <!-- Article master column -->
   <div class="art-global" style="padding-top:24px;">
-    <a href="../news.html" class="art-back">← All news</a>
-    <div class="art-master">
-      <article lang="en">
-
-        <div class="art-badge-row">
-          <span class="art-badge art-badge-blue">Media Feature</span>
-          <div class="art-badge-rule"></div>
+    <a href="../news.html" class="art-back" data-i18n="back">← All news</a>
+    <div class="art-badge-row">
+      <span class="art-badge art-badge-blue" data-i18n="badge">Media Feature</span>
+      <div class="art-badge-rule"></div>
+      <div class="lang-switch" aria-label="Language">
+        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="zh">中文</button>
+      </div>
+    </div>
+    <div class="art-meta">
+      <span style="color:var(--blue-700);">The Straits Times</span>
+      <span class="art-meta-dot"></span>
+      <span data-i18n="date">May 2026</span>
+      <span class="art-meta-dot"></span>
+      <span data-i18n="read">5 min read</span>
+    </div>
+    <div class="aw-grid">
+      <div class="aw-main">
+        <h1 class="art-headline" data-i18n="headline">A/P Rosa's AI-enabled “living” laboratory models featured by The Straits Times</h1>
+        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">Research developed at NUS Dentistry was highlighted by Singapore's national newspaper for its potential to make biomedical testing safer, faster, and more predictive.</p>
+        <figure class="cov-figure">
+          <div class="cov-ph"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span>Coverage screenshot · 16 : 9</span></div>
+          <figcaption class="cov-figcaption"><span data-i18n="heroCaption">A/P Rosa shines a light source on a hydrogel at the National University Centre for Oral Health Singapore.</span> <span style="color:var(--text-faint);" data-i18n="heroSource">Source: The Straits Times.</span></figcaption>
+        </figure>
+        <p data-i18n="p1">Associate Professor Vinicius Rosa's research on AI-enabled “living” laboratory models was featured in The Straits Times in May 2026, highlighting work developed by his team at the National University of Singapore Faculty of Dentistry.</p>
+        <p data-i18n="p2">The article presents the team's efforts to create advanced hydrogel-based systems that better replicate the behaviour of human tissues during biomedical testing. Traditional laboratory models rely on static cell culture systems that do not fully capture the complex, changing conditions found inside the human body.</p>
+        <p data-i18n="p3">A/P Rosa's approach addresses this by developing dynamic biomaterial platforms that can evolve over time — allowing researchers to study how cells respond to changing biological environments such as inflammation, acidity, tissue degradation, and repair.</p>
+        <div class="art-pull"><span class="art-pull-mark">&ldquo;</span><p class="art-pull-text" data-i18n="pull">We are not petri dishes.</p></div>
+        <p data-i18n="p4">A key aspect of the research is the integration of artificial intelligence with biomaterials design. Instead of relying on trial-and-error experimentation, the team uses AI models trained on real experimental data to guide the composition and properties of hydrogel systems — designing biomaterials around predicted cell behaviour and specific biological conditions.</p>
+        <p data-i18n="p5">Although the work was initially developed using dental pulp models, its potential extends well beyond dentistry. The same approach could be adapted to study other tissues — including gum, cartilage, bone, and disease-related environments such as cancer models.</p>
+        <div class="art-tags">
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagMedia">Media Feature</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagAI">Artificial Intelligence</span>
+          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagBio">Biomaterials</span>
+          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagHydro">Hydrogels</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span>
         </div>
-
-        <div class="art-meta">
-          <span style="color:var(--blue-700);">The Straits Times</span>
-          <span class="art-meta-dot"></span>
-          <span>May 2026</span>
-          <span class="art-meta-dot"></span>
-          <span>5 min read</span>
+        <div style="margin-top:16px;">
+          <a href="https://www.straitstimes.com/singapore/health/living-lab-models-by-nus-dentistry-researchers-could-make-developing-medical-treatments-safer-faster" target="_blank" rel="noopener" class="art-cta" data-i18n="cta">Read the full feature on The Straits Times →</a>
         </div>
-
-        <h1 class="art-headline">A/P Rosa's AI-enabled &ldquo;living&rdquo; laboratory models featured by The Straits Times</h1>
-        <p class="art-deck">Research developed at NUS Dentistry was highlighted by Singapore's national newspaper for its potential to make biomedical testing safer, faster, and more predictive.</p>
-
-        <!-- DISTINCTIVE: coverage card lead -->
-        <div class="cov-card">
-          <div class="cov-head">
-            <div class="cov-head-row">
-              <span class="cov-source">The Straits Times</span>
-              <span class="cov-label">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
-                National feature
-              </span>
+      </div>
+      <aside class="aw-rail">
+        <div class="aw-card">
+          <div class="aw-card-head">
+            <div class="aw-medal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg></div>
+            <div>
+              <div class="aw-card-head-label" data-i18n="cardKicker">The coverage</div>
+              <div class="aw-card-head-org">The Straits Times</div>
             </div>
-            <div class="cov-quote">&ldquo;&lsquo;Living&rsquo; lab models by NUS Dentistry team could make developing medical treatments safer, faster&rdquo;</div>
           </div>
-          <div class="cov-img">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-            <span>Coverage screenshot · 16 : 9</span>
-          </div>
-          <div class="cov-foot">
-            <span class="cov-caption">A/P Rosa shines a light source on a hydrogel at the National University Centre for Oral Health Singapore. <span style="color:var(--text-faint);">Source: The Straits Times.</span></span>
-            <a href="https://www.straitstimes.com/singapore/health/living-lab-models-by-nus-dentistry-researchers-could-make-developing-medical-treatments-safer-faster" target="_blank" rel="noopener" class="btn btn-accent btn-sm">Read the article →</a>
-          </div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowDate">Date</span><span class="aw-row-value" data-i18n="date">May 2026</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowType">Type</span><span class="aw-row-value" data-i18n="valType">National feature</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowReach">Reach</span><span class="aw-row-value" data-i18n="valReach">National daily</span></div>
+          <div class="aw-btn"><a href="https://www.straitstimes.com/singapore/health/living-lab-models-by-nus-dentistry-researchers-could-make-developing-medical-treatments-safer-faster" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" data-i18n="cardBtn">Read the article →</a></div>
         </div>
-
-        <div class="art-body">
-          <p>Associate Professor Vinicius Rosa's research on AI-enabled &ldquo;living&rdquo; laboratory models was featured in The Straits Times in May 2026, highlighting work developed by his team at the National University of Singapore Faculty of Dentistry.</p>
-          <p>The article presents the team's efforts to create advanced hydrogel-based systems that better replicate the behaviour of human tissues during biomedical testing. Traditional laboratory models rely on static cell culture systems that do not fully capture the complex, changing conditions found inside the human body.</p>
-          <p>A/P Rosa's approach addresses this by developing dynamic biomaterial platforms that can evolve over time — allowing researchers to study how cells respond to changing biological environments such as inflammation, acidity, tissue degradation, and repair.</p>
-
-          <div class="art-pull">
-            <span class="art-pull-mark">&ldquo;</span>
-            <p class="art-pull-text">We are not petri dishes.</p>
-          </div>
-
-          <p>A key aspect of the research is the integration of artificial intelligence with biomaterials design. Instead of relying on trial-and-error experimentation, the team uses AI models trained on real experimental data to guide the composition and properties of hydrogel systems — designing biomaterials around predicted cell behaviour and specific biological conditions.</p>
-          <p>Although the work was initially developed using dental pulp models, its potential extends well beyond dentistry. The same approach could be adapted to study other tissues — including gum, cartilage, bone, and disease-related environments such as cancer models.</p>
-
-          <div class="art-tags">
-            <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">Media Feature</span>
-            <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">Artificial Intelligence</span>
-            <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">Biomaterials</span>
-            <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">Hydrogels</span>
-            <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span>
-          </div>
-          <div style="margin-top:16px;">
-            <a href="https://www.straitstimes.com/singapore/health/living-lab-models-by-nus-dentistry-researchers-could-make-developing-medical-treatments-safer-faster" target="_blank" rel="noopener" class="art-cta">Read the full feature on The Straits Times →</a>
-          </div>
+        <div class="aw-callout">
+          <div class="aw-callout-label" data-i18n="calloutLabel">Headline</div>
+          <p data-i18n="calloutHeadline">‘Living’ lab models by NUS Dentistry team could make developing medical treatments safer, faster</p>
         </div>
-
-      </article>
+      </aside>
     </div>
   </div>
-
 </main>
 </div><!-- /app -->
-
 <script src="../assets/js/shared.js"></script>
+<script>
+var I18N = {
+  en: {},
+  es: {"back": "← Todas las noticias", "badge": "Reportaje", "date": "Mayo de 2026", "read": "5 min de lectura", "headline": "Los modelos de laboratorio “vivos” impulsados por IA del A/P Rosa, destacados por The Straits Times", "deck": "La investigación desarrollada en NUS Dentistry fue destacada por el periódico nacional de Singapur por su potencial para hacer las pruebas biomédicas más seguras, rápidas y predictivas.", "heroCaption": "A/P Rosa ilumina un hidrogel con una fuente de luz en el National University Centre for Oral Health Singapore.", "heroSource": "Fuente: The Straits Times.", "p1": "La investigación del Profesor Asociado Vinicius Rosa sobre modelos de laboratorio “vivos” impulsados por IA fue presentada en The Straits Times en mayo de 2026, destacando el trabajo desarrollado por su equipo en la Facultad de Odontología de la Universidad Nacional de Singapur.", "p2": "El artículo presenta los esfuerzos del equipo por crear sistemas avanzados basados en hidrogeles que replican mejor el comportamiento de los tejidos humanos durante las pruebas biomédicas. Los modelos de laboratorio tradicionales se basan en sistemas estáticos de cultivo celular que no capturan por completo las condiciones complejas y cambiantes del interior del cuerpo humano.", "p3": "El enfoque del A/P Rosa aborda esto mediante el desarrollo de plataformas dinámicas de biomateriales que pueden evolucionar con el tiempo, lo que permite a los investigadores estudiar cómo responden las células a entornos biológicos cambiantes como la inflamación, la acidez, la degradación de los tejidos y la reparación.", "pull": "No somos placas de Petri.", "p4": "Un aspecto clave de la investigación es la integración de la inteligencia artificial con el diseño de biomateriales. En lugar de depender de la experimentación por ensayo y error, el equipo utiliza modelos de IA entrenados con datos experimentales reales para guiar la composición y las propiedades de los sistemas de hidrogel, diseñando biomateriales en función del comportamiento celular previsto y de condiciones biológicas específicas.", "p5": "Aunque el trabajo se desarrolló inicialmente con modelos de pulpa dental, su potencial va mucho más allá de la odontología. El mismo enfoque podría adaptarse para estudiar otros tejidos, como encía, cartílago y hueso, así como entornos relacionados con enfermedades, como los modelos de cáncer.", "tagMedia": "Reportaje", "tagAI": "Inteligencia artificial", "tagBio": "Biomateriales", "tagHydro": "Hidrogeles", "cta": "Leer el reportaje completo en The Straits Times →", "cardKicker": "La cobertura", "rowDate": "Fecha", "rowType": "Tipo", "valType": "Reportaje nacional", "rowReach": "Alcance", "valReach": "Diario nacional", "cardBtn": "Leer el artículo →", "calloutLabel": "Titular", "calloutHeadline": "Modelos de laboratorio ‘vivos’ del equipo de NUS Dentistry podrían hacer que el desarrollo de tratamientos médicos sea más seguro y rápido"},
+  pt: {"back": "← Todas as notícias", "badge": "Reportagem", "date": "Maio de 2026", "read": "5 min de leitura", "headline": "Os modelos de laboratório “vivos” habilitados por IA do A/P Rosa em destaque no The Straits Times", "deck": "A pesquisa desenvolvida na NUS Dentistry foi destacada pelo jornal nacional de Singapura por seu potencial de tornar os testes biomédicos mais seguros, rápidos e preditivos.", "heroCaption": "A/P Rosa ilumina um hidrogel com uma fonte de luz no National University Centre for Oral Health Singapore.", "heroSource": "Fonte: The Straits Times.", "p1": "A pesquisa do Professor Associado Vinicius Rosa sobre modelos de laboratório “vivos” habilitados por IA foi apresentada no The Straits Times em maio de 2026, destacando o trabalho desenvolvido por sua equipe na Faculdade de Odontologia da Universidade Nacional de Singapura.", "p2": "O artigo apresenta os esforços da equipe para criar sistemas avançados baseados em hidrogéis que replicam melhor o comportamento dos tecidos humanos durante os testes biomédicos. Os modelos de laboratório tradicionais dependem de sistemas estáticos de cultura celular que não capturam totalmente as condições complexas e mutáveis do interior do corpo humano.", "p3": "A abordagem do A/P Rosa enfrenta esse desafio com o desenvolvimento de plataformas dinâmicas de biomateriais que podem evoluir ao longo do tempo — permitindo aos pesquisadores estudar como as células respondem a ambientes biológicos em mudança, como inflamação, acidez, degradação tecidual e reparo.", "pull": "Não somos placas de Petri.", "p4": "Um aspecto central da pesquisa é a integração da inteligência artificial ao design de biomateriais. Em vez de depender da experimentação por tentativa e erro, a equipe usa modelos de IA treinados com dados experimentais reais para guiar a composição e as propriedades dos sistemas de hidrogel — projetando biomateriais em função do comportamento celular previsto e de condições biológicas específicas.", "p5": "Embora o trabalho tenha sido inicialmente desenvolvido com modelos de polpa dentária, seu potencial vai muito além da odontologia. A mesma abordagem poderia ser adaptada para estudar outros tecidos — incluindo gengiva, cartilagem e osso, além de ambientes relacionados a doenças, como modelos de câncer.", "tagMedia": "Reportagem", "tagAI": "Inteligência artificial", "tagBio": "Biomateriais", "tagHydro": "Hidrogéis", "cta": "Ler a reportagem completa no The Straits Times →", "cardKicker": "A cobertura", "rowDate": "Data", "rowType": "Tipo", "valType": "Reportagem nacional", "rowReach": "Alcance", "valReach": "Jornal nacional", "cardBtn": "Ler o artigo →", "calloutLabel": "Manchete", "calloutHeadline": "Modelos de laboratório ‘vivos’ da equipe da NUS Dentistry podem tornar o desenvolvimento de tratamentos médicos mais seguro e rápido"},
+  fr: {"back": "← Toutes les actualités", "badge": "Reportage", "date": "Mai 2026", "read": "5 min de lecture", "headline": "Les modèles de laboratoire « vivants » dopés à l'IA de l'A/P Rosa à l'honneur dans The Straits Times", "deck": "Les recherches menées à la NUS Dentistry ont été mises en avant par le quotidien national de Singapour pour leur potentiel à rendre les tests biomédicaux plus sûrs, plus rapides et plus prédictifs.", "heroCaption": "A/P Rosa éclaire un hydrogel à l'aide d'une source lumineuse au National University Centre for Oral Health Singapore.", "heroSource": "Source : The Straits Times.", "p1": "Les recherches du professeur associé Vinicius Rosa sur les modèles de laboratoire « vivants » dopés à l'IA ont été présentées dans The Straits Times en mai 2026, mettant en lumière les travaux menés par son équipe à la Faculté de médecine dentaire de l'Université nationale de Singapour.", "p2": "L'article présente les efforts de l'équipe pour créer des systèmes avancés à base d'hydrogels qui reproduisent mieux le comportement des tissus humains lors des tests biomédicaux. Les modèles de laboratoire traditionnels reposent sur des systèmes de culture cellulaire statiques qui ne reflètent pas pleinement les conditions complexes et changeantes présentes dans le corps humain.", "p3": "L'approche de l'A/P Rosa y répond en développant des plateformes de biomatériaux dynamiques capables d'évoluer dans le temps, ce qui permet aux chercheurs d'étudier comment les cellules réagissent à des environnements biologiques changeants tels que l'inflammation, l'acidité, la dégradation des tissus et la réparation.", "pull": "Nous ne sommes pas des boîtes de Petri.", "p4": "Un aspect essentiel de ces recherches est l'intégration de l'intelligence artificielle à la conception des biomatériaux. Plutôt que de procéder par essais et erreurs, l'équipe utilise des modèles d'IA entraînés sur des données expérimentales réelles pour guider la composition et les propriétés des systèmes d'hydrogel, en concevant les biomatériaux en fonction du comportement cellulaire prévu et de conditions biologiques précises.", "p5": "Bien que ces travaux aient d'abord été développés à partir de modèles de pulpe dentaire, leur potentiel dépasse largement la dentisterie. La même approche pourrait être adaptée à l'étude d'autres tissus — gencive, cartilage, os — et d'environnements pathologiques tels que les modèles de cancer.", "tagMedia": "Reportage", "tagAI": "Intelligence artificielle", "tagBio": "Biomatériaux", "tagHydro": "Hydrogels", "cta": "Lire le reportage complet dans The Straits Times →", "cardKicker": "La couverture", "rowDate": "Date", "rowType": "Type", "valType": "Reportage national", "rowReach": "Audience", "valReach": "Quotidien national", "cardBtn": "Lire l'article →", "calloutLabel": "Titre", "calloutHeadline": "Des modèles de laboratoire « vivants » de l'équipe de NUS Dentistry pourraient rendre le développement de traitements médicaux plus sûr et plus rapide"},
+  zh: {"back": "← 所有新闻", "badge": "媒体报道", "date": "2026年5月", "read": "阅读时间 5 分钟", "headline": "Rosa 副教授基于人工智能的“活体”实验室模型获《海峡时报》报道", "deck": "新加坡国立大学牙医学院的这项研究被新加坡国家级报纸报道，因其有望让生物医学测试更安全、更快速、更具预测性。", "heroCaption": "Rosa 副教授在新加坡国立大学口腔健康中心用光源照射一块水凝胶。", "heroSource": "来源：《海峡时报》。", "p1": "副教授 Vinicius Rosa 关于基于人工智能的“活体”实验室模型的研究于 2026 年 5 月被《海峡时报》报道，重点介绍了他在新加坡国立大学牙医学院带领团队开展的工作。", "p2": "文章介绍了团队致力于打造先进的水凝胶系统，以在生物医学测试中更好地再现人体组织的行为。传统实验室模型依赖静态细胞培养系统，难以完整再现人体内部复杂多变的环境。", "p3": "Rosa 副教授的方法通过开发可随时间演变的动态生物材料平台来应对这一问题，使研究者能够观察细胞如何响应不断变化的生物环境，例如炎症、酸度、组织降解与修复。", "pull": "我们不是培养皿。", "p4": "该研究的一个关键方面是将人工智能与生物材料设计相结合。团队不再依赖反复试错，而是使用以真实实验数据训练的 AI 模型来指导水凝胶系统的成分与性能——围绕预测的细胞行为和特定生物条件来设计生物材料。", "p5": "尽管这项工作最初基于牙髓模型开发，但其潜力远不止于牙科。同样的方法可推广到其他组织的研究——包括牙龈、软骨、骨骼，以及与疾病相关的环境，例如癌症模型。", "tagMedia": "媒体报道", "tagAI": "人工智能", "tagBio": "生物材料", "tagHydro": "水凝胶", "cta": "在《海峡时报》阅读完整报道 →", "cardKicker": "媒体报道", "rowDate": "日期", "rowType": "类型", "valType": "全国性报道", "rowReach": "覆盖", "valReach": "全国性日报", "cardBtn": "阅读原文 →", "calloutLabel": "标题", "calloutHeadline": "新加坡国立大学牙医学院团队的‘活体’实验室模型有望让医疗手段的研发更安全、更快速"}
+};
+(function () {
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {}; nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; }); I18N.en = EN;
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'); if (dict[k] != null) el.innerHTML = dict[k]; });
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.querySelectorAll('.lang-opt').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); }); });
+})();
+</script>
 </body>
 </html>

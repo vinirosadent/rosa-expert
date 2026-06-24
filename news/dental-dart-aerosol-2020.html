@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dental DART: a foldable tent for safer dental care during the pandemic — Vinicius Rosa · NUS Faculty of Dentistry</title>
+<meta name="description" content="NUS researchers including A/P Rosa invented the Dental DART, a foldable chairside shield that eliminated the rise in surface contamination during aerosol-generating dental procedures.">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+.art-page { min-height: 60vh; padding-bottom: var(--space-20); }
+.art-global { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter); }
+.art-back { display: inline-block; padding: 0; margin-bottom: 20px; font-size: 12px; font-weight: 500; color: var(--text-faint); text-decoration: none; }
+.art-back:hover { color: var(--text-muted); }
+.art-badge-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.art-badge { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
+.art-badge-teal { background: var(--wash-teal); color: var(--teal-700); }
+.art-badge-rule { flex: 1; height: 1px; background: var(--border-subtle); }
+.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
+.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
+.lang-opt:hover { color: var(--text-muted); }
+.lang-opt.active { color: var(--blue-700); }
+.lang-sep { color: var(--border-strong); user-select: none; }
+.art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
+.art-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); display: inline-block; flex-shrink: 0; }
+.art-headline { font-family: var(--font-serif); font-size: var(--fs-page-title); font-weight: 500; letter-spacing: -0.025em; line-height: 1.07; color: var(--text-strong); margin: 0 0 20px; }
+.art-deck { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0; }
+.appt-grid { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px; margin-top: 16px; }
+.appt-main { flex: 1 1 440px; max-width: 680px; min-width: 0; }
+.appt-main p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 22px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+.appt-figure { margin: 6px 0 28px; }
+.appt-figure img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--border-subtle); }
+.appt-figcaption { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
+.art-pull { margin: 14px 0 34px; text-align: center; }
+.art-pull-mark { font-family: var(--font-serif); font-size: 88px; line-height: 0.6; color: var(--teal-200); user-select: none; display: block; margin-bottom: 10px; }
+.art-pull .art-pull-text { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
+.appt-rail { flex: 1 1 280px; max-width: 320px; min-width: 0; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px; }
+.spec-card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--teal-600); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; }
+.spec-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
+.spec-medal { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--teal-500), var(--teal-700)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow-sm); color: #fff; }
+.spec-card-head-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--teal-600); }
+.spec-card-head-title { font-family: var(--font-serif); font-weight: 500; font-size: 19px; line-height: 1.3; color: var(--text-strong); margin-top: 2px; }
+.spec-row { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); }
+.spec-row:last-of-type { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
+.spec-row-label { font-size: 13.5px; color: var(--text-muted); flex-shrink: 0; }
+.spec-row-value { font-size: 13.5px; font-weight: 600; color: var(--text-strong); text-align: right; }
+.spec-btn { display: flex; justify-content: center; margin-top: 22px; }
+.scope-card { background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px 22px; }
+.scope-card-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--teal-600); }
+.scope-card p { margin: 11px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--text-body); }
+.art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-8); padding-top: 20px; border-top: 1px solid var(--border-subtle); }
+.art-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--blue-700); border: 1.5px solid var(--border-strong); padding: 10px 20px; border-radius: 10px; text-decoration: none; }
+.art-cta:hover { border-color: var(--blue-400); }
+@media (max-width: 760px) { .appt-rail { position: static; max-width: none; flex-basis: 100%; } }
+@media (max-width: 600px) { .art-headline { line-height: 1.12; } }
+</style>
+</head>
+<body>
+<div id="app">
+<main class="art-page">
+  <div class="art-global" style="padding-top:24px;">
+    <a href="../news.html" class="art-back" data-i18n="back">← All news</a>
+    <div class="art-badge-row">
+      <span class="art-badge art-badge-teal" data-i18n="badge">Innovation</span>
+      <div class="art-badge-rule"></div>
+      <div class="lang-switch" aria-label="Language">
+        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="zh">中文</button>
+      </div>
+    </div>
+    <div class="art-meta">
+      <span style="color:var(--teal-600);">NUS Dentistry</span>
+      <span class="art-meta-dot"></span>
+      <span data-i18n="date">December 2020</span>
+      <span class="art-meta-dot"></span>
+      <span data-i18n="read">4 min read</span>
+    </div>
+    <div class="appt-grid">
+      <div class="appt-main">
+        <h1 class="art-headline" data-i18n="headline">Dental DART: a foldable tent for safer dental care during the pandemic</h1>
+        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">NUS researchers — including A/P Rosa — invented the Dental Droplet and Aerosol Reducing Tent, a portable chairside shield that contains the saliva and aerosols generated during dental procedures.</p>
+        <figure class="appt-figure"><img src="Assets/dental-dart-01.jpg" alt="Dental DART team with the prototype"><figcaption class="appt-figcaption" data-i18n="fig1">The Dental DART team (from left): Prof Freddy Boey, Mr Sudarshan Anantharaman and A/P Vinicius Rosa.</figcaption></figure>
+        <p data-i18n="p1">Dental treatments are carried out very close to the patient's mouth and nose, and many procedures generate aerosols while clinicians handle saliva and blood. That places dentists among the workers at highest risk of exposure to COVID-19 — and to other agents that can cause influenza, hepatitis, pneumonitis, and eye or skin infections during routine care.</p>
+        <p data-i18n="p2">In response, researchers at the National University of Singapore (NUS) invented a portable, tent-like shield that is placed around the patient's head to act as a barrier protecting dentists, nurses and patients from direct and indirect exposure. By containing droplets and aerosols, the Dental DART also limits their spread onto surrounding surfaces, reducing pathogen availability and cross-contamination. It is an adaptation of an earlier NUS device, DART, created to protect healthcare workers during droplet- and aerosol-generating procedures such as intubation and extubation.</p>
+        <figure class="appt-figure"><img src="Assets/dental-dart-03.jpg" alt="Fitting the Dental DART to a dental chair"><figcaption class="appt-figcaption" data-i18n="fig2">Adapting the foldable shield to a dental chair.</figcaption></figure>
+        <p data-i18n="p3">The Dental DART is a clear tented shield 64 cm high with a 54 cm base, and its width adjusts between 60 and 70 cm to fit different dental chairs. Three access ports let the dentist and nurse reach in and work safely. The tent connects to the vacuum pumps already built into the chair, drawing contaminated air into the scavenging system and reducing the material that reaches the clinicians' hands, arms and instruments. The team needed three months to reach the final model, designing universal hinges so it suits any chair and engineering it to fold flat.</p>
+        <div class="art-pull"><span class="art-pull-mark">&ldquo;</span><p class="art-pull-text" data-i18n="pull">No increase in viable bacteria with the Dental DART — versus a 14-fold rise without it.</p></div>
+        <figure class="appt-figure"><img src="Assets/dental-dart-02.jpg" alt="Dental DART mounted on a dental chair"><figcaption class="appt-figcaption" data-i18n="fig3">The Dental DART mounted on a dental chair and connected to the chair's suction.</figcaption></figure>
+        <p data-i18n="p4">The shield was tested in a clinical setting by measuring bacterial content on the dental-chair light and on the dentist's face shield, before and after scaling — a procedure known to sharply increase airborne contamination. With the Dental DART, there was no increase in viable bacteria on those surfaces; without it, contamination rose roughly fourteenfold.</p>
+        <figure class="appt-figure"><img src="Assets/dental-dart-04.jpg" alt="Dental DART in clinical use"><figcaption class="appt-figcaption" data-i18n="fig4">Clinicians performing a procedure inside the Dental DART.</figcaption></figure>
+        <p data-i18n="p5">Dentistry is an essential service that was hit hard by the pandemic, with many providers in Singapore suspending aerosol-generating procedures and leaving patients without care. By making the clinic safer, the device also helps ease the anxiety the pandemic placed on patients and staff. The four NUS inventors filed a patent for the design and are seeking healthcare and industry partners to bring it to dentists in Singapore and worldwide.</p>
+        <div class="art-tags">
+          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagInnovation">Innovation</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagCovid">COVID-19</span>
+          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagAerosol">Aerosol Control</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span>
+        </div>
+        <div style="margin-top:16px;">
+          <a href="https://news.nus.edu.sg/a-foldable-tent-for-safe-dental-care-during-the-pandemic/" target="_blank" rel="noopener" class="art-cta" data-i18n="cta">Read the NUS announcement →</a>
+        </div>
+      </div>
+      <aside class="appt-rail">
+        <div class="spec-card">
+          <div class="spec-card-head">
+            <div class="spec-medal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div>
+              <div class="spec-card-head-label" data-i18n="specKicker">The device</div>
+              <div class="spec-card-head-title">Dental DART</div>
+            </div>
+          </div>
+          <div class="spec-row"><span class="spec-row-label" data-i18n="rowMechanism">Mechanism</span><span class="spec-row-value" data-i18n="valMechanism">Connects to chair vacuum</span></div>
+          <div class="spec-row"><span class="spec-row-label" data-i18n="rowAccess">Access</span><span class="spec-row-value" data-i18n="valAccess">3 ports</span></div>
+          <div class="spec-row"><span class="spec-row-label" data-i18n="rowHeight">Height</span><span class="spec-row-value">64 cm</span></div>
+          <div class="spec-row"><span class="spec-row-label" data-i18n="rowWidth">Width</span><span class="spec-row-value" data-i18n="valWidth">60–70 cm (adjustable)</span></div>
+          <div class="spec-btn"><a href="https://news.nus.edu.sg/a-foldable-tent-for-safe-dental-care-during-the-pandemic/" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" data-i18n="specBtn">Read the NUS announcement →</a></div>
+        </div>
+        <div class="scope-card">
+          <div class="scope-card-label" data-i18n="calloutLabel">Clinical result</div>
+          <p data-i18n="calloutP">Zero increase in viable bacteria with the shield, versus a 14× rise without it.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+</div><!-- /app -->
+<script src="../assets/js/shared.js"></script>
+<script>
+var I18N = {
+  en: {},
+  es: {"back": "← Todas las noticias", "badge": "Innovación", "date": "Diciembre de 2020", "read": "4 min de lectura", "headline": "Dental DART: una carpa plegable para una atención dental más segura durante la pandemia", "deck": "Investigadores de la NUS —entre ellos A/P Rosa— inventaron la Carpa de Reducción de Gotas y Aerosoles Dentales, un escudo portátil junto al sillón que contiene la saliva y los aerosoles generados durante los procedimientos dentales.", "fig1": "El equipo de la Dental DART (de izq. a der.): Prof. Freddy Boey, Sr. Sudarshan Anantharaman y A/P Vinicius Rosa.", "p1": "Los tratamientos dentales se realizan muy cerca de la boca y la nariz del paciente, y muchos procedimientos generan aerosoles mientras se manipulan saliva y sangre. Esto sitúa a los dentistas entre los trabajadores con mayor riesgo de exposición a la COVID-19, y a otros agentes que pueden causar gripe, hepatitis, neumonitis e infecciones oculares o cutáneas durante la atención de rutina.", "p2": "En respuesta, investigadores de la Universidad Nacional de Singapur (NUS) inventaron un escudo portátil en forma de carpa que se coloca alrededor de la cabeza del paciente para actuar como barrera y proteger a dentistas, personal y pacientes de la exposición directa e indirecta. Al contener gotas y aerosoles, la Dental DART también limita su dispersión sobre las superficies cercanas, reduciendo la presencia de patógenos y la contaminación cruzada. Es una adaptación de un dispositivo anterior de la NUS, el DART, creado para proteger al personal sanitario durante procedimientos que generan gotas y aerosoles, como la intubación y la extubación.", "fig2": "Adaptación del escudo plegable a un sillón dental.", "p3": "La Dental DART es un escudo transparente tipo carpa de 64 cm de alto con una base de 54 cm, y su ancho se ajusta entre 60 y 70 cm para adaptarse a distintos sillones. Tres puertos de acceso permiten que el dentista y el personal trabajen con seguridad. La carpa se conecta a las bombas de vacío del propio sillón, llevando el aire contaminado al sistema de evacuación y reduciendo el material que llega a las manos, los brazos y los instrumentos. El equipo necesitó tres meses para llegar al modelo final, diseñando bisagras universales para que se adapte a cualquier sillón y permita el plegado.", "pull": "Ningún aumento de bacterias viables con la Dental DART, frente a un aumento de 14 veces sin ella.", "fig3": "La Dental DART montada en un sillón dental y conectada a la succión del propio sillón.", "p4": "El escudo se probó en entorno clínico midiendo el contenido bacteriano en la lámpara del sillón y en la pantalla facial del dentista, antes y después del raspado, un procedimiento que aumenta notablemente la contaminación del aire. Con la Dental DART no hubo aumento de bacterias viables en esas superficies; sin ella, la contaminación subió unas catorce veces.", "fig4": "Profesionales realizando un procedimiento dentro de la Dental DART.", "p5": "La odontología es un servicio esencial muy afectado por la pandemia: muchos proveedores en Singapur suspendieron los procedimientos generadores de aerosoles, dejando a pacientes sin atención. Al hacer la clínica más segura, el dispositivo también ayuda a reducir la ansiedad que la pandemia impuso a pacientes y personal. Los cuatro inventores de la NUS presentaron una patente del diseño y buscan socios sanitarios e industriales para llevarlo a dentistas en Singapur y en todo el mundo.", "tagInnovation": "Innovación", "tagCovid": "COVID-19", "tagAerosol": "Control de aerosoles", "cta": "Leer el comunicado de la NUS →", "specKicker": "El dispositivo", "rowMechanism": "Mecanismo", "valMechanism": "Se conecta al vacío del sillón", "rowAccess": "Acceso", "valAccess": "3 puertos", "rowHeight": "Altura", "rowWidth": "Ancho", "valWidth": "60–70 cm (ajustable)", "specBtn": "Leer el comunicado de la NUS →", "calloutLabel": "Resultado clínico", "calloutP": "Cero aumento de bacterias viables con el escudo, frente a un aumento de 14× sin él."},
+  pt: {"back": "← Todas as notícias", "badge": "Inovação", "date": "Dezembro de 2020", "read": "4 min de leitura", "headline": "Dental DART: uma tenda dobrável para uma odontologia mais segura durante a pandemia", "deck": "Pesquisadores da NUS — entre eles A/P Rosa — inventaram a Tenda de Redução de Gotículas e Aerossóis Dentários, um escudo portátil junto à cadeira que contém a saliva e os aerossóis gerados durante os procedimentos odontológicos.", "fig1": "A equipe da Dental DART (da esq. para a dir.): Prof. Freddy Boey, Sr. Sudarshan Anantharaman e A/P Vinicius Rosa.", "p1": "Os tratamentos odontológicos são feitos muito perto da boca e do nariz do paciente, e muitos procedimentos geram aerossóis enquanto se manipulam saliva e sangue. Isso coloca os dentistas entre os profissionais de maior risco de exposição à COVID-19 — e a outros agentes que podem causar gripe, hepatite, pneumonite e infecções oculares ou cutâneas durante o atendimento de rotina.", "p2": "Em resposta, pesquisadores da Universidade Nacional de Singapura (NUS) inventaram um escudo portátil em forma de tenda, colocado ao redor da cabeça do paciente para atuar como barreira e proteger dentistas, equipe e pacientes da exposição direta e indireta. Ao conter gotículas e aerossóis, a Dental DART também limita sua dispersão sobre as superfícies próximas, reduzindo a presença de patógenos e a contaminação cruzada. É uma adaptação de um dispositivo anterior da NUS, o DART, criado para proteger profissionais de saúde em procedimentos geradores de gotículas e aerossóis, como intubação e extubação.", "fig2": "Adaptação do escudo dobrável a uma cadeira odontológica.", "p3": "A Dental DART é um escudo transparente em forma de tenda com 64 cm de altura e base de 54 cm, e sua largura se ajusta entre 60 e 70 cm para se adaptar a diferentes cadeiras. Três portas de acesso permitem que o dentista e a equipe trabalhem com segurança. A tenda se conecta às bombas de vácuo da própria cadeira, levando o ar contaminado ao sistema de exaustão e reduzindo o material que chega às mãos, aos braços e aos instrumentos. A equipe levou três meses até o modelo final, projetando dobradiças universais para que se adapte a qualquer cadeira e permita a dobragem.", "pull": "Nenhum aumento de bactérias viáveis com a Dental DART — ante um aumento de 14 vezes sem ela.", "fig3": "A Dental DART instalada em uma cadeira odontológica e conectada à sucção da própria cadeira.", "p4": "O escudo foi testado em ambiente clínico medindo o conteúdo bacteriano na lâmpada da cadeira e no protetor facial do dentista, antes e depois da raspagem — um procedimento que aumenta bastante a contaminação do ar. Com a Dental DART, não houve aumento de bactérias viáveis nessas superfícies; sem ela, a contaminação subiu cerca de quatorze vezes.", "fig4": "Profissionais realizando um procedimento dentro da Dental DART.", "p5": "A odontologia é um serviço essencial muito afetado pela pandemia: muitos provedores em Singapura suspenderam os procedimentos geradores de aerossóis, deixando pacientes sem atendimento. Ao tornar a clínica mais segura, o dispositivo também ajuda a reduzir a ansiedade que a pandemia impôs a pacientes e equipe. Os quatro inventores da NUS depositaram uma patente do design e buscam parceiros da saúde e da indústria para levá-lo a dentistas em Singapura e no mundo.", "tagInnovation": "Inovação", "tagCovid": "COVID-19", "tagAerosol": "Controle de aerossóis", "cta": "Ler o comunicado da NUS →", "specKicker": "O dispositivo", "rowMechanism": "Mecanismo", "valMechanism": "Conecta-se ao vácuo da cadeira", "rowAccess": "Acesso", "valAccess": "3 portas", "rowHeight": "Altura", "rowWidth": "Largura", "valWidth": "60–70 cm (ajustável)", "specBtn": "Ler o comunicado da NUS →", "calloutLabel": "Resultado clínico", "calloutP": "Nenhum aumento de bactérias viáveis com o escudo, ante um aumento de 14× sem ele."},
+  fr: {"back": "← Toutes les actualités", "badge": "Innovation", "date": "Décembre 2020", "read": "4 min de lecture", "headline": "Dental DART : une tente pliable pour des soins dentaires plus sûrs pendant la pandémie", "deck": "Des chercheurs de la NUS — dont A/P Rosa — ont inventé la tente de réduction des gouttelettes et aérosols dentaires, un bouclier portable au fauteuil qui contient la salive et les aérosols générés pendant les soins dentaires.", "fig1": "L'équipe de la Dental DART (de g. à dr.) : Pr Freddy Boey, M. Sudarshan Anantharaman et A/P Vinicius Rosa.", "p1": "Les soins dentaires se déroulent très près de la bouche et du nez du patient, et de nombreux gestes génèrent des aérosols pendant la manipulation de salive et de sang. Cela place les dentistes parmi les professionnels les plus exposés à la COVID-19 — et à d'autres agents pouvant causer grippe, hépatite, pneumopathie et infections oculaires ou cutanées lors des soins courants.", "p2": "En réponse, des chercheurs de l'Université nationale de Singapour (NUS) ont inventé un bouclier portable en forme de tente, placé autour de la tête du patient pour servir de barrière et protéger dentistes, personnel et patients d'une exposition directe et indirecte. En contenant gouttelettes et aérosols, la Dental DART limite aussi leur dispersion sur les surfaces voisines, réduisant la présence d'agents pathogènes et la contamination croisée. C'est une adaptation d'un dispositif antérieur de la NUS, le DART, conçu pour protéger les soignants lors de gestes générant gouttelettes et aérosols, comme l'intubation et l'extubation.", "fig2": "Adaptation du bouclier pliable à un fauteuil dentaire.", "p3": "La Dental DART est un bouclier transparent en forme de tente de 64 cm de haut, avec une base de 54 cm ; sa largeur se règle entre 60 et 70 cm pour s'adapter aux différents fauteuils. Trois ports d'accès permettent au dentiste et à l'assistant de travailler en sécurité. La tente se raccorde aux pompes à vide déjà présentes sur le fauteuil, dirigeant l'air contaminé vers le système d'évacuation et réduisant la matière qui atteint les mains, les bras et les instruments. L'équipe a mis trois mois à aboutir au modèle final, en concevant des charnières universelles pour s'adapter à tout fauteuil et permettre le pliage.", "pull": "Aucune augmentation de bactéries viables avec la Dental DART — contre une hausse de 14 fois sans elle.", "fig3": "La Dental DART montée sur un fauteuil dentaire et raccordée à l'aspiration du fauteuil.", "p4": "Le bouclier a été testé en milieu clinique en mesurant la charge bactérienne sur le scialytique et sur la visière du dentiste, avant et après un détartrage — un geste connu pour augmenter fortement la contamination de l'air. Avec la Dental DART, aucune augmentation de bactéries viables n'a été observée sur ces surfaces ; sans elle, la contamination a été multipliée par environ quatorze.", "fig4": "Des praticiens réalisant un soin à l'intérieur de la Dental DART.", "p5": "La dentisterie est un service essentiel durement touché par la pandémie : de nombreux cabinets de Singapour ont suspendu les gestes générateurs d'aérosols, laissant des patients sans soins. En rendant le cabinet plus sûr, le dispositif aide aussi à apaiser l'anxiété imposée par la pandémie aux patients et au personnel. Les quatre inventeurs de la NUS ont déposé un brevet et recherchent des partenaires de santé et industriels pour le diffuser auprès des dentistes à Singapour et dans le monde.", "tagInnovation": "Innovation", "tagCovid": "COVID-19", "tagAerosol": "Contrôle des aérosols", "cta": "Lire l'annonce de la NUS →", "specKicker": "Le dispositif", "rowMechanism": "Mécanisme", "valMechanism": "Raccordé au vide du fauteuil", "rowAccess": "Accès", "valAccess": "3 ports", "rowHeight": "Hauteur", "rowWidth": "Largeur", "valWidth": "60–70 cm (réglable)", "specBtn": "Lire l'annonce de la NUS →", "calloutLabel": "Résultat clinique", "calloutP": "Aucune augmentation de bactéries viables avec le bouclier, contre une hausse de 14× sans lui."},
+  zh: {"back": "← 所有新闻", "badge": "创新", "date": "2020年12月", "read": "阅读时间 4 分钟", "headline": "Dental DART：疫情期间让牙科诊疗更安全的可折叠帐篷", "deck": "包括 A/P Rosa 在内的新加坡国立大学研究者发明了“牙科液滴与气溶胶减少帐篷”——一种置于牙椅旁的便携式防护罩，可遏制牙科操作中产生的唾液与气溶胶。", "fig1": "Dental DART 团队（从左至右）：Freddy Boey 教授、Sudarshan Anantharaman 先生与 A/P Vinicius Rosa。", "p1": "牙科治疗在距患者口鼻极近处进行，许多操作会在处理唾液与血液时产生气溶胶。这使牙医成为感染 COVID-19 风险最高的职业之一，也可能在日常诊疗中接触到引起流感、肝炎、肺炎以及眼部或皮肤感染的其他病原。", "p2": "为此，新加坡国立大学（NUS）的研究者发明了一种便携式帐篷状防护罩，罩在患者头部周围，作为屏障保护牙医、护理人员与患者免受直接和间接暴露。通过遏制飞沫与气溶胶，Dental DART 还可减少其向周围表面的扩散，降低病原存留与交叉污染。它改良自 NUS 早前的 DART 装置——后者用于在插管、拔管等产生飞沫与气溶胶的操作中保护医护人员。", "fig2": "将可折叠防护罩适配到牙椅上。", "p3": "Dental DART 是一款透明的帐篷状防护罩，高 64 厘米、底部进深 54 厘米，宽度可在 60 至 70 厘米之间调节，以适配不同牙椅。三个操作口让牙医与助手安全地伸入操作。帐篷连接牙椅自带的真空泵，将受污染的空气导入排污系统，减少到达医护人员双手、手臂及器械的污染物。团队历时三个月完成最终方案，设计了“通用铰链”以适配各类牙椅，并实现折叠收纳。", "pull": "使用 Dental DART 时活菌零增加——不使用时上升 14 倍。", "fig3": "Dental DART 安装在牙椅上，并连接牙椅的抽吸系统。", "p4": "该防护罩在临床环境中接受测试：在龈下刮治（已知会显著增加空气污染）前后，测量牙椅手术灯与牙医面罩上的细菌量。使用 Dental DART 时，这些表面上的活菌没有增加；不使用时，污染上升约十四倍。", "fig4": "医护人员在 Dental DART 内进行操作。", "p5": "牙科是一项受疫情重创的基本医疗服务：新加坡许多诊所暂停了产生气溶胶的操作，导致部分患者无法就诊。通过让诊室更安全，该装置也有助于缓解疫情给患者与医护带来的焦虑。四位 NUS 发明人已为该设计申请专利，并正在寻找医疗与产业合作伙伴，将其推广给新加坡及全球的牙医。", "tagInnovation": "创新", "tagCovid": "COVID-19", "tagAerosol": "气溶胶防控", "cta": "阅读 NUS 公告 →", "specKicker": "该装置", "rowMechanism": "原理", "valMechanism": "连接牙椅真空系统", "rowAccess": "操作口", "valAccess": "3 个", "rowHeight": "高度", "rowWidth": "宽度", "valWidth": "60–70 厘米（可调）", "specBtn": "阅读 NUS 公告 →", "calloutLabel": "临床结果", "calloutP": "使用防护罩时活菌零增加；不使用时上升 14 倍。"}
+};
+(function () {
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {}; nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; }); I18N.en = EN;
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'); if (dict[k] != null) el.innerHTML = dict[k]; });
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.querySelectorAll('.lang-opt').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); }); });
+})();
+</script>
+</body>
+</html>

@@ -8,43 +8,30 @@
 <link rel="stylesheet" href="../assets/css/tokens.css">
 <link rel="stylesheet" href="../assets/css/components.css">
 <style>
-/* ── Article page (shared with news/_template.html) ───────── */
 .art-page { min-height: 60vh; padding-bottom: var(--space-20); }
 .art-global { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter); }
 .art-back { display: inline-block; padding: 0; margin-bottom: 20px; font-size: 12px; font-weight: 500; color: var(--text-faint); text-decoration: none; }
 .art-back:hover { color: var(--text-muted); }
-
-/* badge + extending rule */
 .art-badge-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
 .art-badge { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
 .art-badge-teal { background: var(--wash-teal); color: var(--teal-700); }
 .art-badge-rule { flex: 1; height: 1px; background: var(--border-subtle); }
-
-/* meta line */
+.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
+.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
+.lang-opt:hover { color: var(--text-muted); }
+.lang-opt.active { color: var(--blue-700); }
+.lang-sep { color: var(--border-strong); user-select: none; }
 .art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
 .art-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); display: inline-block; flex-shrink: 0; }
-
-/* headline + deck */
 .art-headline { font-family: var(--font-serif); font-size: var(--fs-page-title); font-weight: 500; letter-spacing: -0.025em; line-height: 1.07; color: var(--text-strong); margin: 0 0 20px; }
 .art-deck { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0; }
-
-/* ── DISTINCTIVE: two-column body with spec rail (Appointment · "Trilho de ficha") ── */
-.appt-grid {
-  display: flex; flex-wrap: wrap; align-items: flex-start;
-  gap: 48px;
-  margin-top: 16px;
-}
+.appt-grid { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px; margin-top: 16px; }
 .appt-main { flex: 1 1 440px; max-width: 680px; min-width: 0; }
 .appt-main p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 22px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
-
-/* pull-quote inside prose */
 .art-pull { margin: 14px 0 34px; text-align: center; }
 .art-pull-mark { font-family: var(--font-serif); font-size: 88px; line-height: 0.6; color: var(--teal-200); user-select: none; display: block; margin-bottom: 10px; }
-.art-pull-text { font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
-
+.art-pull .art-pull-text { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
 .appt-rail { flex: 1 1 280px; max-width: 320px; min-width: 0; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px; }
-
-/* spec card */
 .spec-card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--teal-600); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; }
 .spec-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
 .spec-medal { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--teal-500), var(--teal-700)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow-sm); color: #fff; }
@@ -55,111 +42,156 @@
 .spec-row-label { font-size: 13.5px; color: var(--text-muted); flex-shrink: 0; }
 .spec-row-value { font-size: 13.5px; font-weight: 600; color: var(--text-strong); text-align: right; }
 .spec-btn { display: flex; justify-content: center; margin-top: 22px; }
-
-/* scope callout */
 .scope-card { background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px 22px; }
 .scope-card-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--teal-600); }
 .scope-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
 .scope-list li { display: flex; gap: 9px; align-items: flex-start; font-size: 13.5px; line-height: 1.5; color: var(--text-body); }
 .scope-list svg { color: var(--teal-500); flex-shrink: 0; margin-top: 2px; }
-
-/* tags row (under main column) */
 .art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-8); padding-top: 20px; border-top: 1px solid var(--border-subtle); }
 .art-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--blue-700); border: 1.5px solid var(--border-strong); padding: 10px 20px; border-radius: 10px; text-decoration: none; }
 .art-cta:hover { border-color: var(--blue-400); }
-
-@media (max-width: 760px) {
-  .appt-rail { position: static; max-width: none; flex-basis: 100%; }
-}
+@media (max-width: 760px) { .appt-rail { position: static; max-width: none; flex-basis: 100%; } }
 @media (max-width: 600px) { .art-headline { line-height: 1.12; } }
 </style>
 </head>
 <body>
 <div id="app">
 <main class="art-page">
-
   <div class="art-global" style="padding-top:24px;">
-
-    <a href="../news.html" class="art-back">← All news</a>
-
-    <!-- kicker: badge + extending rule + meta — full content width (estende a linha) -->
+    <a href="../news.html" class="art-back" data-i18n="back">← All news</a>
     <div class="art-badge-row">
-      <span class="art-badge art-badge-teal">Appointment</span>
+      <span class="art-badge art-badge-teal" data-i18n="badge">Appointment</span>
       <div class="art-badge-rule"></div>
+      <div class="lang-switch" aria-label="Language">
+        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="zh">中文</button>
+      </div>
     </div>
     <div class="art-meta">
       <span style="color:var(--teal-600);">ISO / TC 194</span>
       <span class="art-meta-dot"></span>
       <span>2026</span>
       <span class="art-meta-dot"></span>
-      <span>2 min read</span>
+      <span data-i18n="read">2 min read</span>
     </div>
-
-    <!-- DISTINCTIVE: two-column body with sticky spec rail — card top aligns with the title -->
     <div class="appt-grid">
-
-      <!-- main prose -->
       <div class="appt-main">
-
-        <h1 class="art-headline">A/P Rosa appointed to Singapore's National Mirror Working Group for ISO/TC 194</h1>
-        <p class="art-deck" style="margin-bottom:28px;">The committee represents Singapore's interests in the development and review of international standards for the biological and clinical evaluation of medical devices.</p>
-
-        <p>A/P Vinicius Rosa has been appointed as a Member of the National Mirror Working Group (NMWG) for ISO/TC 194 — Biological and Clinical Evaluation of Medical Devices. The NMWG plays a critical role in representing Singapore's interests in the development and review of international standards, aligning national positions with the work of ISO technical committees.</p>
-        <p>ISO/TC 194 develops the standards that govern how the biological safety of medical and dental devices is assessed before they reach patients — from biocompatibility testing through to clinical evaluation frameworks. Its work underpins patient safety, regulatory science and the translation of new biomaterials into clinical practice.</p>
-
+        <h1 class="art-headline" data-i18n="headline">A/P Rosa appointed to Singapore's National Mirror Working Group for ISO/TC 194</h1>
+        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">The committee represents Singapore's interests in the development and review of international standards for the biological and clinical evaluation of medical devices.</p>
+        <p data-i18n="p1">A/P Vinicius Rosa has been appointed as a Member of the National Mirror Working Group (NMWG) for ISO/TC 194 — Biological and Clinical Evaluation of Medical Devices. The NMWG plays a critical role in representing Singapore's interests in the development and review of international standards, aligning national positions with the work of ISO technical committees.</p>
+        <p data-i18n="p2">ISO/TC 194 develops the standards that govern how the biological safety of medical and dental devices is assessed before they reach patients — from biocompatibility testing through to clinical evaluation frameworks. Its work underpins patient safety, regulatory science and the translation of new biomaterials into clinical practice.</p>
         <div class="art-pull">
           <span class="art-pull-mark">&ldquo;</span>
-          <p class="art-pull-text">ISO/TC 194 is a cornerstone of patient safety, regulatory science and translational innovation.</p>
+          <p class="art-pull-text" data-i18n="pull">ISO/TC 194 is a cornerstone of patient safety, regulatory science and translational innovation.</p>
         </div>
-
-        <p>A/P Rosa's appointment brings an academic and translational research perspective into Singapore's contribution to the international standards ecosystem, connecting frontline biomaterials research with the regulatory frameworks that shape how medical devices are evaluated worldwide.</p>
-
+        <p data-i18n="p3">A/P Rosa's appointment brings an academic and translational research perspective into Singapore's contribution to the international standards ecosystem, connecting frontline biomaterials research with the regulatory frameworks that shape how medical devices are evaluated worldwide.</p>
         <div class="art-tags">
-          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">Appointment</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">International Standards</span>
-          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">Medical Devices</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">Regulatory Science</span>
+          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagAppointment">Appointment</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagStandards">International Standards</span>
+          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagDevices">Medical Devices</span>
+          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagRegSci">Regulatory Science</span>
         </div>
         <div style="margin-top:16px;">
-          <a href="#" target="_blank" rel="noopener" class="art-cta">About ISO/TC 194 →</a>
+          <a href="#" target="_blank" rel="noopener" class="art-cta" data-i18n="cta">About ISO/TC 194 →</a>
         </div>
       </div>
-
-      <!-- sticky spec rail -->
       <aside class="appt-rail">
         <div class="spec-card">
           <div class="spec-card-head">
             <div class="spec-medal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></div>
             <div>
-              <div class="spec-card-head-label">The committee</div>
+              <div class="spec-card-head-label" data-i18n="specKicker">The committee</div>
               <div class="spec-card-head-title">ISO/TC 194</div>
             </div>
           </div>
-          <div class="spec-row"><span class="spec-row-label">Body</span><span class="spec-row-value">NMWG · Singapore</span></div>
-          <div class="spec-row"><span class="spec-row-label">Role</span><span class="spec-row-value">Member</span></div>
-          <div class="spec-row"><span class="spec-row-label">Focus</span><span class="spec-row-value">Biological &amp; clinical evaluation</span></div>
+          <div class="spec-row"><span class="spec-row-label" data-i18n="rowBody">Body</span><span class="spec-row-value" data-i18n="valBody">NMWG · Singapore</span></div>
+          <div class="spec-row"><span class="spec-row-label" data-i18n="rowRole">Role</span><span class="spec-row-value" data-i18n="valRole">Member</span></div>
+          <div class="spec-row"><span class="spec-row-label" data-i18n="rowFocus">Focus</span><span class="spec-row-value" data-i18n="valFocus">Biological &amp; clinical evaluation</span></div>
           <div class="spec-btn">
-            <a href="#" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">View committee scope →</a>
+            <a href="#" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" data-i18n="specBtn">View committee scope →</a>
           </div>
         </div>
-
         <div class="scope-card">
-          <div class="scope-card-label">Scope of ISO/TC 194</div>
+          <div class="scope-card-label" data-i18n="scopeLabel">Scope of ISO/TC 194</div>
           <ul class="scope-list">
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Biocompatibility testing</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Biological safety assessment</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Clinical evaluation frameworks</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Medical &amp; dental materials standards</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="scope1">Biocompatibility testing</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="scope2">Biological safety assessment</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="scope3">Clinical evaluation frameworks</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="scope4">Medical &amp; dental materials standards</span></li>
           </ul>
         </div>
       </aside>
-
     </div>
   </div>
-
 </main>
 </div><!-- /app -->
-
 <script src="../assets/js/shared.js"></script>
+<script>
+var I18N = {
+  en: {},
+  es: { back:"← Todas las noticias", badge:"Nombramiento", read:"2 min de lectura",
+    headline:"A/P Rosa es nombrado miembro del Grupo de Trabajo Espejo Nacional de Singapur para la ISO/TC 194",
+    deck:"El comité representa los intereses de Singapur en el desarrollo y la revisión de las normas internacionales para la evaluación biológica y clínica de los dispositivos médicos.",
+    p1:"El Profesor Asociado Vinicius Rosa ha sido nombrado miembro del Grupo de Trabajo Espejo Nacional (NMWG) para la ISO/TC 194 — Evaluación Biológica y Clínica de Dispositivos Médicos. El NMWG desempeña un papel fundamental en la representación de los intereses de Singapur en el desarrollo y la revisión de las normas internacionales, alineando las posiciones nacionales con el trabajo de los comités técnicos de la ISO.",
+    p2:"La ISO/TC 194 elabora las normas que rigen cómo se evalúa la seguridad biológica de los dispositivos médicos y dentales antes de que lleguen a los pacientes, desde las pruebas de biocompatibilidad hasta los marcos de evaluación clínica. Su trabajo sustenta la seguridad del paciente, la ciencia regulatoria y la traslación de nuevos biomateriales a la práctica clínica.",
+    pull:"La ISO/TC 194 es un pilar de la seguridad del paciente, la ciencia regulatoria y la innovación traslacional.",
+    p3:"El nombramiento de A/P Rosa aporta una perspectiva de investigación académica y traslacional a la contribución de Singapur al ecosistema de normas internacionales, conectando la investigación de vanguardia en biomateriales con los marcos regulatorios que determinan cómo se evalúan los dispositivos médicos en todo el mundo.",
+    tagAppointment:"Nombramiento", tagStandards:"Normas internacionales", tagDevices:"Dispositivos médicos", tagRegSci:"Ciencia regulatoria",
+    cta:"Acerca de la ISO/TC 194 →", specKicker:"El comité",
+    rowBody:"Organismo", valBody:"NMWG · Singapur", rowRole:"Función", valRole:"Miembro", rowFocus:"Enfoque", valFocus:"Evaluación biológica y clínica",
+    specBtn:"Ver el alcance del comité →", scopeLabel:"Alcance de la ISO/TC 194",
+    scope1:"Pruebas de biocompatibilidad", scope2:"Evaluación de la seguridad biológica", scope3:"Marcos de evaluación clínica", scope4:"Normas de materiales médicos y dentales" },
+  pt: { back:"← Todas as notícias", badge:"Nomeação", read:"2 min de leitura",
+    headline:"A/P Rosa é nomeado para o Grupo de Trabalho Espelho Nacional de Singapura para a ISO/TC 194",
+    deck:"O comitê representa os interesses de Singapura no desenvolvimento e na revisão das normas internacionais para a avaliação biológica e clínica de dispositivos médicos.",
+    p1:"O Professor Associado Vinicius Rosa foi nomeado membro do Grupo de Trabalho Espelho Nacional (NMWG) para a ISO/TC 194 — Avaliação Biológica e Clínica de Dispositivos Médicos. O NMWG desempenha um papel fundamental na representação dos interesses de Singapura no desenvolvimento e na revisão das normas internacionais, alinhando as posições nacionais ao trabalho dos comitês técnicos da ISO.",
+    p2:"A ISO/TC 194 elabora as normas que regem como a segurança biológica de dispositivos médicos e odontológicos é avaliada antes de chegarem aos pacientes — dos testes de biocompatibilidade aos marcos de avaliação clínica. Seu trabalho sustenta a segurança do paciente, a ciência regulatória e a translação de novos biomateriais para a prática clínica.",
+    pull:"A ISO/TC 194 é um pilar da segurança do paciente, da ciência regulatória e da inovação translacional.",
+    p3:"A nomeação de A/P Rosa traz uma perspectiva de pesquisa acadêmica e translacional à contribuição de Singapura para o ecossistema de normas internacionais, conectando a pesquisa de ponta em biomateriais aos marcos regulatórios que determinam como os dispositivos médicos são avaliados no mundo todo.",
+    tagAppointment:"Nomeação", tagStandards:"Normas internacionais", tagDevices:"Dispositivos médicos", tagRegSci:"Ciência regulatória",
+    cta:"Sobre a ISO/TC 194 →", specKicker:"O comitê",
+    rowBody:"Órgão", valBody:"NMWG · Singapura", rowRole:"Função", valRole:"Membro", rowFocus:"Foco", valFocus:"Avaliação biológica e clínica",
+    specBtn:"Ver o escopo do comitê →", scopeLabel:"Escopo da ISO/TC 194",
+    scope1:"Testes de biocompatibilidade", scope2:"Avaliação da segurança biológica", scope3:"Marcos de avaliação clínica", scope4:"Normas de materiais médicos e odontológicos" },
+  fr: { back:"← Toutes les actualités", badge:"Nomination", read:"2 min de lecture",
+    headline:"A/P Rosa nommé au Groupe de travail miroir national de Singapour pour l'ISO/TC 194",
+    deck:"Le comité représente les intérêts de Singapour dans l'élaboration et la révision des normes internationales pour l'évaluation biologique et clinique des dispositifs médicaux.",
+    p1:"Le professeur associé Vinicius Rosa a été nommé membre du Groupe de travail miroir national (NMWG) pour l'ISO/TC 194 — Évaluation biologique et clinique des dispositifs médicaux. Le NMWG joue un rôle essentiel dans la représentation des intérêts de Singapour dans l'élaboration et la révision des normes internationales, en alignant les positions nationales sur les travaux des comités techniques de l'ISO.",
+    p2:"L'ISO/TC 194 élabore les normes qui régissent l'évaluation de la sécurité biologique des dispositifs médicaux et dentaires avant qu'ils n'atteignent les patients — des essais de biocompatibilité jusqu'aux cadres d'évaluation clinique. Ses travaux sous-tendent la sécurité des patients, la science réglementaire et la translation de nouveaux biomatériaux vers la pratique clinique.",
+    pull:"L'ISO/TC 194 est une pierre angulaire de la sécurité des patients, de la science réglementaire et de l'innovation translationnelle.",
+    p3:"La nomination de A/P Rosa apporte une perspective de recherche académique et translationnelle à la contribution de Singapour à l'écosystème des normes internationales, reliant la recherche de pointe sur les biomatériaux aux cadres réglementaires qui déterminent l'évaluation des dispositifs médicaux dans le monde entier.",
+    tagAppointment:"Nomination", tagStandards:"Normes internationales", tagDevices:"Dispositifs médicaux", tagRegSci:"Science réglementaire",
+    cta:"À propos de l'ISO/TC 194 →", specKicker:"Le comité",
+    rowBody:"Organisme", valBody:"NMWG · Singapour", rowRole:"Rôle", valRole:"Membre", rowFocus:"Objet", valFocus:"Évaluation biologique et clinique",
+    specBtn:"Voir le périmètre du comité →", scopeLabel:"Périmètre de l'ISO/TC 194",
+    scope1:"Essais de biocompatibilité", scope2:"Évaluation de la sécurité biologique", scope3:"Cadres d'évaluation clinique", scope4:"Normes des matériaux médicaux et dentaires" },
+  zh: { back:"← 所有新闻", badge:"任命", read:"阅读时间 2 分钟",
+    headline:"Rosa 副教授获任新加坡 ISO/TC 194 国家镜像工作组专家委员",
+    deck:"该委员会代表新加坡参与制定和修订医疗器械生物学与临床评价的国际标准。",
+    p1:"副教授 Vinicius Rosa 获任 ISO/TC 194（医疗器械生物学与临床评价）新加坡国家镜像工作组（NMWG）专家委员。该工作组在代表新加坡参与国际标准的制定与修订方面发挥着关键作用，使国家立场与 ISO 技术委员会的工作保持一致。",
+    p2:"ISO/TC 194 制定相关标准，规范医疗与牙科器械在用于患者之前如何评估其生物安全性——从生物相容性测试到临床评价框架。其工作是患者安全、监管科学以及新型生物材料转化到临床应用的重要基础。",
+    pull:"ISO/TC 194 是患者安全、监管科学与转化创新的基石。",
+    p3:"Rosa 副教授的任命为新加坡参与国际标准体系注入了学术与转化研究的视角，将前沿生物材料研究与决定全球医疗器械评价方式的监管框架相连接。",
+    tagAppointment:"任命", tagStandards:"国际标准", tagDevices:"医疗器械", tagRegSci:"监管科学",
+    cta:"了解 ISO/TC 194 →", specKicker:"该委员会",
+    rowBody:"机构", valBody:"NMWG · 新加坡", rowRole:"角色", valRole:"委员", rowFocus:"重点", valFocus:"生物学与临床评价",
+    specBtn:"查看委员会职责 →", scopeLabel:"ISO/TC 194 的职责范围",
+    scope1:"生物相容性测试", scope2:"生物安全性评估", scope3:"临床评价框架", scope4:"医疗与牙科材料标准" }
+};
+(function () {
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {}; nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; }); I18N.en = EN;
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'); if (dict[k] != null) el.innerHTML = dict[k]; });
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.querySelectorAll('.lang-opt').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); }); });
+})();
+</script>
 </body>
 </html>
