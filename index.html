@@ -171,20 +171,20 @@ let stackIdx = 0;
 function renderStack() {
   const item = NEWS[stackIdx];
   document.getElementById('stack-card').innerHTML = stackCardHTML(item);
-  const dashes = NEWS.map((_,i) =>
+  const dashes = NEWS.slice(0,4).map((_,i) =>
     `<span class="dash ${i===stackIdx?'active':'inactive'}"></span>`
   ).join('');
   document.getElementById('stack-dashes').innerHTML = dashes;
   document.getElementById('stack-pagination').textContent =
-    String(stackIdx+1).padStart(2,'0') + ' / ' + String(NEWS.length).padStart(2,'0');
+    String(stackIdx+1).padStart(2,'0') + ' / 04';
 }
 
 document.getElementById('stack-prev').addEventListener('click', function() {
-  stackIdx = (stackIdx - 1 + NEWS.length) % NEWS.length;
+  stackIdx = (stackIdx - 1 + 4) % 4;
   renderStack();
 });
 document.getElementById('stack-next').addEventListener('click', function() {
-  stackIdx = (stackIdx + 1) % NEWS.length;
+  stackIdx = (stackIdx + 1) % 4;
   renderStack();
 });
 
