@@ -94,10 +94,7 @@
     <div>
       <div class="footer-eyebrow">Elsewhere</div>
       <div class="footer-links">
-        <a href="https://www.instagram.com/nus_dentistry_research/" class="footer-link" target="_blank" rel="noopener">
-          ${ICONS.instagram} Instagram
-        </a>
-        <a href="https://www.linkedin.com/in/vinicius-rosa-a6613873/" class="footer-link" target="_blank" rel="noopener">
+<a href="https://www.linkedin.com/in/vinicius-rosa-a6613873/" class="footer-link" target="_blank" rel="noopener">
           ${ICONS.linkedin} LinkedIn
         </a>
         <a href="https://www.scopus.com/authid/detail.uri?authorId=56262848300" class="footer-link" target="_blank" rel="noopener">
