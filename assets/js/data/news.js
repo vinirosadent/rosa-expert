@@ -41,6 +41,8 @@ var NEWS = [
   { id:'n27', slug:'iadr-kulzer-travel-award-clarice-sabino-2023',      source:'IADR',                           date:'2023',          tone:'orange',
     image:'news/Assets/iadr-kulzer-award-clarice-sabino-2023.jpg',
     headline:"Clarice Sabino receives the IADR Kulzer Travel Award 2023", category:'awards' },
+  { id:'n28', slug:'iadr-kulzer-award-priti-pragati-rath-2023', source:'IADR', date:'2023', tone:'orange', image:'news/Assets/iadr-kulzer-award-priti-pragati-rath.jpg', headline:"Priti Pragati Rath receives the IADR Kulzer Award 2023", category:'awards' },
+  { id:'n29', slug:'jdr-editors-choice-collection-2023', source:'Journal of Dental Research', date:'Nov 2023', tone:'orange', image:'news/Assets/jdr-editor-choice-2023.png', headline:"A/P Rosa's work selected for the JDR Editor's Choice Collection 2023", category:'awards' },
   { id:'n14', slug:'top2pct-scientists-2022',                      source:'Stanford&#8211;Elsevier',        date:'October 2022',  tone:'orange',
     image:'news/Assets/top2pct-2022.png',
     headline:"A/P Rosa ranked among the world&#39;s top 2% most-cited scientists (2022)", category:'awards' },
