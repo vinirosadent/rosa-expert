@@ -7,6 +7,15 @@
 <meta name="description" content="Biosketch of A/P Vinicius Rosa, Associate Professor at NUS Faculty of Dentistry and Director of ORCHIDS.">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<style>
+.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
+.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
+.lang-opt:hover { color: var(--text-muted); }
+.lang-opt.active { color: var(--blue-700); }
+.lang-sep { color: var(--border-strong); user-select: none; }
+.bio-lang-row { display: flex; align-items: center; gap: 14px; margin-top: var(--space-8); }
+.bio-lang-rule { flex: 1; height: 1px; background: var(--border-subtle); }
+</style>
 </head>
 <body>
 <div id="app">
@@ -19,20 +28,31 @@
         <img src="https://static.wixstatic.com/media/d8b7b0_0657c0ddf7f64489b6de910ea54c54fe~mv2.jpg/v1/fill/w_640,h_640,al_c,lg_1,q_85,enc_auto/rosa_new_edited_edited.jpg" alt="A/P Vinicius Rosa">
       </div>
       <div>
-        <div class="eyebrow">Biosketch</div>
+        <div class="eyebrow" data-i18n="eyebrow">Biosketch</div>
         <h1 class="display" style="font-size:var(--fs-page-title);margin-top:12px;">Vinicius ROSA</h1>
-        <p style="margin-top:14px;font-size:17px;line-height:1.6;color:var(--text-body);">Associate Professor, NUS Faculty of Dentistry. Director of ORCHIDS — Oral Care, Health Innovations and Designs Singapore.</p>
+        <p style="margin-top:14px;font-size:17px;line-height:1.6;color:var(--text-body);" data-i18n="subhead">Associate Professor, NUS Faculty of Dentistry. Director of ORCHIDS — Oral Care, Health Innovations and Designs Singapore.</p>
+      </div>
+    </div>
+
+    <!-- Language toggle row -->
+    <div class="bio-lang-row">
+      <div class="bio-lang-rule"></div>
+      <div class="lang-switch" aria-label="Language">
+        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="zh">中文</button>
       </div>
     </div>
 
     <article class="bio-article">
-      <p class="bio-lede">A/P Vinicius Rosa develops oral-health technologies at the intersection of materials science, artificial intelligence, regenerative dentistry and translational research. His work connects biomaterials, cell-based models, data-driven design and research infrastructure to make oral-health innovation more predictive, clinically relevant and ready to move beyond the laboratory.</p>
-      <p class="bio-body">A/P Rosa obtained his DDS from the University of Passo Fundo in 2005, the same year he received the Academy of Dental Materials Student Award. He later completed his Master's and PhD in Dental Materials at the University of São Paulo, with doctoral work developed in collaboration with Prof. Jacques E. Nör at the University of Michigan.</p>
-      <p class="bio-body">His doctoral research demonstrated that dental pulp-like tissue could be regenerated in full-length human root canals using dental pulp stem cells and injectable scaffolds. This work helped shape his long-standing interest in regenerative endodontics and in the design of biomaterials that do more than replace damaged structures: materials that interact with cells, guide tissue formation and create conditions for repair.</p>
-      <p class="bio-body">After joining the National University of Singapore in 2012, A/P Rosa built an interdisciplinary research programme around a central question: how can dentistry move from testing materials after they are made to designing technologies around the biological responses they are expected to generate? This question led his group from dental materials and pulp regeneration into advanced biointerfaces, stem-cell-derived models, material informatics, on-demand biomaterial design and living experimental systems.</p>
-      <p class="bio-body">Across these areas, his work has focused on creating platforms that change how oral-health technologies are discovered, tested and translated. Rather than treating materials, cells and clinical needs as separate problems, his research integrates them into experimental and computational systems that can better predict performance, safety and biological relevance.</p>
-      <p class="bio-body">As Vice-Dean Research at NUS Dentistry, A/P Rosa led the strategic transformation of the Faculty's research enterprise and authored the roadmap that laid the foundation for ORCHIDS — Oral Care, Health Innovations and Designs Singapore. He now directs ORCHIDS, an autonomous research centre focused on translating oral-health innovation through engineering strategies, artificial intelligence, digital tools and interdisciplinary collaboration.</p>
-      <p class="bio-body">A/P Rosa also led the development of Singapore's first Tooth Tissue Bank and Dental Stem Cell Bank, establishing research infrastructure that supports regenerative dentistry, biomaterials testing and future translational technologies. Together, these initiatives reflect the broader direction of his work: building the scientific concepts, experimental systems and institutional platforms needed for the next phase of oral-health innovation.</p>
+      <p class="bio-lede" data-i18n="lede">A/P Vinicius Rosa develops oral-health technologies at the intersection of materials science, artificial intelligence, regenerative dentistry and translational research. His work connects biomaterials, cell-based models, data-driven design and research infrastructure to make oral-health innovation more predictive, clinically relevant and ready to move beyond the laboratory.</p>
+      <p class="bio-body" data-i18n="p1">A/P Rosa obtained his DDS from the University of Passo Fundo in 2005, the same year he received the Academy of Dental Materials Student Award. He later completed his Master's and PhD in Dental Materials at the University of São Paulo, with doctoral work developed in collaboration with Prof. Jacques E. Nör at the University of Michigan.</p>
+      <p class="bio-body" data-i18n="p2">His doctoral research demonstrated that dental pulp-like tissue could be regenerated in full-length human root canals using dental pulp stem cells and injectable scaffolds. This work helped shape his long-standing interest in regenerative endodontics and in the design of biomaterials that do more than replace damaged structures: materials that interact with cells, guide tissue formation and create conditions for repair.</p>
+      <p class="bio-body" data-i18n="p3">After joining the National University of Singapore in 2012, A/P Rosa built an interdisciplinary research programme around a central question: how can dentistry move from testing materials after they are made to designing technologies around the biological responses they are expected to generate? This question led his group from dental materials and pulp regeneration into advanced biointerfaces, stem-cell-derived models, material informatics, on-demand biomaterial design and living experimental systems.</p>
+      <p class="bio-body" data-i18n="p4">Across these areas, his work has focused on creating platforms that change how oral-health technologies are discovered, tested and translated. Rather than treating materials, cells and clinical needs as separate problems, his research integrates them into experimental and computational systems that can better predict performance, safety and biological relevance.</p>
+      <p class="bio-body" data-i18n="p5">As Vice-Dean Research at NUS Dentistry, A/P Rosa led the strategic transformation of the Faculty's research enterprise and authored the roadmap that laid the foundation for ORCHIDS — Oral Care, Health Innovations and Designs Singapore. He now directs ORCHIDS, an autonomous research centre focused on translating oral-health innovation through engineering strategies, artificial intelligence, digital tools and interdisciplinary collaboration.</p>
+      <p class="bio-body" data-i18n="p6">A/P Rosa also led the development of Singapore's first Tooth Tissue Bank and Dental Stem Cell Bank, establishing research infrastructure that supports regenerative dentistry, biomaterials testing and future translational technologies. Together, these initiatives reflect the broader direction of his work: building the scientific concepts, experimental systems and institutional platforms needed for the next phase of oral-health innovation.</p>
     </article>
   </div>
 
@@ -40,8 +60,8 @@
   <div class="awards-section">
     <div class="awards-inner">
       <div style="margin-bottom:var(--space-8);">
-        <div class="eyebrow">Career highlights</div>
-        <h2 class="display" style="font-size:var(--fs-section-title);margin-top:8px;">Awards &amp; Recognition</h2>
+        <div class="eyebrow" data-i18n="secAwardsEyebrow">Career highlights</div>
+        <h2 class="display" style="font-size:var(--fs-section-title);margin-top:8px;" data-i18n="secAwardsTitle">Awards &amp; Recognition</h2>
       </div>
       <div class="awards-grid">
         <div class="award-row"><div class="award-year">2026</div><div class="award-text">IADR Innovation in Oral Care Award</div></div>
@@ -52,12 +72,12 @@
         <div class="award-row"><div class="award-year">2005</div><div class="award-text">Academy of Dental Materials Student Award</div></div>
       </div>
       <div style="margin-top:var(--space-8);">
-        <div class="eyebrow" style="margin-bottom:var(--space-4);">Trainee achievements</div>
+        <div class="eyebrow" style="margin-bottom:var(--space-4);" data-i18n="traineeEyebrow">Trainee achievements</div>
         <div class="awards-grid">
-          <div class="award-row"><div class="award-year">2023</div><div class="award-text">IADR Kulzer Travel Award — co-supervisor</div></div>
-          <div class="award-row"><div class="award-year">2022</div><div class="award-text">IADR Kulzer Travel Award — supervisor</div></div>
-          <div class="award-row"><div class="award-year">2019</div><div class="award-text">IADR Pediatric Oral Health Research Group Student Award — co-supervisor</div></div>
-          <div class="award-row"><div class="award-year">2017</div><div class="award-text">IADR-APR Unilever Hatton Award — supervisor</div></div>
+          <div class="award-row"><div class="award-year">2023</div><div class="award-text" data-i18n="trainee1">IADR Kulzer Travel Award — co-supervisor</div></div>
+          <div class="award-row"><div class="award-year">2022</div><div class="award-text" data-i18n="trainee2">IADR Kulzer Travel Award — supervisor</div></div>
+          <div class="award-row"><div class="award-year">2019</div><div class="award-text" data-i18n="trainee3">IADR Pediatric Oral Health Research Group Student Award — co-supervisor</div></div>
+          <div class="award-row"><div class="award-year">2017</div><div class="award-text" data-i18n="trainee4">IADR-APR Unilever Hatton Award — supervisor</div></div>
         </div>
       </div>
     </div>
@@ -66,20 +86,20 @@
   <!-- ── Editorial & advisory ──────────────────────────────── -->
   <div class="editorial-section" style="padding-bottom:var(--space-12);">
     <div style="margin-bottom:var(--space-8);">
-      <div class="eyebrow">Service to the field</div>
-      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:8px;">Editorial &amp; Advisory Roles</h2>
+      <div class="eyebrow" data-i18n="secEditEyebrow">Service to the field</div>
+      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:8px;" data-i18n="secEditTitle">Editorial &amp; Advisory Roles</h2>
     </div>
     <div class="editorial-grid">
       <!-- Associate Editor -->
       <div>
-        <div class="editorial-col-header">Associate Editor</div>
+        <div class="editorial-col-header" data-i18n="colAssocEditor">Associate Editor</div>
         <ul class="editorial-list">
           <li class="editorial-item"><span class="editorial-name">Journal of Prosthodontics</span><span class="editorial-period">2020 – current</span></li>
         </ul>
       </div>
       <!-- Editorial Board (spans 2 cols) -->
       <div style="grid-column:span 2;">
-        <div class="editorial-col-header">Editorial Board &amp; Advisory</div>
+        <div class="editorial-col-header" data-i18n="colEditBoard">Editorial Board &amp; Advisory</div>
         <div class="editorial-board-inner">
           <div class="editorial-item"><span class="editorial-name">Journal of Dental Research</span><span class="editorial-period">2018 – current</span></div>
           <div class="editorial-item"><span class="editorial-name">Dental Materials</span><span class="editorial-period">2020 – current</span></div>
@@ -93,11 +113,11 @@
     </div>
     <!-- Committees -->
     <div class="committee-section">
-      <div class="editorial-col-header">Committee &amp; Working Group</div>
+      <div class="editorial-col-header" data-i18n="colCommittee">Committee &amp; Working Group</div>
       <div class="committee-grid">
-        <div class="editorial-item"><span class="editorial-name">President, IADR Dental Materials Group</span><span class="editorial-period">2023–2024</span></div>
-        <div class="editorial-item"><span class="editorial-name">Board Member, Academy of Dental Materials</span><span class="editorial-period">2024–2027</span></div>
-        <div class="editorial-item"><span class="editorial-name">IADR Young Investigator Award Committee</span><span class="editorial-period">current</span></div>
+        <div class="editorial-item"><span class="editorial-name" data-i18n="comm1">President, IADR Dental Materials Group</span><span class="editorial-period">2023–2024</span></div>
+        <div class="editorial-item"><span class="editorial-name" data-i18n="comm2">Board Member, Academy of Dental Materials</span><span class="editorial-period">2024–2027</span></div>
+        <div class="editorial-item"><span class="editorial-name" data-i18n="comm3">IADR Young Investigator Award Committee</span><span class="editorial-period">current</span></div>
       </div>
     </div>
   </div>
@@ -106,5 +126,84 @@
 </div><!-- /app -->
 
 <script src="assets/js/shared.js"></script>
+<script>
+var I18N = {
+  en: {},
+  es: {
+    eyebrow: "Perfil",
+    subhead: "Profesor Asociado, Facultad de Odontología de la NUS. Director de ORCHIDS — Oral Care, Health Innovations and Designs Singapore.",
+    lede: "El Profesor Adjunto Vinicius Rosa desarrolla tecnologías de salud bucal en la intersección de la ciencia de materiales, la inteligencia artificial, la odontología regenerativa y la investigación traslacional. Su trabajo conecta biomateriales, modelos basados en células, diseño basado en datos e infraestructura de investigación para hacer que la innovación en salud bucal sea más predictiva, clínicamente relevante y esté lista para ir más allá del laboratorio.",
+    p1: "El Prof. Adj. Rosa obtuvo su título de odontólogo (DDS) en la Universidad de Passo Fundo en 2005, el mismo año en que recibió el Academy of Dental Materials Student Award. Posteriormente completó su Maestría y Doctorado (PhD) en Materiales Dentales en la Universidad de São Paulo, con un trabajo doctoral desarrollado en colaboración con el Prof. Jacques E. Nör en la Universidad de Míchigan.",
+    p2: "Su investigación doctoral demostró que el tejido similar a la pulpa dental podría regenerarse en conductos radiculares humanos completos utilizando células madre de la pulpa dental y andamios inyectables. Este trabajo ayudó a dar forma a su interés de larga data en la endodoncia regenerativa y en el diseño de biomateriales que hacen más que reemplazar estructuras dañadas: materiales que interactúan con las células, guían la formación de tejidos y crean condiciones para la reparación.",
+    p3: "Tras incorporarse a la Universidad Nacional de Singapur en 2012, el Prof. Adj. Rosa construyó un programa de investigación interdisciplinario en torno a una pregunta central: ¿cómo puede la odontología pasar de probar materiales después de fabricados a diseñar tecnologías en torno a las respuestas biológicas que se espera que generen? Esta pregunta llevó a su grupo desde los materiales dentales y la regeneración de la pulpa hacia biointerfaces avanzadas, modelos derivados de células madre, informática de materiales, diseño de biomateriales bajo demanda y sistemas experimentales vivos.",
+    p4: "En estas áreas, su trabajo se ha centrado en crear plataformas que cambien la forma en que se descubren, prueban y trasladan las tecnologías de salud bucal. En lugar de tratar los materiales, las células y las necesidades clínicas como problemas separados, su investigación los integra en sistemas experimentales y computacionales que pueden predecir mejor el rendimiento, la seguridad y la relevancia biológica.",
+    p5: "Como Vicedecano de Investigación de la Facultad de Odontología de la NUS, el Prof. Adj. Rosa lideró la transformación estratégica de la empresa de investigación de la Facultad y fue el autor de la hoja de ruta que sentó las bases de ORCHIDS — Oral Care, Health Innovations and Designs Singapore. Ahora dirige ORCHIDS, un centro de investigación autónomo centrado en la traslación de la innovación en salud bucal mediante estrategias de ingeniería, inteligencia artificial, herramientas digitales y colaboración interdisciplinaria.",
+    p6: "El Prof. Adj. Rosa también lideró el desarrollo del primer Banco de Tejidos Dentales y Banco de Células Madre Dentales de Singapur, estableciendo una infraestructura de investigación que respalda la odontología regenerativa, las pruebas de biomateriales y las futuras tecnologías traslacionales. Juntas, estas iniciativas reflejan la dirección más amplia de su trabajo: construir los conceptos científicos, los sistemas expertos e institucionales necesarios para la próxima fase de innovación en salud bucal.",
+    secAwardsEyebrow: "Trayectoria", secAwardsTitle: "Premios y reconocimientos",
+    traineeEyebrow: "Logros de los estudiantes",
+    trainee1: "IADR Kulzer Travel Award — co-supervisor", trainee2: "IADR Kulzer Travel Award — supervisor",
+    trainee3: "IADR Pediatric Oral Health Research Group Student Award — co-supervisor",
+    trainee4: "IADR-APR Unilever Hatton Award — supervisor",
+    secEditEyebrow: "Servicio a la comunidad", secEditTitle: "Cargos editoriales y consultivos",
+    colAssocEditor: "Editor Asociado", colEditBoard: "Consejo Editorial y Asesor", colCommittee: "Comité y Grupo de Trabajo",
+    comm1: "Presidente, Grupo de Materiales Dentales de la IADR",
+    comm2: "Miembro del Consejo de Administración, Academy of Dental Materials",
+    comm3: "Comité del Premio al Joven Investigador de la IADR"
+  },
+  fr: {
+    eyebrow: "Biographie",
+    subhead: "Professeur agrégé, Faculté de médecine dentaire de la NUS. Directeur d'ORCHIDS — Oral Care, Health Innovations and Designs Singapore.",
+    lede: "Le Professeur agrégé Vinicius Rosa développe des technologies de santé bucco-dentaire à l'intersection de la science des matériaux, de l'intelligence artificielle, de la dentisterie régénérative et de la recherche translationnelle. Ses travaux lient les biomatériaux, les modèles cellulaires, la conception axée sur les données et les infrastructures de recherche pour rendre l'innovation en santé bucco-dentaire plus prédictive, cliniquement pertinente et prête à dépasser le cadre du laboratoire.",
+    p1: "Le Pr agrégé Rosa a obtenu son diplôme de chirurgien-dentiste (DDS) à l'Université de Passo Fundo en 2005, année où il a également reçu l'Academy of Dental Materials Student Award. Il a ensuite complété sa maîtrise et son doctorat (PhD) en matériaux dentaires à l'Université de São Paulo, avec des travaux doctoraux développés en collaboration avec le Professeur Jacques E. Nör à l'Université du Michigan.",
+    p2: "Ses recherches doctorales ont démontré qu'un tissu semblable à la pulpe dentaire pouvait être régénéré dans des canaux radiculaires humains complets à l'aide de cellules souches de la pulpe dentaire et de structures de soutien (échafaudages) injectables. Ce travail a contribué à façonner son intérêt de longue date pour l'endodontie régénérative et pour la conception de biomatériaux qui font plus que simplement remplacer des structures endommagées : des matériaux qui interagissent avec les cellules, guident la formation des tissus et créent les conditions de la réparation.",
+    p3: "Après avoir rejoint l'Université nationale de Singapour (NUS) en 2012, le Pr agrégé Rosa a mis en place un programme de recherche interdisciplinaire autour d'une question centrale : comment la dentisterie peut-elle passer du test des matériaux après leur fabrication à la conception de technologies articulées autour des réponses biologiques qu'elles sont censées générer ? Cette question a conduit son groupe des matériaux dentaires et de la régénération de la pulpe vers les biointerfaces avancées, les modèles dérivés de cellules souches, l'informatique des matériaux (material informatics), la conception de biomatériaux à la demande et les systèmes expérimentaux vivants.",
+    p4: "Dans tous ces domaines, ses travaux se sont concentrés sur la création de plateformes qui changent la manière dont les technologies de santé bucco-dentaire sont découvertes, testées et transférées vers la clinique. Plutôt que de traiter les matériaux, les cellules et les besoins cliniques comme des problèmes distincts, sa recherche les intègre dans des systèmes expérimentaux et computationnels capables de mieux prédire les performances, la sécurité et la pertinence biologique.",
+    p5: "En tant que vice-doyen de la recherche à la Faculté de médecine dentaire de la NUS, le Pr agrégé Rosa a dirigé la transformation stratégique des activités de recherche de la Faculté et a rédigé la feuille de route qui a jeté les bases d'ORCHIDS — Oral Care, Health Innovations and Designs Singapore. Il dirige aujourd'hui ORCHIDS, un centre de recherche autonome axé sur la translation de l'innovation en santé bucco-dentaire grâce à des stratégies d'ingénierie, à l'intelligence artificielle, aux outils numériques et à la collaboration interdisciplinaire.",
+    p6: "Le Pr agrégé Rosa a également dirigé le développement de la première banque de tissus dentaires (Tooth Tissue Bank) et banque de cellules souches dentaires (Dental Stem Cell Bank) de Singapour, établissant ainsi une infrastructure de recherche qui soutient la dentisterie régénérative, les tests de biomatériaux et les futures technologies translationnelles. Ensemble, ces initiatives reflètent la direction plus large de ses travaux : construire les concepts scientifiques, les systèmes expérimentaux et les plateformes institutionnelles nécessaires à la prochaine phase de l'innovation en santé bucco-dentaire.",
+    secAwardsEyebrow: "Parcours", secAwardsTitle: "Prix et distinctions",
+    traineeEyebrow: "Réalisations des étudiants",
+    trainee1: "IADR Kulzer Travel Award — co-superviseur", trainee2: "IADR Kulzer Travel Award — superviseur",
+    trainee3: "IADR Pediatric Oral Health Research Group Student Award — co-superviseur",
+    trainee4: "IADR-APR Unilever Hatton Award — superviseur",
+    secEditEyebrow: "Service à la discipline", secEditTitle: "Rôles éditoriaux et consultatifs",
+    colAssocEditor: "Éditeur Associé", colEditBoard: "Comité de rédaction et conseil", colCommittee: "Comité et groupe de travail",
+    comm1: "Président, Groupe des matériaux dentaires de l'IADR",
+    comm2: "Membre du Conseil d'administration, Academy of Dental Materials",
+    comm3: "Comité du Prix du jeune chercheur de l'IADR"
+  },
+  zh: {
+    eyebrow: "学术履历",
+    subhead: "副教授，新加坡国立大学牙医学院。ORCHIDS 主任 — Oral Care, Health Innovations and Designs Singapore。",
+    lede: "Vinicius Rosa 副教授在材料科学、人工智能、再生牙医学和转化研究的交叉领域开发口腔健康技术。他的工作将生物材料、细胞模型、数据驱动设计和研究基础设施联系起来，使口腔健康创新更具预测性、临床相关性，并做好走出实验室的准备。",
+    p1: "Rosa 副教授于2005年在帕索丰杜大学（University of Passo Fundo）获得牙外科博士（DDS）学位，并在同年荣获牙科材料学会学生奖（Academy of Dental Materials Student Award）。随后，他在圣保罗大学（University of São Paulo）完成了牙科材料硕士和博士学位，其中博士研究是与密歇根大学的 Jacques E. Nör 教授合作开展的。",
+    p2: "他的博士研究表明，利用牙髓干细胞和可注射支架，可以在完整的人类根管中再生出类似牙髓的组织。这项工作奠定了他对再生牙髓病学以及生物材料设计的长期兴趣——这些材料不仅能替代受损结构，还能与细胞相互作用、引导组织形成并为修复创造条件。",
+    p3: "自2012年加入新加坡国立大学（NUS）以来，Rosa 副教授围绕一个核心问题建立了一个跨学科的研究项目：牙医学如何从材料制造后的测试，转变为围绕预期产生的生物反应来设计技术？这一问题引导他的团队从牙科材料和牙髓再生领域，走向先进的生物界面、干细胞衍生模型、材料信息学、定制（按需）生物材料设计以及活体实验系统。",
+    p4: "在这些领域中，他的工作重点是创建能够改变口腔健康技术发现、测试和转化方式的平台。他的研究并没有将材料、细胞和临床需求视为独立的问题，而是将它们整合到实验和计算系统中，以更好地预测性能、安全性和生物学相关性。",
+    p5: "作为新加坡国立大学牙医学院的主管研究副院长，Rosa 副教授领导了该学院研究事业的战略转型，并撰写了为 ORCHIDS（新加坡口腔护理、健康创新与设计中心）奠定基础的路线图。他现在担任 ORCHIDS 的主任，该中心是一个自治研究中心，专注于通过工程策略、人工智能、数字化工具和跨学科合作来转化口腔健康创新成果。",
+    p6: "Rosa 副教授还领导开发了新加坡首个牙齿组织库和牙科干细胞库，建立了支持再生牙医学、生物材料测试和未来转化技术的研究基础设施。这些倡议共同反映了他工作更广泛的方向：构建口腔健康创新下一阶段所需的科学概念、实验系统和机构平台。",
+    secAwardsEyebrow: "职业亮点", secAwardsTitle: "奖项与荣誉",
+    traineeEyebrow: "学生成就",
+    trainee1: "IADR Kulzer Travel Award — 联合导师", trainee2: "IADR Kulzer Travel Award — 导师",
+    trainee3: "IADR Pediatric Oral Health Research Group Student Award — 联合导师",
+    trainee4: "IADR-APR Unilever Hatton Award — 导师",
+    secEditEyebrow: "学术服务", secEditTitle: "编辑与顾问职务",
+    colAssocEditor: "副编辑", colEditBoard: "编委会及顾问", colCommittee: "委员会与工作组",
+    comm1: "主席，IADR 牙科材料组",
+    comm2: "董事会成员，牙科材料学会（Academy of Dental Materials）",
+    comm3: "IADR 青年研究者奖委员会"
+  }
+};
+(function () {
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {}; nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; }); I18N.en = EN;
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'); if (dict[k] != null) el.innerHTML = dict[k]; });
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.querySelectorAll('.lang-opt').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); }); });
+})();
+</script>
 </body>
 </html>
