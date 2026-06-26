@@ -12,7 +12,7 @@
   // Detect if we're inside a subdirectory.
   // Works for both file:// and http:// serving.
   const path = window.location.pathname;
-  const isSubdir = /\/(news|publications)\//.test(path);
+  const isSubdir = /\/(news|publications|research)\//.test(path);
   const base = isSubdir ? '../' : '';
 
   /* ── Active nav item ──────────────────────────────────────── */
@@ -23,6 +23,7 @@
     if (/\/publications(\/|\.html)/.test(p)) return 'publications';
     if (/\/news(\/|\.html)/.test(p))    return 'news';
     if (/\/contact\.html/.test(p))      return 'contact';
+    if (/\/research(\/|\.html)/.test(p)) return 'research';
     return 'home';
   }
   const activePage = getActivePage();
@@ -39,6 +40,7 @@
   const NAV = [
     { id: 'home',         label: 'Home',     href: base + 'index.html' },
     { id: 'who',          label: 'Who',      href: base + 'who.html' },
+    { id: 'research',     label: 'Research', href: base + 'research/ai-living-lab.html' },
     { id: 'publications', label: 'To read',  href: base + 'publications.html' },
     { id: 'news',         label: 'News',     href: base + 'news.html' },
     { id: 'contact',      label: 'Contact',  href: base + 'contact.html' },

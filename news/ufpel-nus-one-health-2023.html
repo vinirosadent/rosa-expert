@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NUS and UFPEL secure One Health research grants — Vinicius Rosa &middot; NUS Faculty of Dentistry</title>
+<meta name="description" content="The National University of Singapore and Universidade Federal de Pelotas (Brazil) have secured research grants to advance a binational One Health collaboration in dental research.">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+
+.art-page{min-height:60vh;padding-bottom:var(--space-20)}
+.art-global{max-width:var(--container-base);margin:0 auto;padding:0 var(--gutter)}
+.art-back{display:inline-block;padding:0;margin-bottom:20px;font-size:12px;font-weight:500;color:var(--text-faint);text-decoration:none}
+.art-back:hover{color:var(--text-muted)}
+.art-badge-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.art-badge{flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;padding:4px 12px;border-radius:100px;white-space:nowrap}
+.art-badge-orange{background:var(--wash-orange);color:var(--orange-600)}
+.art-badge-blue{background:var(--wash-blue);color:var(--blue-700)}
+.art-badge-teal{background:var(--wash-teal);color:var(--teal-700)}
+.art-badge-rule{flex:1;height:1px;background:var(--border-subtle)}
+.lang-switch{flex-shrink:0;display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;letter-spacing:.08em}
+.lang-opt{background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;color:var(--text-faint);transition:color .15s ease}
+.lang-opt:hover{color:var(--text-muted)}
+.lang-opt.active{color:var(--blue-700)}
+.lang-sep{color:var(--border-strong);user-select:none}
+.art-meta{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint)}
+.art-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--border-strong);display:inline-block;flex-shrink:0}
+.art-headline{font-family:var(--font-serif);font-size:var(--fs-page-title);font-weight:500;letter-spacing:-0.025em;line-height:1.07;color:var(--text-strong);margin:0 0 20px}
+.art-deck{font-family:var(--font-serif);font-style:italic;font-size:18.5px;line-height:1.6;color:var(--text-muted);margin:0}
+.aw-grid{display:flex;flex-wrap:wrap;align-items:flex-start;gap:48px;margin-top:16px}
+.aw-main{flex:1 1 440px;max-width:680px;min-width:0}
+.aw-main p{font-size:17px;line-height:1.8;color:var(--text-body);margin-bottom:22px;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.award-figure{margin:0 0 28px}
+.award-figure-box{overflow:hidden;border-radius:12px;border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center}
+.award-figure-box img{width:100%;height:100%;display:block}
+.award-figcaption{font-size:13px;color:var(--text-muted);line-height:1.5;margin-top:12px}
+.art-pull{margin:14px 0 34px;text-align:center}
+.art-pull-mark{font-family:var(--font-serif);font-size:88px;line-height:0.6;color:var(--teal-200);user-select:none;display:block;margin-bottom:10px}
+.art-pull .art-pull-text{text-align:center;font-family:var(--font-serif);font-style:italic;font-size:22px;line-height:1.44;color:var(--text-strong);max-width:480px;margin:0 auto}
+.aw-rail{flex:1 1 280px;max-width:320px;min-width:0;position:sticky;top:96px;display:flex;flex-direction:column;gap:20px}
+.aw-card{background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:24px}
+.aw-card-head{display:flex;align-items:center;gap:13px;margin-bottom:20px}
+.aw-icon-wrap{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-sm);font-size:20px}
+.aw-card-head-label{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.aw-card-head-org{font-family:var(--font-serif);font-size:17px;font-weight:500;color:var(--text-strong);line-height:1.3;margin-top:2px}
+.aw-row{display:flex;justify-content:space-between;gap:12px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--border-subtle)}
+.aw-row:last-of-type{padding-bottom:0;margin-bottom:0;border-bottom:none}
+.aw-row-label{font-size:13.5px;color:var(--text-muted);flex-shrink:0}
+.aw-row-value{font-size:13.5px;font-weight:600;color:var(--text-strong);text-align:right}
+.aw-callout{background:var(--surface-subtle);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:20px 22px}
+.aw-callout-label{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--teal-600)}
+.aw-callout p{margin:11px 0 0;font-size:13.5px;line-height:1.55;color:var(--text-body)}
+.art-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--space-8);padding-top:20px;border-top:1px solid var(--border-subtle)}
+@media(max-width:760px){.aw-rail{position:static;max-width:none;flex-basis:100%}}
+
+.aw-card{border-top:3px solid var(--teal-500)}
+.art-pull-mark{color:var(--teal-200)}
+</style>
+</head>
+<body>
+<div id="app">
+<main class="art-page">
+  <div class="art-global" style="padding-top:24px;">
+    <a href="../news.html" class="art-back" data-i18n="back">&larr; All news</a>
+    <div class="art-badge-row">
+      <span class="art-badge art-badge-teal" data-i18n="badge">Research Collaboration</span>
+      <div class="art-badge-rule"></div>
+      <div class="lang-switch" aria-label="Language">
+        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">&middot;</span>
+        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">&middot;</span>
+        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">&middot;</span>
+        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">&middot;</span>
+        <button type="button" class="lang-opt" data-lang="zh">&#20013;&#25991;</button>
+      </div>
+    </div>
+    <div class="art-meta">
+      <span style="color:var(--teal-600);">NUS &middot; UFPEL</span>
+      <span class="art-meta-dot"></span>
+      <span data-i18n="date">April 2023</span>
+      <span class="art-meta-dot"></span>
+      <span data-i18n="read">2 min read</span>
+    </div>
+    <div class="aw-grid">
+      <div class="aw-main">
+        <h1 class="art-headline" data-i18n="headline">NUS and UFPEL secure grants for a One Health research collaboration</h1>
+        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">A Singapore&ndash;Brazil partnership opens new avenues for research at the intersection of oral health, systemic disease, and environmental science.</p>
+        <figure class="award-figure">
+          <div class="award-figure-box" style="aspect-ratio:1/1;"><img src="Assets/ufpel-nus-research-collaboration.png" alt="NUS and UFPEL secure grants for a One Health research collaboration" style="object-fit:cover;"></div>
+          <figcaption class="award-figcaption" data-i18n="figCaption">Researchers from NUS and UFPEL celebrating the research collaboration award.</figcaption>
+        </figure>
+        <p data-i18n="p1">The National University of Singapore and the Universidade Federal de Pelotas (UFPEL), Brazil, have been awarded research grants to advance a One Health collaboration. The initiative &mdash; involving researchers from the NUS Faculty of Dentistry and dental schools in Pelotas &mdash; is focused on bridging oral health research with broader systemic and environmental health perspectives, a hallmark of the One Health framework.</p>
+        <p data-i18n="p2">One Health recognises the interconnection between human, animal, and environmental health. In the context of dental research, it opens pathways to study oral microbiome dynamics in relation to systemic conditions, the use of biomaterials under environmentally sustainable principles, and cross-species insights into tissue regeneration. A/P Rosa has cultivated research ties between NUS and UFPEL over several years, making this collaboration a natural evolution of an established partnership.</p>
+        <div class="art-pull">
+          <span class="art-pull-mark">&ldquo;</span>
+          <p class="art-pull-text" data-i18n="pull">Connecting oral health research to the broader web of life, systemic disease, and environment.</p>
+        </div>
+        <p data-i18n="p3">UFPEL&rsquo;s school of dentistry is one of Brazil&rsquo;s leading research-intensive dental institutions, with a strong track record in evidence-based dentistry and community oral health. The NUS&ndash;UFPEL collaboration reflects the international dimension of A/P Rosa&rsquo;s research programme and reinforces Singapore&rsquo;s connections to emerging dental research communities in South America. A/P Rosa was originally trained in Brazil before joining NUS, and he has maintained active ties to Brazilian dental research throughout his career.</p>
+        <div class="art-tags"><span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">Research Collaboration</span><span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">One Health</span><span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">Brazil</span><span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span></div>
+      </div>
+      <aside class="aw-rail">
+        <div class="aw-card">
+          <div class="aw-card-head">
+            <div class="aw-icon-wrap" style="background:linear-gradient(135deg,var(--teal-400),var(--teal-600));">&#127758;</div>
+            <div>
+              <div class="aw-card-head-label" style="color:var(--teal-700);" data-i18n="cardKicker">International Collaboration</div>
+              <div class="aw-card-head-org">NUS &middot; UFPEL</div>
+            </div>
+          </div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowYear">Year</span><span class="aw-row-value">2023</span></div>
+          <div class="aw-row"><span class="aw-row-label" data-i18n="rowCountries">Countries</span><span class="aw-row-value">Singapore &middot; Brazil</span></div>
+        </div>
+        <div class="aw-callout">
+          <div class="aw-callout-label" data-i18n="calloutLabel">About One Health</div>
+          <p data-i18n="calloutP">One Health is an integrated, interdisciplinary approach that recognises the interconnection between human health, animal health, and environmental health. It has been adopted by the WHO, FAO, OIE, and UNEP as a framework for addressing complex health challenges that span species and ecosystems.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+</div>
+<script src="../assets/js/shared.js"></script>
+<script>
+
+var I18N = {
+  en: {},
+  es: {"back": "&larr; Todas las noticias", "badge": "Colaboraci&#xF3;n de investigaci&#xF3;n", "date": "Abril 2023", "read": "2 min de lectura", "headline": "NUS y UFPEL obtienen becas para una colaboraci&#xF3;n de investigaci&#xF3;n One Health", "deck": "Una alianza Singapur&ndash;Brasil abre nuevas v&#xED;as para investigar en la intersecci&#xF3;n de la salud bucal, las enfermedades sist&#xE9;micas y las ciencias ambientales.", "figCaption": "Investigadores de NUS y UFPEL celebrando la concesi&#xF3;n de la colaboraci&#xF3;n.", "p1": "La Universidad Nacional de Singapur y la Universidade Federal de Pelotas (UFPEL), Brasil, han recibido becas de investigaci&#xF3;n para impulsar una colaboraci&#xF3;n One Health. La iniciativa &mdash; que involucra a investigadores de la Facultad de Odontolog&#xED;a de NUS y escuelas dentales de Pelotas &mdash; se centra en vincular la investigaci&#xF3;n en salud bucal con perspectivas m&#xE1;s amplias de salud sist&#xE9;mica y ambiental.", "p2": "One Health reconoce la interconexi&#xF3;n entre la salud humana, animal y ambiental. En el contexto de la investigaci&#xF3;n dental, abre caminos para estudiar la din&#xE1;mica del microbioma oral en relaci&#xF3;n con condiciones sist&#xE9;micas, el uso de biomateriales bajo principios ambientalmente sostenibles, y perspectivas interespecies sobre regeneraci&#xF3;n tisular.", "pull": "Conectando la investigaci&#xF3;n en salud bucal con la red m&#xE1;s amplia de vida, enfermedad sist&#xE9;mica y medio ambiente.", "p3": "La Facultad de Odontolog&#xED;a de la UFPEL es una de las instituciones dentales m&#xE1;s destacadas de Brasil en investigaci&#xF3;n. La colaboraci&#xF3;n NUS&ndash;UFPEL refleja la dimensi&#xF3;n internacional del programa de investigaci&#xF3;n de A/P Rosa y refuerza las conexiones de Singapur con las comunidades emergentes de investigaci&#xF3;n dental en Am&#xE9;rica del Sur.", "cardKicker": "Colaboraci&#xF3;n internacional", "rowYear": "A&#xF1;o", "rowCountries": "Pa&#xED;ses", "calloutLabel": "Sobre One Health", "calloutP": "One Health es un enfoque integrado e interdisciplinario que reconoce la interconexi&#xF3;n entre la salud humana, animal y ambiental. Ha sido adoptado por la OMS, la FAO y otras organizaciones como marco para abordar desaf&#xED;os complejos de salud."},
+  pt: {"back": "&larr; Todas as not&#xED;cias", "badge": "Colabora&#xE7;&#xE3;o de pesquisa", "date": "Abril 2023", "read": "2 min de leitura", "headline": "NUS e UFPEL obtêm bolsas para colabora&#xE7;&#xE3;o em pesquisa One Health", "deck": "Uma parceria Cingapura&ndash;Brasil abre novos caminhos para pesquisa na intersec&#xE7;&#xE3;o de sa&#xFA;de bucal, doen&#xE7;as sist&#xEA;micas e ci&#xEA;ncias ambientais.", "figCaption": "Pesquisadores da NUS e UFPEL celebrando a concess&#xE3;o da colabora&#xE7;&#xE3;o.", "p1": "A Universidade Nacional de Cingapura e a Universidade Federal de Pelotas (UFPEL), Brasil, receberam bolsas de pesquisa para avan&#xE7;ar uma colabora&#xE7;&#xE3;o One Health. A iniciativa &mdash; envolvendo pesquisadores da Faculdade de Odontologia da NUS e escolas dent&#xE1;rias em Pelotas &mdash; foca em conectar a pesquisa em sa&#xFA;de bucal com perspectivas mais amplas de sa&#xFA;de sist&#xEA;mica e ambiental.", "p2": "One Health reconhece a interligo&#xE7;&#xE3;o entre sa&#xFA;de humana, animal e ambiental. No contexto da pesquisa odontol&#xF3;gica, abre caminhos para estudar din&#xE2;micas do microbioma oral em rela&#xE7;&#xE3;o a condi&#xE7;&#xF5;es sist&#xEA;micas e perspectivas interespec&#xED;ficas sobre regenera&#xE7;&#xE3;o tecidual.", "pull": "Conectando a pesquisa em sa&#xFA;de bucal &#xE0; rede mais ampla de vida, doen&#xE7;a sist&#xEA;mica e meio ambiente.", "p3": "A faculdade de odontologia da UFPEL &#xE9; uma das institui&#xE7;&#xF5;es dent&#xE1;rias mais renomadas do Brasil em pesquisa. A colabora&#xE7;&#xE3;o NUS&ndash;UFPEL reflete a dimens&#xE3;o internacional do programa de pesquisa de A/P Rosa. A/P Rosa foi originalmente formado no Brasil antes de ingressar na NUS.", "cardKicker": "Colabora&#xE7;&#xE3;o internacional", "rowYear": "Ano", "rowCountries": "Pa&#xED;ses", "calloutLabel": "Sobre One Health", "calloutP": "One Health &#xE9; uma abordagem integrada e interdisciplinar que reconhece a interligo&#xE7;&#xE3;o entre sa&#xFA;de humana, animal e ambiental. Foi adotada pela OMS, FAO e outras organiza&#xE7;&#xF5;es como estrutura para enfrentar desafios complexos de sa&#xFA;de."},
+  fr: {"back": "&larr; Toutes les actualit&#xE9;s", "badge": "Collaboration de recherche", "date": "Avril 2023", "read": "2 min de lecture", "headline": "NUS et UFPEL obtiennent des financements pour une collaboration de recherche One Health", "deck": "Un partenariat Singapour&ndash;Br&#xE9;sil ouvre de nouvelles perspectives de recherche &#xE0; l&rsquo;intersection de la sant&#xE9; bucco-dentaire, des maladies syst&#xE9;miques et des sciences environnementales.", "figCaption": "Chercheurs de NUS et UFPEL c&#xE9;l&#xE9;brant l&rsquo;attribution de la collaboration.", "p1": "L&rsquo;Universit&#xE9; nationale de Singapour et l&rsquo;Universidade Federal de Pelotas (UFPEL), Br&#xE9;sil, ont re&#xE7;u des financements de recherche pour faire avancer une collaboration One Health. L&rsquo;initiative &mdash; impliquant des chercheurs de la Facult&#xE9; de m&#xE9;decine dentaire de NUS et des &#xE9;coles dentaires de Pelotas &mdash; vise &#xE0; connecter la recherche en sant&#xE9; bucco-dentaire avec des perspectives syst&#xE9;miques et environnementales plus larges.", "p2": "One Health reconna&#xEE;t l&rsquo;interconnexion entre la sant&#xE9; humaine, animale et environnementale. Dans le contexte de la recherche dentaire, cela ouvre des voies pour &#xE9;tudier la dynamique du microbiome oral en lien avec des conditions syst&#xE9;miques et des perspectives interesp&#xE8;ces sur la r&#xE9;g&#xE9;n&#xE9;ration tissulaire.", "pull": "Connecter la recherche en sant&#xE9; bucco-dentaire au r&#xE9;seau plus large de la vie, des maladies syst&#xE9;miques et de l&rsquo;environnement.", "p3": "La facult&#xE9; de m&#xE9;decine dentaire de l&rsquo;UFPEL est l&rsquo;une des institutions dentaires les plus renomm&#xE9;es du Br&#xE9;sil en mati&#xE8;re de recherche. La collaboration NUS&ndash;UFPEL refl&#xE8;te la dimension internationale du programme de recherche d&rsquo;A/P Rosa, qui a &#xE9;t&#xE9; form&#xE9; au Br&#xE9;sil avant de rejoindre NUS.", "cardKicker": "Collaboration internationale", "rowYear": "Ann&#xE9;e", "rowCountries": "Pays", "calloutLabel": "&#xC0; propos de One Health", "calloutP": "One Health est une approche int&#xE9;gr&#xE9;e et interdisciplinaire qui reconna&#xEE;t l&rsquo;interconnexion entre la sant&#xE9; humaine, animale et environnementale, adopt&#xE9;e par l&rsquo;OMS, la FAO et d&rsquo;autres organisations."},
+  zh: {"back": "&larr; &#25152;&#26377;&#26032;&#38395;", "badge": "&#31185;&#30740;&#21512;&#20316;", "date": "2023&#24180;4&#26376;", "read": "&#38405;&#35835;&#26102;&#38388; 2 &#20998;&#38047;", "headline": "NUS &#19982; UFPEL &#33719;&#24471;&ldquo;&#21482;&#26377;&#19968;&#20491;&#22320;&#29699;&rdquo;&#30740;&#31350;&#32463;&#36153;", "deck": "&#26032;&#21152;&#22369;&ndash;&#24052;&#35199;&#20852;&#31995;&#25191;&#32422;&#24320;&#21551;&#21475;&#33156;&#21367;&#29289;&#31185;&#23398;&#12289;&#31995;&#32479;&#24615;&#30052;&#30149;&#21450;&#29615;&#22659;&#31185;&#23398;&#20132;&#21449;&#30340;&#26032;&#30740;&#31350;&#36335;&#24452;&#12290;", "figCaption": "NUS &#19982; UFPEL &#30740;&#31350;&#20154;&#21592;&#24198;&#31505;&#21512;&#20316;&#33719;&#25480;&#12290;", "p1": "&#26032;&#21152;&#22369;&#22269;&#31435;&#22823;&#23398;&#19982;&#24052;&#35199;&#20851;&#32884;&#21152;&#26031;&#32邦;&#31185;&#25454;&#22823;&#23398;&#65288;UFPEL&#65289;&#33719;&#24471;&#30740;&#31350;&#32463;&#36153;&#65292;&#25512;&#36827;&#21482;&#26377;&#19968;&#20491;&#22320;&#29699;&#21512;&#20316;&#12290;&#35813;&#20123;&#35785;&#21010;&#26399;&#26395;&#36890;&#36807;&#38215;&#21512;&#21475;&#33156;&#21367;&#29289;&#30740;&#31350;&#19982;&#26356;&#24191;&#27867;&#30340;&#31995;&#32479;&#12288;&#29615;&#22659;&#30053;&#24247;&#35266;&#30449;&#26469;&#25454;&#36720;&#21475;&#33156;&#21367;&#29289;&#30740;&#31350;&#12290;", "p2": "&#21482;&#26377;&#19968;&#20491;&#22320;&#29699;&#35748;&#35782;&#21040;&#20154;&#31867;&#12289;&#21160;&#29289;&#21644;&#29615;&#22659;&#24247;&#24247;&#30456;&#20114;&#32852;&#31995;&#12290;&#22312;&#29275;&#31185;&#30740;&#31350;&#35299;&#22312;&#26399;&#20013;&#65292;&#36825;&#20026;&#30740;&#31350;&#21475;&#33156;&#24494;&#29983;&#32452;&#19982;&#31995;&#32479;&#30340;&#20851;&#31995;&#20197;&#21450;&#29420;&#29289;&#35266;&#28857;&#25552;&#20379;&#20102;&#36335;&#24452;&#12290;", "pull": "&#23558;&#21475;&#33156;&#21367;&#29289;&#30740;&#31350;&#19982;&#29983;&#21629;&#12289;&#31995;&#32479;&#30052;&#30149;&#12289;&#29615;&#22659;&#30340;&#25139;&#32534;&#30456;&#36830;&#12290;", "p3": "UFPEL &#29275;&#31185;&#23398;&#38498;&#26159;&#24052;&#35199;&#26368;&#25346;&#20986;&#30340;&#30740;&#31350;&#26578;&#29275;&#31185;&#25945;&#32946;&#26426;&#26500;&#20043;&#19968;&#12290;NUS&ndash;UFPEL &#21512;&#20316;&#20307;&#29616; A/P Rosa &#30740;&#31350;&#39046;&#22495;&#30340;&#22269;&#38469;&#24615;&#65292;&#20026;&#26032;&#21152;&#22369;&#19982;&#21357;&#32654;&#27954;&#29275;&#31185;&#30740;&#31350;&#31038;&#21306;&#30340;&#31806;&#32852;&#25903;&#25345;&#12290;", "cardKicker": "&#22269;&#38469;&#21512;&#20316;", "rowYear": "&#24180;&#20221;", "rowCountries": "&#22269;&#23478;", "calloutLabel": "&#20851;&#20110;&#21482;&#26377;&#19968;&#20491;&#22320;&#29699;", "calloutP": "&#21482;&#26377;&#19968;&#20491;&#22320;&#29699;&#26159;&#19968;&#31181;&#36827;&#30340;&#36798;&#26041;&#27861;&#65292;&#35748;&#35782;&#20986;&#20154;&#31867;&#12289;&#21160;&#29289;&#21644;&#29615;&#22659;&#21463;&#30423;&#30340;&#30456;&#20114;&#20851;&#32852;&#12290;&#24050;&#34987;&#19990;&#30028;&#536;&#29983;&#32452;&#32455;&#12289;&#31192;&#31192;&#31456;&#31243;&#31181;&#32422;&#21644;&#20854;&#20182;&#31354;&#25235;&#26500;&#25454;&#20026;&#24212;&#23545;&#22797;&#26434;&#21598;&#29232;&#25311;&#25112;&#30340;&#26694;&#26550;&#12290;"}
+};
+(function () {
+  var nodes = document.querySelectorAll("[data-i18n]");
+  var EN = {}; nodes.forEach(function (el) { EN[el.getAttribute("data-i18n")] = el.innerHTML; }); I18N.en = EN;
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    nodes.forEach(function (el) { var k = el.getAttribute("data-i18n"); if (dict[k] != null) el.innerHTML = dict[k]; });
+    document.documentElement.setAttribute("lang", lang === "zh" ? "zh-Hans" : lang);
+    document.querySelectorAll(".lang-opt").forEach(function (b) { b.classList.toggle("active", b.getAttribute("data-lang") === lang); });
+  }
+  document.querySelectorAll(".lang-opt").forEach(function (b) { b.addEventListener("click", function () { setLang(b.getAttribute("data-lang")); }); });
+})();
+
+</script>
+</body>
+</html>
