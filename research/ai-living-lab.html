@@ -61,13 +61,21 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
 @media(max-width:580px){
   .engine-grid{grid-template-columns:1fr 1fr!important;}
 }
+/* Cards: liquid glass only — no decorative textures (circles / lines) */
+canvas[data-tex]{display:none!important;}
+/* Engine stage cards: stop absolute-stacking on phones so nothing clips/overlaps */
+@media(max-width:860px){
+  #living-lab .lab-grid > div:last-child{height:auto!important;}
+  #living-lab [data-parallax]{position:static!important;left:auto!important;top:auto!important;width:100%!important;height:auto!important;transform:none!important;margin-bottom:12px;}
+  #living-lab [data-parallax] [style*="margin-top:18px"]{margin-top:6px!important;}
+}
 </style>
 </head>
 <body>
 <div id="app" style="position:relative;width:100%;background:radial-gradient(1300px 820px at 72% -6%,#0d1825 0%,rgba(13,24,37,0) 55%),radial-gradient(1100px 760px at 8% 26%,#0a131d 0%,rgba(10,19,29,0) 52%),linear-gradient(180deg,#05070b 0%,#070b12 38%,#080d15 68%,#06080d 100%);">
 
   <!-- Fixed background layers -->
-  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.55;">
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.22;">
     <g fill="none" stroke="rgba(124,168,196,0.07)" stroke-width="1" style="animation:dashflow 90s linear infinite;">
       <path d="M-60 180 C 280 90,560 250,880 170 S 1480 90,1520 150" stroke-dasharray="6 10"></path>
       <path d="M-60 300 C 300 230,620 360,940 280 S 1500 220,1520 270" stroke-dasharray="4 12"></path>
@@ -76,14 +84,14 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
       <path d="M-60 700 C 320 640,600 770,920 690 S 1480 640,1520 680" stroke-dasharray="6 10"></path>
     </g>
   </svg>
-  <canvas id="field-canvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
-  <div style="position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(125% 95% at 50% 34%,rgba(4,6,10,.30) 0%,rgba(4,6,10,.34) 45%,rgba(2,4,8,.48) 78%,rgba(2,3,6,.68) 100%);"></div>
+  <canvas id="field-canvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.42;"></canvas>
+  <div style="position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(125% 95% at 50% 34%,rgba(4,6,10,.52) 0%,rgba(4,6,10,.58) 45%,rgba(2,4,8,.72) 78%,rgba(2,3,6,.86) 100%);"></div>
   <div style="position:fixed;inset:-20%;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:soft-light;background-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E');animation:grainshift 7s steps(8) infinite;"></div>
 
   <main style="position:relative;z-index:2;">
 
   <!-- ── Section 1: Hero ─────────────────────────────────────── -->
-  <section id="top" style="position:relative;min-height:90vh;display:flex;flex-direction:column;justify-content:center;max-width:1180px;margin:0 auto;padding:108px clamp(1.25rem,5vw,4rem) 72px;">
+  <section id="top" style="position:relative;min-height:74vh;display:flex;flex-direction:column;justify-content:center;max-width:1180px;margin:0 auto;padding:92px clamp(1.25rem,5vw,4rem) 24px;">
     <div style="position:absolute;top:118px;right:clamp(1.25rem,5vw,4rem);text-align:right;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;line-height:2;color:#56707f;animation:slowfloat 9s ease-in-out infinite;">N·170 NODES — ACTIVE<br>λ INFERENCE FIELD<br>MODE / LATENT ATLAS</div>
 
     <div data-reveal style="opacity:0;transform:translateY(26px);display:inline-flex;align-items:center;gap:12px;">
@@ -91,9 +99,9 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
       <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The AI Living Lab</span>
     </div>
 
-    <h1 data-reveal data-delay="120" style="opacity:0;transform:translateY(28px);font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.022em;line-height:1.02;color:#EAF1F5;font-size:clamp(2.7rem,7.4vw,6.2rem);margin:22px 0 0;max-width:20ch;">We don't improve the materials that exist. <span style="font-style:italic;color:#A9CBDA;">We design the ones that should.</span></h1>
+    <h1 data-reveal data-delay="120" style="opacity:0;transform:translateY(28px);font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.022em;line-height:1.02;color:#EAF1F5;font-size:clamp(2.7rem,7.4vw,6.2rem);margin:22px 0 0;max-width:20ch;">The Materials That <span style="font-style:italic;color:#A9CBDA;">Should Exist</span></h1>
 
-    <p data-reveal data-delay="240" style="opacity:0;transform:translateY(28px);font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.45vw,20px);line-height:1.72;color:#9FB3BF;margin:28px 0 0;max-width:60ch;">A research universe where artificial intelligence reads matter as data — predicting, prescribing and proving biomaterials in dimensions the human eye cannot see. Not faster trial-and-error, but a different way of designing: matter made for the individual.</p>
+    <p data-reveal data-delay="240" style="opacity:0;transform:translateY(28px);font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.45vw,20px);line-height:1.72;color:#9FB3BF;margin:28px 0 0;max-width:60ch;">AI, holograms and biology converge in hyperdimensional design spaces to create next-generation biomaterials for better care.</p>
 
     <div data-reveal data-delay="360" style="opacity:0;transform:translateY(28px);display:flex;align-items:center;gap:18px;margin-top:46px;">
       <div style="width:1px;height:46px;background:linear-gradient(180deg,rgba(143,177,196,0),rgba(143,177,196,.5));position:relative;overflow:hidden;"><span style="position:absolute;left:-2px;top:0;width:5px;height:12px;border-radius:3px;background:#7CC4DC;box-shadow:0 0 10px #7CC4DC;animation:cuemove 2.4s ease-in-out infinite;"></span></div>
@@ -110,12 +118,12 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
     </div>
     <div class="prob-grid" style="display:grid;grid-template-columns:1.12fr 0.88fr;gap:clamp(34px,5vw,76px);align-items:center;">
       <div data-reveal data-delay="80" style="opacity:0;transform:translateY(26px);">
-        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.4vw,3.3rem);margin:0;max-width:20ch;">To design a material, you had to test every combination.</h2>
-        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.72;color:#9FB3BF;margin:24px 0 0;max-width:56ch;">A biomaterial has many ingredients, and they pull against each other — improve one property and another gets worse. The only honest way to find the best mix was to try them all, one by one. That is slow. That is expensive.</p>
-        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.72;color:#9FB3BF;margin:20px 0 0;max-width:56ch;">This is why we care. A tooth, a wound, a piece of bone — each one heals differently in every body. When a material can only be made one way, the patient gets a compromise nobody chose. We set out to design better biomaterials — and to find the right one faster, with far less guesswork.</p>
+        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.4vw,3.3rem);margin:0;max-width:20ch;">Imagine designing a biomaterial before it exists.</h2>
+        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.72;color:#9FB3BF;margin:24px 0 0;max-width:56ch;">A biomaterial is matter in conversation with life. It carries chemistry, structure, cells, signals, fluids, tissues and time in the same system. In our lab, biology and material are part of the same design workflow from the first act of imagination.</p>
+        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.72;color:#9FB3BF;margin:20px 0 0;max-width:56ch;">We design engines, models and holograms using real-world material and biological data to generate hyperdimensional spaces beyond the reach of our eyes, but not beyond imagination. Our vision is to create next-generation biomaterials for better care through unthinkable and unimagined design strategies.</p>
       </div>
       <div data-reveal data-delay="160" style="opacity:0;transform:translateY(26px);border-left:2px solid rgba(244,148,47,.55);padding-left:clamp(22px,2vw,34px);">
-        <p style="font-family:'Source Serif 4',serif;font-weight:500;font-style:italic;letter-spacing:-.012em;line-height:1.18;color:#EAF1F5;font-size:clamp(1.7rem,3.2vw,2.7rem);margin:0;">For decades, finding the best material meant testing every option. It no longer has to.</p>
+        <p style="font-family:'Source Serif 4',serif;font-weight:500;font-style:italic;letter-spacing:-.012em;line-height:1.18;color:#EAF1F5;font-size:clamp(1.7rem,3.2vw,2.7rem);margin:0;">We don't improve the materials that exist. We design the ones that should.</p>
       </div>
     </div>
   </section>
@@ -126,10 +134,10 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
       <div data-reveal style="opacity:0;transform:translateY(26px);">
         <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
           <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The Tesseract Engine</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The Tesseract Engine · our biomaterials design engine</span>
         </div>
-        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.07;color:#EAF1F5;font-size:clamp(2rem,4.5vw,3.3rem);margin:0;max-width:21ch;">Seeing every dimension of a material at once.</h2>
-        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:20px 0 0;max-width:50ch;">A scientist can test one combination at a time. The engine holds the whole space at once, every ingredient and every trade-off, and folds it down to the handful of experiments that actually decide the answer. The scientist brings the questions; the engine covers the ground.</p>
+        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.07;color:#EAF1F5;font-size:clamp(2rem,4.5vw,3.3rem);margin:0;max-width:21ch;">Mapping the variables that control material behaviour.</h2>
+        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:20px 0 0;max-width:50ch;">A scientist can test one combination at a time. The platform maps the formulation space, ranks the variables that matter, and identifies the experiments most likely to change the answer. The scientist defines the question; the model narrows the search; the lab validates the answer.</p>
         <div style="height:1px;background:linear-gradient(90deg,rgba(143,177,196,.26),rgba(143,177,196,0));margin:30px 0 24px;"></div>
         <div style="display:flex;flex-wrap:wrap;gap:11px;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#6f8a99;">
           <span style="padding:6px 13px;border:1px solid rgba(143,177,196,.22);border-radius:999px;color:#9FC6D8;">MAP</span><span>→</span>
@@ -184,7 +192,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
             <button id="doe-reset" class="ix-btn ghost">Reset</button>
           </div>
           <p id="doe-caption" style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;line-height:1.6;color:#6f8a99;margin:18px 0 0;"></p>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:12px;">↳ POWERED BY THE TESSERACT ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:12px;">↳ POWERED BY THE DESIGN-SPACE ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
         </div>
         <div>
           <div style="display:flex;align-items:baseline;gap:14px;">
@@ -206,8 +214,8 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
         <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">Biomaterials, reinvented</span>
       </div>
-      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:22ch;">Reading matter as something to be designed.</h2>
-      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:18px 0 0;max-width:56ch;">Descend from the abstract field into the material itself. The lab treats engineered matter as structure to be read — porosity, fibre, interface — turning microscopic form into signals a model can interpret, predict and redesign.</p>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:22ch;">Turning material structure into design decisions.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:18px 0 0;max-width:56ch;">The platform links what a material is made of to how it performs. We quantify composition, porosity, fibre architecture, interfaces and biological response, then use those data to predict and redesign material performance.</p>
     </div>
     <div style="display:grid;grid-template-columns:1.18fr 1fr;gap:clamp(28px,3.5vw,52px);align-items:stretch;" class="bio-grid">
       <div data-reveal style="opacity:0;transform:translateY(26px);position:relative;height:clamp(480px,62vh,600px);border-radius:16px;overflow:hidden;border:1px solid rgba(150,180,200,.13);box-shadow:0 50px 100px -50px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05);background:#070b11;">
@@ -215,10 +223,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
         <canvas data-tex="lattice" style="position:absolute;inset:0;width:100%;height:100%;opacity:.34;"></canvas>
         <img data-focus src="assets/ai-living-lab/biomaterial-ai-scaffold.png" alt="A 3D-printed biomaterial scaffold whose lattice doubles as a neural network — fibrous struts meeting at luminous nodes, with amber signal-nodes." onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(7px);transform:scale(1.08);">
         <div style="position:absolute;inset:0;background:radial-gradient(120% 92% at 50% 46%,rgba(0,0,0,0) 48%,rgba(2,4,8,.62) 100%);"></div>
-        <div style="position:absolute;left:18px;top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">SCAFFOLD ⇄ NETWORK</div>
-        <div style="position:absolute;right:18px;top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#F4C58C;">φ 0.62 POROSITY</div>
-        <div style="position:absolute;left:18px;bottom:18px;display:flex;align-items:center;gap:10px;"><span style="display:block;width:56px;height:3px;background:#C7D6DE;"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#C7D6DE;">50 µm</span></div>
-        <div style="position:absolute;right:18px;bottom:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#6f8a99;">INFERENCE · LIVE</div>
+        <div style="position:absolute;left:18px;bottom:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">SCAFFOLD ⇄ NETWORK</div>
       </div>
       <div data-reveal data-delay="160" style="opacity:0;transform:translateY(26px);display:flex;flex-direction:column;justify-content:center;">
         <p style="font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.25vw,19px);line-height:1.72;color:#C2D2DB;margin:0;">The model learns a material from its data: composition, microscopic structure, porosity, fibre networks and how it behaves over hours and days. From those patterns it can predict properties it has never measured, and propose the formulation that would reach a target.</p>
@@ -234,7 +239,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
   <section id="ix-influence" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
     <div data-reveal style="opacity:0;transform:translateY(26px);max-width:880px;margin-bottom:clamp(28px,3.6vw,46px);">
       <div class="ix-eyebrow" style="margin-bottom:18px;"><span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span> Interactive · What matters</div>
-      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:24ch;">Some things decide the outcome. Most don't.</h2>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:24ch;">Some variables drive performance. Most only add noise.</h2>
       <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.72;color:#9FB3BF;margin:18px 0 0;max-width:66ch;">Imagine you must optimise one of the materials below with as few experiments as possible — and you already know the target you're aiming for. The instinct is to measure everything. But for any given target only a handful of factors truly move it; the rest barely matter — a scaffold's strand count changes its stiffness, yet hardly touches how fast cells multiply. The skill is spotting which to measure and which to skip. Pick an application, switch factors on one at a time, and watch the model's confidence climb toward the <b style="color:#cbd8df;">target</b> — until adding more stops paying off.</p>
     </div>
 
@@ -256,6 +261,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
           <p id="inf-msg" style="font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:#9FB3BF;margin:12px 0 0;max-width:46ch;">Pick an application above, then turn factors on to feed the model.</p>
         </div>
       </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:14px;">↳ POWERED BY THE INFLUENCE ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
     </div>
   </section>
 
@@ -275,7 +281,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
     </style>
     <div data-reveal style="opacity:0;transform:translateY(26px);max-width:880px;margin-bottom:clamp(28px,3.6vw,46px);">
       <div class="ix-eyebrow" style="margin-bottom:14px;"><span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span> Interactive · Predict the chemistry</div>
-      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:23ch;">Read the first hours. Know the 28 days.</h2>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:23ch;">Use early chemistry to predict long-term behaviour.</h2>
       <p style="font-family:'Source Sans 3','DM Sans',sans-serif;font-size:clamp(16px,1.2vw,19px);line-height:1.7;color:#9FB3BF;margin:18px 0 0;max-width:66ch;">As a calcium-silicate cement sets it releases hydroxyl ions, and the pH around it climbs. That rising alkalinity is what makes it bioactive: too little and the material does nothing; too much and it stresses cells. <b style="color:#cbd8df;">Set the alkalinity you're aiming for</b>, then act as the model. Feed it the first readings (pH at <b style="color:#cbd8df;">3 h</b> and <b style="color:#cbd8df;">24 h</b>) plus the specimen size, and watch it forecast the full 28-day curve. Then check it against real measurements.</p>
     </div>
 
@@ -322,7 +328,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
           <div id="phx-stat" style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.02em;line-height:1.6;color:#9FD2E0;margin-top:6px;"></div>
         </div>
       </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:14px;">↳ POWERED BY THE TESSERACT ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:14px;">↳ POWERED BY THE FORECAST ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
     </div>
   </section>
 
@@ -340,8 +346,8 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
     </style>
     <div data-reveal style="opacity:0;transform:translateY(26px);max-width:880px;margin-bottom:clamp(28px,3.6vw,46px);">
       <div class="ix-eyebrow" style="margin-bottom:14px;"><span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span> Interactive · Prescribe by evolution</div>
-      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(1.9rem,4.2vw,3rem);margin:0;max-width:18ch;">Survival of the fittest recipe.</h2>
-      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(14px,1.05vw,16.5px);line-height:1.6;color:#9FB3BF;margin:14px 0 0;max-width:66ch;">Darwin's idea, run as an algorithm. We begin with many candidate cement recipes; each disc is one mix of components. Generation after generation, selection lets the unfit fade into dead-ends and the population converges toward the target you set.</p>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(1.9rem,4.2vw,3rem);margin:0;max-width:18ch;">Evolving formulations toward a target profile.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(14px,1.05vw,16.5px);line-height:1.6;color:#9FB3BF;margin:14px 0 0;max-width:66ch;">Genetic algorithms search competing formulations and converge on recipes that best match the target properties. We begin with many candidate cement recipes; each disc is one mix of components. Generation after generation, selection lets the unfit fade into dead-ends and the population converges toward the target you set.</p>
       <p style="font-family:'DM Sans',sans-serif;font-size:clamp(14px,1vw,16px);line-height:1.65;color:#9FB3BF;margin:12px 0 0;max-width:68ch;"><b style="color:#9FC6D8;font-weight:600;">The catch: trade-offs.</b> Some demands pull against each other. <b style="color:#cbd8df;">Strength ↔ radiopacity</b>: the dense radiopacifier that makes a cement show on X-rays also weakens it. <b style="color:#cbd8df;">Flowability ↔ set speed</b>: the water that thins the paste also makes it set more slowly. No single recipe can maximise everything at once, so evolution has to find the best <i>compromise</i>. Set the target, then press Play.</p>
     </div>
     <div data-reveal data-delay="120" class="ix-shell" style="opacity:0;transform:translateY(26px);">
@@ -386,7 +392,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
           </div>
         </div>
       </div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;color:#516775;margin-top:14px;">↳ A REAL BIRTH–DEATH PROCESS RUNS UNDERNEATH · LINEAGES BRANCH, COMPETE AND GO EXTINCT — A TREE OF SURVIVING RECIPES</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;color:#516775;margin-top:14px;">↳ POWERED BY THE EVOLUTION ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
     </div>
   </section>
 
@@ -398,7 +404,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
           <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The loop, in full</span>
         </div>
-        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:22ch;">A platform, not a pipeline.</h2>
+        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:22ch;">A closed-loop platform for biomaterials design.</h2>
         <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:18px 0 0;max-width:54ch;">Five capabilities run as one closed loop. Each stage feeds the next, and validated evidence circles back to sharpen the model — the engine learns as it works.</p>
       </div>
       <div style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;line-height:1.9;color:#5E7785;">CLOSED LOOP<br>05 STAGES</div>
@@ -409,7 +415,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
         <div data-reveal data-delay="0" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(143,177,196,.32);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#9FC6D8;">01</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#7FA6BC;margin-top:18px;">MAP</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Screen</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">A compact design finds which factors actually govern the material.</p></div>
         <div data-reveal data-delay="120" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(244,148,47,.4);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#F4C58C;box-shadow:0 0 16px -2px rgba(244,148,47,.4);">02</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#C9A06A;margin-top:18px;">PREDICT</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Infer</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Models forecast behaviour and rank candidates before the bench.</p></div>
         <div data-reveal data-delay="240" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(143,177,196,.32);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#9FC6D8;">03</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#7FA6BC;margin-top:18px;">PRESCRIBE</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Design</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Given a target, the engine prescribes the recipe that delivers it.</p></div>
-        <div data-reveal data-delay="360" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(143,177,196,.32);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#9FC6D8;">04</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#7FA6BC;margin-top:18px;">VALIDATE</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Confirm</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Predictions are tested at the bench and in cells — and they hold.</p></div>
+        <div data-reveal data-delay="360" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(143,177,196,.32);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#9FC6D8;">04</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#7FA6BC;margin-top:18px;">VALIDATE</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Confirm</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Predictions are tested experimentally in material assays and cell models before they are treated as evidence.</p></div>
         <div data-reveal data-delay="480" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(244,148,47,.4);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#F4C58C;box-shadow:0 0 16px -2px rgba(244,148,47,.4);">05</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#C9A06A;margin-top:18px;">TRANSLATE</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Apply</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Validated findings move toward regenerative, clinical reality.</p></div>
       </div>
     </div>
@@ -420,24 +426,21 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
     <div data-reveal style="opacity:0;transform:translateY(26px);max-width:720px;">
       <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
         <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">Where it is already true</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">Evidence behind the platform</span>
       </div>
       <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:23ch;">Evidence from the field.</h2>
-      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:18px 0 0;max-width:56ch;">Three studies where prediction met reality, each one a stage of the loop, proven on real biomaterials. Open any to read the full story.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:18px 0 0;max-width:56ch;">Three studies show the same principle in action: fewer experiments, earlier prediction, targeted formulation and experimental validation. Open any to read the full story.</p>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch;margin-top:clamp(34px,4vw,54px);" class="hl-grid">
       <a class="hl-card" href="https://rosa.expert/publications/taguchi-pcl-mta-scaffold.html" target="_blank" rel="noopener" style="display:flex;flex-direction:column;border:1px solid rgba(150,180,200,.14);border-radius:14px;overflow:hidden;background:linear-gradient(158deg,rgba(20,29,40,.74),rgba(8,12,18,.56));backdrop-filter:blur(10px);box-shadow:0 30px 70px -38px rgba(0,0,0,.85);">
-        <div style="position:relative;height:84px;flex:none;overflow:hidden;background:radial-gradient(130% 150% at 26% 0%,rgba(124,166,188,.18),rgba(8,12,18,0) 60%),linear-gradient(160deg,rgba(22,32,44,.7),rgba(8,12,18,.45));"><span style="position:absolute;left:16px;top:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">01 · MAP</span></div>
-        <div style="padding:18px 18px 18px;flex:1;display:flex;flex-direction:column;"><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">Taguchi optimization of a 3D-printed bioactive scaffold</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">J Biomed Mater Res B · 2020</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Taguchi design tuned a printed scaffold's strength and cell response.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
+        <div style="padding:24px 20px 22px;flex:1;display:flex;flex-direction:column;"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;display:block;margin-bottom:16px;">01 · MAP</span><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">Taguchi optimization of a 3D-printed bioactive scaffold</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">J Biomed Mater Res B · 2020</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Taguchi design tuned a printed scaffold's strength and cell response.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
       </a>
       <a class="hl-card" href="https://rosa.expert/publications/ph-prediction-calcium-silicate.html" target="_blank" rel="noopener" style="display:flex;flex-direction:column;border:1px solid rgba(150,180,200,.14);border-radius:14px;overflow:hidden;background:linear-gradient(158deg,rgba(20,29,40,.74),rgba(8,12,18,.56));backdrop-filter:blur(10px);box-shadow:0 30px 70px -38px rgba(0,0,0,.85);">
-        <div style="position:relative;height:84px;flex:none;overflow:hidden;background:radial-gradient(130% 150% at 26% 0%,rgba(124,166,188,.18),rgba(8,12,18,0) 60%),linear-gradient(160deg,rgba(22,32,44,.7),rgba(8,12,18,.45));"><span style="position:absolute;left:16px;top:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">02 · PREDICT</span></div>
-        <div style="padding:18px 18px 18px;flex:1;display:flex;flex-direction:column;"><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">pH prediction in calcium-silicate cements via material informatics</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">Dental Materials · 2025</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Machine learning forecast a cement's 28-day alkalinity from early readings.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
+        <div style="padding:24px 20px 22px;flex:1;display:flex;flex-direction:column;"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;display:block;margin-bottom:16px;">02 · PREDICT</span><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">pH prediction in calcium-silicate cements via material informatics</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">Dental Materials · 2025</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Machine learning forecast a cement's 28-day alkalinity from early readings.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
       </a>
       <a class="hl-card" href="https://rosa.expert/publications/designing-c3s-cements-on-demand.html" target="_blank" rel="noopener" style="display:flex;flex-direction:column;border:1px solid rgba(150,180,200,.14);border-radius:14px;overflow:hidden;background:linear-gradient(158deg,rgba(20,29,40,.74),rgba(8,12,18,.56));backdrop-filter:blur(10px);box-shadow:0 30px 70px -38px rgba(0,0,0,.85);">
-        <div style="position:relative;height:84px;flex:none;overflow:hidden;background:radial-gradient(130% 150% at 26% 0%,rgba(124,166,188,.18),rgba(8,12,18,0) 60%),linear-gradient(160deg,rgba(22,32,44,.7),rgba(8,12,18,.45));"><span style="position:absolute;left:16px;top:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">03 · PRESCRIBE</span></div>
-        <div style="padding:18px 18px 18px;flex:1;display:flex;flex-direction:column;"><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">Designing calcium-silicate cements with on-demand properties</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">Journal of Dental Research · 2023</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Data-driven design set cement strength, setting and radiopacity to target.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
+        <div style="padding:24px 20px 22px;flex:1;display:flex;flex-direction:column;"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;display:block;margin-bottom:16px;">03 · PRESCRIBE</span><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">Designing calcium-silicate cements with on-demand properties</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">Journal of Dental Research · 2023</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Data-driven design set cement strength, setting and radiopacity to target.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
       </a>
     </div>
 
@@ -454,8 +457,8 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
         <span style="width:7px;height:7px;border-radius:50%;background:#9B5BF0;box-shadow:0 0 12px 2px rgba(155,91,240,.6);"></span>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#BBA0EE;">Holographic Digital BioScore</span>
       </div>
-      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.8vw,3.5rem);margin:0;max-width:20ch;">Is a material good for living tissue? Read it from every angle.</h2>
-      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.76;color:#9FB3BF;margin:20px 0 0;max-width:62ch;">A material can help cells multiply and still fail to let them move, or to rebuild bone. Judge it on one measure and you are fooled. The Digital BioScore reads the living response across dimensions — proliferation, migration, mineralization — and folds them, like the planes of a hologram, into one judgement. Each plane is a domain; the flux threading through them is a single material's biological signature, scored high, mid or low.</p>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.8vw,3.5rem);margin:0;max-width:20ch;">A material is not biocompatible because one assay says so.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.76;color:#9FB3BF;margin:20px 0 0;max-width:62ch;">A material can help cells multiply and still fail to let them move, or to rebuild bone. Judge it on one measure and you are fooled. The Digital BioScore integrates proliferation, migration and mineralization into a single biological profile, so materials are judged by coordinated tissue response rather than one isolated endpoint. Like the planes of a hologram, the domains combine into a single read, scored high, mid or low.</p>
     </div>
 
     <div data-reveal data-delay="120" style="opacity:0;transform:translateY(26px);position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(155,120,210,.2);box-shadow:0 50px 110px -50px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.05);background:#05070b;">
@@ -469,7 +472,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
       <div style="border:1px solid rgba(150,180,200,.13);border-radius:13px;padding:18px;background:linear-gradient(158deg,rgba(20,29,40,.55),rgba(8,12,18,.4));"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#ff5a86;">DBS · Mi</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#C7D6DE;margin-top:8px;">Mineralization</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;color:#8295a2;margin-top:3px;">tissue hardens</div></div>
       <div style="border:1px solid rgba(155,120,210,.28);border-radius:13px;padding:18px;background:linear-gradient(158deg,rgba(28,20,46,.6),rgba(8,12,18,.4));"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#BBA0EE;">DBS · ALL</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#EAF1F5;margin-top:8px;">Integrated</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;color:#8295a2;margin-top:3px;">one read · high · mid · low</div></div>
     </div>
-    <div data-reveal style="opacity:0;transform:translateY(26px);font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:16px;">↳ INTERACTIVE HOLOGRAM FROM THE DIGITAL BIOSCORE STUDY · INPUT: L9 ARRAY · 9 GROUPS, NUMBERED IN THE FIELD</div>
+    <div data-reveal style="opacity:0;transform:translateY(26px);font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:16px;">↳ POWERED BY THE HOLOGRAM ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
   </section>
 
   <!-- ── Section 11: Vision ──────────────────────────────────── -->
@@ -479,8 +482,8 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
         <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The horizon · five years</span>
       </div>
-      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.8vw,3.5rem);margin:0;max-width:24ch;">A material designed for you, before you reach the chair.</h2>
-      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.3vw,19px);line-height:1.74;color:#9FB3BF;margin:24px 0 0;max-width:58ch;">Within five years, the loop closes around the clinic: prediction that reads an individual case, and discovery that runs on its own — the lab proposing, testing and learning with less and less human hand-holding. Every person is different, and deserves the material that is best for them alone.</p>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.8vw,3.5rem);margin:0;max-width:24ch;">Toward biomaterials matched to the patient, the tissue and the clinical task.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.3vw,19px);line-height:1.74;color:#9FB3BF;margin:24px 0 0;max-width:58ch;">Within five years, the loop closes around the clinic: prediction that reads an individual case, and discovery that runs on its own, with the lab proposing, testing and learning with less and less human hand-holding. The long-term goal is to move beyond average-case materials toward formulations selected for the biology and constraints of each case.</p>
     </div>
     <div data-reveal data-delay="120" style="opacity:0;transform:translateY(26px);display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:46px;" class="ix-grid">
       <div style="border:1px solid rgba(150,180,200,.13);border-radius:14px;padding:26px;background:linear-gradient(158deg,rgba(20,29,40,.6),rgba(8,12,18,.42));">
@@ -501,7 +504,7 @@ html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
       <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">Open field</span>
     </div>
     <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.04;color:#EAF1F5;font-size:clamp(2.3rem,5.4vw,4.2rem);margin:0 auto;max-width:18ch;">The field is open.</h2>
-    <p style="font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.3vw,19px);line-height:1.74;color:#9FB3BF;margin:26px auto 0;max-width:54ch;">Human and machine, designing matter together — in dimensions we are only beginning to see.</p>
+    <p style="font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.3vw,19px);line-height:1.74;color:#9FB3BF;margin:26px auto 0;max-width:54ch;">Human judgement sets the biological question. AI narrows the design space. Experiments decide what is true.</p>
   </section>
 
   </main>
