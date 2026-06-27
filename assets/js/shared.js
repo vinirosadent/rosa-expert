@@ -40,7 +40,7 @@
   const NAV = [
     { id: 'home',         label: 'Home',     href: base + 'index.html' },
     { id: 'who',          label: 'Who',      href: base + 'who.html' },
-    { id: 'research',     label: 'AI Living Lab', href: base + 'research/ai-living-lab.html' },
+    { id: 'research',     label: 'Living Matter Engines', href: base + 'research/ai-living-lab.html' },
     { id: 'publications', label: 'To read',  href: base + 'publications.html' },
     { id: 'news',         label: 'News',     href: base + 'news.html' },
     { id: 'contact',      label: 'Contact',  href: base + 'contact.html' },
