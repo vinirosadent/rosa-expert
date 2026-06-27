@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research — The AI Living Lab · Vinicius Rosa · NUS Dentistry</title>
+<meta name="description" content="The AI Living Lab of A/P Vinicius Rosa: where artificial intelligence designs biomaterials in dimensions the human eye cannot see — predicting, prescribing and validating matter made for the individual.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+html,body{margin:0;background:#05070b;scrollbar-gutter:stable;}
+*{box-sizing:border-box;}
+::selection{background:rgba(239,124,0,.30);color:#fff;}
+@keyframes grainshift{0%{transform:translate(0,0)}10%{transform:translate(-4%,-4%)}20%{transform:translate(-8%,4%)}30%{transform:translate(4%,-8%)}40%{transform:translate(-4%,10%)}50%{transform:translate(-8%,4%)}60%{transform:translate(10%,0)}70%{transform:translate(0,8%)}80%{transform:translate(-10%,0)}90%{transform:translate(8%,4%)}100%{transform:translate(0,0)}}
+@keyframes cuemove{0%{transform:translateY(0);opacity:0}25%{opacity:1}100%{transform:translateY(20px);opacity:0}}
+@keyframes pulsedot{0%,100%{opacity:.45;transform:scale(.82)}50%{opacity:1;transform:scale(1.28)}}
+@keyframes dashflow{to{stroke-dashoffset:-1400}}
+@keyframes slowfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes signaldown{0%{top:0%;opacity:0}12%{opacity:1}88%{opacity:1}100%{top:100%;opacity:0}}
+@keyframes signalright{0%{left:0%;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:100%;opacity:0}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important}}
+
+/* Override shared.js header for this dark page — keep it as-is (light nav on dark bg is intentional) */
+#app header{position:sticky;top:0;z-index:50;}
+
+/* Highlight card hover */
+.hl-card{transition:transform .38s cubic-bezier(.22,1,.36,1),border-color .38s,box-shadow .38s;text-decoration:none;}
+.hl-card:hover{transform:translateY(-7px);border-color:rgba(244,148,47,.42)!important;box-shadow:0 44px 84px -36px rgba(0,0,0,.92)!important;}
+
+/* Closing buttons */
+.close-btn{background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;color:#D7E2E9;padding:6px 0;border-bottom:1px solid rgba(143,177,196,.28);transition:color .24s,border-color .24s;text-decoration:none;display:inline-block;}
+.close-btn:hover{color:#F4942F;border-color:#F4942F;}
+
+/* ── Interactive modules ─────────────────────────────────── */
+.ix-shell{position:relative;border:1px solid rgba(150,180,200,.13);border-radius:18px;background:linear-gradient(158deg,rgba(20,29,40,.66),rgba(8,12,18,.46));backdrop-filter:blur(10px);box-shadow:0 46px 96px -50px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.04);padding:clamp(22px,3vw,40px);}
+.ix-eyebrow{display:inline-flex;align-items:center;gap:11px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:#8FB1C4;}
+.ix-chip{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#9FB3BF;padding:9px 15px;border:1px solid rgba(143,177,196,.24);border-radius:999px;background:rgba(10,16,24,.4);cursor:pointer;transition:all .2s ease;user-select:none;}
+.ix-chip[data-on="1"]{color:#0a0f16;background:#9FC6D8;border-color:#9FC6D8;}
+.ix-btn{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#0a0f16;background:#F4942F;border:none;border-radius:999px;padding:13px 24px;cursor:pointer;font-weight:600;transition:filter .15s ease,opacity .15s ease;}
+.ix-btn:hover{filter:brightness(1.06);}
+.ix-btn.ghost{background:none;color:#9FC6D8;border:1px solid rgba(143,177,196,.3);}
+.ix-btn.ghost:hover{color:#F4C58C;border-color:rgba(244,148,47,.4);}
+.ix-btn:disabled{opacity:.4;cursor:default;}
+.ix-num{font-family:'Source Serif 4',serif;font-weight:500;line-height:.95;letter-spacing:-.02em;color:#EAF1F5;}
+.ix-cell{transition:opacity .5s ease,background .5s ease,transform .5s ease;}
+.ix-factor-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-top:1px solid rgba(143,177,196,.12);}
+.ix-toggle{position:relative;width:42px;height:24px;border-radius:999px;background:rgba(143,177,196,.22);cursor:pointer;flex:none;transition:background .25s ease;}
+.ix-toggle::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#cdd9e0;transition:transform .25s ease;}
+.ix-toggle[data-on="1"]{background:rgba(244,148,47,.5);}
+.ix-toggle[data-on="1"]::after{transform:translateX(18px);background:#F4942F;}
+@media(max-width:860px){
+  .lab-grid{grid-template-columns:1fr!important;}
+  .bio-grid{grid-template-columns:1fr!important;}
+  .engine-grid{grid-template-columns:repeat(3,1fr)!important;}
+  .hl-grid{grid-template-columns:1fr!important;}
+  .ix-grid{grid-template-columns:1fr!important;}
+}
+@media(max-width:580px){
+  .engine-grid{grid-template-columns:1fr 1fr!important;}
+}
+</style>
+</head>
+<body>
+<div id="app" style="position:relative;width:100%;background:radial-gradient(1300px 820px at 72% -6%,#0d1825 0%,rgba(13,24,37,0) 55%),radial-gradient(1100px 760px at 8% 26%,#0a131d 0%,rgba(10,19,29,0) 52%),linear-gradient(180deg,#05070b 0%,#070b12 38%,#080d15 68%,#06080d 100%);">
+
+  <!-- Fixed background layers -->
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.55;">
+    <g fill="none" stroke="rgba(124,168,196,0.07)" stroke-width="1" style="animation:dashflow 90s linear infinite;">
+      <path d="M-60 180 C 280 90,560 250,880 170 S 1480 90,1520 150" stroke-dasharray="6 10"></path>
+      <path d="M-60 300 C 300 230,620 360,940 280 S 1500 220,1520 270" stroke-dasharray="4 12"></path>
+      <path d="M-60 430 C 320 360,600 510,900 420 S 1480 360,1520 400" stroke-dasharray="6 9"></path>
+      <path d="M-60 560 C 280 500,640 640,960 560 S 1500 500,1520 540" stroke-dasharray="3 13"></path>
+      <path d="M-60 700 C 320 640,600 770,920 690 S 1480 640,1520 680" stroke-dasharray="6 10"></path>
+    </g>
+  </svg>
+  <canvas id="field-canvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+  <div style="position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(125% 95% at 50% 34%,rgba(4,6,10,.30) 0%,rgba(4,6,10,.34) 45%,rgba(2,4,8,.48) 78%,rgba(2,3,6,.68) 100%);"></div>
+  <div style="position:fixed;inset:-20%;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:soft-light;background-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E');animation:grainshift 7s steps(8) infinite;"></div>
+
+  <main style="position:relative;z-index:2;">
+
+  <!-- ── Section 1: Hero ─────────────────────────────────────── -->
+  <section id="top" style="position:relative;min-height:90vh;display:flex;flex-direction:column;justify-content:center;max-width:1180px;margin:0 auto;padding:108px clamp(1.25rem,5vw,4rem) 72px;">
+    <div style="position:absolute;top:118px;right:clamp(1.25rem,5vw,4rem);text-align:right;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;line-height:2;color:#56707f;animation:slowfloat 9s ease-in-out infinite;">N·170 NODES — ACTIVE<br>λ INFERENCE FIELD<br>MODE / LATENT ATLAS</div>
+
+    <div data-reveal style="opacity:0;transform:translateY(26px);display:inline-flex;align-items:center;gap:12px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.7);animation:pulsedot 3s ease-in-out infinite;"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The AI Living Lab</span>
+    </div>
+
+    <h1 data-reveal data-delay="120" style="opacity:0;transform:translateY(28px);font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.022em;line-height:1.02;color:#EAF1F5;font-size:clamp(2.7rem,7.4vw,6.2rem);margin:22px 0 0;max-width:20ch;">We don't improve the materials that exist. <span style="font-style:italic;color:#A9CBDA;">We design the ones that should.</span></h1>
+
+    <p data-reveal data-delay="240" style="opacity:0;transform:translateY(28px);font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.45vw,20px);line-height:1.72;color:#9FB3BF;margin:28px 0 0;max-width:60ch;">A research universe where artificial intelligence reads matter as data — predicting, prescribing and proving biomaterials in dimensions the human eye cannot see. Not faster trial-and-error, but a different way of designing: matter made for the individual.</p>
+
+    <div data-reveal data-delay="360" style="opacity:0;transform:translateY(28px);display:flex;align-items:center;gap:18px;margin-top:46px;">
+      <div style="width:1px;height:46px;background:linear-gradient(180deg,rgba(143,177,196,0),rgba(143,177,196,.5));position:relative;overflow:hidden;"><span style="position:absolute;left:-2px;top:0;width:5px;height:12px;border-radius:3px;background:#7CC4DC;box-shadow:0 0 10px #7CC4DC;animation:cuemove 2.4s ease-in-out infinite;"></span></div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:#6f8a99;">Scroll to enter the field</span>
+    </div>
+  </section>
+
+  <!-- ── Section 2: The Problem ──────────────────────────────── -->
+  <section id="problem" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <style>@media(max-width:820px){#problem .prob-grid{grid-template-columns:1fr!important;gap:28px!important;}}</style>
+    <div data-reveal style="opacity:0;transform:translateY(26px);display:inline-flex;align-items:center;gap:12px;margin-bottom:clamp(26px,3.2vw,42px);">
+      <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">Why we built this</span>
+    </div>
+    <div class="prob-grid" style="display:grid;grid-template-columns:1.12fr 0.88fr;gap:clamp(34px,5vw,76px);align-items:center;">
+      <div data-reveal data-delay="80" style="opacity:0;transform:translateY(26px);">
+        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.4vw,3.3rem);margin:0;max-width:20ch;">To design a material, you had to test every combination.</h2>
+        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.72;color:#9FB3BF;margin:24px 0 0;max-width:56ch;">A biomaterial has many ingredients, and they pull against each other — improve one property and another gets worse. The only honest way to find the best mix was to try them all, one by one. That is slow. That is expensive.</p>
+        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.72;color:#9FB3BF;margin:20px 0 0;max-width:56ch;">This is why we care. A tooth, a wound, a piece of bone — each one heals differently in every body. When a material can only be made one way, the patient gets a compromise nobody chose. We set out to design better biomaterials — and to find the right one faster, with far less guesswork.</p>
+      </div>
+      <div data-reveal data-delay="160" style="opacity:0;transform:translateY(26px);border-left:2px solid rgba(244,148,47,.55);padding-left:clamp(22px,2vw,34px);">
+        <p style="font-family:'Source Serif 4',serif;font-weight:500;font-style:italic;letter-spacing:-.012em;line-height:1.18;color:#EAF1F5;font-size:clamp(1.7rem,3.2vw,2.7rem);margin:0;">For decades, finding the best material meant testing every option. It no longer has to.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 3: The Tesseract Engine (framework) ─────────── -->
+  <section id="living-lab" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <div style="display:grid;grid-template-columns:1fr 1.06fr;gap:clamp(34px,5vw,74px);align-items:start;" class="lab-grid">
+      <div data-reveal style="opacity:0;transform:translateY(26px);">
+        <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The Tesseract Engine</span>
+        </div>
+        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.07;color:#EAF1F5;font-size:clamp(2rem,4.5vw,3.3rem);margin:0;max-width:21ch;">Seeing every dimension of a material at once.</h2>
+        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:20px 0 0;max-width:50ch;">A scientist can test one combination at a time. The engine holds the whole space at once, every ingredient and every trade-off, and folds it down to the handful of experiments that actually decide the answer. The scientist brings the questions; the engine covers the ground.</p>
+        <div style="height:1px;background:linear-gradient(90deg,rgba(143,177,196,.26),rgba(143,177,196,0));margin:30px 0 24px;"></div>
+        <div style="display:flex;flex-wrap:wrap;gap:11px;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#6f8a99;">
+          <span style="padding:6px 13px;border:1px solid rgba(143,177,196,.22);border-radius:999px;color:#9FC6D8;">MAP</span><span>→</span>
+          <span style="padding:6px 13px;border:1px solid rgba(143,177,196,.22);border-radius:999px;color:#9FC6D8;">PREDICT</span><span>→</span>
+          <span style="padding:6px 13px;border:1px solid rgba(143,177,196,.22);border-radius:999px;color:#9FC6D8;">PRESCRIBE</span><span>→</span>
+          <span style="padding:6px 13px;border:1px solid rgba(244,148,47,.34);border-radius:999px;color:#F4C58C;">VALIDATE</span><span style="color:#F4942F;">↺</span>
+        </div>
+      </div>
+      <div data-reveal data-delay="160" style="opacity:0;transform:translateY(26px);position:relative;height:clamp(612px,72vh,660px);">
+        <div style="position:absolute;left:2.5%;top:5%;bottom:5%;width:1px;background:linear-gradient(180deg,rgba(244,148,47,0),rgba(244,148,47,.30),rgba(244,148,47,0));z-index:4;"><span style="position:absolute;left:-3px;width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 3px rgba(244,148,47,.6);animation:signaldown 4.8s ease-in-out infinite;"></span></div>
+        <div style="position:absolute;right:0;top:-26px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#516775;">HYPERDIMENSIONAL · LIVE</div>
+        <div data-parallax="30" style="position:absolute;left:8%;top:6px;width:84%;height:144px;border:1px solid rgba(150,180,200,.13);border-radius:13px;background:linear-gradient(155deg,rgba(22,32,44,.62),rgba(8,12,18,.4));backdrop-filter:blur(10px);box-shadow:0 30px 60px -34px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden;display:flex;align-items:center;padding:0 22px;">
+          <canvas data-tex="cloud" style="position:absolute;inset:0;width:100%;height:100%;opacity:.42;"></canvas>
+          <div style="position:relative;z-index:1;"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.24em;color:#F4942F;">01 · MAP</div><div style="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;color:#DCE7EC;margin-top:5px;">Find what governs the material</div><div style="font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.45;color:#9FB3BF;margin-top:7px;max-width:40ch;">Screen many factors and levels to find the few that truly move the property — and stop testing the rest.</div></div>
+          <div style="position:relative;z-index:1;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#6f8a99;align-self:flex-start;margin-top:18px;">SCREEN ▸</div>
+        </div>
+        <div data-parallax="22" style="position:absolute;left:8%;top:156px;width:84%;height:144px;border:1px solid rgba(150,180,200,.13);border-radius:13px;background:linear-gradient(155deg,rgba(20,30,42,.6),rgba(8,12,18,.4));backdrop-filter:blur(10px);box-shadow:0 30px 60px -34px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden;display:flex;align-items:center;padding:0 22px;">
+          <canvas data-tex="scaffold" style="position:absolute;inset:0;width:100%;height:100%;opacity:.5;"></canvas>
+          <div style="position:relative;z-index:1;"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.24em;color:#9FC6D8;">02 · PREDICT</div><div style="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;color:#DCE7EC;margin-top:5px;">Forecast behaviour before the bench</div><div style="font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.45;color:#9FB3BF;margin-top:7px;max-width:40ch;">Turn early signals into the long-term outcome — weeks of measurement answered in seconds.</div></div>
+          <div style="position:relative;z-index:1;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#6f8a99;align-self:flex-start;margin-top:18px;">MODEL ▸</div>
+        </div>
+        <div data-parallax="14" style="position:absolute;left:8%;top:306px;width:84%;height:144px;border:1px solid rgba(150,180,200,.13);border-radius:13px;background:linear-gradient(155deg,rgba(20,30,42,.6),rgba(8,12,18,.4));backdrop-filter:blur(10px);box-shadow:0 30px 60px -34px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden;display:flex;align-items:center;padding:0 22px;">
+          <canvas data-tex="network" style="position:absolute;inset:0;width:100%;height:100%;opacity:.5;"></canvas>
+          <div style="position:relative;z-index:1;"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.24em;color:#9FC6D8;">03 · PRESCRIBE</div><div style="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;color:#DCE7EC;margin-top:5px;">Design the recipe for a target</div><div style="font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.45;color:#9FB3BF;margin-top:7px;max-width:40ch;">Invert the model: name the property you want, and it returns the formulation that reaches it.</div></div>
+          <div style="position:relative;z-index:1;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#6f8a99;align-self:flex-start;margin-top:18px;">DESIGN ▸</div>
+        </div>
+        <div data-parallax="8" style="position:absolute;left:8%;top:456px;width:84%;height:144px;border:1px solid rgba(244,148,47,.2);border-radius:13px;background:linear-gradient(155deg,rgba(30,26,22,.62),rgba(10,10,12,.42));backdrop-filter:blur(10px);box-shadow:0 30px 60px -34px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden;display:flex;align-items:center;padding:0 22px;">
+          <canvas data-tex="lattice" style="position:absolute;inset:0;width:100%;height:100%;opacity:.4;"></canvas>
+          <div style="position:relative;z-index:1;"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.24em;color:#F4942F;">04 · VALIDATE</div><div style="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;color:#DCE7EC;margin-top:5px;">Prove it on the bench, and in cells</div><div style="font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.45;color:#9FB3BF;margin-top:7px;max-width:40ch;">Confirm the prediction with real experiments and cell response — then feed the result back to sharpen the model.</div></div>
+          <div style="position:relative;z-index:1;margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#F4C58C;align-self:flex-start;margin-top:18px;">▸ EVIDENCE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 4: Interactive 1 — Combinatorial explosion ──── -->
+  <section id="ix-doe" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <div data-reveal style="opacity:0;transform:translateY(26px);max-width:880px;margin-bottom:clamp(28px,3.6vw,46px);">
+      <div class="ix-eyebrow" style="margin-bottom:18px;"><span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span> Interactive · Map the space</div>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:23ch;">Test everything — or test what matters.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.72;color:#9FB3BF;margin:18px 0 0;max-width:66ch;">Say you want to map how a calcium-silicate cement's recipe drives two things at once — <b style="color:#cbd8df;">how fast it sets</b> and <b style="color:#cbd8df;">how strong it gets</b>. You can vary several factors, each at several <b style="color:#cbd8df;">levels</b> — the actual values you test. Pick what to study and how finely, watch the experiments multiply, then let an orthogonal array fold them into a fraction of the runs that still answers the question.</p>
+    </div>
+
+    <div data-reveal data-delay="120" class="ix-shell" style="opacity:0;transform:translateY(26px);">
+      <div style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FC6D8;border-left:2px solid #F4942F;padding-left:12px;margin-bottom:24px;"><b>Study:</b> how the recipe drives <b style="color:#cbd8df;">setting time</b> and <b style="color:#cbd8df;">compressive strength</b> — with the fewest experiments.</div>
+      <div class="ix-grid" style="display:grid;grid-template-columns:1.08fr 1fr;gap:clamp(26px,3.5vw,48px);align-items:start;">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#7FA6BC;margin-bottom:6px;">CHOOSE FACTORS · SET LEVELS</div>
+          <div id="doe-factors"></div>
+          <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+            <button id="doe-optimize" class="ix-btn">Optimize ↺</button>
+            <button id="doe-reset" class="ix-btn ghost">Reset</button>
+          </div>
+          <p id="doe-caption" style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;line-height:1.6;color:#6f8a99;margin:18px 0 0;"></p>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:12px;">↳ POWERED BY THE TESSERACT ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:baseline;gap:14px;">
+            <span id="doe-count" class="ix-num" style="font-size:clamp(3.4rem,9vw,5.6rem);color:#F4A350;">0</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.18em;color:#7FA6BC;">EXPERIMENTS</span>
+          </div>
+          <div id="doe-est" style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.1em;color:#6f8a99;margin-top:6px;">—</div>
+          <p id="doe-msg" style="font-family:'Source Serif 4',serif;font-size:clamp(15px,1.15vw,17px);line-height:1.55;color:#E6EEF2;margin:22px 0 0;min-height:84px;border-left:2px solid #F4942F;padding-left:14px;"></p>
+          <div id="doe-cells" style="display:grid;gap:7px;margin-top:24px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 5: Biomaterials Reinvented ─────────────────── -->
+  <section id="biomaterials" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <div data-reveal style="opacity:0;transform:translateY(26px);max-width:680px;margin-bottom:clamp(28px,3.6vw,46px);">
+      <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">Biomaterials, reinvented</span>
+      </div>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:22ch;">Reading matter as something to be designed.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:18px 0 0;max-width:56ch;">Descend from the abstract field into the material itself. The lab treats engineered matter as structure to be read — porosity, fibre, interface — turning microscopic form into signals a model can interpret, predict and redesign.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1.18fr 1fr;gap:clamp(28px,3.5vw,52px);align-items:stretch;" class="bio-grid">
+      <div data-reveal style="opacity:0;transform:translateY(26px);position:relative;height:clamp(480px,62vh,600px);border-radius:16px;overflow:hidden;border:1px solid rgba(150,180,200,.13);box-shadow:0 50px 100px -50px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05);background:#070b11;">
+        <canvas data-tex="scaffold" style="position:absolute;inset:0;width:100%;height:100%;filter:blur(2px);transform:scale(1.04);"></canvas>
+        <canvas data-tex="lattice" style="position:absolute;inset:0;width:100%;height:100%;opacity:.34;"></canvas>
+        <img data-focus src="assets/ai-living-lab/biomaterial-ai-scaffold.png" alt="A 3D-printed biomaterial scaffold whose lattice doubles as a neural network — fibrous struts meeting at luminous nodes, with amber signal-nodes." onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(7px);transform:scale(1.08);">
+        <div style="position:absolute;inset:0;background:radial-gradient(120% 92% at 50% 46%,rgba(0,0,0,0) 48%,rgba(2,4,8,.62) 100%);"></div>
+        <div style="position:absolute;left:18px;top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">SCAFFOLD ⇄ NETWORK</div>
+        <div style="position:absolute;right:18px;top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#F4C58C;">φ 0.62 POROSITY</div>
+        <div style="position:absolute;left:18px;bottom:18px;display:flex;align-items:center;gap:10px;"><span style="display:block;width:56px;height:3px;background:#C7D6DE;"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#C7D6DE;">50 µm</span></div>
+        <div style="position:absolute;right:18px;bottom:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#6f8a99;">INFERENCE · LIVE</div>
+      </div>
+      <div data-reveal data-delay="160" style="opacity:0;transform:translateY(26px);display:flex;flex-direction:column;justify-content:center;">
+        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.25vw,19px);line-height:1.72;color:#C2D2DB;margin:0;">The model learns a material from its data: composition, microscopic structure, porosity, fibre networks and how it behaves over hours and days. From those patterns it can predict properties it has never measured, and propose the formulation that would reach a target.</p>
+        <div style="height:1px;background:linear-gradient(90deg,rgba(143,177,196,.24),rgba(143,177,196,0));margin:30px 0 4px;"></div>
+        <div style="padding:20px 0;border-bottom:1px solid rgba(143,177,196,.12);"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#9FC6D8;margin-bottom:7px;">POROUS SCAFFOLD</div><div style="font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;color:#9FB3BF;">Cellular architectures, read as adaptive and regenerative.</div></div>
+        <div style="padding:20px 0;border-bottom:1px solid rgba(143,177,196,.12);"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#9FC6D8;margin-bottom:7px;">FIBROUS NETWORK</div><div style="font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;color:#9FB3BF;">Tensile integrity and dynamic connectivity, quantified.</div></div>
+        <div style="padding:20px 0;"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#9FC6D8;margin-bottom:7px;">LIVING INTERFACE</div><div style="font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;color:#9FB3BF;">Responsive, bioactive boundaries between matter and biology.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 6: Interactive 2 — What matters ─────────────── -->
+  <section id="ix-influence" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <div data-reveal style="opacity:0;transform:translateY(26px);max-width:880px;margin-bottom:clamp(28px,3.6vw,46px);">
+      <div class="ix-eyebrow" style="margin-bottom:18px;"><span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span> Interactive · What matters</div>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:24ch;">Some things decide the outcome. Most don't.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.72;color:#9FB3BF;margin:18px 0 0;max-width:66ch;">Imagine you must optimise one of the materials below with as few experiments as possible — and you already know the target you're aiming for. The instinct is to measure everything. But for any given target only a handful of factors truly move it; the rest barely matter — a scaffold's strand count changes its stiffness, yet hardly touches how fast cells multiply. The skill is spotting which to measure and which to skip. Pick an application, switch factors on one at a time, and watch the model's confidence climb toward the <b style="color:#cbd8df;">target</b> — until adding more stops paying off.</p>
+    </div>
+
+    <div data-reveal data-delay="120" class="ix-shell" style="opacity:0;transform:translateY(26px);">
+      <div id="inf-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"></div>
+      <div id="inf-goal" style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FC6D8;border-left:2px solid #F4942F;padding-left:12px;margin-bottom:24px;"></div>
+      <div class="ix-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,3.5vw,48px);align-items:start;">
+        <div id="inf-factors"></div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#7FA6BC;margin-bottom:22px;">HOW MUCH CAN THE MODEL PREDICT?</div>
+          <div style="position:relative;">
+            <div style="position:absolute;left:72%;top:-15px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;color:#cbd8df;white-space:nowrap;">TARGET</div>
+            <div style="position:relative;height:14px;border-radius:999px;background:rgba(143,177,196,.14);overflow:hidden;">
+              <div id="inf-bar" style="position:absolute;inset:0;width:0%;border-radius:999px;background:linear-gradient(90deg,#178C8C,#F4942F);filter:grayscale(.6) brightness(.85);transition:width .5s cubic-bezier(.22,1,.36,1),filter .5s;"></div>
+            </div>
+            <div style="position:absolute;left:72%;top:-5px;height:24px;width:2px;background:#EAF1F5;opacity:.75;transform:translateX(-1px);border-radius:2px;"></div>
+          </div>
+          <div id="inf-state" style="font-family:'Source Serif 4',serif;font-weight:500;font-size:clamp(1.4rem,2.6vw,2rem);line-height:1.2;color:#E08A6A;margin:26px 0 0;">Blind.</div>
+          <p id="inf-msg" style="font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:#9FB3BF;margin:12px 0 0;max-width:46ch;">Pick an application above, then turn factors on to feed the model.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 7: Interactive 3 — Predict the pH (be the model) ── -->
+  <section id="ix-predict" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <style>
+      #ix-predict .ph-cols{display:grid;grid-template-columns:1.62fr 1fr;gap:clamp(22px,3vw,42px);align-items:start;}
+      #ix-predict .ph-btn{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#0a0f16;background:#F4942F;border:none;border-radius:999px;padding:10px 20px;cursor:pointer;font-weight:600;}
+      #ix-predict .ph-btn.ghost{background:none;color:#9FC6D8;border:1px solid rgba(143,177,196,.3);}
+      #ix-predict .ph-area{font-family:'IBM Plex Mono',monospace;font-size:13px;padding:7px 13px;border-radius:8px;cursor:pointer;border:1px solid rgba(143,177,196,.28);background:transparent;color:#9FB3BF;}
+      #ix-predict .ph-lab{display:flex;justify-content:space-between;align-items:baseline;font-family:'Source Sans 3','DM Sans',sans-serif;font-size:15px;color:#C7D6DE;margin-bottom:6px;}
+      #ix-predict .ph-lab b{font-family:'IBM Plex Mono',monospace;color:#EAF1F5;font-weight:500;}
+      #ix-predict .ph-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#7FA6BC;}
+      #ix-predict input[type=range]{width:100%;accent-color:#7CC4DC;height:4px;}
+      #ix-predict input.goal-range{accent-color:#F4942F;}
+      @media(max-width:880px){#ix-predict .ph-cols{grid-template-columns:1fr;}}
+    </style>
+    <div data-reveal style="opacity:0;transform:translateY(26px);max-width:880px;margin-bottom:clamp(28px,3.6vw,46px);">
+      <div class="ix-eyebrow" style="margin-bottom:14px;"><span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span> Interactive · Predict the chemistry</div>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:23ch;">Read the first hours. Know the 28 days.</h2>
+      <p style="font-family:'Source Sans 3','DM Sans',sans-serif;font-size:clamp(16px,1.2vw,19px);line-height:1.7;color:#9FB3BF;margin:18px 0 0;max-width:66ch;">As a calcium-silicate cement sets it releases hydroxyl ions, and the pH around it climbs. That rising alkalinity is what makes it bioactive: too little and the material does nothing; too much and it stresses cells. <b style="color:#cbd8df;">Set the alkalinity you're aiming for</b>, then act as the model. Feed it the first readings (pH at <b style="color:#cbd8df;">3 h</b> and <b style="color:#cbd8df;">24 h</b>) plus the specimen size, and watch it forecast the full 28-day curve. Then check it against real measurements.</p>
+    </div>
+
+    <div data-reveal data-delay="120" class="ix-shell" style="opacity:0;transform:translateY(26px);">
+      <div class="ph-cols">
+        <!-- chart -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+            <span class="ph-eyebrow" style="color:#7CC4DC;">ALKALINITY · pH OVER 28 DAYS</span>
+            <span class="ph-eyebrow" style="color:#6f8a99;">FORECAST PLATEAU <b id="phx-plat" style="color:#EAF1F5;font-family:'IBM Plex Mono',monospace;">—</b></span>
+          </div>
+          <div style="position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(124,196,220,.16);background:#06080f;box-shadow:0 36px 80px -50px rgba(0,0,0,.9);">
+            <canvas id="phx-cv" width="760" height="500" style="display:block;width:100%;height:auto;"></canvas>
+          </div>
+          <div id="phx-legend" style="display:flex;flex-wrap:wrap;gap:6px 16px;font-family:'Source Sans 3','DM Sans',sans-serif;font-size:13px;color:#9FB3BF;margin-top:10px;"></div>
+          <div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap;">
+            <button id="phx-validate" class="ph-btn">Validate ✓</button>
+            <button id="phx-reset" class="ph-btn ghost">Reset</button>
+            <span id="phx-r2" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#6f8a99;flex:1;min-width:160px;"></span>
+          </div>
+        </div>
+        <!-- controls -->
+        <div>
+          <div class="ph-eyebrow" style="margin-bottom:8px;">YOUR GOAL</div>
+          <div class="ph-lab"><span>Target 28-day pH</span><b id="phx-goalv">10.5</b></div>
+          <input id="phx-goal" class="goal-range" type="range" min="8" max="13" step="0.1" value="10.5">
+          <p style="font-family:'Source Sans 3','DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:6px 0 0;">The alkalinity you want at 28 days. The shaded band is the bioactive window — aim inside it.</p>
+
+          <div class="ph-eyebrow" style="margin:22px 0 10px;">EARLY READINGS · WHAT THE MODEL SEES</div>
+          <div class="ph-lab"><span>pH at 3 h</span><b id="phx-p3v">8.0</b></div>
+          <input id="phx-p3" type="range" min="7" max="10" step="0.1" value="8.0">
+          <div class="ph-lab" style="margin-top:14px;"><span>pH at 24 h</span><b id="phx-p24v">9.2</b></div>
+          <input id="phx-p24" type="range" min="7.5" max="12" step="0.1" value="9.2">
+          <div class="ph-lab" style="margin:16px 0 8px;"><span>Specimen surface area</span><b id="phx-areav">169 mm²</b></div>
+          <div id="phx-areas" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+          <label style="display:flex;align-items:center;gap:10px;margin-top:16px;cursor:pointer;">
+            <span id="phx-ca" class="ix-toggle" data-on="0" style="flex:none;"></span>
+            <span style="font-family:'Source Sans 3','DM Sans',sans-serif;font-size:15px;color:#C7D6DE;">Also measure Ca²⁺ release <span style="color:#9FB3BF;">(optional)</span></span>
+          </label>
+
+          <div style="border-left:2px solid #F4942F;padding-left:14px;margin:20px 0 10px;">
+            <p id="phx-verdict" style="font-family:'Source Serif 4',serif;font-size:clamp(16px,1.3vw,19px);line-height:1.5;color:#E6EEF2;margin:0;min-height:96px;"></p>
+          </div>
+          <div id="phx-stat" style="font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.02em;line-height:1.6;color:#9FD2E0;margin-top:6px;"></div>
+        </div>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:14px;">↳ POWERED BY THE TESSERACT ENGINE · DEVELOPING BIOMATERIALS FOR BETTER CARE</div>
+    </div>
+  </section>
+
+  <!-- ── Section 8: Research Engine ─────────────────────────── -->
+  <!-- ── Section: Interactive 4 — Natural selection (phylogeny) ── -->
+  <section id="ix-evolve" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <style>
+      #ix-evolve .gn-d{display:flex;align-items:center;gap:8px;min-width:0;}
+      #ix-evolve .gn-d label{font-family:'DM Sans',sans-serif;font-size:13px;color:#9FB3BF;white-space:nowrap;width:62px;flex:none;text-align:right;}
+      #ix-evolve .gn-d input[type=range]{min-width:0;}
+      #ix-evolve .gn-d input[type=range]{flex:1;accent-color:#F4942F;height:4px;}
+      #ix-evolve .gn-btn{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#0a0f16;background:#F4942F;border:none;border-radius:999px;padding:9px 18px;cursor:pointer;font-weight:600;}
+      #ix-evolve .gn-cols{display:grid;grid-template-columns:1.45fr 1fr;gap:clamp(18px,2.6vw,32px);align-items:start;}
+      @media(max-width:880px){#ix-evolve .gn-cols{grid-template-columns:1fr;}}
+    </style>
+    <div data-reveal style="opacity:0;transform:translateY(26px);max-width:880px;margin-bottom:clamp(28px,3.6vw,46px);">
+      <div class="ix-eyebrow" style="margin-bottom:14px;"><span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span> Interactive · Prescribe by evolution</div>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(1.9rem,4.2vw,3rem);margin:0;max-width:18ch;">Survival of the fittest recipe.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(14px,1.05vw,16.5px);line-height:1.6;color:#9FB3BF;margin:14px 0 0;max-width:66ch;">Darwin's idea, run as an algorithm. We begin with many candidate cement recipes; each disc is one mix of components. Generation after generation, selection lets the unfit fade into dead-ends and the population converges toward the target you set.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(14px,1vw,16px);line-height:1.65;color:#9FB3BF;margin:12px 0 0;max-width:68ch;"><b style="color:#9FC6D8;font-weight:600;">The catch: trade-offs.</b> Some demands pull against each other. <b style="color:#cbd8df;">Strength ↔ radiopacity</b>: the dense radiopacifier that makes a cement show on X-rays also weakens it. <b style="color:#cbd8df;">Flowability ↔ set speed</b>: the water that thins the paste also makes it set more slowly. No single recipe can maximise everything at once, so evolution has to find the best <i>compromise</i>. Set the target, then press Play.</p>
+    </div>
+    <div data-reveal data-delay="120" class="ix-shell" style="opacity:0;transform:translateY(26px);">
+      <div class="gn-cols">
+        <!-- LEFT: tree -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;">
+            <span id="gn-step" style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.18em;color:#F4C58C;">GENERATION 0</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.18em;color:#6f8a99;">GEN <b id="gn-gen" style="color:#EAF1F5;font-weight:500;">0</b> / 16</span>
+          </div>
+          <div style="position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(155,120,210,.18);background:#06080f;box-shadow:0 36px 80px -50px rgba(0,0,0,.9);">
+            <img src="assets/ai-living-lab/darwin-tree-stars.png" onerror="this.style.display='none'" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;">
+            <div style="position:absolute;inset:0;background:radial-gradient(120% 100% at 60% 30%,rgba(6,8,15,.30),rgba(6,8,15,.72));"></div>
+            <canvas id="gn-cv" width="680" height="400" style="position:relative;display:block;width:100%;height:auto;"></canvas>
+          </div>
+          <div id="gn-legend" style="display:flex;flex-wrap:wrap;gap:4px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:#9FB3BF;margin-top:9px;"></div>
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center;">
+            <button id="gn-play" class="gn-btn">Play ▶</button>
+            <input id="gn-scrub" type="range" min="0" max="16" value="0" step="0.02" style="flex:1;min-width:140px;accent-color:#F4942F;" aria-label="Scrub through generations">
+          </div>
+        </div>
+        <!-- RIGHT: controls + narration -->
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.18em;color:#7FA6BC;margin-bottom:8px;">SET THE TARGET</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;">
+            <div class="gn-d"><label>Strength</label><input id="d-str" type="range" min="0" max="100" value="85"></div>
+            <div class="gn-d"><label>Radiopacity</label><input id="d-rad" type="range" min="0" max="100" value="30"></div>
+            <div class="gn-d"><label>Flowability</label><input id="d-flow" type="range" min="0" max="100" value="35"></div>
+            <div class="gn-d"><label>Set speed</label><input id="d-set" type="range" min="0" max="100" value="75"></div>
+            <div class="gn-d"><label>pH</label><input id="d-ph" type="range" min="0" max="100" value="60"></div>
+          </div>
+          <div style="border-left:2px solid #F4942F;padding-left:12px;margin:14px 0 10px;">
+            <p id="gn-narr" style="font-family:'Source Serif 4',serif;font-size:clamp(14px,1.05vw,16px);line-height:1.5;color:#E6EEF2;margin:0;min-height:88px;">Set the demands, then press Play to watch evolution design the recipe.</p>
+          </div>
+          <p id="gn-cap" style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.45;color:#9FB3BF;margin:0 0 12px;min-height:18px;"></p>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#6f8a99;margin-bottom:6px;">FITNESS · HOW WELL THE BEST RECIPE MATCHES THE TARGET</div>
+          <div style="display:flex;align-items:stretch;gap:8px;">
+            <div style="display:flex;flex-direction:column;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#6f8a99;padding:2px 0;">
+              <span>HIGH</span><span>LOW</span>
+            </div>
+            <div id="gn-spark" style="flex:1;height:72px;border-left:1px solid rgba(143,177,196,.22);border-bottom:1px solid rgba(143,177,196,.22);"></div>
+          </div>
+        </div>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;color:#516775;margin-top:14px;">↳ A REAL BIRTH–DEATH PROCESS RUNS UNDERNEATH · LINEAGES BRANCH, COMPETE AND GO EXTINCT — A TREE OF SURVIVING RECIPES</div>
+    </div>
+  </section>
+
+  <!-- ── Section 8: Research Engine ─────────────────────────── -->
+  <section id="engine" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <div data-reveal style="opacity:0;transform:translateY(26px);display:flex;align-items:flex-end;justify-content:space-between;gap:28px;flex-wrap:wrap;margin-bottom:clamp(28px,3.6vw,46px);">
+      <div style="max-width:640px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The loop, in full</span>
+        </div>
+        <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:22ch;">A platform, not a pipeline.</h2>
+        <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:18px 0 0;max-width:54ch;">Five capabilities run as one closed loop. Each stage feeds the next, and validated evidence circles back to sharpen the model — the engine learns as it works.</p>
+      </div>
+      <div style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;line-height:1.9;color:#5E7785;">CLOSED LOOP<br>05 STAGES</div>
+    </div>
+    <div style="position:relative;">
+      <div style="position:absolute;left:10%;right:10%;top:23px;height:1px;background:linear-gradient(90deg,rgba(143,177,196,0),rgba(143,177,196,.32),rgba(244,148,47,.4),rgba(143,177,196,.32),rgba(143,177,196,0));z-index:0;"><span style="position:absolute;top:-3px;width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 3px rgba(244,148,47,.65);animation:signalright 6s linear infinite;"></span></div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;position:relative;z-index:1;" class="engine-grid">
+        <div data-reveal data-delay="0" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(143,177,196,.32);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#9FC6D8;">01</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#7FA6BC;margin-top:18px;">MAP</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Screen</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">A compact design finds which factors actually govern the material.</p></div>
+        <div data-reveal data-delay="120" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(244,148,47,.4);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#F4C58C;box-shadow:0 0 16px -2px rgba(244,148,47,.4);">02</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#C9A06A;margin-top:18px;">PREDICT</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Infer</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Models forecast behaviour and rank candidates before the bench.</p></div>
+        <div data-reveal data-delay="240" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(143,177,196,.32);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#9FC6D8;">03</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#7FA6BC;margin-top:18px;">PRESCRIBE</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Design</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Given a target, the engine prescribes the recipe that delivers it.</p></div>
+        <div data-reveal data-delay="360" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(143,177,196,.32);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#9FC6D8;">04</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#7FA6BC;margin-top:18px;">VALIDATE</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Confirm</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Predictions are tested at the bench and in cells — and they hold.</p></div>
+        <div data-reveal data-delay="480" style="opacity:0;transform:translateY(26px);"><div style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(244,148,47,.4);background:rgba(9,14,22,.9);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#F4C58C;box-shadow:0 0 16px -2px rgba(244,148,47,.4);">05</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#C9A06A;margin-top:18px;">TRANSLATE</div><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.2rem;color:#EAF1F5;margin:8px 0 0;">Apply</h4><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#9FB3BF;margin:9px 0 0;">Validated findings move toward regenerative, clinical reality.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 9: Selected work (evidence) ─────────────────── -->
+  <section id="highlights" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <div data-reveal style="opacity:0;transform:translateY(26px);max-width:720px;">
+      <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">Where it is already true</span>
+      </div>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.06;color:#EAF1F5;font-size:clamp(2rem,4.6vw,3.4rem);margin:0;max-width:23ch;">Evidence from the field.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.15vw,18px);line-height:1.74;color:#9FB3BF;margin:18px 0 0;max-width:56ch;">Three studies where prediction met reality, each one a stage of the loop, proven on real biomaterials. Open any to read the full story.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch;margin-top:clamp(34px,4vw,54px);" class="hl-grid">
+      <a class="hl-card" href="https://rosa.expert/publications/taguchi-pcl-mta-scaffold.html" target="_blank" rel="noopener" style="display:flex;flex-direction:column;border:1px solid rgba(150,180,200,.14);border-radius:14px;overflow:hidden;background:linear-gradient(158deg,rgba(20,29,40,.74),rgba(8,12,18,.56));backdrop-filter:blur(10px);box-shadow:0 30px 70px -38px rgba(0,0,0,.85);">
+        <div style="position:relative;height:84px;flex:none;overflow:hidden;background:radial-gradient(130% 150% at 26% 0%,rgba(124,166,188,.18),rgba(8,12,18,0) 60%),linear-gradient(160deg,rgba(22,32,44,.7),rgba(8,12,18,.45));"><span style="position:absolute;left:16px;top:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">01 · MAP</span></div>
+        <div style="padding:18px 18px 18px;flex:1;display:flex;flex-direction:column;"><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">Taguchi optimization of a 3D-printed bioactive scaffold</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">J Biomed Mater Res B · 2020</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Taguchi design tuned a printed scaffold's strength and cell response.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
+      </a>
+      <a class="hl-card" href="https://rosa.expert/publications/ph-prediction-calcium-silicate.html" target="_blank" rel="noopener" style="display:flex;flex-direction:column;border:1px solid rgba(150,180,200,.14);border-radius:14px;overflow:hidden;background:linear-gradient(158deg,rgba(20,29,40,.74),rgba(8,12,18,.56));backdrop-filter:blur(10px);box-shadow:0 30px 70px -38px rgba(0,0,0,.85);">
+        <div style="position:relative;height:84px;flex:none;overflow:hidden;background:radial-gradient(130% 150% at 26% 0%,rgba(124,166,188,.18),rgba(8,12,18,0) 60%),linear-gradient(160deg,rgba(22,32,44,.7),rgba(8,12,18,.45));"><span style="position:absolute;left:16px;top:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">02 · PREDICT</span></div>
+        <div style="padding:18px 18px 18px;flex:1;display:flex;flex-direction:column;"><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">pH prediction in calcium-silicate cements via material informatics</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">Dental Materials · 2025</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Machine learning forecast a cement's 28-day alkalinity from early readings.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
+      </a>
+      <a class="hl-card" href="https://rosa.expert/publications/designing-c3s-cements-on-demand.html" target="_blank" rel="noopener" style="display:flex;flex-direction:column;border:1px solid rgba(150,180,200,.14);border-radius:14px;overflow:hidden;background:linear-gradient(158deg,rgba(20,29,40,.74),rgba(8,12,18,.56));backdrop-filter:blur(10px);box-shadow:0 30px 70px -38px rgba(0,0,0,.85);">
+        <div style="position:relative;height:84px;flex:none;overflow:hidden;background:radial-gradient(130% 150% at 26% 0%,rgba(124,166,188,.18),rgba(8,12,18,0) 60%),linear-gradient(160deg,rgba(22,32,44,.7),rgba(8,12,18,.45));"><span style="position:absolute;left:16px;top:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#9FC6D8;">03 · PRESCRIBE</span></div>
+        <div style="padding:18px 18px 18px;flex:1;display:flex;flex-direction:column;"><h4 style="font-family:'Source Serif 4',serif;font-weight:500;font-size:1.15rem;line-height:1.3;color:#EAF1F5;margin:0;">Designing calcium-silicate cements with on-demand properties</h4><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:#C9A06A;margin-top:10px;">Journal of Dental Research · 2023</div><p style="font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.5;color:#9FB3BF;margin:12px 0 0;">Data-driven design set cement strength, setting and radiopacity to target.</p><div style="margin-top:auto;padding-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.08em;color:#9FC6D8;">Read on rosa.expert ▸</div></div>
+      </a>
+    </div>
+
+    <div data-reveal style="opacity:0;transform:translateY(26px);margin-top:30px;display:flex;align-items:center;gap:14px;padding:16px 20px;border:1px solid rgba(143,177,196,.12);border-radius:12px;background:linear-gradient(155deg,rgba(14,20,28,.6),rgba(6,9,14,.4));backdrop-filter:blur(8px);">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#F4942F;flex:none;">PAYOFF ▸</span>
+      <span style="font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.55;color:#C2D2DB;">From material, to cell, to person — the same loop that designs the matter proves it keeps tissue alive and growing.</span>
+    </div>
+  </section>
+
+  <!-- ── Section 10: Holographic Digital BioScore (embedded) ─── -->
+  <section id="holo" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <div data-reveal style="opacity:0;transform:translateY(26px);max-width:820px;margin-bottom:clamp(28px,3.6vw,46px);">
+      <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#9B5BF0;box-shadow:0 0 12px 2px rgba(155,91,240,.6);"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#BBA0EE;">Holographic Digital BioScore</span>
+      </div>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.8vw,3.5rem);margin:0;max-width:20ch;">Is a material good for living tissue? Read it from every angle.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(15px,1.2vw,18px);line-height:1.76;color:#9FB3BF;margin:20px 0 0;max-width:62ch;">A material can help cells multiply and still fail to let them move, or to rebuild bone. Judge it on one measure and you are fooled. The Digital BioScore reads the living response across dimensions — proliferation, migration, mineralization — and folds them, like the planes of a hologram, into one judgement. Each plane is a domain; the flux threading through them is a single material's biological signature, scored high, mid or low.</p>
+    </div>
+
+    <div data-reveal data-delay="120" style="opacity:0;transform:translateY(26px);position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(155,120,210,.2);box-shadow:0 50px 110px -50px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.05);background:#05070b;">
+      <iframe src="dbs-hologram.html" title="Holographic Digital BioScore — interactive 3D" loading="lazy" style="display:block;width:100%;height:clamp(460px,72vh,760px);border:0;background:#05070b;"></iframe>
+      <div style="position:absolute;left:16px;top:14px;z-index:2;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#BBA0EE;pointer-events:none;">DBS · HOLOGRAM · LIVE</div>
+    </div>
+
+    <div data-reveal data-delay="180" style="opacity:0;transform:translateY(26px);display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;" class="ix-grid">
+      <div style="border:1px solid rgba(150,180,200,.13);border-radius:13px;padding:18px;background:linear-gradient(158deg,rgba(20,29,40,.55),rgba(8,12,18,.4));"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#4f9cff;">DBS · P</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#C7D6DE;margin-top:8px;">Proliferation</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;color:#8295a2;margin-top:3px;">cells multiply</div></div>
+      <div style="border:1px solid rgba(150,180,200,.13);border-radius:13px;padding:18px;background:linear-gradient(158deg,rgba(20,29,40,.55),rgba(8,12,18,.4));"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#46d27e;">DBS · M</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#C7D6DE;margin-top:8px;">Migration</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;color:#8295a2;margin-top:3px;">cells move and spread</div></div>
+      <div style="border:1px solid rgba(150,180,200,.13);border-radius:13px;padding:18px;background:linear-gradient(158deg,rgba(20,29,40,.55),rgba(8,12,18,.4));"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#ff5a86;">DBS · Mi</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#C7D6DE;margin-top:8px;">Mineralization</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;color:#8295a2;margin-top:3px;">tissue hardens</div></div>
+      <div style="border:1px solid rgba(155,120,210,.28);border-radius:13px;padding:18px;background:linear-gradient(158deg,rgba(28,20,46,.6),rgba(8,12,18,.4));"><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#BBA0EE;">DBS · ALL</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#EAF1F5;margin-top:8px;">Integrated</div><div style="font-family:'DM Sans',sans-serif;font-size:15px;color:#8295a2;margin-top:3px;">one read · high · mid · low</div></div>
+    </div>
+    <div data-reveal style="opacity:0;transform:translateY(26px);font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:#516775;margin-top:16px;">↳ INTERACTIVE HOLOGRAM FROM THE DIGITAL BIOSCORE STUDY · INPUT: L9 ARRAY · 9 GROUPS, NUMBERED IN THE FIELD</div>
+  </section>
+
+  <!-- ── Section 11: Vision ──────────────────────────────────── -->
+  <section id="vision" style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(38px,5vh,74px) clamp(1.25rem,5vw,4rem);">
+    <div data-reveal style="opacity:0;transform:translateY(26px);max-width:780px;">
+      <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">The horizon · five years</span>
+      </div>
+      <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.05;color:#EAF1F5;font-size:clamp(2rem,4.8vw,3.5rem);margin:0;max-width:24ch;">A material designed for you, before you reach the chair.</h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.3vw,19px);line-height:1.74;color:#9FB3BF;margin:24px 0 0;max-width:58ch;">Within five years, the loop closes around the clinic: prediction that reads an individual case, and discovery that runs on its own — the lab proposing, testing and learning with less and less human hand-holding. Every person is different, and deserves the material that is best for them alone.</p>
+    </div>
+    <div data-reveal data-delay="120" style="opacity:0;transform:translateY(26px);display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:46px;" class="ix-grid">
+      <div style="border:1px solid rgba(150,180,200,.13);border-radius:14px;padding:26px;background:linear-gradient(158deg,rgba(20,29,40,.6),rgba(8,12,18,.42));">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#F4C58C;">CLINICAL PREDICTION</div>
+        <p style="font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.66;color:#C2D2DB;margin:14px 0 0;">Models that read the individual case and forecast how a material will perform for that person — not the average patient.</p>
+      </div>
+      <div style="border:1px solid rgba(150,180,200,.13);border-radius:14px;padding:26px;background:linear-gradient(158deg,rgba(20,29,40,.6),rgba(8,12,18,.42));">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.22em;color:#F4C58C;">AUTONOMOUS DISCOVERY</div>
+        <p style="font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.66;color:#C2D2DB;margin:14px 0 0;">A self-driving loop that proposes, tests and refines biomaterials on its own — the scientist setting direction, the machine doing the search.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 12: Closing ─────────────────────────────────── -->
+  <section id="closing" data-reveal style="opacity:0;transform:translateY(26px);position:relative;max-width:1000px;margin:0 auto;padding:clamp(64px,9vh,116px) clamp(1.25rem,5vw,4rem) clamp(56px,8vh,100px);text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px;">
+      <span style="width:6px;height:6px;border-radius:50%;background:#F4942F;box-shadow:0 0 12px 2px rgba(244,124,0,.65);"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:#8FB1C4;">Open field</span>
+    </div>
+    <h2 style="font-family:'Source Serif 4',serif;font-weight:500;letter-spacing:-.02em;line-height:1.04;color:#EAF1F5;font-size:clamp(2.3rem,5.4vw,4.2rem);margin:0 auto;max-width:18ch;">The field is open.</h2>
+    <p style="font-family:'DM Sans',sans-serif;font-size:clamp(16px,1.3vw,19px);line-height:1.74;color:#9FB3BF;margin:26px auto 0;max-width:54ch;">Human and machine, designing matter together — in dimensions we are only beginning to see.</p>
+  </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ── Canvas animation state ───────────────────────────────── */
+var canvas, ctx, W=0, H=0, dpr=1;
+var nodes=[], signals=[], nebula=[];
+var scrollP=0, mouse={x:.5,y:.5}, mt={x:.5,y:.5};
+var rafId, reduced=false;
+var activeReveals=[], parallaxEls=[], io;
+
+/* ── Particle field ───────────────────────────────────────── */
+function initField(){
+  var N=reduced?70:170;
+  var amberP=0.07;
+  nodes=[];
+  for(var i=0;i<N;i++){
+    var z=Math.random();
+    nodes.push({x:Math.random(),y:Math.random(),z:z,
+      vx:(Math.random()-.5)*0.00007*(0.4+z),
+      vy:(Math.random()-.5)*0.00007*(0.4+z),
+      r:0.7+z*2.2,tw:Math.random()*Math.PI*2,
+      amber:Math.random()<amberP,sx:0,sy:0,sr:0});
+  }
+  var cols=[[95,168,196],[40,92,140],[120,150,182],[70,130,170]];
+  nebula=[];
+  for(var j=0;j<5;j++){
+    var c=cols[j%cols.length];
+    nebula.push({x:Math.random(),y:Math.random(),r:0.26+Math.random()*0.34,c:c,ph:Math.random()*6.28,sp:0.02+Math.random()*0.03,a:0.04+Math.random()*0.045});
+  }
+  signals=[];
+}
+
+function onResize(){
+  if(!canvas)return;
+  W=window.innerWidth;H=window.innerHeight;
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+  initParallax();
+}
+function onScroll(){
+  var max=document.body.scrollHeight-window.innerHeight;
+  scrollP=max>0?Math.min(1,Math.max(0,window.scrollY/max)):0;
+}
+function onMouse(e){mt.x=e.clientX/window.innerWidth;mt.y=e.clientY/window.innerHeight;}
+
+function easeOut(t){return 1-Math.pow(1-t,3);}
+function processReveals(now){
+  for(var i=activeReveals.length-1;i>=0;i--){
+    var it=activeReveals[i];
+    var p=(now-it.start)/it.dur;
+    if(p<0)continue;
+    var e=easeOut(Math.min(1,p));
+    it.el.style.opacity=e;
+    it.el.style.transform='translateY('+((1-e)*26)+'px)';
+    if(p>=1){it.el.style.opacity='1';it.el.style.transform='none';activeReveals.splice(i,1);}
+  }
+}
+
+function loop(){
+  rafId=requestAnimationFrame(loop);
+  processReveals(performance.now());
+  updateParallax();
+  if(!canvas||!ctx||!W||!H)return;
+  var t=performance.now()*0.001;
+  mouse.x+=(mt.x-mouse.x)*0.04;
+  mouse.y+=(mt.y-mouse.y)*0.04;
+  var p=scrollP;
+  ctx.clearRect(0,0,W,H);
+
+  ctx.globalCompositeOperation='lighter';
+  for(var n of nebula){
+    var cx=(n.x+Math.sin(t*n.sp+n.ph)*0.03)*W;
+    var cy=(n.y+Math.cos(t*n.sp*0.8+n.ph)*0.03)*H-p*70;
+    var rad=n.r*Math.max(W,H);
+    var a=n.a*(0.6+0.4*Math.sin(t*0.2+n.ph));
+    var g=ctx.createRadialGradient(cx,cy,0,cx,cy,rad);
+    g.addColorStop(0,'rgba('+n.c[0]+','+n.c[1]+','+n.c[2]+','+a+')');
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,rad,0,6.2832);ctx.fill();
+  }
+  ctx.globalCompositeOperation='source-over';
+
+  var connEase=0.40+0.60*Math.exp(-Math.pow((p-0.5)/0.33,2));
+  var connRpx=(0.062+0.135*connEase)*Math.min(W,H);
+  var connAlpha=0.10+0.62*connEase;
+  var zoom=1+p*0.55;
+  var parX=mouse.x-0.5,parY=mouse.y-0.5;
+  var pts=nodes;
+
+  for(var nd of pts){
+    nd.x+=nd.vx;nd.y+=nd.vy;
+    if(nd.x<0)nd.x+=1;else if(nd.x>1)nd.x-=1;
+    if(nd.y<0)nd.y+=1;else if(nd.y>1)nd.y-=1;
+    var depth=0.5+nd.z*0.5;
+    nd.sx=nd.x*W+parX*42*depth;
+    nd.sy=nd.y*H+parY*42*depth-p*32*depth;
+    nd.sr=nd.r*zoom*(0.6+nd.z);
+  }
+
+  ctx.lineWidth=1;
+  var r2=connRpx*connRpx;
+  for(var i=0;i<pts.length;i++){
+    var a2=pts[i];
+    for(var j=i+1;j<pts.length;j++){
+      var b2=pts[j];
+      var dx=a2.sx-b2.sx,dy=a2.sy-b2.sy,d2=dx*dx+dy*dy;
+      if(d2<r2){
+        var d=Math.sqrt(d2);
+        var al=(1-d/connRpx)*connAlpha*Math.min(a2.z+0.6,1);
+        if(al<0.012)continue;
+        if(a2.amber||b2.amber)ctx.strokeStyle='rgba(238,138,42,'+(al*0.85)+')';
+        else ctx.strokeStyle='rgba(128,178,205,'+al+')';
+        ctx.beginPath();ctx.moveTo(a2.sx,a2.sy);ctx.lineTo(b2.sx,b2.sy);ctx.stroke();
+      }
+    }
+  }
+  for(var nd2 of pts){
+    var tw=0.6+0.4*Math.sin(t*1.5+nd2.tw);
+    if(nd2.amber){ctx.fillStyle='rgba(245,152,62,'+(0.85*tw)+')';ctx.shadowColor='rgba(245,152,62,0.85)';ctx.shadowBlur=9;}
+    else{ctx.fillStyle='rgba(202,226,236,'+((0.28+0.46*nd2.z)*tw)+')';ctx.shadowBlur=0;}
+    ctx.beginPath();ctx.arc(nd2.sx,nd2.sy,nd2.sr,0,6.2832);ctx.fill();
+  }
+  ctx.shadowBlur=0;
+
+  var rate=reduced?0:(0.007+0.04*connEase);
+  if(Math.random()<rate&&signals.length<12){
+    var a3=pts[(Math.random()*pts.length)|0];
+    var best=null,bd=1e12;
+    for(var b3 of pts){if(b3===a3)continue;var dx2=a3.sx-b3.sx,dy2=a3.sy-b3.sy,d3=dx2*dx2+dy2*dy2;if(d3<r2&&d3<bd){bd=d3;best=b3;}}
+    if(best)signals.push({a:a3,b:best,t:0,sp:0.0045+Math.random()*0.0065,amber:Math.random()<0.5});
+  }
+  ctx.globalCompositeOperation='lighter';
+  for(var k=signals.length-1;k>=0;k--){
+    var s=signals[k];s.t+=s.sp;
+    if(s.t>=1){signals.splice(k,1);continue;}
+    var sx=s.a.sx+(s.b.sx-s.a.sx)*s.t,sy=s.a.sy+(s.b.sy-s.a.sy)*s.t;
+    var col=s.amber?'245,160,72':'150,206,230';
+    var sg=ctx.createRadialGradient(sx,sy,0,sx,sy,6);
+    sg.addColorStop(0,'rgba('+col+',0.9)');sg.addColorStop(1,'rgba('+col+',0)');
+    ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,6,0,6.2832);ctx.fill();
+  }
+  ctx.globalCompositeOperation='source-over';
+}
+
+/* ── Scroll reveals ───────────────────────────────────────── */
+function drawIn(el){
+  el.querySelectorAll('[data-draw]').forEach(function(p){
+    p.style.transition='stroke-dashoffset 1.7s cubic-bezier(.22,1,.36,1)';
+    p.style.strokeDashoffset='0';
+  });
+  el.querySelectorAll('[data-focus]').forEach(function(f){
+    f.style.transition='filter 1.6s cubic-bezier(.22,1,.36,1),transform 1.6s cubic-bezier(.22,1,.36,1)';
+    f.style.filter='none';f.style.transform='scale(1)';
+  });
+}
+function initReveals(){
+  var els=Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+  els.forEach(function(e){e.style.transition='none';e.style.willChange='opacity, transform';});
+  if(reduced||!('IntersectionObserver' in window)){
+    els.forEach(function(e){e.style.opacity='1';e.style.transform='none';drawIn(e);});return;
+  }
+  io=new IntersectionObserver(function(ents){
+    ents.forEach(function(en){
+      if(en.isIntersecting){
+        var el=en.target;
+        var d=parseFloat(el.getAttribute('data-delay')||'0');
+        activeReveals.push({el:el,start:performance.now()+d,dur:1000});
+        drawIn(el);io.unobserve(el);
+      }
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -7% 0px'});
+  els.forEach(function(e){io.observe(e);});
+  setTimeout(function(){
+    els.forEach(function(e){
+      if(e.style.opacity!=='1'&&!activeReveals.some(function(r){return r.el===e;})){
+        e.style.opacity='1';e.style.transform='none';drawIn(e);
+      }
+    });
+  },5000);
+}
+
+/* ── Section mini-canvases ────────────────────────────────── */
+function drawTexture(cv,type){
+  if(cv.dataset.drawn==='1')return;
+  var w=cv.clientWidth,h=cv.clientHeight;
+  if(!w||!h)return;
+  var dp=Math.min(window.devicePixelRatio||1,2);
+  cv.width=w*dp;cv.height=h*dp;
+  var x=cv.getContext('2d');x.scale(dp,dp);x.clearRect(0,0,w,h);
+  var rnd=function(a,b){return a+Math.random()*(b-a);};
+  if(type==='network'){
+    var pts=[];var n=Math.max(14,Math.round(w*h/5200));
+    for(var i=0;i<n;i++)pts.push({x:rnd(0,w),y:rnd(0,h)});
+    x.lineWidth=1;
+    for(var ii=0;ii<pts.length;ii++)for(var jj=ii+1;jj<pts.length;jj++){
+      var aa=pts[ii],bb=pts[jj];var dd=Math.hypot(aa.x-bb.x,aa.y-bb.y);
+      if(dd<74){x.strokeStyle='rgba(132,182,206,'+(0.20*(1-dd/74))+')';x.beginPath();x.moveTo(aa.x,aa.y);x.lineTo(bb.x,bb.y);x.stroke();}
+    }
+    for(var pp of pts){var am=Math.random()<0.09;x.fillStyle=am?'rgba(245,162,72,0.95)':'rgba(192,222,236,0.72)';x.beginPath();x.arc(pp.x,pp.y,am?2.3:1.5,0,6.2832);x.fill();}
+  }else if(type==='fibrous'){
+    for(var fi=0;fi<Math.round(w/4);fi++){x.lineWidth=rnd(0.6,1.4);x.strokeStyle='rgba(154,190,210,'+rnd(0.06,0.22)+')';x.beginPath();var px=rnd(0,w),py=rnd(0,h);x.moveTo(px,py);for(var fk=0;fk<4;fk++){var nx=px+rnd(-70,70),ny=py+rnd(-46,46);x.quadraticCurveTo(px+rnd(-28,28),py+rnd(-28,28),nx,ny);px=nx;py=ny;}x.stroke();}
+  }else if(type==='scaffold'){
+    for(var si=0;si<Math.round(w*h/1900);si++){var cx=rnd(0,w),cy=rnd(0,h),sr=rnd(8,28);var sg=x.createRadialGradient(cx,cy,sr*0.4,cx,cy,sr);sg.addColorStop(0,'rgba(8,12,18,0)');sg.addColorStop(0.82,'rgba(124,158,180,0.13)');sg.addColorStop(1,'rgba(150,180,200,0)');x.fillStyle=sg;x.beginPath();x.arc(cx,cy,sr,0,6.2832);x.fill();x.strokeStyle='rgba(146,182,202,0.11)';x.lineWidth=1;x.beginPath();x.arc(cx,cy,sr,0,6.2832);x.stroke();}
+  }else if(type==='cloud'){
+    for(var ci=0;ci<46;ci++){var ccx=rnd(0,w),ccy=rnd(0,h),cr=rnd(18,86);var cg=x.createRadialGradient(ccx,ccy,0,ccx,ccy,cr);cg.addColorStop(0,'rgba(120,162,196,0.055)');cg.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=cg;x.beginPath();x.arc(ccx,ccy,cr,0,6.2832);x.fill();}
+  }else if(type==='lattice'){
+    var ls=Math.max(24,Math.min(40,w/12));
+    for(var ly=-ls;ly<h+ls;ly+=ls){for(var lx=-ls;lx<w+ls;lx+=ls){var lox=(Math.round(ly/ls)%2)*ls/2;var lcx=lx+lox+rnd(-5,5),lcy=ly+rnd(-5,5),lr=ls*0.46+rnd(-3,3);x.strokeStyle='rgba(146,186,206,0.2)';x.lineWidth=1;x.beginPath();x.arc(lcx,lcy,lr,0,6.2832);x.stroke();if(Math.random()<0.04){x.fillStyle='rgba(245,160,70,0.5)';x.beginPath();x.arc(lcx,lcy,1.6,0,6.2832);x.fill();}}}
+  }
+  cv.dataset.drawn='1';
+}
+function initSectionCanvases(){
+  document.querySelectorAll('canvas[data-tex]').forEach(function(cv){
+    cv.dataset.drawn='0';
+    drawTexture(cv,cv.getAttribute('data-tex'));
+  });
+}
+
+/* ── Parallax ─────────────────────────────────────────────── */
+function initParallax(){
+  var list=Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  list.forEach(function(e){e.style.transform='';});
+  parallaxEls=list.map(function(el){
+    var r=el.getBoundingClientRect();
+    return{el:el,f:parseFloat(el.getAttribute('data-parallax'))||40,base:r.top+window.scrollY+r.height/2};
+  });
+}
+function updateParallax(){
+  if(reduced||!parallaxEls.length)return;
+  var vh=window.innerHeight,sy=window.scrollY;
+  for(var it of parallaxEls){var center=it.base-sy;var rel=(vh/2-center)/vh;it.el.style.transform='translate3d(0,'+(rel*it.f).toFixed(1)+'px,0)';}
+}
+
+/* ── Init ─────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',function(){
+  reduced=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  canvas=document.getElementById('field-canvas');
+  dpr=Math.min(window.devicePixelRatio||1,2);
+
+  initField();
+  onResize();
+  window.addEventListener('resize',onResize);
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('mousemove',onMouse,{passive:true});
+  onScroll();
+  rafId=requestAnimationFrame(loop);
+  initReveals();
+  initSectionCanvases();
+  initParallax();
+});
+})();
+</script>
+
+<!-- ── Interactive 1: Combinatorial explosion → optimize ───── -->
+<script>
+(function(){
+'use strict';
+var DAYS_PER_RUN=2;
+var FACTORS=[
+  {name:'C3S : C2S ratio',desc:'reactive-phase balance',resp:'how fast it sets and its early strength',note:'The C₃S:C₂S balance is the main engine of hydration — more C₃S sets faster and builds early strength.'},
+  {name:'Powder-to-liquid ratio',desc:'how much water in the mix',resp:'flowability and final strength',note:'Water content swings both responses at once — more water flows better and sets slower, but ends up weaker.'},
+  {name:'Particle size',desc:'fineness of the powder',resp:'setting speed and strength',note:'Finer powder reacts faster — a quicker set and higher early strength.'},
+  {name:'Accelerator',desc:'set-promoting additive (CaCl₂)',resp:'setting time and strength',note:'An accelerator shortens setting sharply, but strength can rise then fall — so its best amount is not obvious.'},
+  {name:'Radiopacifier amount',desc:'X-ray contrast filler (wt%)',resp:'radiopacity (and a little strength)',note:'Mostly an inert filler for X-ray contrast — it barely touches setting or strength until you add a lot.',weak:'setting time'}
+];
+var on=[],lvl=[],wrap,countEl,estEl,capEl,msgEl,cellsEl;
+function selIdx(){var a=[],i;for(i=0;i<FACTORS.length;i++)if(on[i])a.push(i);return a;}
+function fullCount(){var s=selIdx();if(!s.length)return 0;var p=1,i;for(i=0;i<s.length;i++)p*=lvl[s[i]];return p;}
+function dof1(){var s=selIdx();if(!s.length)return 0;var d=1,i;for(i=0;i<s.length;i++)d+=(lvl[s[i]]-1);return d;}
+function levelText(name,resp,L){
+  if(L<=2)return 'Testing two amounts, you\'ll see whether more or less of “'+name+'” helps '+resp+' — the direction. What you won\'t see yet is the relationship in between.';
+  if(L===3)return 'With three amounts you start to see the shape of the relationship — whether '+resp+' keeps climbing with “'+name+'” or peaks at a sweet spot.';
+  if(L===4)return 'Four amounts map the curve more reliably, catching subtler bends in how '+resp+' responds to “'+name+'”.';
+  return 'Five amounts, spread across balanced spacings, give the finest, most trustworthy picture of how “'+name+'” drives '+resp+'.';}
+function countFeedback(){var n=selIdx().length;
+  if(n===0)return ' Pick a factor to begin.';
+  if(n===1)return ' With just one factor you only learn about it alone — add another to see which matters more.';
+  if(n===2)return ' Two factors now — you can start to compare which one moves the result most.';
+  return ' Each extra factor multiplies the work, so add only the ones you really suspect.';}
+function animateNumber(el,to){var from=parseInt((el.textContent||'').replace(/\D/g,''))||0,start=performance.now(),dur=600;function step(now){var p=Math.min(1,(now-start)/dur),e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function buildCells(total,keep){
+  cellsEl.innerHTML='';var cap=Math.min(total,81);if(cap<1)return;
+  var cols=Math.min(9,Math.max(3,Math.ceil(Math.sqrt(cap))));cellsEl.style.gridTemplateColumns='repeat('+cols+',1fr)';
+  for(var i=0;i<cap;i++){var d=document.createElement('div'),k=keep<0?true:(i<keep);
+    d.style.cssText='aspect-ratio:1;border-radius:5px;border:1px solid '+(k?'rgba(244,148,47,.5)':'rgba(143,177,196,.18)')+';background:'+(k?'rgba(244,148,47,.22)':'rgba(143,177,196,.06)')+';'+(keep>=0&&!k?'opacity:.16;transform:scale(.82);':'')+'transition:all .4s;';
+    cellsEl.appendChild(d);}
+}
+function mathLine(){var s=selIdx();if(!s.length)return 'No factors chosen yet.';var parts=s.map(function(i){return lvl[i];}).join(' × ');return s.length+(s.length>1?' factors':' factor')+', levels '+parts+' = '+fullCount()+' experiments (full factorial).';}
+function refresh(animate,msg){
+  var total=fullCount();countEl.style.color='#F4A350';
+  if(animate)animateNumber(countEl,total);else countEl.textContent=total;
+  estEl.textContent=total>0?('≈ '+(total*DAYS_PER_RUN)+' days · bench time'):'—';
+  capEl.textContent=mathLine();buildCells(total,-1);
+  if(msg!=null)msgEl.innerHTML=msg;
+}
+function onToggle(i){on[i]=!on[i];
+  var m;
+  if(on[i]){var sec=(selIdx().length===1)?' <span style="color:#9FB3BF;">Add another factor to compare which matters more.</span>':'';m=FACTORS[i].note+' '+levelText(FACTORS[i].name,FACTORS[i].resp,lvl[i])+sec;}
+  else{m='Removed “'+FACTORS[i].name+'”.<span style="color:#9FB3BF;">'+countFeedback()+'</span>';}
+  buildFactors();refresh(true,m);
+}
+function onLevel(i,L){lvl[i]=L;
+  var m=levelText(FACTORS[i].name,FACTORS[i].resp,L)+'<span style="color:#9FB3BF;"> Full grid now '+fullCount()+' experiments.</span>';
+  buildFactors();refresh(true,m);
+}
+function optimize(){var s=selIdx();if(!s.length)return;var keep=dof1(),full=fullCount();
+  animateNumber(countEl,keep);countEl.style.color='#F4942F';
+  estEl.textContent='≈ '+(keep*DAYS_PER_RUN)+' days · bench time';
+  capEl.textContent=full+' → '+keep+' runs.';
+  var names=s.map(function(i){return '“'+FACTORS[i].name+'”';});
+  var list=names.length===1?names[0]:(names.slice(0,-1).join(', ')+' and '+names[names.length-1]);
+  var msg='Down to about <b style="color:#F4C58C;">'+keep+' runs</b> instead of '+full+'. With this design you\'ll learn which of these — '+list+' — really drive setting time and compressive strength, and which don\'t. Whatever shows no real effect, you can stop testing: the experiment has answered the question.';
+  var wk=s.filter(function(i){return FACTORS[i].weak;});
+  if(wk.length)msg+=' Here, for instance, “'+FACTORS[wk[0]].name+'” will likely show almost no effect on '+FACTORS[wk[0]].weak+' — so you wouldn\'t need to vary it to answer that.';
+  msgEl.innerHTML=msg;
+  buildCells(full,keep);
+}
+function levelRow(i){
+  var box=document.createElement('div');box.style.cssText='display:flex;align-items:center;gap:6px;margin:9px 0 2px 36px;';
+  var lab=document.createElement('span');lab.style.cssText="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;color:#6f8a99;margin-right:2px;";lab.textContent='LEVELS';box.appendChild(lab);
+  [2,3,4,5].forEach(function(L){var b=document.createElement('button');b.type='button';b.textContent=L;var act=lvl[i]===L;
+    b.style.cssText='font-family:"IBM Plex Mono",monospace;font-size:13px;width:26px;height:26px;border-radius:6px;cursor:pointer;border:1px solid '+(act?'rgba(244,148,47,.7)':'rgba(143,177,196,.25)')+';background:'+(act?'rgba(244,148,47,.18)':'transparent')+';color:'+(act?'#F4C58C':'#9FB3BF')+';';
+    b.addEventListener('click',function(ev){ev.stopPropagation();onLevel(i,L);});box.appendChild(b);});
+  return box;
+}
+function buildFactors(){
+  wrap.innerHTML='';
+  FACTORS.forEach(function(f,i){
+    var row=document.createElement('div');row.style.cssText='padding:11px 0;border-top:1px solid rgba(143,177,196,.12);';
+    var head=document.createElement('div');head.style.cssText='display:flex;align-items:flex-start;gap:12px;cursor:pointer;';
+    var tg=document.createElement('div');tg.className='ix-toggle';tg.setAttribute('data-on',on[i]?'1':'0');tg.style.flex='none';tg.style.marginTop='2px';
+    var lbl=document.createElement('div');lbl.style.cssText='flex:1;min-width:0;';
+    var nm=document.createElement('div');nm.style.cssText="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;color:"+(on[i]?'#C7D6DE':'#8aa0ad')+";";nm.textContent=f.name;
+    var ds=document.createElement('div');ds.style.cssText="font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.4;color:#9FB3BF;margin-top:2px;";ds.textContent=f.desc;
+    lbl.appendChild(nm);lbl.appendChild(ds);head.appendChild(tg);head.appendChild(lbl);
+    head.addEventListener('click',function(){onToggle(i);});
+    row.appendChild(head);if(on[i])row.appendChild(levelRow(i));wrap.appendChild(row);
+  });
+}
+document.addEventListener('DOMContentLoaded',function(){
+  wrap=document.getElementById('doe-factors');if(!wrap)return;
+  countEl=document.getElementById('doe-count');estEl=document.getElementById('doe-est');capEl=document.getElementById('doe-caption');msgEl=document.getElementById('doe-msg');cellsEl=document.getElementById('doe-cells');
+  var i;for(i=0;i<FACTORS.length;i++){on[i]=false;lvl[i]=2;}
+  document.getElementById('doe-optimize').addEventListener('click',optimize);
+  document.getElementById('doe-reset').addEventListener('click',function(){var j;for(j=0;j<FACTORS.length;j++){on[j]=false;lvl[j]=2;}buildFactors();refresh(true,'Cleared. <span style="color:#9FB3BF;">Pick a factor you think matters to start your study.</span>');});
+  buildFactors();refresh(false,'Pick a factor you think drives setting time or strength, then choose how many amounts of it to test. <span style="color:#9FB3BF;">Watch the experiments multiply — then hit Optimise to see what actually matters.</span>');
+});
+})();
+</script>
+
+<!-- ── Interactive 2: What matters (factor influence) ──────── -->
+<script>
+(function(){
+'use strict';
+var APPS=[
+  {id:'scaffold',tab:'3D-printed scaffold',resp:'cell proliferation',
+   goal:'<b>Goal:</b> a scaffold that supports strong <b style="color:#cbd8df;">cell proliferation</b> — found with the fewest experiments.',
+   factors:[
+     {name:'Pore size',role:'key',w:0.34,desc:'Spacing between the strands',effect:'how cells, nutrients and oxygen move into the construct'},
+     {name:'Porosity',role:'key',w:0.30,desc:'Fraction of open volume',effect:'how much open space and flow cells have'},
+     {name:'Surface chemistry',role:'support',w:0.18,desc:'What the strut surface is made of',effect:'how readily cells attach and spread'},
+     {name:'Strand diameter',role:'support',w:0.12,desc:'Thickness of each printed fibre',effect:'how cells grip the individual struts'},
+     {name:'Number of layers',role:'none',w:0.00,desc:'How many are stacked',effect:"the construct's height and stiffness"}
+   ]},
+  {id:'resin',tab:'Resin composite',resp:'flexural strength',
+   goal:'<b>Goal:</b> a composite reaching <b style="color:#cbd8df;">flexural strength ≥ 80 MPa</b> (ISO 4049) — found with the fewest experiments.',
+   factors:[
+     {name:'Filler loading',role:'key',w:0.34,desc:'How much filler (wt%)',effect:'how much reinforcing filler carries the load'},
+     {name:'Silane coupling',role:'key',w:0.28,desc:'Filler–matrix bonding agent',effect:'whether the filler is actually bonded into the matrix'},
+     {name:'Filler size & shape',role:'support',w:0.15,desc:'Particle size and morphology',effect:'how stress transfers between filler and matrix'},
+     {name:'Monomer ratio',role:'support',w:0.15,desc:'Bis-GMA : TEGDMA balance',effect:'degree of conversion and crosslink density'},
+     {name:'Shade / pigment',role:'marginal',w:0.04,desc:'Colour and opacity',effect:'light transmission, so deeper layers cure — and strengthen — a little less'}
+   ]},
+  {id:'cement',tab:'Calcium-silicate cement',resp:'radiopacity',
+   goal:'<b>Goal:</b> a cement reaching <b style="color:#cbd8df;">radiopacity ≥ 3 mm Al</b> (ISO 6876) — found with the fewest experiments.',
+   factors:[
+     {name:'Radiopacifier amount',role:'key',w:0.40,desc:'How much radiopacifier (wt%)',effect:'how much X-ray-dense phase is present'},
+     {name:'Radiopacifier type',role:'key',w:0.34,desc:'Bismuth / zirconia / tungstate',effect:'how strongly the agent attenuates X-rays per gram'},
+     {name:'Powder-to-liquid ratio',role:'support',w:0.16,desc:'Water content of the mix',effect:'how densely the solids and radiopacifier pack'},
+     {name:'Particle size',role:'marginal',w:0.04,desc:'Fineness of the powder',effect:'setting time, hydration and strength'},
+     {name:'Mixing technique',role:'none',w:0.00,desc:'How it is mixed',effect:'handling and porosity (voids)'}
+   ]}
+];
+var TARGET=0.72;
+var app=APPS[0],state,barEl,stateEl,msgEl,wrap,tabsEl,goalEl;
+function known(){var s=0,f=app.factors;for(var i=0;i<f.length;i++)if(state[i])s+=f[i].w;return s;}
+function band(k){
+  if(k>=TARGET)return['Target reached.','#7FD1C9','With these factors the model predicts '+app.resp+' confidently. The ones still off add little — you don\'t need them to make this call.'];
+  if(k>=0.45)return['Almost there.','#F4C58C','Climbing, but still short of the confidence you need — a real driver is probably still off.'];
+  if(k>=0.20)return['Rough guess.','#E0A06A','Some signal is coming in, but the prediction is far below the target.'];
+  return['Blind.','#E08A6A','Nothing measured yet — the model has no basis to predict '+app.resp+'. Turn factors on to feed it.'];
+}
+function render(lastIdx){
+  var k=known();barEl.style.width=Math.round(k*100)+'%';
+  barEl.style.filter=k>=TARGET?'none':(k>=0.45?'saturate(.7)':(k>=0.20?'saturate(.5) brightness(.92)':'grayscale(.6) brightness(.85)'));
+  var b=band(k);stateEl.textContent=b[0];stateEl.style.color=b[1];msgEl.textContent=b[2];
+  if(lastIdx!=null){
+    var f=app.factors[lastIdx];
+    if(state[lastIdx]){
+      if(f.role==='none')msgEl.textContent='Turning on “'+f.name+'” doesn\'t move the prediction — it governs '+f.effect+', not '+app.resp+'. You don\'t need to measure it for this target.';
+      else if(f.role==='marginal')msgEl.textContent='“'+f.name+'” only nudges '+app.resp+' ('+f.effect+'). On its own it can\'t carry you to the target, so it isn\'t worth an experiment here.';
+      else if(k>=TARGET)msgEl.textContent=(k-f.w<TARGET)?('“'+f.name+'” drives '+app.resp+' — and that clears the target: the model can now predict it confidently.'):('“'+f.name+'” adds a little certainty, but the target is already met — measuring it now is optional.');
+      else msgEl.textContent='“'+f.name+'” is a real driver — the prediction climbs toward the target, but you\'re not there yet.';
+    } else {
+      if(f.role==='none'||f.role==='marginal')msgEl.textContent='“'+f.name+'” off — no real change; it never carried '+app.resp+'.';
+      else msgEl.textContent=(k<TARGET&&k+f.w>=TARGET)?('“'+f.name+'” off — you drop back below the target; it was doing real work.'):('“'+f.name+'” off — you lose the certainty it added.');
+    }
+  }
+}
+function buildFactors(){
+  wrap.innerHTML='';
+  var head=document.createElement('div');head.style.cssText="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.2em;color:#7FA6BC;margin-bottom:16px;";head.textContent='TURN FACTORS ON, ONE BY ONE';wrap.appendChild(head);
+  app.factors.forEach(function(f,i){
+    var row=document.createElement('div');row.className='ix-factor-row';
+    var tg=document.createElement('div');tg.className='ix-toggle';tg.setAttribute('data-on','0');
+    var lbl=document.createElement('div');lbl.style.cssText='flex:1;min-width:0;';
+    var nm=document.createElement('div');nm.style.cssText="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;color:#C7D6DE;";nm.textContent=f.name;
+    var ds=document.createElement('div');ds.style.cssText="font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.4;color:#9FB3BF;margin-top:2px;";ds.textContent=f.desc;
+    lbl.appendChild(nm);lbl.appendChild(ds);
+    tg.addEventListener('click',function(){state[i]=!state[i];tg.setAttribute('data-on',state[i]?'1':'0');render(i);});
+    row.appendChild(tg);row.appendChild(lbl);wrap.appendChild(row);
+  });
+}
+function styleTab(b,on){b.style.cssText="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.05em;cursor:pointer;border-radius:999px;padding:7px 14px;border:1px solid "+(on?'rgba(244,148,47,.6)':'rgba(143,177,196,.25)')+";background:"+(on?'rgba(244,148,47,.14)':'transparent')+";color:"+(on?'#F4C58C':'#9FB3BF')+";transition:all .2s;";}
+function selectApp(idx){
+  app=APPS[idx];state=app.factors.map(function(){return false;});
+  for(var t=0;t<tabsEl.children.length;t++)styleTab(tabsEl.children[t],t===idx);
+  goalEl.innerHTML=app.goal;buildFactors();render(null);
+}
+document.addEventListener('DOMContentLoaded',function(){
+  wrap=document.getElementById('inf-factors');if(!wrap)return;
+  barEl=document.getElementById('inf-bar');stateEl=document.getElementById('inf-state');msgEl=document.getElementById('inf-msg');
+  tabsEl=document.getElementById('inf-tabs');goalEl=document.getElementById('inf-goal');
+  APPS.forEach(function(a,idx){var b=document.createElement('button');b.type='button';b.textContent=a.tab;styleTab(b,idx===0);b.addEventListener('click',function(){selectApp(idx);});tabsEl.appendChild(b);});
+  selectApp(0);
+});
+})();
+</script>
+
+<!-- ── Interactive 3: Predict the pH — be the model (goal → forecast → validate) ── -->
+<script>
+(function(){
+'use strict';
+var cv=document.getElementById('phx-cv');if(!cv)return;var ctx=cv.getContext('2d');
+var W=760,H=500,padL=60,padR=76,padT=36,padB=56;
+var PHLO=6,PHHI=13.5,T1=672,WIN_LO=9.0,WIN_HI=11.5;
+var L3=Math.log(3),L24=Math.log(24),L0=Math.log(3),L1=Math.log(T1);
+function fx(t){return padL+(W-padL-padR)*((Math.log(t)-L0)/(L1-L0));}
+function fy(ph){return (H-padB)-(ph-PHLO)/(PHHI-PHLO)*((H-padB)-padT);}
+var COL={meas:'#7CC4DC',bio:'#2BD0B4',high:'#EF7C00',inert:'#7488A0',goal:'#F4942F'};
+var AREAS=[113,169,220],ABON={113:-0.3,169:0,220:0.45};
+var p3=8.0,p24=9.2,area=169,goal=10.5,ca=false,validated=false;
+var platEl,goalvEl,p3vEl,p24vEl,areavEl,verdEl,statEl,r2El;
+function classOf(p){return p<WIN_LO?'inert':(p>WIN_HI?'high':'bio');}
+function colOf(p){var c=classOf(p);return c==='bio'?COL.bio:(c==='high'?COL.high:COL.inert);}
+function plateau(){var p=p24+1.6*(p24-p3)+ABON[area];if(p<p24+0.1)p=p24+0.1;return p>13.4?13.4:p;}
+function phCurve(t){var plat=plateau();if(t<=24)return p3+(p24-p3)*((Math.log(t)-L3)/(L24-L3));return plat-(plat-p24)*Math.exp(-(t-24)/140);}
+function disc(x,y,r,col,glow){ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fillStyle=col;if(glow){ctx.shadowColor=col;ctx.shadowBlur=9;}ctx.fill();ctx.shadowBlur=0;}
+function bg(){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(43,208,180,0.10)';ctx.fillRect(padL,fy(WIN_HI),W-padL-padR,fy(WIN_LO)-fy(WIN_HI));
+  ctx.fillStyle='rgba(239,124,0,0.05)';ctx.fillRect(padL,padT,W-padL-padR,fy(WIN_HI)-padT);
+  ctx.strokeStyle='rgba(143,177,196,.22)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(padL,padT);ctx.lineTo(padL,H-padB);ctx.lineTo(W-padR,H-padB);ctx.stroke();
+  ctx.font='14px "IBM Plex Mono",monospace';ctx.textAlign='left';
+  ctx.fillStyle='rgba(43,208,180,.85)';ctx.fillText('BIOACTIVE WINDOW',padL+8,(fy(WIN_HI)+fy(WIN_LO))/2+4);
+  ctx.fillStyle='rgba(239,124,0,.6)';ctx.fillText('TOO ALKALINE',padL+8,padT+12);
+  var ticks=[3,24,72,168,672],labels=['3 h','24 h','72 h','7 d','28 d'],i;
+  ctx.fillStyle='#6f8a99';ctx.textAlign='center';
+  for(i=0;i<ticks.length;i++){var x=fx(ticks[i]);ctx.strokeStyle='rgba(143,177,196,.18)';ctx.beginPath();ctx.moveTo(x,H-padB);ctx.lineTo(x,H-padB+4);ctx.stroke();ctx.fillStyle='#6f8a99';ctx.fillText(labels[i],x,H-padB+18);}
+  ctx.textAlign='right';for(var ph=7;ph<=13;ph+=2){ctx.fillStyle='#6f8a99';ctx.fillText('pH '+ph,padL-8,fy(ph)+3);}
+  var xd=fx(24);ctx.strokeStyle='rgba(124,196,220,.35)';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(xd,padT);ctx.lineTo(xd,H-padB);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#7CC4DC';ctx.textAlign='center';ctx.fillText('measured',(padL+xd)/2,padT+24);ctx.fillText('predicted →',(xd+(W-padR))/2,padT+24);
+  var gy=fy(goal);ctx.strokeStyle='rgba(244,148,47,.7)';ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(padL,gy);ctx.lineTo(W-padR,gy);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='#F4C58C';ctx.textAlign='left';ctx.fillText('GOAL pH '+goal.toFixed(1),padL+8,gy-6);
+}
+function drawCurve(){
+  var plat=plateau(),i,t;
+  ctx.lineWidth=2.6;ctx.lineJoin='round';
+  ctx.beginPath();for(i=0;i<=40;i++){t=3+(24-3)*(i/40);if(i===0)ctx.moveTo(fx(t),fy(phCurve(t)));else ctx.lineTo(fx(t),fy(phCurve(t)));}ctx.strokeStyle=COL.meas;ctx.stroke();
+  ctx.beginPath();for(i=0;i<=70;i++){t=24*Math.pow(672/24,i/70);if(i===0)ctx.moveTo(fx(t),fy(phCurve(t)));else ctx.lineTo(fx(t),fy(phCurve(t)));}ctx.strokeStyle=colOf(plat);ctx.stroke();
+  disc(fx(3),fy(p3),4.4,COL.meas,false);disc(fx(24),fy(p24),4.8,COL.meas,true);
+  disc(fx(672),fy(plat),5,colOf(plat),true);
+  if(validated){[72,168,672].forEach(function(t){var n=Math.sin(t*1.7)*0.06;disc(fx(t),fy(phCurve(t)+n),4.2,'#EAF1F5',true);});}
+}
+function verdict(){
+  var plat=plateau(),d=plat-goal,cls=classOf(plat),hit;
+  if(Math.abs(d)<0.25)hit='On target — the forecast settles at pH '+plat.toFixed(1)+', right at your goal.';
+  else if(d<0)hit='Falls short — it settles at pH '+plat.toFixed(1)+', below your goal of '+goal.toFixed(1)+'. A steeper 24 h reading, or a larger specimen, would push it higher.';
+  else hit='Overshoots — it climbs to pH '+plat.toFixed(1)+', above your goal of '+goal.toFixed(1)+'.';
+  var ct=cls==='bio'?' It lands inside the bioactive window.':(cls==='high'?' That is above the window — likely too harsh for cells.':' That is below the window — likely inert.');
+  return hit+ct;
+}
+function legend(){var L=document.getElementById('phx-legend');if(!L)return;function it(c,t){return '<span style="display:inline-flex;align-items:center;gap:5px;"><i style="width:16px;height:3px;border-radius:2px;background:'+c+';display:inline-block;"></i>'+t+'</span>';}
+  L.innerHTML=it(COL.meas,'your early readings')+it(COL.bio,'forecast · in window')+it(COL.high,'forecast · too alkaline')+it(COL.inert,'forecast · inert')+'<span style="display:inline-flex;align-items:center;gap:5px;"><i style="width:16px;height:0;border-top:2px dashed #F4942F;display:inline-block;"></i>your goal</span>';}
+function buildAreas(){var box=document.getElementById('phx-areas');if(!box)return;box.innerHTML='';AREAS.forEach(function(a){var b=document.createElement('button');b.type='button';b.className='ph-area';b.textContent=a+' mm²';if(a===area){b.style.borderColor='rgba(124,196,220,.7)';b.style.background='rgba(124,196,220,.14)';b.style.color='#cfe8f2';}b.addEventListener('click',function(){area=a;validated=false;if(r2El)r2El.textContent='';buildAreas();refresh();});box.appendChild(b);});}
+function refresh(){
+  if(goalvEl)goalvEl.textContent=goal.toFixed(1);if(p3vEl)p3vEl.textContent=p3.toFixed(1);if(p24vEl)p24vEl.textContent=p24.toFixed(1);if(areavEl)areavEl.textContent=area+' mm²';
+  if(platEl)platEl.textContent='pH '+plateau().toFixed(1);
+  bg();drawCurve();
+  if(verdEl)verdEl.textContent=verdict();
+  if(statEl)statEl.textContent='28 days × 3 specimen sizes of bench work → forecast from the first day.';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  goalvEl=document.getElementById('phx-goalv');p3vEl=document.getElementById('phx-p3v');p24vEl=document.getElementById('phx-p24v');areavEl=document.getElementById('phx-areav');
+  platEl=document.getElementById('phx-plat');verdEl=document.getElementById('phx-verdict');statEl=document.getElementById('phx-stat');r2El=document.getElementById('phx-r2');
+  var sg=document.getElementById('phx-goal'),s3=document.getElementById('phx-p3'),s24=document.getElementById('phx-p24'),cat=document.getElementById('phx-ca');
+  function clearV(){validated=false;if(r2El)r2El.textContent='';}
+  if(sg)sg.addEventListener('input',function(){goal=parseFloat(sg.value);clearV();refresh();});
+  if(s3)s3.addEventListener('input',function(){p3=parseFloat(s3.value);if(p24<p3){p24=p3;if(s24)s24.value=p24;}clearV();refresh();});
+  if(s24)s24.addEventListener('input',function(){p24=parseFloat(s24.value);if(p24<p3){p3=p24;if(s3)s3.value=p3;}clearV();refresh();});
+  if(cat)cat.addEventListener('click',function(){ca=!ca;cat.setAttribute('data-on',ca?'1':'0');if(r2El)r2El.textContent=ca?'Ca²⁺ adds almost nothing — early pH and specimen size already carry the forecast.':'';});
+  buildAreas();legend();
+  var bv=document.getElementById('phx-validate');if(bv)bv.addEventListener('click',function(){validated=true;refresh();if(r2El)r2El.textContent='Measured 72 h · 168 h · 672 h land on the forecast — R² 0.91 / 0.89 / 0.85.';});
+  var br=document.getElementById('phx-reset');if(br)br.addEventListener('click',function(){p3=8.0;p24=9.2;area=169;goal=10.5;ca=false;validated=false;if(sg)sg.value=10.5;if(s3)s3.value=8.0;if(s24)s24.value=9.2;if(cat)cat.setAttribute('data-on','0');if(r2El)r2El.textContent='';buildAreas();refresh();});
+  refresh();
+});
+})();
+</script>
+
+<!-- ── Interactive 4: Natural selection — birth–death phylogeny ── -->
+<script>
+(function(){
+'use strict';
+var cv=document.getElementById('gn-cv');if(!cv)return;var ctx=cv.getContext('2d');
+var capEl=document.getElementById('gn-cap'),genEl=document.getElementById('gn-gen'),stepEl=document.getElementById('gn-step'),narrEl=document.getElementById('gn-narr');
+var scrub=document.getElementById('gn-scrub'),btn=document.getElementById('gn-play'),spark=document.getElementById('gn-spark');
+var GENES=4,FOUND=16,MAXGEN=16;
+var COMP=[{c:'#2BB6B6',n:'C3S powder'},{c:'#EF7C00',n:'Radiopacifier'},{c:'#4f9CFF',n:'Water'},{c:'#9B5BF0',n:'Accelerator'}];
+var DIAL=['str','rad','flow','set','ph'],projV=[0.7,1.0,0.5,0.8];
+var target={str:0.85,rad:0.30,flow:0.35,set:0.75,ph:0.6};
+function clamp(x){return x<0?0:x>1?1:x;}
+function gf(x){return x<0.06?0.06:(x>1?1:x);}
+function sig(x){return 1/(1+Math.exp(-x));}
+function propsOf(g){var a=g[0],b=g[1],w=g[2],ac=g[3];return{str:clamp(0.45+0.55*a-0.55*b-0.45*w),rad:clamp(0.10+0.90*b),flow:clamp(0.15+0.85*w),set:clamp(0.40+0.60*ac-0.50*w),ph:clamp(0.30+0.70*a)};}
+function fitOf(g){var p=propsOf(g),s=0;for(var i=0;i<DIAL.length;i++)s+=Math.abs(p[DIAL[i]]-target[DIAL[i]]);return 1-s/DIAL.length;}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+var rng;
+function mutate(g,amt){var c=g.slice();for(var i=0;i<GENES;i++)if(rng()<0.5)c[i]=gf(c[i]+(rng()-0.5)*amt);return c;}
+var padL=52,padR=70,padT=22,padB=22,W=680,H=400;
+var TOPY=padT+18,BOTY=H-padB-18;
+function xOf(g){return padL+(W-padL-padR)*(g/MAXGEN);}
+var nodes,founders,frontierCount,deaths,frontierAvg,bestCurve,fitCurve,convY=(TOPY+BOTY)/2,seed0=7,plateau=MAXGEN,finFit=1,cmin=0,cmax=1,backbone={};
+function simulate(seed){
+ rng=mulberry32(seed);nodes=[];founders=[];var id=0;
+ function mk(genome,gen,parent,by){var n={id:id++,g:genome,gen:gen,parent:parent,children:[],extinct:false,by:by,y:0,x:0,f:fitOf(genome)};nodes.push(n);if(parent)parent.children.push(n);return n;}
+ var frontier=[];
+ for(var i=0;i<FOUND;i++){var by=FOUND>1?TOPY+(BOTY-TOPY)*i/(FOUND-1):(TOPY+BOTY)/2;var n=mk([gf(rng()),gf(rng()),gf(rng()),gf(rng())],0,null,by);founders.push(n);frontier.push(n);}
+ for(var gen=1;gen<=MAXGEN;gen++){
+  var kids=[];
+  var late=gen>MAXGEN-3;
+  for(var fi=0;fi<frontier.length;fi++){var par=frontier[fi];var amt=gen<5?0.44:0.30;
+   var bp=gen<4?0.30:(late?0.05:0.22);var nk=1+((rng()<bp&&par.f>0.42)?1:0);
+   for(var c=0;c<nk;c++){var dy=(rng()-0.5)*(gen<5?30:(late?9:20));var cby=par.by+dy;if(cby<TOPY)cby=TOPY;if(cby>BOTY)cby=BOTY;kids.push(mk(mutate(par.g,c===0?amt*0.5:amt),gen,par,cby));}}
+  var thr=0.40+0.40*(gen/MAXGEN);var survivors=[];
+  for(var ki=0;ki<kids.length;ki++){var kd=kids[ki];if(rng()<sig((kd.f-thr)*9))survivors.push(kd);else kd.extinct=true;}
+  survivors.sort(function(a,b){return b.f-a.f;});
+  var cap=Math.max(2,Math.round(FOUND*(1-0.92*Math.pow(gen/MAXGEN,1.7))));
+  if(survivors.length>cap){for(var s2=cap;s2<survivors.length;s2++)survivors[s2].extinct=true;survivors=survivors.slice(0,cap);}
+  if(survivors.length===0){var best=kids.sort(function(a,b){return b.f-a.f;})[0];best.extinct=false;survivors=[best];}
+  frontier=survivors;
+ }
+ return frontier;
+}
+function bestFitAtGen(g){var bf=0,i;for(i=0;i<nodes.length;i++)if(nodes[i].gen===g&&!nodes[i].extinct&&nodes[i].f>bf)bf=nodes[i].f;if(bf===0)for(i=0;i<nodes.length;i++)if(nodes[i].gen===g&&nodes[i].f>bf)bf=nodes[i].f;return bf;}
+function layoutY(){
+ var sum=0,cnt=0,i;
+ for(i=0;i<nodes.length;i++){if(!nodes[i].extinct&&nodes[i].gen===MAXGEN){sum+=nodes[i].by;cnt++;}}
+ var cy=cnt?sum/cnt:(TOPY+BOTY)/2;convY=cy;
+ for(var q=0;q<nodes.length;q++){var nd=nodes[q];var t=Math.pow(nd.gen/MAXGEN,1.3)*0.82;nd.y=nd.by*(1-t)+cy*t;nd.x=xOf(nd.gen);}
+}
+function meanFitAtGen(g){var s=0,c=0;for(var i=0;i<nodes.length;i++)if(!nodes[i].extinct&&nodes[i].gen===g){s+=nodes[i].f;c++;}return c?s/c:0;}
+function finalize(){
+ var fr=simulate(seed0);layoutY();
+ bestCurve=[];fitCurve=[];var run=0;for(var g=0;g<=MAXGEN;g++){var bb0=bestFitAtGen(g);bestCurve.push(bb0);if(bb0>run)run=bb0;fitCurve.push(run);}
+ finFit=bestCurve[MAXGEN];cmin=fitCurve[0];cmax=fitCurve[MAXGEN]||1;if(cmax-cmin<0.001)cmin=cmax-0.001;
+ plateau=MAXGEN;for(var g2=0;g2<=MAXGEN;g2++){if(finFit-bestCurve[g2]<0.02){plateau=g2;break;}}
+ frontierCount=[];deaths=[];for(var g3=0;g3<=MAXGEN;g3++){frontierCount.push(0);deaths.push(0);}
+ nodes.forEach(function(n){if(!n.extinct)frontierCount[n.gen]++;if(n.extinct)deaths[n.gen]++;});
+ frontierAvg=[];for(var ga=0;ga<=MAXGEN;ga++){var sm=[0,0,0,0],cnt=0;for(var ni=0;ni<nodes.length;ni++){var nn=nodes[ni];if(!nn.extinct&&nn.gen===ga){cnt++;for(var z=0;z<GENES;z++)sm[z]+=nn.g[z];}}if(cnt)for(var z2=0;z2<GENES;z2++)sm[z2]/=cnt;frontierAvg.push(sm);}
+ var bf=null;fr.forEach(function(n){if(!bf||n.f>bf.f)bf=n;});backbone={};var cur=bf;while(cur){backbone[cur.id]=true;cur=cur.parent;}
+}
+function sScore(c){var end=c[MAXGEN],start=c[0],rise=end-start,early=c[4]-start;return rise*1.4-Math.max(0,early-rise*0.5)+end*0.3;}
+function buildSearch(){var bs=1,bsc=-1e9;for(var sd=1;sd<=48;sd++){simulate(sd);var mc=[],run=0;for(var g=0;g<=MAXGEN;g++){var b=bestFitAtGen(g);if(b>run)run=b;mc.push(run);}var sc=sScore(mc);if(sc>bsc){bsc=sc;bs=sd;}}seed0=bs;finalize();}
+function rebuild(){finalize();}
+function disc(cx,cy,r,g,alpha,glow){var sum=g[0]+g[1]+g[2]+g[3]||1,st=-Math.PI/2;ctx.globalAlpha=alpha;for(var i=0;i<GENES;i++){var ang=2*Math.PI*g[i]/sum;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,st,st+ang);ctx.closePath();ctx.fillStyle=COMP[i].c;ctx.fill();st+=ang;}if(glow){ctx.beginPath();ctx.arc(cx,cy,r+2,0,6.283);ctx.strokeStyle='#F4A24A';ctx.lineWidth=2.5;ctx.stroke();}ctx.globalAlpha=1;}
+function edge(par,ch,reveal){if(par.x>reveal)return;var bb=backbone[ch.id]&&backbone[par.id];var hx=Math.min(ch.x,reveal);ctx.beginPath();ctx.moveTo(par.x,par.y);ctx.lineTo(par.x,ch.y);ctx.lineTo(hx,ch.y);ctx.strokeStyle=bb?'rgba(244,162,74,0.95)':(ch.extinct?'rgba(150,170,190,0.16)':'rgba(150,185,205,0.4)');ctx.lineWidth=bb?3.4:(ch.extinct?1:1.6);ctx.stroke();}
+function pName(k){return {str:'strength',rad:'radiopacity',flow:'flowability',set:'set speed',ph:'alkalinity'}[k];}
+function compPhrase(i,up){
+ if(i===0)return up?'the mix leans on more C3S powder, pushing strength and alkalinity up':'C3S powder is eased back, relaxing strength and alkalinity';
+ if(i===1)return up?'more radiopacifier is added so it shows on X-rays — which costs strength':'radiopacifier is trimmed, letting strength recover';
+ if(i===2)return up?'more water thins the paste to raise flowability — at the cost of set speed':'water is pulled back, so it sets faster and stronger but flows less';
+ return up?'more accelerator is added to set it faster':'accelerator is reduced, so it sets more slowly';
+}
+function topLow(av){var p=propsOf(av);var ks=['str','rad','flow','set','ph'];var hi=ks[0],lo=ks[0];for(var i=1;i<ks.length;i++){if(p[ks[i]]>p[hi])hi=ks[i];if(p[ks[i]]<p[lo])lo=ks[i];}return[pName(hi),pName(lo)];}
+function narr(gen,strained){
+ var fc=frontierCount[gen]||0,dd=deaths[gen]||0;
+ if(gen<=1)return 'We begin with '+FOUND+' random recipes spread wide — wildly different mixes, most of them poor. Selection will test every one against what the clinic asked for, and the weak will fall away.';
+ var prev=frontierAvg[gen-1]||frontierAvg[gen]||[0,0,0,0],cur=frontierAvg[gen]||[0,0,0,0];
+ var ci=0,best=0;for(var i=0;i<GENES;i++){var dv=Math.abs(cur[i]-prev[i]);if(dv>best){best=dv;ci=i;}}
+ var up=cur[ci]>=prev[ci];var tl=topLow(cur),hi=tl[0],lo=tl[1];var phrase=compPhrase(ci,up);
+ if(gen>=plateau){if(strained)return 'No recipe can satisfy every demand at once. The survivors settle as best-compromises — solid '+hi+', but '+lo+' never catches up. Past this point nothing improves.';return 'One recipe family has won: high '+hi+', accepting modest '+lo+'. Generation after generation it stops changing — the design is locked in.';}
+ var deathTxt=dd>0?(dd+' weaker mix'+(dd>1?'es':'')+' that fell short on '+hi+' die out'):'no mix is weak enough to lose this round';
+ return 'To chase the target, '+phrase+'. As a result, '+deathTxt+'; '+fc+' carry on — now leaning to high '+hi+', while '+lo+' gives way.';
+}
+function render(p){
+ ctx.clearRect(0,0,W,H);
+ var reveal=xOf(p),curGen=Math.round(p),i;
+ for(i=0;i<nodes.length;i++){if(nodes[i].parent)edge(nodes[i].parent,nodes[i],reveal);}
+ for(i=0;i<nodes.length;i++){var e=nodes[i];if(e.extinct&&e.children.length===0&&e.x<=reveal){disc(e.x,e.y,6,e.g,0.16,false);}}
+ var fr0=Math.max(5,Math.min(8,150/FOUND));
+ for(i=0;i<founders.length;i++){var fn=founders[i];if(fn.x<=reveal+2&&curGen>0){disc(fn.x,fn.y,fr0,fn.g,0.9,false);}}
+ var anyDisc=false,cntg=frontierCount[curGen]||1,rr=Math.max(7,Math.min(13,170/Math.max(3,cntg)));
+ for(i=0;i<nodes.length;i++){var nd=nodes[i];if(!nd.extinct&&nd.gen===curGen&&nd.x<=reveal+2){var bb=backbone[nd.id];disc(nd.x,nd.y,bb?rr+3:rr,nd.g,1,bb);anyDisc=true;}}
+ var tx=xOf(MAXGEN)+28,ty=convY;
+ ctx.save();
+ ctx.setLineDash([3,3]);ctx.strokeStyle='rgba(244,162,74,0.30)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xOf(MAXGEN),ty);ctx.lineTo(tx-9,ty);ctx.stroke();ctx.setLineDash([]);
+ ctx.strokeStyle='rgba(244,162,74,0.85)';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(tx,ty,8,0,6.283);ctx.stroke();ctx.beginPath();ctx.arc(tx,ty,3,0,6.283);ctx.stroke();
+ ctx.fillStyle='#F4C58C';ctx.font='9px "IBM Plex Mono",monospace';ctx.textAlign='center';ctx.fillText('TARGET',tx,ty-13);
+ ctx.restore();
+ var shown=curGen;genEl.textContent=shown;var conv=shown>=plateau;var strained=finFit<0.82;
+ stepEl.textContent=conv?(strained?'BEST COMPROMISE':'CONVERGED'):'GENERATION '+shown;
+ capEl.textContent=conv?(strained?'A few rival compromises persist.':'The surviving lineage is locked in.'):(deaths[shown]>0?(deaths[shown]+' lineage'+(deaths[shown]>1?'s':'')+' died this round; '+frontierCount[shown]+' live on.'):frontierCount[shown]+' lineages alive.');
+ narrEl.textContent=narr(shown,strained);
+ renderSpark(shown,strained);
+}
+function renderSpark(gi,strained){
+ var sw=240,sh=72,pad=8,rng2=(cmax-cmin)||1;
+ function Y(v){return sh-pad-(sh-2*pad)*clamp((v-cmin)/rng2);}
+ function X(g){return pad+(sw-2*pad)*(g/MAXGEN);}
+ var rev='',gi2=gi<0?0:gi,f=Math.floor(gi2),k;
+ for(k=0;k<=f;k++){rev+=(k?'L':'M')+X(k).toFixed(1)+','+Y(fitCurve[k]).toFixed(1)+' ';}
+ var vEnd=f<MAXGEN?fitCurve[f]+(fitCurve[f+1]-fitCurve[f])*(gi2-f):fitCurve[MAXGEN];
+ if(f<MAXGEN&&gi2>f){rev+='L'+X(gi2).toFixed(1)+','+Y(vEnd).toFixed(1)+' ';}
+ var col=strained?'#E0884A':'#7CC4DC';
+ var ex=X(gi2).toFixed(1),ey=Y(vEnd).toFixed(1);
+ spark.innerHTML='<svg viewBox="0 0 '+sw+' '+sh+'" width="100%" height="100%" preserveAspectRatio="none">'
+  +'<path d="'+rev.trim()+'" fill="none" stroke="'+col+'" stroke-width="2.6" stroke-linejoin="round"/>'
+  +'<circle cx="'+ex+'" cy="'+ey+'" r="3" fill="#F4942F"/></svg>';}
+var play=0,mode='auto',lastTs=0,holdUntil=0,speed=0.7;
+function loop(ts){var t=ts*0.001;var dt=Math.min(0.05,lastTs?(ts-lastTs)/1000:0.016);lastTs=ts;if(mode==='auto'){if(play<MAXGEN){play+=dt*speed;if(play>MAXGEN)play=MAXGEN;}else{if(!holdUntil)holdUntil=t+2.6;else if(t>holdUntil){play=0;holdUntil=0;}}if(scrub)scrub.value=play;}render(play);requestAnimationFrame(loop);}
+function toggle(){if(mode==='auto'){mode='paused';btn.textContent='Play';}else{if(play>=MAXGEN)play=0;mode='auto';holdUntil=0;btn.textContent='Pause';}}
+var PAIR={str:'rad',rad:'str',flow:'set',set:'flow'},prevVal={};
+function onDial(k,val){var v=val/100;var d=v-(prevVal[k]==null?v:prevVal[k]);prevVal[k]=v;target[k]=v;if(PAIR[k]){var pk=PAIR[k];var nv=clamp(target[pk]-0.55*d);target[pk]=nv;prevVal[pk]=nv;var el=document.getElementById('d-'+pk);if(el)el.value=Math.round(nv*100);}rebuild();}
+function legend(){var L=document.getElementById('gn-legend');if(!L)return;var h='';for(var i=0;i<GENES;i++)h+='<span style="display:inline-flex;align-items:center;gap:5px;margin-right:14px;"><i style="width:11px;height:11px;border-radius:2px;background:'+COMP[i].c+';display:inline-block;"></i>'+COMP[i].n+'</span>';L.innerHTML=h;}
+buildSearch();legend();
+DIAL.forEach(function(k){var el=document.getElementById('d-'+k);if(el){prevVal[k]=el.value/100;el.addEventListener('input',function(){onDial(k,parseFloat(el.value));});}});
+if(scrub){scrub.min=0;scrub.max=MAXGEN;scrub.step=0.02;scrub.value=0;scrub.addEventListener('input',function(){mode='paused';holdUntil=0;btn.textContent='Play';play=parseFloat(scrub.value)||0;render(play);});}
+btn&&btn.addEventListener('click',toggle);play=MAXGEN;mode='paused';if(scrub)scrub.value=MAXGEN;if(btn)btn.textContent='Play ▶';render(play);requestAnimationFrame(loop);
+})();
+</script>
+
+<script src="../assets/js/shared.js"></script>
+</body>
+</html>
