@@ -23,6 +23,7 @@
     if (/\/publications(\/|\.html)/.test(p)) return 'publications';
     if (/\/news(\/|\.html)/.test(p))    return 'news';
     if (/\/contact\.html/.test(p))      return 'contact';
+    if (/\/research\/pulp-research-pillars\.html/.test(p)) return 'pillars';
     if (/\/research(\/|\.html)/.test(p)) return 'research';
     return 'home';
   }
@@ -41,6 +42,7 @@
     { id: 'home',         label: 'Home',     href: base + 'index.html' },
     { id: 'who',          label: 'Who',      href: base + 'who.html' },
     { id: 'research',     label: 'Living Matter Engines', href: base + 'research/ai-living-lab.html' },
+    { id: 'pillars',      label: 'Pulp Pillars', href: base + 'research/pulp-research-pillars.html' },
     { id: 'publications', label: 'To read',  href: base + 'publications.html' },
     { id: 'news',         label: 'News',     href: base + 'news.html' },
     { id: 'contact',      label: 'Contact',  href: base + 'contact.html' },
