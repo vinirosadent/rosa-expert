@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pillar II — scaffold design (prototype v7)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#120C0E;--pink:#D67B88;--crimson:#7A1F2D;--amber:#DE934F;--ivory:#F7F4EB;
+--text:rgba(247,244,235,.86);--text2:rgba(247,244,235,.72);--muted:rgba(247,244,235,.5);--line:rgba(247,244,235,.12);
+--serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;--ease:cubic-bezier(.16,1,.3,1);}
+*{box-sizing:border-box}
+body{margin:0;background:transparent;color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;padding:12px;}
+.we{width:100%;max-width:900px;margin:0 auto;position:relative;border:1px solid var(--line);border-radius:4px;background:linear-gradient(158deg,rgba(122,31,45,.06),rgba(9,5,6,.28));padding:30px 34px 26px;}
+.we-eye{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);}
+.we-h{font-family:var(--serif);font-weight:500;font-size:clamp(1.35rem,2.4vw,1.85rem);line-height:1.14;color:var(--ivory);margin:13px 0 0;letter-spacing:-.01em;}
+.we-body{font-size:.98rem;line-height:1.6;color:var(--text2);margin:8px 0 0;max-width:70ch;}
+.stage{position:relative;height:174px;margin:16px 0 0;}
+.cvwrap{position:relative;width:100%;height:100%;border-radius:8px 8px 0 0;overflow:hidden;border:1px solid rgba(247,244,235,.08);border-bottom:0;background:radial-gradient(90% 130% at 40% 0%,rgba(122,31,45,.30),rgba(9,5,6,.5) 72%);}
+.cvwrap canvas{position:relative;display:block;width:100%;height:100%;}
+.sc-console{border:1px solid rgba(247,244,235,.08);border-top:1px solid rgba(247,244,235,.14);background:rgba(6,4,5,.66);border-radius:0 0 8px 8px;padding:12px 16px 10px;min-height:96px;display:flex;flex-direction:column;}
+.sc-log{flex:1;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:rgba(247,244,235,.82);white-space:pre-wrap;}
+.sc-log .cm b{color:var(--amber);font-weight:500;}.sc-log .cur{color:var(--amber);}
+.sc-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:6px;}
+.sc-btn{font-family:var(--mono);font-size:12px;letter-spacing:.06em;background:none;border:1px solid rgba(247,244,235,.22);border-radius:4px;padding:7px 14px;cursor:pointer;color:rgba(247,244,235,.72);transition:all .25s var(--ease);}
+.sc-btn:hover{border-color:var(--amber);color:var(--amber);}
+.sc-next{color:var(--amber);border-color:rgba(222,147,79,.5);opacity:0;pointer-events:none;transition:opacity .35s var(--ease),background .25s;}
+.sc-next.on{opacity:1;pointer-events:auto;}
+.sc-next:hover{background:rgba(222,147,79,.16);}
+.sc-back[disabled]{opacity:.28;pointer-events:none;}
+.we-play{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;background:rgba(9,5,6,.72);backdrop-filter:blur(2px);border-radius:4px;cursor:pointer;transition:opacity .5s var(--ease);}
+.we.started .we-play{opacity:0;pointer-events:none;}
+.we-playbtn{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--amber);border:none;border-radius:999px;padding:13px 30px;cursor:pointer;box-shadow:0 0 30px -6px rgba(222,147,79,.8);}
+.we-playsub{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+</style></head>
+<body>
+<div class="we" id="we">
+  <div class="we-eye">Worked example — J Biomed Mater Res B 2020</div>
+  <h2 class="we-h">Designing a scaffold by computer.</h2>
+  <p class="we-body">The pulp needs a scaffold to grow on. Instead of testing every recipe, a Taguchi orthogonal array runs a balanced few, ranks which factors matter, and lands on the printable, cell-friendly lattice.</p>
+  <div class="stage"><div class="cvwrap"><canvas></canvas></div></div>
+  <div class="sc-console"><div class="sc-log" id="sc-log"></div><div class="sc-foot"><button class="sc-btn sc-back" id="sc-back">&lt;&lt;&lt; back</button><button class="sc-btn sc-next" id="sc-next">&gt;&gt;&gt; next</button></div></div>
+  <div class="we-play" id="we-play"><button class="we-playbtn" id="we-playbtn">&#9654;&nbsp;&nbsp;Play</button><span class="we-playsub">Design a scaffold by computer</span></div>
+</div>
+<script>
+(function(){
+var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;var raf=0;
+function setup(cv){var w=cv.clientWidth||860,h=cv.clientHeight||174,d=Math.min(2,devicePixelRatio||1);cv.width=w*d;cv.height=h*d;var x=cv.getContext('2d');x.scale(d,d);return{x:x,w:w,h:h};}
+var AM='#DE934F',AMC='#ffcf8a',CR='#7A1F2D',PK='#D67B88',PKC='#f2b3bd',IV='#F7F4EB';
+var pore=[50,100,150],fib=[50,100,150],mta=[0,4,20],lay=[1,2,3];
+function sc(idx){var a=idx%3,b=Math.floor(idx/3)%3,c=Math.floor(idx/9)%3,d=Math.floor(idx/27)%3;return 'P'+pore[a]+' F'+fib[b]+' M'+mta[c]+' L'+lay[d];}
+var factors=[['Pore size',['50','100','150'],'µm'],['Fibre Ø',['50','100','150'],'µm'],['PCL/MTA',['0','4','20'],'%'],['Layers',['1','2','3'],'']];
+var l9=[]; for(var i=0;i<9;i++)l9.push(i*9+((4*i)%9)); l9.sort(function(a,b){return a-b;});
+function E(x){return x<0?0:x>1?1:1-Math.pow(1-x,3);}
+var cv,ctx,W,H,stage=0,tStage=0;
+var elLog=document.getElementById('sc-log'),elNext=document.getElementById('sc-next'),elBack=document.getElementById('sc-back');
+function mono(x,y,s,sz,col,al,an){ctx.globalAlpha=al==null?1:al;ctx.fillStyle=col;ctx.font=sz+'px "IBM Plex Mono",monospace';ctx.textAlign=an||'left';ctx.textBaseline='middle';ctx.fillText(s,x,y);ctx.globalAlpha=1;}
+function bigNum(x,y,s,sz,glow){ctx.save();ctx.shadowColor='rgba(222,147,79,'+glow+')';ctx.shadowBlur=20*glow;ctx.fillStyle=IV;ctx.font=sz+'px "Playfair Display",Georgia,serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(s,x,y);ctx.restore();}
+function glowDot(cx,cy,r,core,glow,al,blur){ctx.save();ctx.globalAlpha=al;ctx.shadowColor=glow;ctx.shadowBlur=blur==null?r*2.6:blur;ctx.fillStyle=core;ctx.beginPath();ctx.arc(cx,cy,r,0,6.283);ctx.fill();ctx.restore();}
+function codeList(items,x0,elim){var y=36,lh=15,n=items.length,start=Math.max(0,n-8);
+ for(var i=start;i<n;i++){var last=(i===n-1),a=last?1:Math.max(.3,.9-(n-1-i)*0.11);
+  mono(x0,y,items[i],10.5,elim?'rgba(222,147,79,'+a+')':(last?PKC:'rgba(214,123,136,'+a+')'),1);y+=lh;}}
+var GY=34,GS=12.5;
+function drawChoose(e){mono(22,18,'WHAT TO VARY',9.5,AM,1);
+ for(var i=0;i<4;i++){var x=89+i*196,ap=Math.max(0,Math.min(1,e*0.9-i*0.4));if(ap<=0)continue;
+  mono(x,50,factors[i][0].toUpperCase(),10,'rgba(247,244,235,.82)',ap);
+  for(var k=0;k<3;k++){var cy=80+k*28,cp=Math.max(0,Math.min(1,(e-2.8)*0.9-k*0.35));if(cp<=0)continue;
+   ctx.save();ctx.globalAlpha=cp;ctx.shadowColor='rgba(222,147,79,.5)';ctx.shadowBlur=8;ctx.strokeStyle='rgba(222,147,79,.6)';ctx.lineWidth=1.1;ctx.beginPath();ctx.rect(x,cy-11,52,22);ctx.stroke();ctx.restore();
+   ctx.globalAlpha=cp;ctx.fillStyle='rgba(222,147,79,.08)';ctx.fillRect(x,cy-11,52,22);mono(x+20,cy,factors[i][1][k],11,IV,cp);mono(x+58,cy,factors[i][2],9,'rgba(247,244,235,.5)',cp);ctx.globalAlpha=1;}}
+}
+function drawSpace(e){mono(22,18,'FULL FACTORIAL — every combination',9.5,AM,1);var fill=Math.min(81,Math.floor(e*34)),gx=Math.round(W*0.30)-50,lx=Math.round(W*0.63);
+ for(var idx=0;idx<fill;idx++){var r=Math.floor(idx/9),c=idx%9;glowDot(gx+c*GS,GY+r*GS,2.3,PKC,'rgba(214,123,136,.8)',1,7);}
+ var items=[];for(var k=Math.max(0,fill-8);k<fill;k++)items.push(sc(k));
+ mono(lx,18,'recipes written',9,'rgba(247,244,235,.45)',1);codeList(items,lx,false);
+ mono(gx,GY+9*GS+6,fill+' so far…',9,'rgba(247,244,235,.5)',1);}
+function drawArray(e,now){mono(22,18,'TAGUCHI ORTHOGONAL ARRAY (L9)',9.5,AM,1);var gx=Math.round(W*0.50)-50,nx=Math.round(W*0.83),lx=Math.round(W*0.085);
+ var sel=Math.min(9,Math.floor(e/0.34)),fade=Math.min(1,e/2.8),done=(sel>=9);
+ for(var idx=0;idx<81;idx++){var r=Math.floor(idx/9),c=idx%9,cx=gx+c*GS,cy=GY+r*GS,pos=l9.indexOf(idx);
+  if(pos>=0){if(pos<sel){var pu=done?(0.6+0.4*Math.sin(now/300+idx)):1;glowDot(cx,cy,3+ (done?pu*1.4:0.6),AMC,'rgba(222,147,79,1)',1,13);}else{glowDot(cx,cy,2.2,PKC,'rgba(214,123,136,.8)',.9,6);}}
+  else{glowDot(cx,cy,1.6,'#6e4a52','rgba(122,31,45,.3)',Math.max(.06,0.7*(1-fade)),3);}}
+ var items=[];for(var s2=0;s2<sel;s2++)items.push('run '+sc(l9[s2]));
+ codeList(items,lx,true);
+ if(done){var ap=E(Math.min(1,(e-2.9)/0.6));bigNum(nx,H/2-6,'9',46,.5+0.3*Math.sin(now/300));mono(nx,H/2+24,'RUNS · not 81',8.5,AM,ap,'center');}}
+var sn=[['Fibre Ø',.92,1],['Composition',.82,1],['Pore size',.34,0],['Layers',.24,0]];
+function drawRank(e){mono(22,18,'MAIN EFFECTS — ANOM & S/N',9.5,AM,1);var bx=Math.round(W*0.24),bw=Math.min(340,W*0.48),by=46;
+ for(var j=0;j<4;j++){var yy=by+j*28,gp=Math.max(0,Math.min(1,(e-0.8-j*0.8)*1.5));if(gp<=0)continue;
+  mono(bx,yy-8,sn[j][0].toUpperCase(),9,'rgba(247,244,235,.75)',Math.min(1,gp*2));
+  ctx.fillStyle='rgba(247,244,235,.07)';ctx.fillRect(bx,yy,bw,8);
+  var gr=ctx.createLinearGradient(bx,0,bx+bw,0);gr.addColorStop(0,CR);gr.addColorStop(1,sn[j][2]?AMC:'#b07a5e');
+  ctx.save();ctx.shadowColor=sn[j][2]?'rgba(222,147,79,.6)':'rgba(122,31,45,.4)';ctx.shadowBlur=sn[j][2]?10:3;ctx.fillStyle=gr;ctx.fillRect(bx,yy,bw*sn[j][1]*E(gp),8);ctx.restore();
+  mono(bx+bw*sn[j][1]+8,yy+4,sn[j][2]?'▲ decisive':'minor',9,sn[j][2]?AM:'rgba(247,244,235,.4)',gp);}
+}
+function drawPrint(e,now){mono(22,18,'PRINTED SCAFFOLD · BIOACTIVITY',9.5,AM,1);
+ var mx=Math.round(W*0.30)-52,my=30,ms=104,dr=E(Math.min(1,e/1.8)),ncell=Math.max(0,Math.min(14,Math.floor((e-1.3)*3.2)));
+ ctx.save();ctx.globalAlpha=Math.min(1,e)*.45;var rg=ctx.createRadialGradient(mx+ms/2,my+ms/2,6,mx+ms/2,my+ms/2,ms*.9);rg.addColorStop(0,'rgba(222,147,79,.45)');rg.addColorStop(1,'rgba(222,147,79,0)');ctx.fillStyle=rg;ctx.fillRect(mx-24,my-24,ms+48,ms+48);ctx.restore();
+ var N=6,cc=ms/N;ctx.strokeStyle='rgba(222,147,79,.85)';ctx.lineWidth=1.4;
+ for(var g=0;g<=N;g++){var pp=g/N,dh=Math.max(0,Math.min(1,(dr-pp*0.5)/0.5));if(dh>0){ctx.save();ctx.globalAlpha=dh;ctx.shadowColor='rgba(222,147,79,.5)';ctx.shadowBlur=4;ctx.beginPath();ctx.moveTo(mx,my+g*cc);ctx.lineTo(mx+ms*dh,my+g*cc);ctx.stroke();ctx.beginPath();ctx.moveTo(mx+g*cc,my);ctx.lineTo(mx+g*cc,my+ms*dh);ctx.stroke();ctx.restore();}}
+ for(var n=0;n<ncell;n++){var px=mx+9+((n*29)%(ms-18)),py=my+9+((n*47)%(ms-18)),br=0.85+0.15*Math.sin(now/350+n);glowDot(px,py,3.2*br,PKC,'rgba(214,123,136,.9)',1,9);ctx.fillStyle='rgba(122,31,45,.9)';ctx.beginPath();ctx.arc(px,py,1.2,0,6.283);ctx.fill();}
+ mono(mx+ms/2,my+ms+14,ncell+' cells \u2191',9,PK,Math.min(1,ncell/3),'center');
+ var mk=[['ALP',.9],['COL-1',.8],['OCN',.72],['MSX-1',.64]],bx=Math.round(W*0.70)-94,bw=32,gap=52,baseY=my+ms,maxH=ms-8;
+ mono(bx,18,'GENE EXPRESSION (qPCR)',9,AM,1);
+ ctx.save();ctx.setLineDash([3,3]);ctx.strokeStyle='rgba(247,244,235,.22)';ctx.beginPath();ctx.moveTo(bx-6,baseY-14);ctx.lineTo(bx+4*gap-16,baseY-14);ctx.stroke();ctx.restore();mono(bx+4*gap-14,baseY-14,'control',8,'rgba(247,244,235,.4)',1);
+ for(var j=0;j<4;j++){var x=bx+j*gap,ap2=Math.max(0,Math.min(1,(e-0.6-j*0.5)/1.0)),h=mk[j][1]*maxH*E(ap2);
+  var gr2=ctx.createLinearGradient(0,baseY,0,baseY-maxH);gr2.addColorStop(0,CR);gr2.addColorStop(1,AMC);
+  ctx.save();ctx.shadowColor='rgba(222,147,79,.5)';ctx.shadowBlur=8;ctx.fillStyle=gr2;ctx.fillRect(x,baseY-h,bw,h);ctx.restore();
+  mono(x+bw/2,baseY+12,mk[j][0],8.5,'rgba(247,244,235,.72)',1,'center');
+  if(ap2>.7)mono(x+bw/2,baseY-h-7,'\u2191',10,AM,1,'center');}}
+var stages=[
+ {dur:6.0,draw:function(e,n){drawChoose(e);},log:[[0.4,'// pick <b>what</b> to vary, then <b>how much</b>'],[3.0,'// 4 factors, 3 levels each']]},
+ {dur:5.2,draw:function(e,n){drawSpace(e);},log:[[0.4,'// each line is one scaffold recipe'],[1.8,'// all combinations: 3 × 3 × 3 × 3 = <b>81</b> in full']]},
+ {dur:5.4,draw:function(e,n){drawArray(e,n);},log:[[0.4,'// no need to run all 81 — use a balanced fraction'],[1.8,'// an orthogonal array (<b>L9</b>): 9 runs, every level tested equally']]},
+ {dur:5.4,draw:function(e,n){drawRank(e);},log:[[0.4,'// rank each factor by its effect (ANOM + S/N ratio)'],[2.6,'// fibre size & composition dominate; pore size & layers barely matter']]},
+ {dur:5.8,draw:function(e,n){drawPrint(e,n);},log:[[0.4,'// 3D-print the scaffold — a porous PCL lattice'],[2.2,'// at <b>4% MTA</b> cells multiply and switch on ALP · COL-1 · OCN · MSX-1']]}];
+var labels=['>>> next','>>> next','>>> next','>>> next','>>> replay'];
+function render(now){var e=(now-tStage)/1000,st=stages[stage];ctx.clearRect(0,0,W,H);st.draw(reduce?st.dur:e,now);
+ var lg=st.log,vis=-1;for(var i=0;i<lg.length;i++)if((reduce?st.dur:e)>=lg[i][0])vis=i;
+ var html='',blink=(Math.floor(now/500)%2===0);
+ for(i=0;i<=vis;i++){var full=lg[i][1],last=(i===vis),plain=full.replace(/<[^>]+>/g,''),chars=reduce?plain.length:Math.floor(((reduce?st.dur:e)-lg[i][0])/0.020),txt;
+  if(last&&!reduce&&chars<plain.length){var ccnt=0,out='',rawi=0;while(ccnt<chars&&rawi<full.length){if(full[rawi]==='<'){var gt=full.indexOf('>',rawi);out+=full.substring(rawi,gt+1);rawi=gt+1;}else{out+=full[rawi];rawi++;ccnt++;}}txt=out;}else txt=full;
+  html+='<div class="cm">'+txt+(last?'<span class="cur">'+(blink?'▏':' ')+'</span>':'')+'</div>';}
+ elLog.innerHTML=html;
+ if((reduce?1:e)>=st.dur){elNext.textContent=labels[stage];elNext.classList.add('on');}else elNext.classList.remove('on');
+ elBack.disabled=(stage===0);raf=requestAnimationFrame(render);}
+function enter(s){stage=s;tStage=performance.now();elNext.classList.remove('on');}
+function advance(){enter(stage>=stages.length-1?0:stage+1);}
+function back(){if(stage>0)enter(stage-1);}
+function start(){document.getElementById('we').classList.add('started');var c=document.querySelector('canvas');var S=setup(c);cv=c;ctx=S.x;W=S.w;H=S.h;enter(0);raf=requestAnimationFrame(render);}
+elNext.addEventListener('click',advance);elBack.addEventListener('click',back);
+document.getElementById('we-playbtn').addEventListener('click',function(e){e.stopPropagation();start();});
+document.getElementById('we-play').addEventListener('click',start);
+})();
+</script>
+</body></html>
