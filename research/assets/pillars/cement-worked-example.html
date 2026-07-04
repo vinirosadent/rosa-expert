@@ -57,6 +57,13 @@ body{margin:0;background:transparent;color:var(--text);font-family:var(--sans);-
 @keyframes pf-rev{from{stroke-dashoffset:0}to{stroke-dashoffset:6.4}}
 .prob-links path.fwd{animation:pf-fwd .6s linear infinite;}
 .prob-links path.rev{animation:pf-rev .6s linear infinite;}
+.we-play{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;background:rgba(9,5,6,.74);backdrop-filter:blur(2px);border-radius:4px;cursor:pointer;transition:opacity .5s var(--ease);}
+.we.started .we-play{opacity:0;pointer-events:none;}
+.we-playbtn{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--amber);border:none;border-radius:999px;padding:13px 30px;cursor:pointer;box-shadow:0 0 30px -6px rgba(222,147,79,.8);}
+.we-playsub{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.pf-check{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:2px 8px;transition:all .3s var(--ease);}
+.pf-check.on{color:var(--ink);background:var(--amber);border-color:var(--amber);box-shadow:0 0 14px -2px rgba(222,147,79,.8);}
+.pf-row.setting svg{filter:drop-shadow(0 0 5px rgba(222,147,79,.85));}
 .arc{display:flex;align-items:center;justify-content:space-between;margin-top:12px;position:relative;}
 .arc::before{content:"";position:absolute;left:6%;right:6%;top:9px;height:1px;background:var(--line);}
 .arc .prog{position:absolute;left:6%;top:9px;height:1px;background:var(--amber);transition:width .5s var(--ease);box-shadow:0 0 8px 1px rgba(222,147,79,.6);}
@@ -83,12 +90,13 @@ body{margin:0;background:transparent;color:var(--text);font-family:var(--sans);-
   <div class="stage" id="stage"></div>
   <div class="arc" id="arc"><div class="prog" id="prog"></div></div>
   <div class="nav"><a class="link" id="full" href="#" style="visibility:hidden">Read the full study &rarr;</a><div class="btns"><button id="prev">&larr; Prev</button><button id="next">Next &rarr;</button></div></div>
+  <div class="we-play" id="we-play"><button class="we-playbtn" id="we-playbtn">&#9654;&nbsp;&nbsp;Play</button><span class="we-playsub">Watch how a cement is designed on demand</span></div>
 </div>
 <script>
 (function(){
 var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-var anim={raf:0,iv:0};
-function stopAll(){if(anim.raf)cancelAnimationFrame(anim.raf);anim.raf=0;if(anim.iv)clearInterval(anim.iv);anim.iv=0;}
+var anim={raf:0,iv:0,tos:[]};
+function stopAll(){if(anim.raf)cancelAnimationFrame(anim.raf);anim.raf=0;if(anim.iv)clearInterval(anim.iv);anim.iv=0;anim.tos.forEach(clearTimeout);anim.tos=[];}
 function setup(cv){var w=cv.clientWidth||820,h=cv.clientHeight||280,d=Math.min(2,devicePixelRatio||1);cv.width=w*d;cv.height=h*d;var x=cv.getContext('2d');x.scale(d,d);return{x:x,w:w,h:h};}
 function metaphor(kind){
  if(kind=="set")return '<svg viewBox="0 0 100 100"><circle cx="50" cy="48" r="30" fill="none" stroke="rgba(247,244,235,.25)" stroke-width="2"/><circle cx="50" cy="48" r="30" fill="none" stroke="#DE934F" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="188" stroke-dashoffset="188" transform="rotate(-90 50 48)"><animate attributeName="stroke-dashoffset" values="188;0;0;188" keyTimes="0;.5;.85;1" dur="3.4s" repeatCount="indefinite"/></circle><line x1="50" y1="48" x2="50" y2="26" stroke="#F7F4EB" stroke-width="2" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 50 48" to="360 50 48" dur="3.4s" repeatCount="indefinite"/></line><circle cx="50" cy="48" r="2.4" fill="#F7F4EB"/></svg>';
@@ -137,15 +145,20 @@ function initTree(cv){
 }
 /* ---------- proof: icon gauges (predicted vs measured) ---------- */
 function proofHTML(){var rows=[['set','Setting time'],['ph','pH · alkalinity'],['flow','Flowability'],['str','Strength'],['xray','Radiopacity']];
- return '<div class="proof">'+rows.map(function(r){return '<div class="pf-row" data-k="'+r[0]+'">'+metaphor(r[0])+'<span class="pf-lab">'+r[1]+'</span><div class="pf-track"><div class="pf-fill"></div><div class="pf-pred"></div></div></div>';}).join('')+'<div class="pf-note"><span id="pf-cem">Cement 1 of 4</span> · marker = predicted, bar = measured (each on its own scale)</div></div>';}
-function initProof(){var cem=[['V1',[.42,.72,.82,.46,.88],[.40,.76,.80,.48,.90]],['V2',[.30,.55,.60,.55,.62],[.33,.52,.63,.53,.60]],['V3',[.92,.60,.88,.40,.66],[.88,.63,.85,.42,.68]],['V4',[.55,.80,.66,.70,.58],[.58,.77,.64,.72,.60]]];
- var rows=[].slice.call(document.querySelectorAll('#stage .pf-row')),lab=document.getElementById('pf-cem'),idx=0;
- function show(){var c=cem[idx];if(lab)lab.textContent='Cement '+(idx+1)+' of 4';
-  rows.forEach(function(r,i){var pred=r.querySelector('.pf-pred'),fill=r.querySelector('.pf-fill');
-   pred.style.left='calc('+(c[1][i]*100).toFixed(1)+'% - 1px)';pred.style.opacity=1;fill.style.width='0%';
-   setTimeout(function(){fill.style.width=(c[2][i]*100).toFixed(1)+'%';},350+i*70);});
-  idx=(idx+1)%cem.length;}
- show();if(!reduce)anim.iv=setInterval(show,3400);}
+ return '<div class="proof">'+rows.map(function(r){return '<div class="pf-row" data-k="'+r[0]+'">'+metaphor(r[0])+'<span class="pf-lab">'+r[1]+'</span><div class="pf-track"><div class="pf-fill"></div><div class="pf-pred"></div></div></div>';}).join('')+'<div class="pf-note"><span class="pf-check" id="pf-check">&#10003; Check</span> <span id="pf-cem">Cement 1 of 4</span> · marker = predicted target, bar = measured</div></div>';}
+function initResults(){var cem=[[[.42,.72,.82,.46,.88],[.40,.76,.80,.48,.90]],[[.30,.55,.60,.55,.62],[.33,.52,.63,.53,.60]],[[.92,.60,.88,.40,.66],[.88,.63,.85,.42,.68]],[[.55,.80,.66,.70,.58],[.58,.77,.64,.72,.60]]];
+ var rows=[].slice.call(document.querySelectorAll('#stage .pf-row')),lab=document.getElementById('pf-cem'),chk=document.getElementById('pf-check'),idx=0;
+ function T(fn,ms){anim.tos.push(setTimeout(fn,ms));}
+ function cyc(){var c=cem[idx],P=c[0],M=c[1];if(lab)lab.textContent='Cement '+(idx+1)+' of 4';
+  rows.forEach(function(r){r.classList.remove('setting','checked');r.querySelector('.pf-fill').style.width='0%';var pr=r.querySelector('.pf-pred');pr.style.opacity='0';pr.style.left='0%';});
+  if(chk)chk.classList.remove('on');
+  rows.forEach(function(r,i){T(function(){var pr=r.querySelector('.pf-pred');pr.style.opacity='1';pr.style.left='calc('+(P[i]*100).toFixed(0)+'% - 1px)';r.classList.add('setting');},500+i*600);});
+  var setEnd=500+rows.length*600+700;
+  T(function(){if(chk)chk.classList.add('on');},setEnd);
+  rows.forEach(function(r,i){T(function(){r.querySelector('.pf-fill').style.width=(M[i]*100).toFixed(0)+'%';r.classList.add('checked');r.classList.remove('setting');},setEnd+350+i*350);});
+  var fillEnd=setEnd+350+rows.length*350+1200;
+  T(function(){idx=(idx+1)%cem.length;cyc();},fillEnd+1600);}
+ cyc();}
 /* ---------- payoff: proliferation / qPCR / ARS ---------- */
 function drawCell(ctx,x,y,s,seed,al){ctx.save();ctx.translate(x,y);ctx.globalAlpha=al;var L=6;ctx.beginPath();
  for(var i=0;i<=L;i++){var a=i/L*6.283,r=s*(.72+.5*((Math.sin(seed+i*2.3)+1)/2)),px=Math.cos(a)*r,py=Math.sin(a)*r;
@@ -154,8 +167,7 @@ function drawCell(ctx,x,y,s,seed,al){ctx.save();ctx.translate(x,y);ctx.globalAlp
  ctx.beginPath();ctx.arc(0,0,s*.36,0,6.283);ctx.fillStyle='rgba(158,52,74,.9)';ctx.fill();ctx.restore();}
 function initPayoff(cv){
  var S=setup(cv),ctx=S.x,W=S.w,H=S.h,col=W/3,t0=performance.now();
- var genes=[['RUNX2',4.7],['COL-1',7.9],['ALP',9.1]],GMAX=10;
- var seeds=[];for(var i=0;i<26;i++)seeds.push({x:Math.random(),y:Math.random(),s:.7+Math.random()*.6,ph:Math.random()*6});
+  var seeds=[];for(var i=0;i<26;i++)seeds.push({x:Math.random(),y:Math.random(),s:.7+Math.random()*.6,ph:Math.random()*6});
  var mins=[];for(i=0;i<16;i++)mins.push({a:Math.random()*6.283,r:.15+Math.random()*.8,ph:Math.random()*6,sp:5+((Math.random()*4)|0)});
  function frame(now){var el=(now-t0)/1000;ctx.clearRect(0,0,W,H);
   // titles
@@ -168,14 +180,13 @@ function initPayoff(cv){
   var cyc=(el%4.5)/4.5,phase=cyc<.33?0:(cyc<.66?1:2),nCell=[7,15,24][phase],day=['1 d','3 d','5 d'][phase];
   for(i=0;i<nCell;i++){var sd=seeds[i];var ang=sd.x*6.283,rad=Math.sqrt(sd.y)*dr*.86;drawCell(ctx,cx+Math.cos(ang)*rad,cy+Math.sin(ang)*rad,3.4*sd.s,sd.ph,.9);}
   ctx.fillStyle='#DE934F';ctx.font='11px "IBM Plex Mono",monospace';ctx.fillText(day,cx,cy+dr+18);
-  // P2 qPCR bars
-  var bx=col+18,bw=(col-46)/3,base=H-40,bh=H*.5;
-  ctx.setLineDash([3,3]);ctx.strokeStyle='rgba(247,244,235,.28)';ctx.beginPath();var y1=base-(1/GMAX)*bh;ctx.moveTo(col+8,y1);ctx.lineTo(col*2-8,y1);ctx.stroke();ctx.setLineDash([]);
-  ctx.fillStyle='rgba(247,244,235,.4)';ctx.textAlign='left';ctx.font='8px "IBM Plex Mono",monospace';ctx.fillText('control =1',col+10,y1-4);
-  for(i=0;i<3;i++){var gv=genes[i][1],app=Math.max(0,Math.min(1,(el-.4-i*.5)/1.1)),h=(gv/GMAX)*bh*app,x=bx+i*(bw+6);
-   var gr=ctx.createLinearGradient(0,base,0,base-bh);gr.addColorStop(0,'#7A1F2D');gr.addColorStop(1,'#DE934F');ctx.fillStyle=gr;ctx.fillRect(x,base-h,bw,h);
-   ctx.fillStyle='rgba(247,244,235,.75)';ctx.textAlign='center';ctx.font='9px "IBM Plex Mono",monospace';ctx.fillText(genes[i][0],x+bw/2,base+13);
-   if(app>.6){ctx.fillStyle='#F4C58C';ctx.fillText(gv.toFixed(1)+'×',x+bw/2,base-h-5);}}
+  // P2 qPCR bars (phenomenon, no numbers): control vs three repair genes
+  var g4=[['Control',.22,1],['RUNX2',.62,0],['COL-1',.86,0],['ALP',1.0,0]],bw=(col-52)/4,base=H-40,bh=H*.52,bx=col+22;
+  for(i=0;i<4;i++){var app=Math.max(0,Math.min(1,(el-.4-i*.45)/1.1)),h=g4[i][1]*bh*app,x=bx+i*(bw+5);
+   if(g4[i][2]){ctx.fillStyle='rgba(247,244,235,.22)';}else{var gr=ctx.createLinearGradient(0,base,0,base-bh);gr.addColorStop(0,'#7A1F2D');gr.addColorStop(1,'#DE934F');ctx.fillStyle=gr;}
+   ctx.fillRect(x,base-h,bw,h);
+   ctx.fillStyle='rgba(247,244,235,.7)';ctx.textAlign='center';ctx.font='8px "IBM Plex Mono",monospace';ctx.fillText(g4[i][0],x+bw/2,base+12);}
+  ctx.fillStyle='#F4C58C';ctx.textAlign='center';ctx.font='9px "IBM Plex Mono",monospace';ctx.fillText('higher than control ↑',col*1.5,42);
   // P3 ARS dish
   var mx=col*2.5,my=H*.52,mr=Math.min(col*.42,H*.32);
   ctx.strokeStyle='rgba(247,244,235,.16)';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(mx,my,mr,0,6.283);ctx.stroke();
@@ -184,7 +195,7 @@ function initPayoff(cv){
    ctx.save();ctx.globalAlpha=ap;ctx.translate(px,py);ctx.fillStyle='#b3324a';ctx.strokeStyle='rgba(200,60,80,.8)';ctx.lineWidth=1;
    ctx.beginPath();for(var s=0;s<m.sp;s++){var a=m.ph+s/m.sp*6.283,rq=rr*(.7+.5*((s%2)));if(s===0)ctx.moveTo(Math.cos(a)*rq,Math.sin(a)*rq);else ctx.lineTo(Math.cos(a)*rq,Math.sin(a)*rq);}ctx.closePath();ctx.fill();ctx.restore();}
   ctx.restore();
-  ctx.fillStyle='#DE934F';ctx.textAlign='center';ctx.font='11px "IBM Plex Mono",monospace';ctx.fillText('Ca ↑ ~7× vs control',mx,my+mr+18);
+  ctx.fillStyle='#DE934F';ctx.textAlign='center';ctx.font='11px "IBM Plex Mono",monospace';ctx.fillText('More mineral than control',mx,my+mr+18);
   if(el>10)t0=now;
   anim.raf=requestAnimationFrame(frame);}
  if(reduce){t0=performance.now()-10;frame(performance.now());}else anim.raf=requestAnimationFrame(frame);
@@ -214,29 +225,32 @@ var steps=[
  {k:"Problem",h:"One cement, five demands that fight each other.",b:"One cement must set at the right speed, stay alkaline, flow into tiny spaces, resist force and show on an X-ray — but the ingredients are shared, so improving one property tends to worsen another.",render:function(){return problemHTML();},after:function(){initProblem();}},
  {k:"Method",h:"Borrowing Darwin: let the recipes evolve.",b:"Each disc is a recipe; its slices are the ingredients. Every generation the algorithm breeds new mixes, unfit branches die into faint dead-ends, and the fittest lineage (gold) survives — natural selection by computer — until it meets the target.",
   render:function(){return '<div class="cvwrap"><span class="ov ov-tl">Natural selection, run by computer</span><span class="ov ov-tr">Gen 0 / 14</span><canvas></canvas><span class="ov ov-leg"><span><i style="background:#DE934F"></i>C3S powder</span><span><i style="background:#E7D6BE"></i>Radiopacifier</span><span><i style="background:#D67B88"></i>Water</span><span><i style="background:#8E2C3A"></i>Accelerator</span></span></div>';},after:function(){initTree(document.querySelector('#stage canvas'));}},
- {k:"Proof",h:"What the algorithm predicted, the cements delivered.",b:"The gold marker is each property’s target; the bar is what was measured. For every designed cement, the measurement lands on the prediction.",render:function(){return proofHTML();},after:function(){initProof();}},
- {k:"Payoff",h:"Cement on demand — and alive to the pulp.",b:"The cements are also biologically active: pulp stem cells keep proliferating, switch on repair genes (RUNX2, COL-1, ALP) and lay down far more mineral than untreated controls.",
+ {k:"Results",h:"What the algorithm predicted, the cements delivered.",b:"The gold marker is each property’s target; the bar is what was measured. For every designed cement, the measurement lands on the prediction.",render:function(){return proofHTML();},after:function(){initResults();}},
+ {k:"Conclusion",h:"Cement on demand — and alive to the pulp.",b:"The cements are also biologically active: pulp stem cells keep proliferating, switch on repair genes (RUNX2, COL-1, ALP) and lay down far more mineral than untreated controls.",
   render:function(){return '<div class="cvwrap"><canvas></canvas></div>';},after:function(){initPayoff(document.querySelector('#stage canvas'));},link:"publications/designing-c3s-cements-on-demand.html"}
 ];
-var cur=0,auto=null;var arc=document.getElementById('arc'),prog=document.getElementById('prog'),full=document.getElementById('full'),stage=document.getElementById('stage'),weh=document.getElementById('weh'),web=document.getElementById('web');
-steps.forEach(function(s,i){var b=document.createElement('button');b.className='node';b.innerHTML='<span class="dot"></span><span class="t">'+s.k+'</span>';b.onclick=function(){go(i);stopAuto();};arc.appendChild(b);});
+var cur=0,walking=false,walkTimer=0;var arc=document.getElementById('arc'),prog=document.getElementById('prog'),full=document.getElementById('full'),stage=document.getElementById('stage'),weh=document.getElementById('weh'),web=document.getElementById('web');
+steps.forEach(function(s,i){var b=document.createElement('button');b.className='node';b.innerHTML='<span class="dot"></span><span class="t">'+s.k+'</span>';b.onclick=function(){stopWalk();go(i);};arc.appendChild(b);});
 var nodes=[].slice.call(arc.querySelectorAll('.node'));
+var DWELL=[9000,12000,17000,0];
+function scheduleWalk(){clearTimeout(walkTimer);if(!walking)return;var d=DWELL[cur]||0;if(d>0)walkTimer=setTimeout(function(){if(cur<steps.length-1)go(cur+1);},d);}
 function paint(i){var s=steps[i];weh.textContent=s.h;web.textContent=s.b;document.getElementById('stepno').textContent='0'+(i+1)+' / 0'+steps.length;
  var p=document.createElement('div');p.className='panel';p.innerHTML=s.render();stage.innerHTML='';stage.appendChild(p);if(s.after)setTimeout(s.after,40);
  nodes.forEach(function(n,j){n.classList.toggle('active',j===i);n.classList.toggle('done',j<i);});
  prog.style.width=(i/(steps.length-1))*88+'%';full.style.visibility=s.link?'visible':'hidden';if(s.link)full.href=s.link;
  document.getElementById('prev').disabled=i===0;document.getElementById('next').disabled=i===steps.length-1;
- stage.style.opacity=1;stage.style.transform='none';weh.style.opacity=1;web.style.opacity=1;}
-function go(i){if(i===cur&&stage.firstChild){return;}stopAll();cur=i;
+ stage.style.opacity=1;stage.style.transform='none';weh.style.opacity=1;web.style.opacity=1;scheduleWalk();}
+function go(i){stopAll();cur=i;
  stage.style.opacity=0;stage.style.transform='translateY(10px)';weh.style.opacity=0;web.style.opacity=0;
  setTimeout(function(){paint(i);},reduce?0:360);}
-document.getElementById('prev').onclick=function(){if(cur>0)go(cur-1);stopAuto();};
-document.getElementById('next').onclick=function(){if(cur<steps.length-1)go(cur+1);stopAuto();};
-document.addEventListener('keydown',function(e){if(e.key=='ArrowRight'&&cur<steps.length-1){go(cur+1);stopAuto();}if(e.key=='ArrowLeft'&&cur>0){go(cur-1);stopAuto();}});
-function stopAuto(){if(auto){clearInterval(auto);auto=null;}}
-function startAuto(){if(reduce)return;auto=setInterval(function(){go((cur+1)%steps.length);},11000);}
-document.getElementById('we').addEventListener('mouseenter',stopAuto);
-cur=-1;go(0);startAuto();
+document.getElementById('prev').onclick=function(){stopWalk();if(cur>0)go(cur-1);};
+document.getElementById('next').onclick=function(){stopWalk();if(cur<steps.length-1)go(cur+1);};
+document.addEventListener('keydown',function(e){if(e.key=='ArrowRight'&&cur<steps.length-1){stopWalk();go(cur+1);}if(e.key=='ArrowLeft'&&cur>0){stopWalk();go(cur-1);}});
+function stopWalk(){walking=false;clearTimeout(walkTimer);}
+function start(){document.getElementById('we').classList.add('started');walking=true;go(0);}
+document.getElementById('we-playbtn').addEventListener('click',function(e){e.stopPropagation();start();});
+document.getElementById('we-play').addEventListener('click',start);
+go(0);
 })();
 </script>
 </body></html>
