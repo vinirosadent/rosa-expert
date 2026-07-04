@@ -22,7 +22,7 @@ body{margin:0;background:#090506;color:var(--ivory);font-family:var(--sans);-web
 .pf-rail .line{font-size:.9rem;line-height:1.6;color:rgba(247,244,235,.66);max-width:34ch;min-height:4.8em}
 .pf-stage{position:relative;height:90vh;display:flex;align-items:center;justify-content:center}
 .pf-canal{position:relative;height:min(90vh,760px);aspect-ratio:1122/1402;margin:0 auto}
-.pf-canal .cimg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;will-change:opacity}
+.pf-canal .cimg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;will-change:opacity;-webkit-mask-image:linear-gradient(to right,transparent,#000 27%,#000 73%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 27%,#000 73%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent);mask-composite:intersect}
 .pf-marks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2}
 .zmark{opacity:0;transition:transform .6s cubic-bezier(.16,1,.3,1),opacity .45s ease}
 .zmark.on{opacity:1}
@@ -60,7 +60,7 @@ body{margin:0;background:#090506;color:var(--ivory);font-family:var(--sans);-web
 .pf-drawer .dnote{font-size:.92rem;line-height:1.62;color:rgba(247,244,235,.82);margin:0 0 16px}
 .pf-drawer .dpaper{font-size:.82rem;line-height:1.5;color:rgba(247,244,235,.55);font-style:italic;border-top:1px solid var(--line);padding-top:14px}
 .pf-mobcards{display:none;max-width:560px;margin:0 auto;padding:8px 20px 40px}
-.pf-mob-canal{display:none}
+.pf-mob-canal{display:none;-webkit-mask-image:linear-gradient(to right,transparent,#000 27%,#000 73%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 27%,#000 73%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent);mask-composite:intersect}
 .pf-mobcards .mc{border-top:1px solid var(--line);padding:22px 0}
 .pf-mobcards .mc-h{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory);margin-bottom:8px}
 .pf-mobcards .mc-n{color:var(--amber);margin-right:6px}
