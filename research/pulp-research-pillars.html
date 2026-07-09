@@ -203,6 +203,14 @@ main{position:relative;z-index:2;}
 .hero-copy .lead{margin:0 0 16px;font-size:1.12rem;}
 #hero.noimg .hero-bleed{display:none;}
 @media(max-width:760px){.hero-over .h1{font-size:clamp(2rem,9vw,2.6rem);}}
+
+/* programme intro: 2-col prose + pull-quote */
+.pi-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:clamp(36px,5vw,72px);align-items:center;}
+.pi-copy{max-width:56ch;}
+.pi-quote{align-self:center;}
+.pi-quote .thesis{margin-top:0;font-size:clamp(1.5rem,2.1vw,2.05rem);line-height:1.28;}
+.pi-quote__by{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--amber);margin-top:16px;padding-left:24px;}
+@media(max-width:860px){.pi-grid{grid-template-columns:1fr;gap:26px;align-items:start;}.pi-copy{max-width:none;}}
 </style>
 </head>
 <body>
@@ -227,15 +235,21 @@ main{position:relative;z-index:2;}
     </figure>
   </div>
   <div class="wrap hero-body">
-    <div class="hero-copy" data-reveal>
-      <p class="lead">The pulp is the living core of the tooth: vascular, innervated, defensive and formative. Through it, the tooth senses injury, protects the dentin&ndash;pulp complex, forms dentin in response to its environment and, in immature teeth, continues root development.</p>
-      <p class="lead">Endodontic treatment has made it possible to preserve teeth after pulpal disease. Infection can be controlled, the canal can be sealed and the tooth can remain in function for years. Pulp vitality remains the biological frontier.</p>
-      <p class="lead">Dental pulp regeneration extends that ambition toward vitality. It seeks to create the conditions for living tissue to return inside the root, allowing the tooth to recover biological capacities linked to defense, repair and continued dentin formation.</p>
-      <p class="lead">This research programme approaches that aim through three connected fronts: bioactive materials that shape the pulp&rsquo;s environment, regeneration strategies that rebuild living tissue inside the canal, and innovations that expand what can be generated, predicted and designed.</p>
+    <div class="pi-grid" data-reveal>
+      <div class="pi-copy">
+      <p class="lead">The pulp is the living core of the tooth. It allows the tooth to sense injury, defend the dentin&ndash;pulp complex, form dentin in response to its environment and sustain root development in immature teeth.</p>
+      <p class="lead">Endodontic treatment can control infection, seal the canal and preserve teeth in function for years. The next frontier is vitality.</p>
+      <p class="lead">Dental pulp regeneration extends this ambition from preservation toward biological recovery. It seeks to create the conditions for living tissue to return inside the root, restoring capacities linked to defense, repair and dentin formation.</p>
+      <p class="lead">Matter for Vitality approaches this challenge through three connected fronts: bioactive materials that shape the pulp environment, regenerative strategies that rebuild living tissue inside the canal, and innovations that expand what can be generated, predicted and designed.</p>
       <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:26px;">
         <a href="#materials" class="plbtn">Read the programme <span>&rarr;</span></a>
         <a href="#record" class="tlink">The published work</a>
       </div>
+      </div>
+      <aside class="pi-quote" aria-hidden="true">
+        <p class="thesis">The next frontier is vitality.</p>
+        <div class="pi-quote__by">Matter for Vitality</div>
+      </aside>
     </div>
   </div>
 </section>
