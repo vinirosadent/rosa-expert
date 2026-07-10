@@ -212,12 +212,52 @@ main{position:relative;z-index:2;}
 .pi-quote__by{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--amber);margin-top:16px;padding-left:24px;}
 @media(max-width:860px){.pi-grid{grid-template-columns:1fr;gap:26px;align-items:start;}.pi-copy{max-width:none;}}
 
-/* ── iPSC evidence module (Tissue · cell source) ── */
-.ipsc-mod{border:1px solid var(--line-soft);background:rgba(9,5,6,0.22);padding:24px 26px;margin:26px 0;}
-.ipsc-k{color:var(--amber);}
-.ipsc-h{font-family:var(--serif);font-weight:500;font-size:1.3rem;line-height:1.2;color:var(--ivory);margin:10px 0 14px;}
-.ipsc-note{margin:0 0 16px;}
-.ipsc-note b{color:var(--text2);font-weight:600;}
+/* ── Experimental routes (Tissue · complementary evidence pathway) ── */
+.exr{margin:26px 0 6px;}
+.exr-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+.exr-rule{display:block;height:1px;background:var(--line);transform-origin:left center;}
+.exr-rule--top{margin:0 0 16px;}
+.exr-rule--mid{margin:20px 0 16px;}
+.exr-eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);margin:0 0 20px;}
+.exr-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.exr-route{padding:0 30px 0 0;}
+.exr-route + .exr-route{padding:0 0 0 30px;border-left:1px solid var(--line-soft);}
+.exr-icon{display:block;margin:0 0 12px;}
+.exr-icon svg{display:block;width:38px;height:44px;}
+.exr-meta{display:block;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.exr-h{font-family:var(--serif);font-weight:500;font-size:1.16rem;line-height:1.2;color:var(--ivory);margin:8px 0 9px;}
+.exr-body{font-family:var(--sans);font-size:0.94rem;line-height:1.55;color:var(--text2);margin:0 0 13px;}
+.exr-link{display:inline-flex;margin-top:2px;}
+.exr-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:26px;flex-wrap:wrap;}
+.exr-note{font-family:var(--sans);font-size:0.86rem;line-height:1.6;color:var(--muted);max-width:60ch;margin:0;flex:1 1 340px;}
+.exr-note b{color:var(--text2);font-weight:600;}
+.exr-cta{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:0.13em;text-transform:uppercase;color:var(--amber);position:relative;padding-bottom:3px;white-space:nowrap;flex:0 0 auto;}
+.exr-cta::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--amber);transition:width .4s var(--ease);}
+.exr-cta:hover::after{width:100%;}
+.exr-cta span{transition:transform .3s var(--ease);}
+.exr-cta:hover span{transform:translateX(4px);}
+@media(max-width:640px){
+  .exr-grid{grid-template-columns:1fr;}
+  .exr-route{padding:0;}
+  .exr-route + .exr-route{padding:20px 0 0;border-left:0;border-top:1px solid var(--line-soft);margin-top:20px;}
+  .exr-footer{gap:18px;}
+  .exr-note{flex:1 1 100%;}
+  .exr-cta{flex:1 1 100%;}
+}
+/* entrance animation — plays once on reveal */
+.js .exr-rule--top{transform:scaleX(0);transition:transform .62s var(--ease);}
+.js .exr-route{opacity:0;transform:translateY(8px);transition:opacity .45s var(--ease),transform .45s var(--ease);}
+.js .exr-rule--mid{opacity:0;transition:opacity .4s var(--ease);}
+.js .exr-footer{opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease);}
+.exr--in .exr-rule--top{transform:scaleX(1);}
+.exr--in .exr-route{opacity:1;transform:none;}
+.exr--in .exr-route:nth-child(1){transition-delay:.18s;}
+.exr--in .exr-route:nth-child(2){transition-delay:.32s;}
+.exr--in .exr-rule--mid{opacity:1;transition-delay:.5s;}
+.exr--in .exr-footer{opacity:1;transform:none;transition-delay:.56s;}
+@media(prefers-reduced-motion:reduce){
+  .js .exr-rule--top,.js .exr-route,.js .exr-rule--mid,.js .exr-footer{opacity:1!important;transform:none!important;transition:none!important;}
+}
 
 /* ── Computational material design process (Map → Predict → Prescribe → Validate) ── */
 .cproc{margin:24px 0 22px;}
@@ -342,15 +382,46 @@ h3.rec-title{margin:0 0 4px;}
         <p class="lead">In experimental models, injectable scaffolds carrying dental stem cells have supported vascularized pulp-like tissue and tubular dentin formation within full-length human root canals.</p>
         <p class="body">This tissue must develop across a narrow, elongated anatomy supplied from the apical region. Survival depends on vascular ingrowth, spatial organization and integration with the surrounding dentin.</p>
         <p class="body">The translational challenge is to reproduce this organization, integration and function within the tooth under clinically realistic conditions.</p>
-        <a class="tlink" href="https://doi.org/10.1177/0022034513505772" target="_blank" rel="noopener">Evidence · J Dent Res 2013 <span>&rarr;</span></a>
-        <div class="ipsc-mod">
-          <div class="mono-label ipsc-k">Tissue · Cell source</div>
-          <h3 class="ipsc-h">A renewable route to odontoblast-like cells.</h3>
-          <p class="body" style="margin:0 0 14px;">Human dental pulp stem cells were reprogrammed into induced pluripotent stem cells and directed toward an odontoblastic phenotype. Dentin discs containing poly-L-lactic acid scaffolds and iPSCs were implanted subcutaneously in an experimental model, where the cells generated pulp-like tissue and tubular dentin.</p>
-          <p class="subnote ipsc-note"><b>Scientific note —</b> This study established a renewable experimental cell source. It did not test an integrated iPSC-based therapy in full-length root canals.</p>
-          <a class="tlink" href="https://doi.org/10.1177/0022034517730026" target="_blank" rel="noopener">Cell source · J Dent Res 2018 <span>&rarr;</span></a>
-        </div>
-        <a class="tlink" href="pulp-regeneration.html">Explore the tissue-engineering models in depth <span>&rarr;</span></a>
+        <section class="exr" aria-labelledby="exr-title">
+          <span class="exr-rule exr-rule--top" aria-hidden="true"></span>
+          <p class="exr-eyebrow">Experimental routes</p>
+          <h3 id="exr-title" class="exr-sr">Complementary experimental routes in pulp tissue engineering</h3>
+          <div class="exr-grid">
+            <article class="exr-route">
+              <span class="exr-icon" aria-hidden="true">
+                <svg viewBox="0 0 40 46" width="38" height="44" fill="none">
+                  <path d="M13 4C10.5 16 11.5 30 20 41C28.5 30 29.5 16 27 4Z" stroke="#D67B88" stroke-width="1.4" stroke-linejoin="round"/>
+                  <path d="M20 10V33" stroke="#DE934F" stroke-width="1.6" stroke-linecap="round"/>
+                  <circle cx="20" cy="38.5" r="2.3" stroke="#DE934F" stroke-width="1.2"/>
+                  <path d="M20 40.8V44" stroke="#DE934F" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="exr-meta">2013 · Tissue organization</span>
+              <h4 class="exr-h">Tissue across the full canal</h4>
+              <p class="exr-body">Vascularized pulp-like tissue and tubular dentin formed across full-length human root-canal models.</p>
+              <a class="tlink exr-link" href="https://doi.org/10.1177/0022034513505772" target="_blank" rel="noopener">View J Dent Res 2013 <span aria-hidden="true">&#8599;</span></a>
+            </article>
+            <article class="exr-route">
+              <span class="exr-icon" aria-hidden="true">
+                <svg viewBox="0 0 40 46" width="38" height="44" fill="none">
+                  <circle cx="15" cy="23" r="10" stroke="#D67B88" stroke-width="1.4"/>
+                  <circle cx="12.5" cy="21" r="2.4" stroke="#DE934F" stroke-width="1.2"/>
+                  <circle cx="17.5" cy="25.5" r="1.9" stroke="#DE934F" stroke-width="1.2"/>
+                  <path d="M28 23H37M34 20L37 23L34 26" stroke="#DE934F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="exr-meta">2018 · Cell source</span>
+              <h4 class="exr-h">A renewable odontoblast-like cell source</h4>
+              <p class="exr-body">iPSC-derived odontoblast-like cells generated pulp-like tissue and tubular dentin in a subcutaneous dentin-disc model.</p>
+              <a class="tlink exr-link" href="https://doi.org/10.1177/0022034517730026" target="_blank" rel="noopener">View J Dent Res 2018 <span aria-hidden="true">&#8599;</span></a>
+            </article>
+          </div>
+          <span class="exr-rule exr-rule--mid" aria-hidden="true"></span>
+          <div class="exr-footer">
+            <p class="exr-note"><b>Complementary experimental routes:</b> one examined tissue organization within full-length canals; the other examined a renewable source of odontoblast-like cells. They were not tested as a single integrated therapy.</p>
+            <a class="exr-cta" href="pulp-regeneration.html">Explore the pulp tissue-engineering programme <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </section>
     </div>
   </div></div>
 </section>
@@ -895,6 +966,13 @@ document.documentElement.classList.add('js');
 })();
 </script>
 <script>if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("no-motion");</script>
+<script>
+(function(){var n=document.querySelector('.exr');if(!n)return;
+ var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(RM||!('IntersectionObserver' in window)){n.classList.add('exr--in');return;}
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){n.classList.add('exr--in');io.disconnect();}});},{threshold:0.28,rootMargin:'0px 0px -8% 0px'});
+ io.observe(n);})();
+</script>
 <script src="../assets/js/shared.js"></script>
 </body>
 </html>
