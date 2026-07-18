@@ -70,6 +70,7 @@ function catTone(cat) {
 }
 
 // ── HTML builders ──────────────────────────────────────────────
+function authorsHTML(a){ return a ? a.replace(/Rosa V\./g, '<strong style="color:var(--text-strong);">Rosa V.</strong>') : ''; }
 function pubCardHTML(p) {
   const ct = catTone(p.category);
   return `<div class="pub-card">
@@ -79,6 +80,7 @@ function pubCardHTML(p) {
     </div>
     <div class="pub-card-body">
       <div class="pub-title">${p.title}</div>
+      ${p.authors ? `<div style="margin-top:5px;font-size:12.5px;line-height:1.5;color:var(--text-muted);">${authorsHTML(p.authors)}</div>` : ''}
       <div class="pub-venue-row">
         <span class="pub-venue">${p.venue}</span>
         <span class="pub-year">${p.year}</span>
@@ -96,6 +98,7 @@ function archiveItemHTML(p) {
   const inner = `<span class="archive-item-year">${p.year}</span>
     <span class="archive-item-body">
       <span class="archive-title">${p.title}</span>
+      ${p.authors ? `<span style="display:block;font-size:12px;line-height:1.45;color:var(--text-muted);margin:3px 0 1px;">${authorsHTML(p.authors)}</span>` : ''}
       <span class="archive-meta">
         <span class="archive-venue">${p.venue}</span>${p.spotlight ? ' <span class="archive-venue" style="color:var(--orange-600); font-weight:700;">· Spotlight</span>' : ''}
       </span>
