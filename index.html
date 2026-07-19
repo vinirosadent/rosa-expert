@@ -4,110 +4,138 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vinicius Rosa · Novel Technologies for Oral Health, Biomaterials and Regeneration</title>
-<meta name="description" content="A/P Vinicius Rosa develops oral-health technologies at NUS Faculty of Dentistry, at the intersection of biomaterials, regenerative science and AI-guided research.">
+<meta name="description" content="A/P Vinicius Rosa builds a predictive science of biomaterials at NUS Faculty of Dentistry — designing materials, modelling biology and regenerating oral tissues.">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<style>
+  .home-hero{position:relative;overflow:hidden;min-height:calc(100vh - var(--header-height,72px));display:flex;align-items:center;}
+  .home-hero-cv{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;}
+  .home-hero-inner{position:relative;z-index:2;width:100%;max-width:var(--container-base);margin:0 auto;padding:0 var(--gutter);pointer-events:none;}
+  .home-hero-col{max-width:560px;}
+  .home-hero-col .btn{pointer-events:auto;}
+  .home-hero-lockup{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+  .home-hero-lockup .ph{width:52px;height:52px;flex-shrink:0;border-radius:50%;overflow:hidden;background:var(--blue-700);box-shadow:0 0 0 3px var(--surface-card),0 0 0 5px var(--orange-500);}
+  .home-hero-lockup .ph img{width:100%;height:100%;object-fit:cover;}
+  .chain{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:calc(var(--space-6) + 6px);margin-top:var(--space-8);}
+  .chain-step{background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:var(--space-5);position:relative;box-shadow:var(--shadow-xs);}
+  .chain-step p{margin-top:10px;font-size:14.5px;line-height:1.5;color:var(--text-body);}
+  .chain-step:not(:last-child)::after{content:"→";position:absolute;right:-19px;top:50%;transform:translateY(-50%);color:var(--border-strong);font-weight:700;z-index:1;}
+  .platforms{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-6);margin-top:var(--space-8);}
+  .platform-card{padding:var(--space-8);text-decoration:none;display:flex;flex-direction:column;min-height:236px;}
+  .platform-title{font-family:var(--font-serif);font-weight:500;font-size:1.55rem;line-height:1.15;color:var(--text-strong);margin-top:14px;}
+  .platform-desc{margin-top:12px;font-size:15px;line-height:1.6;color:var(--text-muted);flex:1;}
+  .platform-cta{margin-top:18px;font-size:13.5px;font-weight:600;color:var(--blue-600);}
+  @media (max-width:820px){
+    .chain{grid-template-columns:1fr 1fr;} .chain-step:not(:last-child)::after{display:none;}
+    .platforms{grid-template-columns:1fr;} .home-hero-cv{opacity:.72;}
+  }
+  @media (max-width:560px){ .chain{grid-template-columns:1fr;} }
+  /* lantern: a soft warm light glides continuously back and forth across the row */
+  .chain-lantern{position:absolute;top:50%;left:13%;width:260px;height:230px;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;z-index:3;filter:blur(9px);
+    background:radial-gradient(closest-side,rgba(239,124,0,.15),rgba(239,124,0,.05) 48%,rgba(239,124,0,0) 72%);
+    animation:lanternSweep 11s ease-in-out infinite alternate;}
+  @keyframes lanternSweep{from{left:12%;} to{left:88%;}}
+  @media (prefers-reduced-motion: reduce){ .chain-lantern{display:none;} }
+</style>
 </head>
 <body>
 <div id="app">
 <main>
 
-  <!-- ── Hero ──────────────────────────────────────────────── -->
-  <div class="hero-feature">
-    <div class="hero-feature-grid">
-      <div>
-        <div class="hero-feature-avatar">
-          <div class="hero-feature-avatar-img">
-            <img src="https://static.wixstatic.com/media/d8b7b0_0657c0ddf7f64489b6de910ea54c54fe~mv2.jpg/v1/fill/w_640,h_640,al_c,lg_1,q_85,enc_auto/rosa_new_edited_edited.jpg" alt="A/P Vinicius Rosa">
-          </div>
+  <!-- ── Hero (apparition + thesis) ─────────────── -->
+  <section class="home-hero">
+    <canvas id="cv" class="home-hero-cv" aria-hidden="true"></canvas>
+    <div class="home-hero-inner">
+      <div class="home-hero-col">
+        <div class="home-hero-lockup">
+          <div class="ph"><img src="https://static.wixstatic.com/media/d8b7b0_0657c0ddf7f64489b6de910ea54c54fe~mv2.jpg/v1/fill/w_640,h_640,al_c,lg_1,q_85,enc_auto/rosa_new_edited_edited.jpg" alt="A/P Vinicius Rosa"></div>
           <div style="line-height:1.1;">
-            <div style="font-family:var(--font-serif);font-style:italic;font-size:14px;color:var(--text-muted);">Vinicius</div>
-            <div style="font-family:var(--font-serif);font-weight:500;font-size:20px;letter-spacing:.02em;color:var(--blue-700);">ROSA</div>
+            <div style="font-family:var(--font-serif);font-style:italic;font-size:13px;color:var(--text-muted);">Vinicius</div>
+            <div style="font-family:var(--font-serif);font-weight:500;font-size:19px;letter-spacing:.02em;color:var(--blue-700);">ROSA</div>
           </div>
         </div>
-        <h1 class="display" style="font-size:var(--fs-hero);line-height:1.1;margin-top:20px;">Biomaterials and regeneration for oral health.</h1>
-        <p style="margin-top:16px;font-size:16.5px;line-height:1.55;color:var(--text-body);">A/P Vinicius Rosa develops oral-health technologies at the intersection of biomaterials, regenerative science and predictive research.</p>
-        <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="who.html" class="btn btn-primary btn-md">About A/P Rosa</a>
-          <a href="publications.html" class="btn btn-secondary btn-md">Publications</a>
-        </div>
-      </div>
-
-      <!-- Stacked news card widget -->
-      <div>
-        <div class="stack-wrap" id="stack-wrap">
-          <div class="stack-back2"></div>
-          <div class="stack-back1"></div>
-          <div class="stack-card" id="stack-card"></div>
-        </div>
-        <div class="stack-nav">
-          <button class="stack-btn" id="stack-prev" aria-label="Previous news item">←</button>
-          <div id="stack-dashes"></div>
-          <span class="stack-pagination" id="stack-pagination">01 / 03</span>
-          <button class="stack-btn" id="stack-next" aria-label="Next news item">→</button>
+        <h1 class="display" style="font-size:var(--fs-hero);line-height:1.05;">Matter, technology and life by design.</h1>
+        <p style="margin-top:18px;font-size:clamp(16px,15px + .35vw,19px);line-height:1.55;color:var(--text-body);max-width:32em;">Reimagining how we design materials, model biology and regenerate oral tissues.</p>
+        <div style="margin-top:30px;display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="research.html" class="btn btn-primary btn-md">Explore the research</a>
+          <a href="who.html" class="btn btn-secondary btn-md">About A/P Rosa</a>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ── The premise ────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="eyebrow">The premise</div>
+      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:12px;">Designing the materials that should exist.</h2>
+      <p style="margin-top:16px;font-size:17px;line-height:1.65;color:var(--text-muted);">Most materials are chosen from what already exists, then adapted to the problem. The more powerful question runs the other way: what material should exist to produce the response the biology needs — and how do we bring it into being? Pursuing that question means treating matter, biology and computation as one system, and using data, AI and living models to turn a biological specification into real matter — a material defined by the outcome it serves, not by what was already available.</p>
+    </div>
   </div>
 
-  <!-- ── Stat band ─────────────────────────────────────────── -->
-  <div class="stat-band">
-    <div class="stat-band-inner">
+  <!-- ── The integrated system ────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="eyebrow">An integrated method</div>
+      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:12px;">One connected system, from matter to living tissue.</h2>
+      <p style="margin-top:14px;font-size:17px;line-height:1.6;color:var(--text-muted);">A single loop links what a material is made of to the biology it produces — each stage feeding the next.</p>
+    </div>
+    <div class="chain">
+      <div class="chain-lantern" aria-hidden="true"></div>
+      <div class="chain-step"><span class="tag tag-orange">01 · Predict</span><p>Use data and AI to design biomaterials with target properties.</p></div>
+      <div class="chain-step"><span class="tag tag-blue">02 · Build</span><p>Engineer biomaterials, scaffolds and living matrices.</p></div>
+      <div class="chain-step"><span class="tag tag-teal">03 · Test</span><p>Validate biological response in human-relevant, tissue-mimicking systems.</p></div>
+      <div class="chain-step"><span class="tag tag-blue">04 · Translate</span><p>Turn the resulting technologies into oral-health innovation.</p></div>
+    </div>
+    <div style="margin-top:var(--space-8);">
+      <a href="research.html" class="btn btn-ghost btn-md">See the research programs <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+    </div>
+  </div>
+
+  <!-- ── Two platforms ────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="eyebrow">Research programs</div>
+      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:12px;">Two platforms, in depth.</h2>
+    </div>
+    <div class="platforms">
+      <a href="research/ai-living-lab.html" class="card interactive card-accent-orange platform-card">
+        <span class="tag tag-orange">AI-guided material design</span>
+        <div class="platform-title">Biomaterials &amp; AI</div>
+        <p class="platform-desc">Machine learning, genetic algorithms and material informatics that design dental materials with properties on demand.</p>
+        <span class="platform-cta">Enter the AI Living Lab →</span>
+      </a>
+      <a href="research/matter-for-vitality.html" class="card interactive card-accent-blue platform-card">
+        <span class="tag tag-blue">Why pulp regeneration matters</span>
+        <div class="platform-title">Matter for Vitality</div>
+        <p class="platform-desc">Why dental-pulp regeneration matters and what it takes to get it right — the materials, biology and evidence behind regenerating pulp-like tissue in experimental models.</p>
+        <span class="platform-cta">Explore Matter for Vitality →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Selected evidence ─────────────── -->
+  <div class="stat-band" style="margin-top:var(--space-16);">
+    <div class="stat-band-inner" style="grid-template-columns:repeat(3,1fr);">
       <div class="stat-block stat-accent-orange">
-        <div class="stat-value">2026</div>
-        <div class="stat-label">IADR Innovation in Oral Care Award</div>
-        <div class="stat-caption">AI-enabled biomimetic hydrogels for dental-materials biosafety testing</div>
+        <div class="stat-value">IADR 2026</div>
+        <div class="stat-label">Recognised innovation</div>
+        <div class="stat-caption">Innovation in Oral Care Award · AI-enabled biomimetic hydrogels for dental-materials biosafety testing</div>
       </div>
       <div class="stat-block">
         <div class="stat-value">Top 2%</div>
-        <div class="stat-label">World's most-cited scientists</div>
-        <div class="stat-caption">Recognised in consecutive Stanford–Elsevier rankings</div>
+        <div class="stat-label">Scientific impact</div>
+        <div class="stat-caption">World’s most-cited scientists · consecutive Stanford–Elsevier rankings</div>
       </div>
       <div class="stat-block">
         <div class="stat-value">ORCHIDS</div>
-        <div class="stat-label">Director, Oral Care Health Innovations</div>
-        <div class="stat-caption">Singapore's translational oral-health research centre</div>
-      </div>
-      <div class="stat-block">
-        <div class="stat-value">ADM</div>
-        <div class="stat-label">Fellow, Academy of Dental Materials</div>
-        <div class="stat-caption">2023 · Recognition for leadership in dental materials</div>
+        <div class="stat-label">Translational leadership</div>
+        <div class="stat-caption">Director · Singapore’s translational oral-health research centre</div>
       </div>
     </div>
   </div>
 
-  <!-- ── Research themes ───────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <div class="eyebrow">Technology frontiers</div>
-      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:12px;">New concepts for biomaterials and regeneration</h2>
-      <p style="margin-top:14px;font-size:17px;line-height:1.6;color:var(--text-muted);">Four ways Rosa Lab turns materials, cells and data into oral-health technologies.</p>
-    </div>
-    <div class="themes-grid">
-      <a href="publications.html" class="card interactive card-accent-orange" style="text-decoration:none;">
-        <span class="tag tag-orange">AI-guided material design</span>
-        <p style="margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--text-body);">Using data and AI to design biomaterials with properties on demand.</p>
-        <span style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13.5px;font-weight:600;color:var(--blue-600);">Explore publications →</span>
-      </a>
-      <a href="publications.html" class="card interactive card-accent-teal" style="text-decoration:none;">
-        <span class="tag tag-teal">Living experimental systems</span>
-        <p style="margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--text-body);">Hydrogel and tissue-mimicking models for more predictive, human-relevant testing.</p>
-        <span style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13.5px;font-weight:600;color:var(--blue-600);">Explore publications →</span>
-      </a>
-      <a href="publications.html" class="card interactive card-accent-blue" style="text-decoration:none;">
-        <span class="tag tag-blue">Regenerative technologies</span>
-        <p style="margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--text-body);">Biomaterials, scaffolds and stem-cell models for dentin–pulp regeneration.</p>
-        <span style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13.5px;font-weight:600;color:var(--blue-600);">Explore publications →</span>
-      </a>
-      <a href="publications.html" class="card interactive card-accent-blue" style="text-decoration:none;">
-        <span class="tag tag-blue">Translational oral health</span>
-        <p style="margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--text-body);">Building technologies and research systems that move oral-health innovation toward clinical use.</p>
-        <span style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13.5px;font-weight:600;color:var(--blue-600);">Explore publications →</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- ── Latest news ───────────────────────────────────────── -->
+  <!-- ── Newsroom ──────────────────── -->
   <div class="section" style="padding-bottom:var(--space-16);">
     <div class="section-header-row">
       <div style="max-width:680px;">
@@ -116,7 +144,7 @@
       </div>
       <a href="news.html" class="btn btn-ghost btn-md" style="margin-bottom:8px;">All news <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
     </div>
-    <div class="news-grid" id="home-news-grid"></div>
+    <div class="news-grid" id="home-news-grid" style="grid-template-columns:repeat(2,1fr);"></div>
   </div>
 
 </main>
@@ -125,77 +153,217 @@
 <script src="assets/js/data/news.js"></script>
 <script src="assets/js/shared.js"></script>
 <script>
-// ── Helpers ───────────────────────────────────────────────────
-function newsCardHTML(item) {
-  const barCls = 'news-card-bar-' + item.tone;
-  const srcCls = 'news-card-source-' + item.tone;
-  const href = 'news/' + item.slug + '.html';
-  return `<a href="${href}" class="news-card" style="text-decoration:none;cursor:pointer;">
-    <div class="news-card-bar ${barCls}"></div>
-    <div class="news-card-body">
-      <div class="news-card-meta">
-        <span class="${srcCls}">${item.source}</span>
-        <span style="width:3px;height:3px;border-radius:50%;background:var(--border-strong);"></span>
-        <span class="news-card-date">${item.date}</span>
-      </div>
-      <div class="news-card-headline">${item.headline}</div>
-      <span class="news-card-cta">Read more →</span>
-    </div>
-  </a>`;
+// Newsroom (2 curated items)
+function newsCardHTML(item){
+  var barCls='news-card-bar-'+item.tone, srcCls='news-card-source-'+item.tone, href='news/'+item.slug+'.html';
+  return '<a href="'+href+'" class="news-card" style="text-decoration:none;cursor:pointer;">'
+    +'<div class="news-card-bar '+barCls+'"></div>'
+    +'<div class="news-card-body"><div class="news-card-meta"><span class="'+srcCls+'">'+item.source+'</span>'
+    +'<span style="width:3px;height:3px;border-radius:50%;background:var(--border-strong);"></span>'
+    +'<span class="news-card-date">'+item.date+'</span></div>'
+    +'<div class="news-card-headline">'+item.headline+'</div>'
+    +'<span class="news-card-cta">Read more →</span></div></a>';
 }
+(function(){ var g=document.getElementById('home-news-grid'); if(g&&window.NEWS) g.innerHTML=NEWS.slice(0,2).map(newsCardHTML).join(''); })();
+</script>
+<script>
+/* ============================================================
+   Aparição volumétrica 3D — SEM dependências.
+   N partículas 3D compartilhadas, transmorfando entre formas,
+   com rotação + projeção em perspectiva escrita à mão
+   (frente maior/brilhante, fundo menor/esmaecido = profundidade).
+   ============================================================ */
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const N=1800;
+const rnd=(a,b)=>a+Math.random()*(b-a);
+let W=0,H=0,DPR=1, cx=0, cy=0, S=1;
 
-function stackCardHTML(item) {
-  const imgCls = 'nc-feat-img-' + item.tone;
-  const srcCls = 'nc-feat-src-' + item.tone;
-  const href = 'news/' + item.slug + '.html';
-  const imgInner = item.image
-    ? `<img src="${item.image}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block;">`
-    : '';
-  return `<a href="${href}" class="nc-feat" style="text-decoration:none;display:flex;">
-    <div class="nc-feat-img ${imgCls}" style="overflow:hidden;">${imgInner}</div>
-    <div class="nc-feat-body">
-      <div class="nc-feat-meta">
-        <span class="${srcCls}">${item.source.toUpperCase()}</span>
-        <span class="nc-feat-sep">/</span>
-        <span class="nc-feat-date">${item.date.toUpperCase()}</span>
-      </div>
-      <div class="nc-feat-headline">${item.headline}</div>
-      <span class="nc-feat-cta">Read more →</span>
-    </div>
-  </a>`;
+/* ── util ─────────────────────────────────────────────────── */
+function fit(list){ if(list.length>N) return list.slice(0,N);
+  let i=0; while(list.length<N){const p=list[i%Math.max(1,list.length)]||[0,0,0]; list.push([p[0]+rnd(-.02,.02),p[1]+rnd(-.02,.02),p[2]+rnd(-.02,.02)]); i++;} return list; }
+const sortAz=l=>l.sort((a,b)=>Math.atan2(a[2],a[0])-Math.atan2(b[2],b[0]));
+
+/* ── geradores 3D (raio ~1.15) ───────────────────────────── */
+const DROP_PROFILE=[[0.004,1.05],[0.22,0.6],[0.4,0.12],[0.5,-0.32],[0.44,-0.66],[0.26,-0.88],[0.02,-0.98]];
+function resampleProfile(pf,n){const seg=[];let tot=0;for(let i=0;i<pf.length-1;i++){const d=Math.hypot(pf[i+1][0]-pf[i][0],pf[i+1][1]-pf[i][1]);seg.push(d);tot+=d;}
+  const out=[];let target=0,i=0,acc=0;for(let k=0;k<n;k++){while(i<seg.length-1&&acc+seg[i]<target){acc+=seg[i];i++;}const t=seg[i]?(target-acc)/seg[i]:0;out.push([pf[i][0]+(pf[i+1][0]-pf[i][0])*t,pf[i][1]+(pf[i+1][1]-pf[i][1])*t]);target+=tot/n;}return out;}
+
+function genDroplet(){const P=resampleProfile(DROP_PROFILE,220);const out=[];for(let k=0;k<N;k++){const p=P[(Math.random()*P.length)|0];const a=Math.random()*6.2832;const rr=p[0]*(0.8+Math.random()*0.2);out.push([Math.cos(a)*rr,p[1]*1.05,Math.sin(a)*rr]);}return sortAz(fit(out));}
+function genCell(){const out=[];const nm=Math.floor(N*0.72);
+  for(let k=0;k<nm;k++){const u=Math.random()*2-1,th=Math.random()*6.2832,r=1.0*(1+0.05*Math.sin(th*3)),s=Math.sqrt(1-u*u);out.push([Math.cos(th)*s*r,u*r*0.92,Math.sin(th)*s*r]);}
+  for(let k=out.length;k<N;k++){const u=Math.random()*2-1,th=Math.random()*6.2832,r=0.34*Math.cbrt(Math.random()),s=Math.sqrt(1-u*u);out.push([0.16+Math.cos(th)*s*r,0.08+u*r,Math.sin(th)*s*r]);}
+  return sortAz(fit(out));}
+function genCrystal(){const nodes=[],step=0.75;for(let x=-1;x<=1;x++)for(let y=-1;y<=1;y++)for(let z=-1;z<=1;z++)nodes.push([x*step,y*step,z*step]);
+  for(let x=-1;x<1;x++)for(let y=-1;y<1;y++)for(let z=-1;z<1;z++)nodes.push([(x+.5)*step,(y+.5)*step,(z+.5)*step]);
+  const edges=[];for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const d=Math.hypot(nodes[i][0]-nodes[j][0],nodes[i][1]-nodes[j][1],nodes[i][2]-nodes[j][2]);if(d<step*0.95)edges.push([i,j]);}
+  const out=[];const perAtom=Math.floor(N*0.4/nodes.length);
+  for(const nd of nodes)for(let k=0;k<perAtom;k++){const u=Math.random()*2-1,th=Math.random()*6.2832,r=0.08*Math.cbrt(Math.random()),s=Math.sqrt(1-u*u);out.push([nd[0]+Math.cos(th)*s*r,nd[1]+u*r,nd[2]+Math.sin(th)*s*r]);}
+  while(out.length<N){const e=edges[(Math.random()*edges.length)|0];const t=Math.random();const a=nodes[e[0]],b=nodes[e[1]];out.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]);}
+  return sortAz(fit(out));}
+function genScaffold(){const out=[];const layers=[-0.85,-0.42,0,0.42,0.85],nrods=5,span=0.98,rad=0.055;
+  // woodpile: cada camada = bastões paralelos; direção alterna 90° por camada
+  while(out.length<N){const li=(Math.random()*layers.length)|0,ri=(Math.random()*nrods)|0;
+    const off=-span+ri/(nrods-1)*2*span, t=rnd(-span,span), a=Math.random()*6.2832, rr=rad*Math.sqrt(Math.random());
+    const y=layers[li]+Math.sin(a)*rr*0.7;
+    if(li%2===0) out.push([t, y, off+Math.cos(a)*rr]); else out.push([off+Math.cos(a)*rr, y, t]);}
+  return sortAz(fit(out));}
+function genHologram(){const out=[]; const zs=[-0.66,-0.22,0.22,0.66];
+  const nPlane=Math.floor(N*0.86/zs.length);
+  for(let pi=0;pi<zs.length;pi++){const z=zs[pi];
+    for(let k=0;k<nPlane;k++){const x=rnd(-0.72,0.72);
+      const lvl=(Math.floor(rnd(0,7))/6)*1.6-0.8;
+      const y=lvl+0.07*Math.sin(x*7+pi*1.3)+rnd(-0.012,0.012);
+      out.push([x,y,z]);}}
+  while(out.length<N){const a=Math.random()*6.2832,u=Math.random()*2-1,r=0.12*Math.cbrt(Math.random()),s=Math.sqrt(1-u*u);
+    out.push([Math.cos(a)*s*r,u*r,Math.sin(a)*s*r]);}
+  return fit(out);}
+function genHierarchy(){const out=[],segs=[];
+  // árvore binária clara, crescendo para cima (ang=π/2), leve profundidade em z
+  function grow(x,y,z,ang,az,len,gen){const dx=Math.cos(ang)*Math.cos(az),dy=Math.sin(ang),dz=Math.cos(ang)*Math.sin(az);
+    const x2=x+dx*len,y2=y+dy*len,z2=z+dz*len;segs.push([[x,y,z],[x2,y2,z2],gen]);
+    if(gen>=4)return;const sp=0.52;
+    grow(x2,y2,z2,ang+sp,az+rnd(-.3,.3),len*0.74,gen+1);
+    grow(x2,y2,z2,ang-sp,az+rnd(-.3,.3),len*0.74,gen+1);}
+  grow(0,-1.1,0,Math.PI/2,0,0.66,0);
+  while(out.length<N){const s=segs[(Math.random()*segs.length)|0],t=Math.random(),a=s[0],b=s[1],j=0.012;
+    out.push([a[0]+(b[0]-a[0])*t+rnd(-j,j),a[1]+(b[1]-a[1])*t+rnd(-j,j),a[2]+(b[2]-a[2])*t+rnd(-j,j)]);}
+  return sortAz(fit(out));}
+
+// ── TESSERACT (hipercubo 4D) — vértices/arestas + projeção 4D→3D animada ──
+const T_V=[];for(let m=0;m<16;m++)T_V.push([(m&1?1:-1),(m&2?1:-1),(m&4?1:-1),(m&8?1:-1)]);
+const T_E=[];for(let i=0;i<16;i++)for(let j=i+1;j<16;j++){let df=0;for(let d=0;d<4;d++)if(T_V[i][d]!==T_V[j][d])df++;if(df===1)T_E.push([i,j]);}
+const T_ASSIGN=[];for(let i=0;i<N;i++){const e=T_E[i%T_E.length];T_ASSIGN.push([e[0],e[1],Math.random()]);}
+function genTess(a,b){ // roda nos planos x-w e z-w; projeta por w (cubo-dentro-de-cubo)
+  const ca=Math.cos(a),sa=Math.sin(a),cb=Math.cos(b),sb=Math.sin(b),dist=2.7;
+  const v3=T_V.map(v=>{let x=v[0],y=v[1],z=v[2],w=v[3];
+    let x2=x*ca-w*sa, w2=x*sa+w*ca;
+    let z2=z*cb-w2*sb, w3=z*sb+w2*cb;
+    const k=1.5/(dist-w3); return [x2*k,y*k,z2*k];});
+  const out=new Array(N);
+  for(let i=0;i<N;i++){const e=T_ASSIGN[i],A=v3[e[0]],B=v3[e[1]],t=e[2];
+    out[i]=[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t];}
+  return out;}
+
+const FORMS=[
+  {pts:genDroplet(),  glass:true},
+  {pts:genTess(0,0),  glass:false, tess:true},
+  {pts:genCrystal(),  glass:false},
+  {pts:genCell(),     glass:true},
+  {pts:genScaffold(), glass:false},
+  {pts:genHologram(), glass:false, holo:true},
+  {pts:genHierarchy(),glass:false, grow:true},
+];
+// índices das formas dinâmicas
+let TESS=-1, HIER=-1, HOLO=-1; FORMS.forEach((f,i)=>{if(f.tess)TESS=i;if(f.grow)HIER=i;if(f.holo)HOLO=i;});
+// ordem de crescimento da árvore (base→ponta) pela altura y
+const growOrd=new Float32Array(N);
+{const hp=FORMS[HIER].pts;let ymin=1e9,ymax=-1e9;for(const p of hp){if(p[1]<ymin)ymin=p[1];if(p[1]>ymax)ymax=p[1];}
+ for(let i=0;i<N;i++)growOrd[i]=(hp[i][1]-ymin)/((ymax-ymin)||1);}
+const holoCol=new Array(N);
+{const hp=FORMS[HOLO].pts, PC=[[0,61,124],[23,140,140],[230,150,70],[62,111,168]], zs=[-0.66,-0.22,0.22,0.66];
+ for(let i=0;i<N;i++){const z=hp[i][2];
+   if(Math.abs(z)<0.15 && Math.abs(hp[i][0])<0.22 && Math.abs(hp[i][1])<0.22) holoCol[i]=[12,90,150];
+   else{let bi=0,bd=9;for(let q=0;q<zs.length;q++){const d=Math.abs(z-zs[q]);if(d<bd){bd=d;bi=q;}}holoCol[i]=PC[bi];}}}
+// cor por índice (persiste no morph)
+const COL=new Array(N);
+for(let i=0;i<N;i++){const r=Math.random();COL[i]=r<0.03?[236,150,70]:(r<0.085?[95,170,170]:[95,140,190]);}
+
+/* ── layout ──────────────────────────────────────────────── */
+function resize(){DPR=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);
+  cx = W>900 ? W*0.68 : W*0.5; cy=H*0.5; S=Math.min(W>900?W*0.26:W*0.4, H*0.4);}
+window.addEventListener('resize',resize);
+const mouse={x:0,y:0,px:-9999,py:-9999,on:false};
+window.addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();const lx=e.clientX-r.left,ly=e.clientY-r.top;mouse.x=lx/W-0.5;mouse.y=ly/H-0.5;mouse.px=lx;mouse.py=ly;mouse.on=(lx>=0&&lx<=W&&ly>=0&&ly<=H);});
+
+/* ── loop ────────────────────────────────────────────────── */
+const MORPH=2900, F=3.6;
+const HOLDS=FORMS.map(f=>f.tess?4600:(f.holo?4600:2300)), SEGS=HOLDS.map(h=>h+MORPH), TOTAL=SEGS.reduce((a,b)=>a+b,0); // tesseract segura mais
+const smooth=t=>t*t*(3-2*t);
+let t0=performance.now(), ry=0, rx=0.18, tessA=0, lastMx=-9999,lastMy=-9999,mvx=0,mvy=0;
+
+const order=new Array(N);
+const dispX=new Float32Array(N), dispY=new Float32Array(N);   // deslocamento do mouse (com retorno suave)
+function loop(now){
+  const el=reduce?0:(now-t0);
+  let te=el%TOTAL, idx=0; while(te>=SEGS[idx]){te-=SEGS[idx];idx++;}
+  const nxt=(idx+1)%FORMS.length, local=te;
+  const pp=local<HOLDS[idx]?0:(local-HOLDS[idx])/MORPH;    // progresso linear 0..1
+  if(!reduce) tessA+=0.010; FORMS[TESS].pts=genTess(tessA, tessA*0.42);   // tesseract sempre tumbando em 4D
+  const A=FORMS[idx].pts, B=FORMS[nxt].pts;
+  const involveHier=(idx===HIER)||(nxt===HIER);
+  const holoW=(idx===HOLO)?(local<HOLDS[idx]?Math.min(1,local/400)*Math.min(1,(HOLDS[idx]-local)/400):0):0;
+
+  if(!reduce){ ry+=(idx===HOLO?0:0.0022); const rxt=(idx===HOLO)?0.12:(-mouse.y*0.18); rx += (rxt-rx)*0.03; }
+  const rock=(idx===HOLO&&!reduce)?0.5*Math.sin(now*0.0014):0; const yaw=ry+mouse.x*0.12+rock, cyaw=Math.cos(yaw), syaw=Math.sin(yaw), cpit=Math.cos(rx), spit=Math.sin(rx);
+  const br=reduce?1:(1+Math.sin(now*0.0005)*0.02);
+
+  ctx.clearRect(0,0,W,H);
+
+  // corpo de vidro (glow translúcido) no hold de gota/célula
+  if(FORMS[idx].glass){
+    const env=local<HOLDS[idx]?Math.min(1,local/380)*Math.min(1,(HOLDS[idx]-local)/380):0;
+    if(env>0.01){ const R=S*1.15; const g=ctx.createRadialGradient(cx-R*0.25,cy-R*0.3,R*0.1,cx,cy,R);
+      g.addColorStop(0,`rgba(180,220,226,${0.20*env})`); g.addColorStop(0.6,`rgba(120,180,205,${0.10*env})`); g.addColorStop(1,'rgba(120,180,205,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(cx,cy,R,R*1.02,0,0,6.2832); ctx.fill(); }
+  }
+
+  // projeta
+  const sx=new Float32Array(N), sy=new Float32Array(N), sc=new Float32Array(N), dz=new Float32Array(N);
+  for(let i=0;i<N;i++){
+    let pI;
+    if(pp<=0) pI=0; else if(pp>=1) pI=1;
+    else if(involveHier){ const o=(nxt===HIER)?growOrd[i]:(1-growOrd[i]); pI=smooth(Math.min(1,Math.max(0, pp*1.55 - o*0.55))); } // árvore cresce base→ponta
+    else pI=smooth(pp);
+    const x=(A[i][0]+(B[i][0]-A[i][0])*pI)*br, y=(A[i][1]+(B[i][1]-A[i][1])*pI)*br, z=(A[i][2]+(B[i][2]-A[i][2])*pI)*br;
+    const x1=x*cyaw - z*syaw, z1=x*syaw + z*cyaw;
+    const y2=y*cpit - z1*spit, z2=y*spit + z1*cpit;
+    const persp=F/(F - z2);
+    sx[i]=cx + x1*persp*S; sy[i]=cy - y2*persp*S; sc[i]=persp; dz[i]=z2; order[i]=i;
+  }
+  // ── swoosh: a seta EM MOVIMENTO empurra as partículas na direção do gesto (rastro) ──
+  if(mouse.on){ if(lastMx>-9998){ mvx=mvx*0.55+(mouse.px-lastMx)*0.45; mvy=mvy*0.55+(mouse.py-lastMy)*0.45; } lastMx=mouse.px; lastMy=mouse.py; }
+  else { mvx*=0.8; mvy*=0.8; }
+  const spd=Math.hypot(mvx,mvy), dirx=spd>0.001?mvx/spd:0, diry=spd>0.001?mvy/spd:0;
+  const RR=S*0.32, RR2=RR*RR;
+  for(let i=0;i<N;i++){
+    let tx=0,ty=0;
+    if(mouse.on && spd>0.6){ const ddx=sx[i]-mouse.px, ddy=sy[i]-mouse.py, d2=ddx*ddx+ddy*ddy;
+      if(d2<RR2){ const d=Math.sqrt(d2)||1, f=1-d/RR, w=f*Math.min(1,spd/20);
+        tx=dirx*w*46 - diry*(Math.random()-0.5)*w*22; ty=diry*w*46 + dirx*(Math.random()-0.5)*w*22; } }
+    dispX[i]+=(tx-dispX[i])*0.20; dispY[i]+=(ty-dispY[i])*0.20;
+    sx[i]+=dispX[i]; sy[i]+=dispY[i];
+  }
+  // ordena do fundo p/ frente
+  order.sort((a,b)=>dz[a]-dz[b]);
+
+  const holoOn=holoW>0.02;
+  for(let k=0;k<N;k++){const i=order[k];
+    const depth=(dz[i]+1.4)/2.8;
+    const r=Math.max(0.5,(0.85+depth*1.6)*sc[i]);
+    let c=COL[i];
+    if(holoOn){const hc=holoCol[i], w=holoW; c=[c[0]+(hc[0]-c[0])*w, c[1]+(hc[1]-c[1])*w, c[2]+(hc[2]-c[2])*w];}
+    const a=Math.max(0.04,Math.min(0.72,(0.08+0.04*holoW)+depth*0.6));
+    ctx.fillStyle=`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a.toFixed(3)})`;
+    if(holoW>0.2){ctx.shadowColor=`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${(0.5*holoW).toFixed(2)})`; ctx.shadowBlur=4*holoW;}
+    else if(COL[i][0]===236){ctx.shadowColor='rgba(236,150,70,0.45)';ctx.shadowBlur=7;} else ctx.shadowBlur=0;
+    ctx.beginPath(); ctx.arc(sx[i],sy[i],r,0,6.2832); ctx.fill();
+  }
+  ctx.shadowBlur=0;
+  if(holoW>0.25){const core=holoW;
+    const cg=ctx.createRadialGradient(cx,cy,0,cx,cy,S*0.5);
+    cg.addColorStop(0,`rgba(0,61,124,${0.26*core})`); cg.addColorStop(0.3,`rgba(23,140,140,${0.10*core})`); cg.addColorStop(1,'rgba(0,61,124,0)');
+    ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,S*0.5,0,6.2832); ctx.fill();
+    const bw=S*1.5, bg=ctx.createLinearGradient(cx-bw,cy,cx+bw,cy);
+    bg.addColorStop(0,'rgba(23,140,140,0)'); bg.addColorStop(0.5,`rgba(0,61,124,${0.24*core})`); bg.addColorStop(1,'rgba(23,140,140,0)');
+    ctx.fillStyle=bg; ctx.fillRect(cx-bw,cy-1,bw*2,2);
+    for(let ri=1;ri<=3;ri++){ctx.strokeStyle=`rgba(62,111,168,${(0.11*core*(1-ri/4)).toFixed(3)})`; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(cx,cy,S*(0.45+ri*0.4),0,6.2832); ctx.stroke();}
+  }
+  requestAnimationFrame(loop);
 }
-
-// ── Stack widget ──────────────────────────────────────────────
-let stackIdx = 0;
-
-function renderStack() {
-  const item = NEWS[stackIdx];
-  document.getElementById('stack-card').innerHTML = stackCardHTML(item);
-  const dashes = NEWS.slice(0,4).map((_,i) =>
-    `<span class="dash ${i===stackIdx?'active':'inactive'}"></span>`
-  ).join('');
-  document.getElementById('stack-dashes').innerHTML = dashes;
-  document.getElementById('stack-pagination').textContent =
-    String(stackIdx+1).padStart(2,'0') + ' / 04';
-}
-
-document.getElementById('stack-prev').addEventListener('click', function() {
-  stackIdx = (stackIdx - 1 + 4) % 4;
-  renderStack();
-});
-document.getElementById('stack-next').addEventListener('click', function() {
-  stackIdx = (stackIdx + 1) % 4;
-  renderStack();
-});
-
-// ── Home news grid (shows items 1–3, skipping lead) ──────────
-function renderHomeNews() {
-  const grid = document.getElementById('home-news-grid');
-  grid.innerHTML = NEWS.slice(1, 4).map(newsCardHTML).join('');
-}
-
-renderStack();
-renderHomeNews();
+resize();
+requestAnimationFrame(loop);
 </script>
 </body>
 </html>
