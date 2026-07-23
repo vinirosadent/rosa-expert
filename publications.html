@@ -7,6 +7,22 @@
 <meta name="description" content="Selected publications by A/P Vinicius Rosa on biomaterials, regeneration, AI-guided design and translational oral-health technologies.">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<style>
+  /* Copy-citation control (page-scoped) */
+  .cite-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--font-sans); font-size:12.5px; font-weight:600;
+    color:var(--text-faint); background:none; border:none; padding:0;
+    cursor:pointer; letter-spacing:.01em; transition:color .15s ease;
+  }
+  .cite-btn:hover{ color:var(--blue-600); }
+  .cite-btn.copied{ color:var(--teal-600); }
+  .cite-btn svg{ width:13px; height:13px; }
+  /* Archive row: keep whole row clickable, float the cite button top-right */
+  .archive-item-wrap{ position:relative; }
+  .archive-item-wrap .archive-item{ padding-right:70px; }
+  .archive-item-wrap .cite-btn{ position:absolute; top:var(--space-5); right:0; }
+</style>
 </head>
 <body>
 <div id="app">
@@ -71,6 +87,45 @@ function catTone(cat) {
 
 // ── HTML builders ──────────────────────────────────────────────
 function authorsHTML(a){ return a ? a.replace(/Rosa V\./g, '<strong style="color:var(--text-strong);">Rosa V.</strong>') : ''; }
+
+// ── Copy citation ──────────────────────────────────────────────
+const CITE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+function citeBtnHTML(p, label) {
+  const idx = PUBS.indexOf(p);
+  return `<button type="button" class="cite-btn" onclick="copyCitation(${idx}, this)" aria-label="Copy citation" title="Copy citation">${CITE_ICON}<span>${label}</span></button>`;
+}
+function buildCitation(p) {
+  const a = p.authors ? p.authors.trim().replace(/\.?$/, '.') : '';
+  let s = (a ? a + ' ' : '') + p.title + '. ' + p.venue + '. ' + p.year + '.';
+  if (p.doi) s += ' https://doi.org/' + p.doi;
+  return s;
+}
+function copyCitation(idx, btn) {
+  const p = PUBS[idx];
+  if (!p) return;
+  const text = buildCitation(p);
+  const span = btn.querySelector('span');
+  const orig = span ? span.textContent : '';
+  const done = () => {
+    if (span) span.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { if (span) span.textContent = orig; btn.classList.remove('copied'); }, 1600);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed'; ta.style.top = '-1000px'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta); done();
+}
+
 function pubCardHTML(p) {
   const ct = catTone(p.category);
   return `<div class="pub-card">
@@ -89,6 +144,7 @@ function pubCardHTML(p) {
       <div class="pub-footer" style="display:flex;gap:1.25rem;flex-wrap:wrap;align-items:center;">
         ${p.spotlight ? `<a href="${p.spotlight}" class="view-link" style="font-weight:700;">Read spotlight →</a>` : ''}
         ${p.doi ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener" class="view-link">View study →</a>` : (p.spotlight ? '' : '<span class="view-link" style="color:var(--text-faint);">View study</span>')}
+        ${citeBtnHTML(p, 'Cite')}
       </div>
     </div>
   </div>`;
@@ -103,10 +159,12 @@ function archiveItemHTML(p) {
         <span class="archive-venue">${p.venue}</span>${p.spotlight ? ' <span class="archive-venue" style="color:var(--orange-600); font-weight:700;">· Spotlight</span>' : ''}
       </span>
     </span>`;
-  if (p.spotlight) return `<a href="${p.spotlight}" class="archive-item">${inner}</a>`;
-  return p.doi
-    ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener" class="archive-item">${inner}</a>`
-    : `<div class="archive-item">${inner}</div>`;
+  const link = p.spotlight
+    ? `<a href="${p.spotlight}" class="archive-item">${inner}</a>`
+    : (p.doi
+        ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener" class="archive-item">${inner}</a>`
+        : `<div class="archive-item">${inner}</div>`);
+  return `<div class="archive-item-wrap">${link}${citeBtnHTML(p, 'Cite')}</div>`;
 }
 
 // ── Filters ────────────────────────────────────────────────────
