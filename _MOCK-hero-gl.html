@@ -577,7 +577,7 @@ const FORMS=[
 ];
 const HIER=6, TESS=0, HOLO=5;
 const MORPH=3000;
-const HOLDS=FORMS.map((f,i)=>(i===TESS||i===HOLO)?4200:(i===HIER?5600:2600)); /* a poda precisa de tempo */
+const HOLDS=FORMS.map((f,i)=>(i===TESS||i===HOLO)?4200:(i===HIER?7000:2600)); /* a poda precisa de tempo */
 const SEGS=HOLDS.map(h=>h+MORPH),TOTAL=SEGS.reduce((a,b)=>a+b,0);
 const OFFS=[];{let a=0;for(let i=0;i<SEGS.length;i++){OFFS.push(a);a+=SEGS[i];}}
 const lerp3=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];
@@ -648,12 +648,25 @@ function frame(now){
   let yaw = reduce?0.5:now*0.000075;
   const faceW = FORMS[idx].face ? (mix===0?1:1-mix) : (FORMS[nxt].face?mix:0);
   if(faceW>0){
+    /* Sempre para o mesmo lado, nunca vaivem. Mas o giro e a poda nao podem
+       competir: antes, a selecao acontecia com a arvore virada de lado e nao
+       dava para ver nada sumindo. Agora a arvore da UMA VOLTA COMPLETA na
+       primeira parte da parada — mostra frente e verso — e volta ao angulo
+       frontal; dai em diante so' deriva devagar, e e' nesse trecho que a
+       poda acontece, de frente para quem olha. */
     const w=faceW*faceW*(3-2*faceW), volta=Math.PI*2;
-    yaw += (Math.round(yaw/volta)*volta - yaw)*w;
+    const fH=(idx===HIER)?Math.min(1,local/HOLDS[idx]):0;
+    const VOLTA1=volta*0.94, F1=0.34;
+    let giro;
+    if(fH<F1){const u=fH/F1; giro=VOLTA1*(u*u*(3-2*u));}   /* acelera e desacelera */
+    else      {giro=VOLTA1+(fH-F1)*0.55;}                  /* deriva lenta, de frente */
+    const frente=Math.round(yaw/volta)*volta;
+    yaw=yaw+((frente+giro)-yaw)*w;
   }
   gl.uniform1f(U.uYaw,yaw);
   const pitch0=0.16+0.05*Math.sin(now*0.00021);
-  gl.uniform1f(U.uPitch,pitch0+(0.09-pitch0)*(faceW*faceW*(3-2*faceW)));
+  const pitchF=0.09+0.045*Math.sin(now*0.00033);      /* tambem respira de frente */
+  gl.uniform1f(U.uPitch,pitch0+(pitchF-pitch0)*(faceW*faceW*(3-2*faceW)));
   gl.uniform1f(U.uBreath,reduce?1:(1+Math.sin(now*0.00042)*0.022));
   gl.uniform1f(U.uBob,reduce?0:Math.sin(now*0.00031)*S*0.022);
   gl.uniform1f(U.uS,S); gl.uniform1f(U.uUnit,S/210); gl.uniform1f(U.uDpr,DPR);
@@ -670,7 +683,7 @@ function frame(now){
       /* 0–45% da parada: arvore inteira, sem poda. 45–85%: poda em cascata.
          85–100%: so o vencedor, aceso. */
       const f=local/HOLDS[idx];
-      selP = f<0.30 ? 0 : Math.min(1,(f-0.30)/0.45);
+      selP = f<0.40 ? 0 : Math.min(1,(f-0.40)/0.45);
     } else {
       selP = 1-mix;                      /* relaxa na saida: nada pipoca */
     }
