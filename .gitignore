@@ -15,5 +15,17 @@ Research papers/
 # Archives
 _archive/
 
+# Generated-asset masters (full-res keyframes, raw clips) — web exports live
+# in assets/. O log de geração está versionado em PREMISE-GENERATION-LOG.md.
+_source/
+
 # Node (if ever needed locally)
 node_modules/
+
+# Skills de agentes instaladas via `npx skills add` (vendored, nao fazem parte do site)
+.agents/
+
+# Config local de máquina e symlinks para .agents/
+.claude/settings.local.json
+.claude/skills/
+skills-lock.json

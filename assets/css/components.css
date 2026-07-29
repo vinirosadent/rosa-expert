@@ -50,6 +50,45 @@ nav { display: flex; align-items: center; gap: 4px; }
   height: 2px; border-radius: 2px; background: var(--orange-500);
 }
 
+/* Collapsed navigation.
+   The seven links need ~800px of room, so below that the bar overflowed the
+   viewport and every page scrolled sideways. Collapse into a panel instead. */
+.nav-toggle { display: none; }
+@media (max-width: 860px) {
+  .nav-toggle {
+    display: inline-flex; flex-direction: column; justify-content: center; gap: 5px;
+    width: 42px; height: 42px; padding: 0 10px; flex: none;
+    background: none; border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm); cursor: pointer;
+  }
+  .nav-toggle-bar {
+    display: block; width: 100%; height: 2px; border-radius: 2px;
+    background: var(--blue-700);
+    transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+  }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  header nav {
+    display: none;
+    position: absolute; left: 0; right: 0; top: 100%;
+    flex-direction: column; align-items: stretch; gap: 0;
+    padding: 6px var(--gutter) 14px;
+    background: var(--surface-page);
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+    max-height: calc(100vh - var(--header-height)); overflow-y: auto;
+  }
+  header nav.open { display: flex; }
+  header nav .nav-link { padding: 13px 4px; font-size: 16px; border-radius: 0; }
+  header nav .nav-link + .nav-link { border-top: 1px solid var(--border-subtle); }
+  header nav .nav-link.active::after { left: 4px; right: auto; width: 20px; bottom: 8px; }
+}
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) {
+  .nav-toggle-bar { transition: none; }
+}
+
 /* ── Footer ──────────────────────────────────────────────── */
 footer { background: var(--blue-700); color: #fff; margin-top: var(--space-12); }
 .footer-inner {
@@ -258,10 +297,12 @@ footer { background: var(--blue-700); color: #fff; margin-top: var(--space-12); 
 .editorial-grid       { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 40px; align-items: start; }
 .editorial-col-header { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; color: var(--blue-600); padding-bottom: 12px; border-bottom: 2px solid var(--blue-500); margin-bottom: 0; }
 .editorial-list  { list-style: none; margin: 0; padding: 0; }
-.editorial-item  { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: baseline; gap: 8px; }
+.editorial-item  { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; min-width: 0; }
 .editorial-name  { font-size: 15px; line-height: 1.45; color: var(--text-body); font-family: var(--font-serif); font-style: italic; }
 .editorial-period{ font-size: 11.5px; color: var(--text-faint); font-weight: 500; white-space: nowrap; margin-left: auto; }
-.editorial-board-inner { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; }
+/* auto-fit so the two columns become one on narrow screens; a fixed 1fr 1fr
+   could not shrink past its content and pushed who.html sideways. */
+.editorial-board-inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); column-gap: 40px; }
 .committee-section { margin-top: var(--space-8); }
 .committee-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; }
 

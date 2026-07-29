@@ -62,7 +62,10 @@
       <span class="logo-top">Vinicius</span>
       <span class="logo-bottom">ROSA</span>
     </a>
-    <nav aria-label="Main navigation">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+      <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+    </button>
+    <nav id="site-nav" aria-label="Main navigation">
       ${navItems}
     </nav>
   </div>
@@ -123,10 +126,47 @@
     }
   }
 
+  /* ── Collapsed nav behaviour ──────────────────────────────── */
+  function initNav() {
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('site-nav');
+    if (!btn || !nav) return;
+
+    function close() {
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    }
+    function open() {
+      nav.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.setAttribute('aria-label', 'Close menu');
+    }
+    const isOpen = () => nav.classList.contains('open');
+
+    btn.addEventListener('click', e => { e.stopPropagation(); isOpen() ? close() : open(); });
+    // Following a link, clicking away, or Escape all dismiss the panel.
+    nav.addEventListener('click', e => { if (e.target.closest('.nav-link')) close(); });
+    document.addEventListener('click', e => {
+      if (isOpen() && !nav.contains(e.target) && !btn.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && isOpen()) { close(); btn.focus(); }
+    });
+
+    // Widening back past the breakpoint must not leave the panel latched open.
+    if (window.matchMedia) {
+      const mq = window.matchMedia('(min-width: 861px)');
+      const onChange = () => { if (mq.matches) close(); };
+      mq.addEventListener ? mq.addEventListener('change', onChange) : mq.addListener && mq.addListener(onChange);
+    }
+  }
+
   /* ── Auto-render on DOM ready ─────────────────────────────── */
   function init() {
     renderHeader();
     renderFooter();
+    initNav();
   }
 
   if (document.readyState === 'loading') {

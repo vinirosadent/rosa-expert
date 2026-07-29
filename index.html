@@ -52,6 +52,75 @@
   .pf-cv{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.4;pointer-events:none;transition:opacity var(--dur-base) var(--ease-out);}
   .platform-card:hover .pf-cv{opacity:.6;}
   .platform-card > *:not(.pf-cv){position:relative;z-index:1;}
+
+  /* ── The premise: pinned Matter → Intelligence → Life ─────────────────
+     Sticky stage inside a tall track. Scroll progress (0→1) drives one
+     continuous 9.875s clip via currentTime; text stages crossfade on the
+     same progress. Mirrors the scroll architecture of matter-for-vitality
+     (.pf-scrolly/.pf-sticky) — vanilla rAF, no animation library. */
+  .premise{--premise-ivory:#FCF6EE;position:relative;background:var(--premise-ivory);}
+  .premise-track{position:relative;height:380vh;}
+  .premise-stage{position:sticky;top:var(--header-height);height:calc(100vh - var(--header-height));height:calc(100svh - var(--header-height));overflow:hidden;display:flex;align-items:center;}
+  .premise-media{position:absolute;inset:0;z-index:0;}
+  /* object-position must stay centred: the thread overlay is an SVG using
+     preserveAspectRatio="xMidYMid slice", which is exactly cover-from-centre.
+     Any other object-position would slide the artwork out from under it. */
+  .premise-media img,.premise-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;}
+  .premise-still{opacity:0;}
+  .premise-still[data-still="0"]{opacity:1;}
+  .premise-video{opacity:0;transition:opacity .6s var(--ease-out);}
+  /* Scoped to the video mode so a resize down to the stacked layout cannot
+     leave a frozen frame sitting on top of the still crossfade. */
+  .premise[data-mode="video"].is-ready .premise-video{opacity:1;}
+  /* The amber thread, traced from the artwork itself, lit by scroll progress.
+     Sits under the scrim so it never competes with the copy on the left. */
+  .premise-thread{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;}
+  .premise-thread path{fill:none;stroke-linecap:round;}
+  .premise-thread-bloom{stroke:var(--orange-400);stroke-width:10;opacity:.45;filter:url(#premise-bloom);}
+  .premise-thread-lit{stroke:var(--orange-500);stroke-width:2.6;}
+  .premise-thread-head{stroke:#FFDCA6;stroke-width:3.6;}
+  .premise-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:
+      linear-gradient(180deg,var(--premise-ivory) 0%,rgba(252,246,238,0) 14%,rgba(252,246,238,0) 86%,var(--premise-ivory) 100%),
+      linear-gradient(96deg,var(--premise-ivory) 0%,rgba(252,246,238,.96) 26%,rgba(252,246,238,.74) 40%,rgba(252,246,238,.20) 55%,rgba(252,246,238,0) 68%);}
+  .premise-inner{position:relative;z-index:3;width:100%;max-width:var(--container-base);margin:0 auto;padding:0 var(--gutter);}
+  .premise-copy{max-width:460px;}
+  .premise-title{font-size:var(--fs-section-title);margin-top:12px;}
+  .premise-support{margin-top:16px;font-size:16.5px;line-height:1.6;color:var(--text-body);max-width:38ch;}
+  .premise-stages{position:relative;margin-top:var(--space-8);min-height:clamp(150px,17vh,182px);}
+  .premise-stageitem{position:absolute;top:0;left:0;width:100%;opacity:0;will-change:opacity,transform;}
+  .premise-stageitem[data-stage="0"]{opacity:1;}
+  .premise-num{display:block;font-family:var(--font-serif);font-size:2.6rem;line-height:1;color:var(--orange-500);opacity:.92;}
+  .premise-label{margin-top:10px;font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-700);}
+  .premise-line{margin-top:10px;font-size:16px;line-height:1.6;color:var(--text-body);max-width:34ch;}
+  .premise-stagefig{display:none;}
+  .premise-close{margin-top:var(--space-8);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-700);opacity:0;will-change:opacity;}
+  .premise-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+
+  /* Tablet / mobile: stack media over copy — no overlap, no tiny type */
+  @media (max-width:860px){
+    .premise-track{height:270vh;}
+    .premise-stage{display:grid;grid-template-rows:44% 56%;align-items:stretch;}
+    .premise-media{position:relative;inset:auto;grid-row:1;}
+    .premise-scrim{background:linear-gradient(180deg,rgba(252,246,238,0) 58%,var(--premise-ivory) 100%);}
+    .premise-inner{grid-row:2;display:flex;align-items:center;}
+    .premise-copy{max-width:none;}
+    .premise-support{max-width:none;}
+    .premise-stages{min-height:clamp(140px,20vh,170px);margin-top:var(--space-6);}
+    .premise-num{font-size:2.1rem;}
+    .premise-rail{margin-top:var(--space-6);}
+  }
+
+  /* Reduced motion: no pinning, no video — three static states in flow */
+  .premise--static .premise-track{height:auto;}
+  .premise--static .premise-stage{position:static;height:auto;display:block;overflow:visible;padding:var(--space-16) 0;}
+  .premise--static .premise-media{display:none;}
+  .premise--static .premise-copy{max-width:var(--container-narrow);}
+  .premise--static .premise-stages{position:static;min-height:0;display:grid;gap:var(--space-12);margin-top:var(--space-10);}
+  .premise--static .premise-stageitem{position:static;opacity:1;transform:none;}
+  .premise--static .premise-stagefig{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-md);margin-bottom:var(--space-5);}
+  .premise--static .premise-rail{display:none;}
+  .premise--static .premise-close{opacity:1;}
 </style>
 </head>
 <body>
@@ -81,20 +150,71 @@
     </div>
   </section>
 
-  <!-- ── The premise ────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <div class="eyebrow">The premise</div>
-      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:12px;">Designing the materials that should exist.</h2>
-      <p style="margin-top:16px;font-size:17px;line-height:1.65;color:var(--text-muted);">Most materials are chosen from what already exists, then adapted to the problem. The more powerful question runs the other way: what material should exist to produce the response the biology needs — and how do we bring it into being? Pursuing that question means treating matter, biology and computation as one system, and using data, AI and living models to turn a biological specification into real matter — a material defined by the outcome it serves, not by what was already available.</p>
+  <!-- ── The premise (pinned: Matter → Intelligence → Life) ────────── -->
+  <section class="premise" id="premise" aria-labelledby="premise-heading">
+    <div class="premise-track">
+      <div class="premise-stage">
+
+        <div class="premise-media">
+          <p class="premise-sr">A single microscale structure transforms in three stages: an engineered porous scaffold, then a computational lattice of nodes derived from it, then living tissue with fine microvasculature growing through the same architecture. One continuous amber thread runs through all three.</p>
+          <!-- Stage 01 always loads: it is the poster/underlay until the clip
+               paints. 02 and 03 are only needed by the still-crossfade path,
+               so JS promotes data-src → src just for that mode. -->
+          <img class="premise-still" data-still="0" src="assets/premise/stage-01-matter.webp" alt="" aria-hidden="true" decoding="async">
+          <img class="premise-still" data-still="1" data-src="assets/premise/stage-02-intelligence.webp" alt="" aria-hidden="true" decoding="async">
+          <img class="premise-still" data-still="2" data-src="assets/premise/stage-03-life.webp" alt="" aria-hidden="true" decoding="async">
+          <video class="premise-video" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+          <!-- Path traced from the amber filament in the artwork itself, so the
+               lit overlay sits exactly on the thread at any viewport size. -->
+          <svg class="premise-thread" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <defs><filter id="premise-bloom" x="-10%" y="-200%" width="120%" height="500%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+            <path class="premise-thread-bloom" d="M 0 511 C 10 509.2, 40 504, 60 500 C 80 496, 100 489.5, 120 487 C 140 484.5, 160 484, 180 485 C 200 486, 220 488.8, 240 493 C 260 497.2, 280 502.7, 300 510 C 320 517.3, 340 526.3, 360 537 C 380 547.7, 400 561.3, 420 574 C 440 586.7, 460 600.8, 480 613 C 500 625.2, 520 637.5, 540 647 C 560 656.5, 580 664.5, 600 670 C 620 675.5, 640 678.8, 660 680 C 680 681.2, 700 680.2, 720 677 C 740 673.8, 760 668.5, 780 661 C 800 653.5, 820 643.5, 840 632 C 860 620.5, 880 606, 900 592 C 920 578, 940.3 561.8, 960 548 C 979.7 534.2, 998.3 521.3, 1018 509 C 1037.7 496.7, 1058 484, 1078 474 C 1098 464, 1118 455.3, 1138 449 C 1158 442.7, 1178 438.3, 1198 436 C 1218 433.7, 1238 433, 1258 435 C 1278 437, 1298 441.7, 1318 448 C 1338 454.3, 1358 463.2, 1378 473 C 1398 482.8, 1418 494.8, 1438 507 C 1458 519.2, 1478 533.5, 1498 546 C 1518 558.5, 1538 571.5, 1558 582 C 1578 592.5, 1598 601.7, 1618 609 C 1638 616.3, 1658 621.8, 1678 626 C 1698 630.2, 1718 632.8, 1738 634 C 1758 635.2, 1778 634.7, 1798 633 C 1818 631.3, 1838 627, 1858 624 C 1878 621, 1908 616.5, 1918 615"/>
+            <path class="premise-thread-lit" d="M 0 511 C 10 509.2, 40 504, 60 500 C 80 496, 100 489.5, 120 487 C 140 484.5, 160 484, 180 485 C 200 486, 220 488.8, 240 493 C 260 497.2, 280 502.7, 300 510 C 320 517.3, 340 526.3, 360 537 C 380 547.7, 400 561.3, 420 574 C 440 586.7, 460 600.8, 480 613 C 500 625.2, 520 637.5, 540 647 C 560 656.5, 580 664.5, 600 670 C 620 675.5, 640 678.8, 660 680 C 680 681.2, 700 680.2, 720 677 C 740 673.8, 760 668.5, 780 661 C 800 653.5, 820 643.5, 840 632 C 860 620.5, 880 606, 900 592 C 920 578, 940.3 561.8, 960 548 C 979.7 534.2, 998.3 521.3, 1018 509 C 1037.7 496.7, 1058 484, 1078 474 C 1098 464, 1118 455.3, 1138 449 C 1158 442.7, 1178 438.3, 1198 436 C 1218 433.7, 1238 433, 1258 435 C 1278 437, 1298 441.7, 1318 448 C 1338 454.3, 1358 463.2, 1378 473 C 1398 482.8, 1418 494.8, 1438 507 C 1458 519.2, 1478 533.5, 1498 546 C 1518 558.5, 1538 571.5, 1558 582 C 1578 592.5, 1598 601.7, 1618 609 C 1638 616.3, 1658 621.8, 1678 626 C 1698 630.2, 1718 632.8, 1738 634 C 1758 635.2, 1778 634.7, 1798 633 C 1818 631.3, 1838 627, 1858 624 C 1878 621, 1908 616.5, 1918 615"/>
+            <path class="premise-thread-head" d="M 0 511 C 10 509.2, 40 504, 60 500 C 80 496, 100 489.5, 120 487 C 140 484.5, 160 484, 180 485 C 200 486, 220 488.8, 240 493 C 260 497.2, 280 502.7, 300 510 C 320 517.3, 340 526.3, 360 537 C 380 547.7, 400 561.3, 420 574 C 440 586.7, 460 600.8, 480 613 C 500 625.2, 520 637.5, 540 647 C 560 656.5, 580 664.5, 600 670 C 620 675.5, 640 678.8, 660 680 C 680 681.2, 700 680.2, 720 677 C 740 673.8, 760 668.5, 780 661 C 800 653.5, 820 643.5, 840 632 C 860 620.5, 880 606, 900 592 C 920 578, 940.3 561.8, 960 548 C 979.7 534.2, 998.3 521.3, 1018 509 C 1037.7 496.7, 1058 484, 1078 474 C 1098 464, 1118 455.3, 1138 449 C 1158 442.7, 1178 438.3, 1198 436 C 1218 433.7, 1238 433, 1258 435 C 1278 437, 1298 441.7, 1318 448 C 1338 454.3, 1358 463.2, 1378 473 C 1398 482.8, 1418 494.8, 1438 507 C 1458 519.2, 1478 533.5, 1498 546 C 1518 558.5, 1538 571.5, 1558 582 C 1578 592.5, 1598 601.7, 1618 609 C 1638 616.3, 1658 621.8, 1678 626 C 1698 630.2, 1718 632.8, 1738 634 C 1758 635.2, 1778 634.7, 1798 633 C 1818 631.3, 1838 627, 1858 624 C 1878 621, 1908 616.5, 1918 615"/>
+          </svg>
+          <div class="premise-scrim" aria-hidden="true"></div>
+        </div>
+
+        <div class="premise-inner">
+          <div class="premise-copy">
+            <div class="eyebrow">The premise</div>
+            <h2 id="premise-heading" class="display premise-title">Designing the materials that should exist.</h2>
+            <p class="premise-support">We begin with the biological response and work backwards — designing the matter, models and experimental systems capable of producing it.</p>
+
+            <div class="premise-stages">
+              <article class="premise-stageitem" data-stage="0">
+                <img class="premise-stagefig" data-src="assets/premise/stage-01-matter.webp" alt="A porous mineral scaffold at the microscale, crossed by a single amber thread." loading="lazy" decoding="async" width="1600" height="900">
+                <span class="premise-num">01</span>
+                <h3 class="premise-label">Matter</h3>
+                <p class="premise-line">Advanced materials engineered at the microscale.</p>
+              </article>
+              <article class="premise-stageitem" data-stage="1">
+                <img class="premise-stagefig" data-src="assets/premise/stage-02-intelligence.webp" alt="The same scaffold reorganised into a lattice of computational nodes, the amber thread unchanged." loading="lazy" decoding="async" width="1600" height="900">
+                <span class="premise-num">02</span>
+                <h3 class="premise-label">Intelligence</h3>
+                <p class="premise-line">Computation to understand, simulate and design biological outcomes.</p>
+              </article>
+              <article class="premise-stageitem" data-stage="2">
+                <img class="premise-stagefig" data-src="assets/premise/stage-03-life.webp" alt="The same architecture as living tissue, with fine microvasculature following the lattice and the amber thread running through it." loading="lazy" decoding="async" width="1600" height="900">
+                <span class="premise-num">03</span>
+                <h3 class="premise-label">Life</h3>
+                <p class="premise-line">Translating design into living systems that regenerate and endure.</p>
+              </article>
+            </div>
+
+            <p class="premise-close">One connected system, from matter to living tissue.</p>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
+  </section>
 
   <!-- ── The integrated system ────────────── -->
   <div class="section">
     <div class="section-header">
       <div class="eyebrow">An integrated method</div>
-      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:12px;">One connected system, from matter to living tissue.</h2>
+      <h2 class="display" style="font-size:var(--fs-section-title);margin-top:12px;">Predict, build, test, translate.</h2>
       <p style="margin-top:14px;font-size:17px;line-height:1.6;color:var(--text-muted);">A single loop links what a material is made of to the biology it produces — each stage feeding the next.</p>
     </div>
     <div class="flow">
@@ -859,6 +979,238 @@ requestAnimationFrame(loop);
     }
     requestAnimationFrame(frame);}
   addEventListener('resize',size);size();requestAnimationFrame(frame);});})();
+</script>
+
+<!-- ── The premise: scroll-driven Matter → Intelligence → Life ───────── -->
+<script>
+(function(){
+'use strict';
+var sec=document.getElementById('premise');
+if(!sec)return;
+
+var track=sec.querySelector('.premise-track'),
+    stage=sec.querySelector('.premise-stage'),
+    video=sec.querySelector('.premise-video'),
+    stills=[].slice.call(sec.querySelectorAll('.premise-still')),
+    figs=[].slice.call(sec.querySelectorAll('.premise-stagefig')),
+    items=[].slice.call(sec.querySelectorAll('.premise-stageitem')),
+    threadLit=sec.querySelector('.premise-thread-lit'),
+    threadBloom=sec.querySelector('.premise-thread-bloom'),
+    threadHead=sec.querySelector('.premise-thread-head'),
+    closeLine=sec.querySelector('.premise-close');
+
+/* The amber filament is the one element identical in all three states, so it
+   carries the progress: it lights up from left to right as you scroll, with a
+   brighter head at the current position. Geometry is measured once. */
+var threadLen=0, HEAD=0;
+function initThread(){
+  if(!threadLit||!threadLit.getTotalLength)return;
+  threadLen=threadLit.getTotalLength();
+  if(!threadLen)return;
+  HEAD=threadLen*0.06;
+  [threadLit,threadBloom].forEach(function(el){
+    el.style.strokeDasharray=threadLen;
+    el.style.strokeDashoffset=threadLen;
+  });
+  threadHead.style.strokeDasharray=HEAD+' '+threadLen;
+  threadHead.style.strokeDashoffset=HEAD;
+  threadHead.style.opacity=0;
+}
+
+var VIDEO_SRC='assets/premise/premise-sequence.mp4';
+var DUR=9.875;              /* clip length; refined from metadata once loaded */
+
+/* Scroll progress → position in the clip, as a FRACTION of its duration so
+   the mapping survives a re-encode of any length. Flat bands hold each state
+   "dominant"; the steep bands are the two transitions. The Intelligence band
+   straddles 0.5, which is where the two source clips crossfade. */
+var MAP=[[0,0],[0.28,0.086],[0.42,0.461],[0.58,0.540],[0.76,0.916],[1,1]];
+
+/* Per-stage text visibility: ramp-in start/full, ramp-out start/end.
+   Hand-offs are sequential (out-point == next in-point) so two stage
+   copies are never legible at once — a dissolve, not a cross-dissolve. */
+var BANDS=[[-1,-1,0.29,0.355],[0.355,0.42,0.61,0.665],[0.665,0.73,9,9]];
+var CENTRES=[0.15,0.50,0.85];
+
+var mode='stills', raf=0, running=false, ready=false, p=-1, curT=0, lastSeek=-1, stuck=0;
+
+/* Drive the breakpoint off the same media query the stylesheet uses.
+   window.innerWidth can exceed the layout viewport when a page scrolls
+   horizontally, which would let JS pick the desktop path while CSS has
+   already switched to the stacked mobile layout. */
+var MQ_MOBILE=window.matchMedia?window.matchMedia('(max-width: 860px)'):null;
+var MQ_REDUCED=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
+
+function clamp(v,a,b){return v<a?a:(v>b?b:v);}
+function smooth(t){return t*t*(3-2*t);}
+function band(x,a,b,c,d){
+  if(x<=a)return 0;
+  if(x<b)return smooth((x-a)/(b-a));
+  if(x<=c)return 1;
+  if(x<d)return smooth(1-(x-c)/(d-c));
+  return 0;
+}
+function mapTime(x){
+  for(var i=1;i<MAP.length;i++){
+    if(x<=MAP[i][0]){
+      var a=MAP[i-1],b=MAP[i],u=(x-a[0])/(b[0]-a[0]);
+      return (a[1]+(b[1]-a[1])*smooth(u))*DUR;
+    }
+  }
+  return DUR;
+}
+function progress(){
+  var travel=track.offsetHeight-stage.offsetHeight;
+  if(travel<=0)return 0;
+  var top=parseFloat(getComputedStyle(stage).top)||0;
+  return clamp((top-track.getBoundingClientRect().top)/travel,0,1);
+}
+
+function paint(x){
+  for(var i=0;i<items.length;i++){
+    var b=BANDS[i],o=band(x,b[0],b[1],b[2],b[3]);
+    var y=(1-o)*12*(x<CENTRES[i]?1:-1);
+    items[i].style.opacity=o;
+    items[i].style.transform='translate3d(0,'+y.toFixed(1)+'px,0)';
+  }
+  if(threadLen){
+    var lit=threadLen*x;
+    threadLit.style.strokeDashoffset=(threadLen-lit).toFixed(1);
+    threadBloom.style.strokeDashoffset=(threadLen-lit).toFixed(1);
+    threadHead.style.strokeDashoffset=(HEAD-lit).toFixed(1);
+    threadHead.style.opacity=(x>0.012&&x<0.988)?1:0;
+  }
+  if(closeLine)closeLine.style.opacity=band(x,0.84,0.93,9,9);
+  if(mode==='stills'){
+    stills[1].style.opacity=clamp((x-0.28)/0.18,0,1);
+    stills[2].style.opacity=clamp((x-0.58)/0.18,0,1);
+  }
+}
+
+function loop(){
+  raf=requestAnimationFrame(loop);
+  var x=progress();
+  if(x!==p){p=x;paint(x);}
+  if(mode==='video'&&ready){
+    var target=mapTime(p);
+    curT+=(target-curT)*0.2;
+    if(Math.abs(target-curT)<0.005)curT=target;
+    if(Math.abs(curT-lastSeek)>0.012){
+      lastSeek=curT;
+      try{video.currentTime=curT;}catch(e){}
+    }
+    /* If we keep asking for a later frame and the clip refuses to move, the
+       response is not seekable (a server without HTTP Range reports
+       seekable=[0,0] and silently clamps every currentTime to 0). Rather than
+       sit on a frozen first frame, hand over to the still crossfade. */
+    if(target>0.3&&video.currentTime<0.05){ if(++stuck>40)useStills('sem-seek'); }
+    else stuck=0;
+  }
+}
+function start(){if(!running&&mode!=='static'){running=true;p=-1;raf=requestAnimationFrame(loop);}}
+function stop(){if(running){running=false;cancelAnimationFrame(raf);}}
+
+/* Hand control back to the stylesheet. paint() writes inline opacity and
+   transform, which outrank the class rules — without clearing them a mode
+   switch (resize across 860px, or reduced-motion toggled mid-session)
+   would strand stage copy at opacity 0 or leave stills over the video. */
+function resetInline(){
+  for(var i=0;i<items.length;i++){items[i].style.opacity='';items[i].style.transform='';}
+  for(var j=0;j<stills.length;j++){stills[j].style.opacity='';}
+  if(closeLine)closeLine.style.opacity='';
+}
+
+/* loading="lazy" does not stop a display:none image from being fetched, so
+   each mode's images stay on data-src until that mode is actually chosen. */
+function promoteSrc(list){
+  for(var i=0;i<list.length;i++){
+    var d=list[i].getAttribute('data-src');
+    if(d){list[i].src=d;list[i].removeAttribute('data-src');}
+  }
+}
+
+/* Degrade to the three-still crossfade. The picture must always change. */
+function useStills(reason){
+  mode='stills';
+  sec.dataset.mode='stills';
+  sec.dataset.fallback=reason;
+  ready=false;stuck=0;
+  sec.classList.remove('is-ready');
+  promoteSrc(stills);
+  p=-1;
+}
+
+function loadVideo(){
+  if(video.src)return;
+  video.preload='auto';
+  video.src=VIDEO_SRC;
+  video.addEventListener('loadedmetadata',function(){
+    if(video.duration&&isFinite(video.duration))DUR=video.duration;
+  });
+  video.addEventListener('loadeddata',function(){
+    /* Fully buffered but seekable=[0,0] means the response arrived without
+       HTTP Range support — scrubbing is impossible, so don't pretend. */
+    var sk=video.seekable;
+    if(!sk||!sk.length||sk.end(sk.length-1)<0.5){useStills('sem-range');return;}
+    ready=true;
+    sec.classList.add('is-ready');
+    /* Prime the decoder so currentTime seeks actually paint (Safari/iOS). */
+    var pr=video.play();
+    if(pr&&pr.then)pr.then(function(){video.pause();}).catch(function(){});
+    else{try{video.pause();}catch(e){}}
+  });
+  video.addEventListener('error',function(){useStills('erro-video');});
+  video.load();
+}
+
+function setMode(){
+  var reduced=!!(MQ_REDUCED&&MQ_REDUCED.matches);
+  var mobile=MQ_MOBILE?MQ_MOBILE.matches:(document.documentElement.clientWidth<=860);
+  var next=reduced?'static':(mobile?'stills':'video');
+  if(next===mode&&sec.dataset.mode)return;
+  mode=next;
+  sec.dataset.mode=mode;
+  stop();
+  resetInline();
+  if(mode==='static'){sec.classList.add('premise--static');promoteSrc(figs);return;}
+  sec.classList.remove('premise--static');
+  if(mode==='video')loadVideo(); else promoteSrc(stills);
+  p=-1;
+  start();
+}
+
+initThread();
+setMode();
+
+if('IntersectionObserver' in window){
+  /* Warm the media about a viewport ahead, without blocking the hero. */
+  new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){
+      if(es[i].isIntersecting&&mode==='video'){loadVideo();}
+    }
+  },{rootMargin:'0px 0px 100% 0px'}).observe(sec);
+
+  /* Only run the rAF loop while the section is on screen. */
+  new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){es[i].isIntersecting?start():stop();}
+  },{rootMargin:'10% 0px 10% 0px'}).observe(sec);
+}else{
+  start();
+}
+
+/* progress() reads live geometry every frame, so the running loop absorbs
+   resizes on its own; setMode only re-runs to cross the 860px boundary. */
+var rt;
+window.addEventListener('resize',function(){
+  clearTimeout(rt);
+  rt=setTimeout(setMode,160);
+},{passive:true});
+
+[MQ_MOBILE,MQ_REDUCED].forEach(function(m){
+  if(!m)return;
+  m.addEventListener?m.addEventListener('change',setMode):m.addListener&&m.addListener(setMode);
+});
+})();
 </script>
 </body>
 </html>
