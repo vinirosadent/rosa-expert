@@ -60,6 +60,28 @@ for idx, start, dur in re.findall(
     print(f'  {"ok " if d <= 0.10 else "XX "} imagem {idx} cheia em {cheia:5.2f}s, '
           f'legenda em {quer:5.2f}s  (dif {d:.2f}s)')
 
+# The hero hands over to this section: its 160k points lose cohesion and pale
+# to the ivory the premise opens on. That effect lives in a GLSL shader driven
+# by scroll, so nothing offline can see it work — but it can be verified that
+# the pieces are still wired together. Measured in-browser when it was built:
+# spread 48 -> 75, distance to ivory 292 -> 19, alpha 28 -> 0.
+print('\npassagem do hero para a premissa (fonte, nao render):')
+hero = [
+    ('uniforms declarados no shader', r'uniform float uLeave,uScatter;'),
+    ('espalhamento aplicado',         r'if\(uScatter>0\.0001\)'),
+    ('cor e alfa aplicados',          r'if\(uLeave>0\.0001\)'),
+    ('clareia para o ivory',          r'vec3\(253\.0,246\.0,238\.0\)'),
+    ('uniforms na lista de lookup',   r"'uLeave','uScatter'"),
+    ('acionado pelo scroll',          r'\(sy-heroTop\)/\(heroH\*0\.88\)'),
+    ('reduced-motion sem espalhar',   r'U\.uScatter,reduce\?0:LV'),
+    ('para de desenhar ao dispersar', r'if\(LV>=0\.999\) return;'),
+    ('geometria medida no resize',    r'resize\(\);medirHero\(\)'),
+]
+for label, pat in hero:
+    ok = re.search(pat, src) is not None
+    bad += not ok
+    print(f'  {"ok " if ok else "XX "} {label}')
+
 # the master on disk must be the length the fractions were computed against
 try:
     import subprocess

@@ -137,6 +137,66 @@ literalmente mortos num filme de 25,5 s.
 
 ---
 
+## A passagem do hero para esta seção
+
+O hero da home é um motor WebGL de 160 mil pontos. Quando esta seção passou a
+abrir numa nuvem de pontos, os dois ficaram a falar a mesma língua sem que isso
+fosse intencional — e em registos opostos, o hero em azul-noite e a premissa em
+ivory claro. Em vez de deixar como coincidência, a emenda passou a ser
+deliberada: ao sair do hero, os seus pontos **perdem coesão e clareiam até o
+ivory desta seção**, que então abre nos seus.
+
+A questão de fazer deste filme o hero foi considerada e recusada. O hero precisa
+dizer de quem é o site em dois segundos — retrato, nome, tese, duas portas; o
+filme precisa de 25 s para dizer uma coisa. E o fecho do filme só aterra como
+conclusão porque a tese foi afirmada lá em cima: como abertura, não sobraria
+nada para resolver. Somam-se 6,9 MB que hoje ficam fora da rota crítica e que o
+mobile nunca baixa.
+
+A dispersão vive no vertex shader do hero, em `index.html`, em dois uniforms:
+
+| uniform | o que faz |
+|---|---|
+| `uScatter` | desloca cada ponto; fica em 0 sob `prefers-reduced-motion` |
+| `uLeave` | clareia para o ivory, engorda o ponto e apaga |
+
+São **três curvas deliberadamente defasadas**: os pontos primeiro ANDAM, depois
+PALIDECEM, e só no fim DESAPARECEM. Se as três andassem juntas seria um
+crossfade; é a defasagem que faz a saída parecer desenhada. Medido no
+navegador, renderizando o shader e lendo os pixels:
+
+| `uLeave` | espalhamento | alfa | distância ao ivory |
+|---|---|---|---|
+| 0,00 | 48,1 | 28 | 292 |
+| 0,25 | 48,1 | 28 | 276 |
+| 0,50 | 59,1 | 26 | 151 |
+| 0,65 | 75,1 | 21 | 66 |
+| 0,80 | — | 14 | 19 |
+| 1,00 | nada visível | 0 | — |
+
+A direção é radial (a forma se abre de si mesma) com uma parcela aleatória:
+radial puro parece explosão, aleatório puro parece ruído, e perder coesão é o
+meio-termo. Há um viés para baixo, porque o hero tem `overflow:hidden` e a borda
+de baixo é onde esta seção começa — os pontos que descem são cortados ali, o que
+lê como a matéria passando para a seção seguinte em vez de sumir no nada.
+
+O acionamento é função pura do scroll, então **subir de volta reagrupa a forma
+sozinho**. Completa em 0,88 da altura do hero, um pouco antes de o palco fixar.
+O filme da premissa começa a tocar antes disso, com o hero a meio da dispersão:
+os dois campos de pontos coexistem por um instante, o de baixo nítido e o de
+cima a dissolver-se. Isso é o efeito, não um defeito.
+
+Efeito colateral: quando `uLeave` chega a 1 o desenho para, o que poupa 160 mil
+pontos por quadro em todo o resto da página.
+
+Nada disto é visível às ferramentas offline — o painel de preview não dispara
+rAF e o seu relógio de animação fica parado em zero. O que `checks/shipped.py`
+consegue garantir é que as peças continuam ligadas; os números acima foram
+medidos uma vez, no navegador, compilando o shader num contexto à parte e
+usando `readPixels`, que funciona sem a página compor quadros.
+
+---
+
 ## Cadeia de proveniência
 
 ```
