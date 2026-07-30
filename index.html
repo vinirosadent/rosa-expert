@@ -64,6 +64,19 @@
   .premise-stage{position:sticky;top:var(--header-height);height:calc(100vh - var(--header-height));height:calc(100svh - var(--header-height));overflow:hidden;display:flex;align-items:center;}
   .premise-media{position:absolute;inset:0;z-index:0;}
   .premise-media img,.premise-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;}
+  /* The picture ARRIVES: it fades up out of the ivory as the section pins.
+     A fade is motion the eye cannot miss, and unlike a slow zoom it cannot
+     judder — the earlier ffmpeg drift trembled because zoompan rounds its
+     crop to whole pixels, so a sub-pixel move became a 1px shuffle.
+     Scoped to [data-mode] so that if the script never runs the picture is
+     simply there: the fail-safe state is visible, not blank. */
+  .premise[data-mode] .premise-media{opacity:0;}
+  /* The transition lives on the is-live rule, not on the hidden state. If it
+     sat on the rule above, adding data-mode after parse would animate the
+     poster from 1 down to 0 — so anyone landing on #premise directly would
+     watch the picture appear, fade away, and only then fade back in. This way
+     hiding is instant and only the arrival is animated. */
+  .premise[data-mode].is-live .premise-media{opacity:1;transition:opacity .9s var(--ease-out);}
   .premise-still{opacity:0;}
   .premise-still[data-still="0"]{opacity:1;}
   .premise-video{opacity:0;transition:opacity .6s var(--ease-out);}
@@ -75,18 +88,22 @@
       linear-gradient(180deg,var(--premise-ivory) 0%,rgba(253,246,238,0) 14%,rgba(253,246,238,0) 86%,var(--premise-ivory) 100%),
       linear-gradient(96deg,var(--premise-ivory) 0%,rgba(253,246,238,.96) 26%,rgba(253,246,238,.74) 40%,rgba(253,246,238,.20) 55%,rgba(253,246,238,0) 68%);}
   .premise-inner{position:relative;z-index:3;width:100%;max-width:var(--container-base);margin:0 auto;padding:0 var(--gutter);}
-  .premise-copy{max-width:460px;}
+  .premise-copy{max-width:520px;}
   .premise-eyebrow{will-change:opacity;}
   /* One element, two appearances. It opens the section and returns to close it,
      in the same place at the same size — identical by construction, because it
      never moves. Only opacity animates, so the column never reflows. */
-  .premise-title{font-size:var(--fs-section-title);margin-top:12px;will-change:opacity;}
-  .premise-support{margin-top:16px;font-size:16.5px;line-height:1.6;color:var(--text-body);max-width:38ch;will-change:opacity;}
-  .premise-stages{position:relative;margin-top:var(--space-8);min-height:clamp(150px,17vh,182px);}
+  .premise-title{font-size:clamp(1.75rem,1.2rem + 1.6vw,2.6rem);margin-top:12px;will-change:opacity;}
+  .premise-support{margin-top:18px;font-size:clamp(16.5px,1rem + .3vw,19px);line-height:1.58;color:var(--text-body);max-width:40ch;will-change:opacity;}
+  /* Type is deliberately large. Something is moving beside these words, and
+     small type would force the reader to choose between reading and watching;
+     at this size the caption is taken in at a glance and the picture keeps the
+     eye. The number stops competing and becomes a plain index. */
+  .premise-stages{position:relative;margin-top:var(--space-8);min-height:clamp(178px,21vh,208px);}
   .premise-stageitem{position:absolute;top:0;left:0;width:100%;opacity:0;will-change:opacity,transform;}
-  .premise-num{display:block;font-family:var(--font-serif);font-size:2.6rem;line-height:1;color:var(--orange-500);opacity:.92;}
-  .premise-label{margin-top:10px;font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-700);}
-  .premise-line{margin-top:10px;font-size:16px;line-height:1.6;color:var(--text-body);max-width:34ch;}
+  .premise-num{display:block;font-family:var(--font-sans);font-size:12px;font-weight:600;letter-spacing:.24em;color:var(--orange-500);}
+  .premise-label{margin-top:9px;font-family:var(--font-serif);font-weight:var(--weight-medium);font-size:clamp(1.5rem,1.05rem + 1.15vw,2.05rem);line-height:1.12;letter-spacing:var(--tracking-tight);color:var(--blue-700);}
+  .premise-line{margin-top:13px;font-size:clamp(16.5px,1rem + .3vw,19px);line-height:1.55;color:var(--text-body);max-width:34ch;}
   .premise-stagefig{display:none;}
   /* The coda state carries no caption — the returning title is the caption. */
   .premise-stageitem--coda{display:none;}
@@ -98,17 +115,44 @@
   .premise-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
 
   /* Tablet / mobile: stack media over copy — no overlap, no tiny type */
+  /* Stacked layout. The copy has to fit the lower row at every phone height,
+     so the type and the spacing here are tied to the viewport, not to the
+     width alone — a 667px-tall phone has 100px less room than an 844px one
+     for exactly the same words. */
   @media (max-width:860px){
     .premise-track{height:240vh;}
-    .premise-stage{display:grid;grid-template-rows:44% 56%;align-items:stretch;}
+    .premise-stage{display:grid;grid-template-rows:36% 64%;align-items:stretch;}
     .premise-media{position:relative;inset:auto;grid-row:1;}
     .premise-scrim{background:linear-gradient(180deg,rgba(253,246,238,0) 58%,var(--premise-ivory) 100%);}
     .premise-inner{grid-row:2;display:flex;align-items:center;}
     .premise-copy{max-width:none;}
-    .premise-support{max-width:none;}
-    .premise-stages{min-height:clamp(140px,20vh,170px);margin-top:var(--space-6);}
-    .premise-num{font-size:2.1rem;}
-    .premise-replay{margin-top:var(--space-6);}
+    /* Driven by vh with only a floor and a ceiling in px: a rem-based middle
+       term barely moves between a 667px and an 844px phone, which is exactly
+       the range where the copy either fits or does not. */
+    .premise-title{font-size:clamp(1.3rem,3.6vh,1.85rem);margin-top:10px;}
+    .premise-support{max-width:none;margin-top:clamp(10px,1.7vh,16px);font-size:clamp(14.5px,2.1vh,17px);line-height:1.5;}
+    .premise-stages{min-height:clamp(112px,20vh,178px);margin-top:clamp(16px,2.6vh,24px);}
+    .premise-num{font-size:11.5px;}
+    .premise-label{margin-top:6px;font-size:clamp(1.15rem,3.1vh,1.7rem);}
+    .premise-line{margin-top:clamp(7px,1.4vh,12px);font-size:clamp(14.5px,2.1vh,17px);line-height:1.5;}
+    .premise-replay{margin-top:clamp(14px,2.4vh,24px);}
+  }
+  /* Short phones: the picture yields the room, since a wide band above the
+     copy still reads — the composition was built for wide crops anyway. */
+  @media (max-width:860px) and (max-height:740px){
+    .premise-stage{grid-template-rows:30% 70%;}
+  }
+  /* A short desktop window — a half-height window on a large monitor — has as
+     little vertical room as a phone while still using the overlaid layout, and
+     the px floors above would keep the type at full size and push the column
+     past the pinned stage. Measured at 1920x560 it overflowed by 16px. */
+  @media (min-width:861px) and (max-height:700px){
+    .premise-title{font-size:clamp(1.5rem,5.6vh,2.6rem);}
+    .premise-support{margin-top:clamp(11px,2vh,18px);font-size:clamp(15.5px,2.9vh,19px);}
+    .premise-stages{min-height:clamp(130px,25vh,208px);margin-top:clamp(20px,3.4vh,32px);}
+    .premise-label{font-size:clamp(1.35rem,4.6vh,2.05rem);}
+    .premise-line{margin-top:clamp(8px,1.8vh,13px);font-size:clamp(15.5px,2.9vh,19px);}
+    .premise-replay{margin-top:clamp(18px,3vh,32px);}
   }
 
   /* Reduced motion: no pinning, no clip — the four states stand in flow */
@@ -1006,26 +1050,38 @@ var track=sec.querySelector('.premise-track'),
     replay=sec.querySelector('.premise-replay');
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';
-var DUR=20.458;             /* refined from metadata once the clip loads */
+var DUR=25.083;             /* refined from metadata once the clip loads */
 
 /* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
-   Measured from the assembled master:
-     0.000–0.206  Matter, drifting slowly (this is the opening)
-     0.206–0.353  reorganising into the lattice
-     0.353–0.423  Intelligence, held
-     0.423–0.717  the lattice peeling and unfurling
-     0.717–0.786  Life, held
-     0.786–0.933  the camera retreats
-     0.933–1.000  the whole body, held
-   Hand-offs are sequential (each out-point is the next in-point), so two
-   captions are never legible at once. */
-var LEDE_OUT=[0.150,0.185];                     /* opening copy leaves */
-var CAPS=[[0.190,0.215,0.330,0.353],            /* 01 Matter */
-          [0.353,0.378,0.675,0.700],            /* 02 Intelligence */
-          [0.700,0.725,0.780,0.805]];           /* 03 Life */
-var CODA_IN=[0.845,0.900];                      /* the title comes back */
+   Counted off the built master frame by frame (602 frames at 24fps), not from
+   the durations the cut was meant to have — the interpolated holds land a few
+   frames short and guessing would put every caption slightly out:
+     0.000–0.216  Matter, alive, unchanged   <- the opening copy reads here
+     0.216–0.339  Matter, still alive        <- caption 01 reads here
+     0.339–0.457  reorganising into the lattice
+     0.457–0.525  the lattice, resting
+     0.525–0.623  the lattice peeling — still cool
+     0.623–0.721  unfurling; warmth arrives here
+     0.721–0.797  Life, resting
+     0.797–0.910  the camera retreats
+     0.910–1.000  the whole body, resting
 
-var mode='stills', phase='idle', raf=0, running=false, ready=false;
+   These windows come from reading time and were then checked against those
+   beats, not the other way round. Two rules hold, and the previous cut broke
+   both:
+     1. no two pieces of copy are ever legible at the same moment;
+     2. no caption is ever legible over a state it does not name — which is why
+        02 is gone by 0.578, well before the unfurl turns warm at 0.623.
+        Previously 02 ran to 0.700 while Life was already opening beside it.
+   Each caption is fully opaque for 2.8–3.2s: long enough to read without
+   having to stop watching, which is what the larger type is for. */
+var LEDE_OUT=[0.1794,0.2113];                   /* opening copy leaves */
+var CAPS=[[0.2153,0.2432,0.3708,0.3987],        /* 01 Matter        */
+          [0.4106,0.4385,0.5502,0.5781],        /* 02 Intelligence  */
+          [0.6738,0.7017,0.8133,0.8412]];       /* 03 Life          */
+var CODA_IN=[0.8651,0.9010];                    /* the title comes back */
+
+var mode='stills', phase='idle', raf=0, running=false, ready=false, visible=false;
 
 /* A fase fica exposta em data-phase. Serve para diagnostico: da para ver de
    fora se o clipe foi mandado tocar, e foi assim que se pegou o observador que
@@ -1061,28 +1117,35 @@ function paint(t){
     items[i].style.transform='translate3d(0,'+((1-o)*10*(t<mid?1:-1)).toFixed(1)+'px,0)';
   }
   if(mode==='stills'){
-    /* the four states crossfade on the same clock the clip would use */
-    stills[1].style.opacity=clamp((t-0.21)/0.15,0,1);
-    stills[2].style.opacity=clamp((t-0.57)/0.15,0,1);
-    stills[3].style.opacity=clamp((t-0.79)/0.14,0,1);
+    /* Each still lands exactly as its own caption becomes fully opaque, so the
+       stacked layout keeps the same word-to-picture agreement as the clip. */
+    stills[1].style.opacity=clamp((t-0.352)/0.0865,0,1);  /* -> 0.4385, with 02 */
+    stills[2].style.opacity=clamp((t-0.617)/0.0847,0,1);  /* -> 0.7017, with 03 */
+    stills[3].style.opacity=clamp((t-0.815)/0.0860,0,1);  /* -> 0.9010, with the title */
   }
 }
 
 function reset(){
   setPhase('idle');clock=0;last=-1;
   sec.classList.remove('is-done');
+  sec.classList.remove('is-live');
   if(mode==='video'&&video.src){try{video.pause();video.currentTime=0;}catch(e){}}
   paint(0);
 }
 
-/* Nao ha mais uma fase de video parado. A abertura e' o proprio primeiro trecho
-   do clipe: o quadro Matter com uma deriva lenta de camera (zoom de 3,5% em
-   4,2s). Assim ha movimento desde o primeiro instante e o visitante percebe que
-   e' video sem esperar a primeira transformacao -- antes ele encarava uma
-   imagem congelada por 3,6s e nao tinha como saber que algo ia acontecer. */
+/* A abertura tem movimento de verdade: os primeiros 8,5s sao um clipe do Matter
+   consigo mesmo -- as paredes dos poros ondulam, particulas atravessam, a luz
+   corre pela superficie -- e o andaime continua andaime o tempo todo, o que da
+   tempo de ler antes de qualquer transformacao. Nao se pode usar a transicao
+   para isso: medida quadro a quadro, ela ja mostra os pontos da malha em 2,0s.
+   A chegada e' um fade a partir do ivory (classe is-live). A tentativa anterior,
+   uma deriva de camera feita com zoompan, tremia: o filtro arredonda o corte
+   para pixel inteiro, entao um movimento sub-pixel virava um vai-e-vem de 1px
+   -- 10 inversoes de sinal em 100 quadros, medidas. */
 function begin(){
   if(phase!=='idle')return;
   setPhase('playing');
+  sec.classList.add('is-live');
   if(mode==='video'&&ready){
     var pr=video.play();
     if(pr&&pr.then)pr.catch(function(){useStills('sem-autoplay');});
@@ -1167,6 +1230,10 @@ function setMode(){
   if(mode==='video')loadVideo(); else promoteSrc(stills);
   reset();
   start();
+  /* reset() puts the section back to idle, and idle means the picture is faded
+     out. The observer will not fire again just because the window was resized,
+     so without this a resize mid-play would leave an empty ivory panel. */
+  if(visible)begin();
 }
 
 /* Drive the breakpoint off the same media query the stylesheet uses:
@@ -1201,7 +1268,8 @@ if('IntersectionObserver' in window){
      one viewport tall, so a 0.6 threshold is comfortably achievable. */
   new IntersectionObserver(function(es){
     for(var i=0;i<es.length;i++){
-      if(es[i].isIntersecting){
+      visible=es[i].isIntersecting;
+      if(visible){
         start();begin();
         if(phase==='playing'&&mode==='video'&&ready&&video.paused)video.play().catch(function(){});
       }else{
@@ -1211,7 +1279,7 @@ if('IntersectionObserver' in window){
     }
   },{threshold:0.6}).observe(stage);
 }else{
-  start();begin();
+  visible=true;start();begin();
 }
 
 var rt;

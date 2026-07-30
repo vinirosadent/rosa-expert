@@ -29,3 +29,7 @@ node_modules/
 .claude/settings.local.json
 .claude/skills/
 skills-lock.json
+
+# Caches do Python dos scripts de verificacao
+__pycache__/
+*.pyc
