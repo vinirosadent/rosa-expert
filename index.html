@@ -59,7 +59,10 @@
      same progress. Mirrors the scroll architecture of matter-for-vitality
      (.pf-scrolly/.pf-sticky) — vanilla rAF, no animation library. */
   .premise{--premise-ivory:#FDF6EE;position:relative;background:var(--premise-ivory);}
-  .premise-track{position:relative;height:380vh;}
+  /* Generoso de proposito. O clipe avanca a uma taxa maxima (MAXRATE), entao a
+     travessia leva ~5s no minimo; com pouco curso o scroll natural do usuario
+     chega ao fim antes da animacao e ele perde a transformacao. */
+  .premise-track{position:relative;height:640vh;}
   .premise-stage{position:sticky;top:var(--header-height);height:calc(100vh - var(--header-height));height:calc(100svh - var(--header-height));overflow:hidden;display:flex;align-items:center;}
   .premise-media{position:absolute;inset:0;z-index:0;}
   /* object-position must stay centred: the thread overlay is an SVG using
@@ -92,7 +95,7 @@
 
   /* Tablet / mobile: stack media over copy — no overlap, no tiny type */
   @media (max-width:860px){
-    .premise-track{height:270vh;}
+    .premise-track{height:340vh;}
     .premise-stage{display:grid;grid-template-rows:44% 56%;align-items:stretch;}
     .premise-media{position:relative;inset:auto;grid-row:1;}
     .premise-scrim{background:linear-gradient(180deg,rgba(253,246,238,0) 58%,var(--premise-ivory) 100%);}
@@ -995,16 +998,31 @@ var DUR=14.708;             /* clip length; refined from metadata once loaded */
    half-open geometry instead of taking the shortcut of a dissolve.
 
    Flat bands hold a state "dominant"; steep bands are the transformation.
-   The Intelligence plateau spans 0.295–0.375 so it straddles 0.336. */
-var MAP=[[0,0],[0.22,0.055],[0.34,0.295],[0.46,0.375],[0.62,0.620],[0.80,0.930],[1,1]];
+   The Intelligence plateau spans 0.300–0.375 so it straddles 0.336.
+
+   The scroll budget leans deliberately towards the ramps: 62% of the travel is
+   spent on the two transformations and 38% on the plateaus. A plateau is where
+   nothing changes, and someone scrolling briskly is not reading the copy — so
+   spending travel there was waste. */
+var MAP=[[0,0],[0.13,0.035],[0.33,0.300],[0.45,0.375],[0.87,0.955],[1,1]];
 
 /* Per-stage text visibility: ramp-in start/full, ramp-out start/end.
    Hand-offs are sequential (out-point == next in-point) so two stage
    copies are never legible at once — a dissolve, not a cross-dissolve. */
-var BANDS=[[-1,-1,0.27,0.325],[0.325,0.39,0.55,0.605],[0.605,0.67,9,9]];
-var CENTRES=[0.14,0.45,0.82];
+var BANDS=[[-1,-1,0.19,0.27],[0.27,0.33,0.49,0.55],[0.55,0.63,9,9]];
+var CENTRES=[0.10,0.41,0.80];
 
 var mode='stills', raf=0, running=false, ready=false, p=-1, curT=0, lastSeek=-1, stuck=0;
+var prevTs=0, snap=true;
+
+/* Segundos de clipe por segundo real, e o valor nao e' arbitrario: o clipe tem
+   24 fps, entao 2,5 consome exatamente 60 quadros de video por segundo. Num
+   monitor de 60 Hz isso da UM quadro novo por quadro de tela — zero descarte.
+   Acima disso comeca a sobrar video que a tela nao tem como mostrar.
+
+   14,708 / 2,5 = ~5,9s para a travessia inteira: o tempo minimo que a
+   transformacao leva, por mais rapido que o usuario role. */
+var MAXRATE=2.5;
 
 /* Drive the breakpoint off the same media query the stylesheet uses.
    window.innerWidth can exceed the layout viewport when a page scrolls
@@ -1045,22 +1063,37 @@ function paint(x){
     items[i].style.opacity=o;
     items[i].style.transform='translate3d(0,'+y.toFixed(1)+'px,0)';
   }
-  if(closeLine)closeLine.style.opacity=band(x,0.86,0.94,9,9);
+  if(closeLine)closeLine.style.opacity=band(x,0.88,0.95,9,9);
   if(mode==='stills'){
     /* aligned to the text bands above, so picture and copy change together */
-    stills[1].style.opacity=clamp((x-0.26)/0.16,0,1);
-    stills[2].style.opacity=clamp((x-0.58)/0.20,0,1);
+    stills[1].style.opacity=clamp((x-0.25)/0.14,0,1);
+    stills[2].style.opacity=clamp((x-0.53)/0.18,0,1);
   }
 }
 
-function loop(){
+function loop(ts){
   raf=requestAnimationFrame(loop);
+  var dt=prevTs?Math.min(0.05,(ts-prevTs)/1000):0.016;
+  prevTs=ts;
   var x=progress();
   if(x!==p){p=x;paint(x);}
   if(mode==='video'&&ready){
     var target=mapTime(p);
-    curT+=(target-curT)*0.2;
-    if(Math.abs(target-curT)<0.005)curT=target;
+    /* O clipe persegue a posicao do scroll a uma taxa MAXIMA, em vez de saltar
+       direto para ela. Sem esse limite, um scroll natural (que percorre a secao
+       em ~1s) pedia 14,7s de video nesse intervalo, e o navegador so conseguia
+       renderizar uns poucos quadros — a transformacao aparecia como uma
+       sequencia de saltos. Com o limite, ela desliza continuamente: rolar
+       rapido apenas deixa a animacao atras, e ela termina de resolver sozinha
+       quando o usuario para. Ainda e' funcao so da posicao do scroll, entao
+       voltar continua revertendo. */
+    if(snap){curT=target;snap=false;}
+    else{
+      var step=MAXRATE*dt, diff=target-curT;
+      if(diff>step)curT+=step;
+      else if(diff<-step)curT-=step;
+      else curT=target;
+    }
     if(Math.abs(curT-lastSeek)>0.012){
       lastSeek=curT;
       try{video.currentTime=curT;}catch(e){}
@@ -1073,7 +1106,11 @@ function loop(){
     else stuck=0;
   }
 }
-function start(){if(!running&&mode!=='static'){running=true;p=-1;raf=requestAnimationFrame(loop);}}
+/* snap: ao (re)entrar na secao o clipe assume a posicao correta de imediato, em
+   vez de percorrer o caminho a MAXRATE desde onde parou. Sem isso, chegar no
+   meio da secao (recarregar a pagina, seguir um link) daria uma corrida de
+   catch-up visivel desde o quadro zero. */
+function start(){if(!running&&mode!=='static'){running=true;p=-1;prevTs=0;snap=true;raf=requestAnimationFrame(loop);}}
 function stop(){if(running){running=false;cancelAnimationFrame(raf);}}
 
 /* Hand control back to the stylesheet. paint() writes inline opacity and
