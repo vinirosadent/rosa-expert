@@ -1006,25 +1006,24 @@ var track=sec.querySelector('.premise-track'),
     replay=sec.querySelector('.premise-replay');
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';
-var DUR=17.042;             /* refined from metadata once the clip loads */
-var LEDE=3.6;               /* seconds the opening copy holds alone, before play */
+var DUR=20.458;             /* refined from metadata once the clip loads */
 
 /* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
    Measured from the assembled master:
-     0.000–0.046  Matter, held
-     0.046–0.222  reorganising into the lattice
-     0.222–0.306  Intelligence, held
-     0.306–0.658  the lattice peeling and unfurling
-     0.658–0.741  Life, held
-     0.741–0.917  the camera retreats
-     0.917–1.000  the whole body, held
+     0.000–0.206  Matter, drifting slowly (this is the opening)
+     0.206–0.353  reorganising into the lattice
+     0.353–0.423  Intelligence, held
+     0.423–0.717  the lattice peeling and unfurling
+     0.717–0.786  Life, held
+     0.786–0.933  the camera retreats
+     0.933–1.000  the whole body, held
    Hand-offs are sequential (each out-point is the next in-point), so two
    captions are never legible at once. */
-var LEDE_OUT=[0.008,0.030];                     /* opening copy leaves */
-var CAPS=[[0.035,0.060,0.185,0.212],            /* 01 Matter */
-          [0.212,0.240,0.600,0.630],            /* 02 Intelligence */
-          [0.630,0.658,0.755,0.788]];           /* 03 Life */
-var CODA_IN=[0.800,0.862];                      /* the title comes back */
+var LEDE_OUT=[0.150,0.185];                     /* opening copy leaves */
+var CAPS=[[0.190,0.215,0.330,0.353],            /* 01 Matter */
+          [0.353,0.378,0.675,0.700],            /* 02 Intelligence */
+          [0.700,0.725,0.780,0.805]];           /* 03 Life */
+var CODA_IN=[0.845,0.900];                      /* the title comes back */
 
 var mode='stills', phase='idle', raf=0, running=false, ready=false;
 
@@ -1032,7 +1031,7 @@ var mode='stills', phase='idle', raf=0, running=false, ready=false;
    fora se o clipe foi mandado tocar, e foi assim que se pegou o observador que
    nunca disparava porque o threshold era inalcancavel. */
 function setPhase(p){phase=p;sec.dataset.phase=p;}
-var ledeStart=0, clock=0, last=-1;
+var clock=0, last=-1;
 
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
 function smooth(t){return t*t*(3-2*t);}
@@ -1063,9 +1062,9 @@ function paint(t){
   }
   if(mode==='stills'){
     /* the four states crossfade on the same clock the clip would use */
-    stills[1].style.opacity=clamp((t-0.10)/0.14,0,1);
-    stills[2].style.opacity=clamp((t-0.44)/0.20,0,1);
-    stills[3].style.opacity=clamp((t-0.76)/0.14,0,1);
+    stills[1].style.opacity=clamp((t-0.21)/0.15,0,1);
+    stills[2].style.opacity=clamp((t-0.57)/0.15,0,1);
+    stills[3].style.opacity=clamp((t-0.79)/0.14,0,1);
   }
 }
 
@@ -1076,14 +1075,13 @@ function reset(){
   paint(0);
 }
 
+/* Nao ha mais uma fase de video parado. A abertura e' o proprio primeiro trecho
+   do clipe: o quadro Matter com uma deriva lenta de camera (zoom de 3,5% em
+   4,2s). Assim ha movimento desde o primeiro instante e o visitante percebe que
+   e' video sem esperar a primeira transformacao -- antes ele encarava uma
+   imagem congelada por 3,6s e nao tinha como saber que algo ia acontecer. */
 function begin(){
   if(phase!=='idle')return;
-  setPhase('lede');
-  ledeStart=performance.now();
-}
-
-function run(){
-  if(phase!=='lede')return;
   setPhase('playing');
   if(mode==='video'&&ready){
     var pr=video.play();
@@ -1095,10 +1093,7 @@ function loop(){
   raf=requestAnimationFrame(loop);
   var t=0;
   if(phase==='idle'){t=0;}
-  else if(phase==='lede'){
-    t=0;
-    if(performance.now()-ledeStart>=LEDE*1000)run();
-  }else{
+  else{
     if(mode==='video'&&ready){
       t=DUR>0?clamp(video.currentTime/DUR,0,1):0;
       if(video.ended||t>=0.999){t=1;if(phase!=='done'){setPhase('done');sec.classList.add('is-done');}}
