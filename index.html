@@ -58,7 +58,7 @@
      continuous 9.875s clip via currentTime; text stages crossfade on the
      same progress. Mirrors the scroll architecture of matter-for-vitality
      (.pf-scrolly/.pf-sticky) — vanilla rAF, no animation library. */
-  .premise{--premise-ivory:#FCF6EE;position:relative;background:var(--premise-ivory);}
+  .premise{--premise-ivory:#FDF6EE;position:relative;background:var(--premise-ivory);}
   .premise-track{position:relative;height:380vh;}
   .premise-stage{position:sticky;top:var(--header-height);height:calc(100vh - var(--header-height));height:calc(100svh - var(--header-height));overflow:hidden;display:flex;align-items:center;}
   .premise-media{position:absolute;inset:0;z-index:0;}
@@ -72,21 +72,10 @@
   /* Scoped to the video mode so a resize down to the stacked layout cannot
      leave a frozen frame sitting on top of the still crossfade. */
   .premise[data-mode="video"].is-ready .premise-video{opacity:1;}
-  /* The amber thread, traced from the artwork itself, lit by scroll progress.
-     Sits under the scrim so it never competes with the copy on the left. */
-  .premise-thread{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;}
-  .premise-thread path{fill:none;stroke-linecap:round;}
-  /* Nao e' uma barra que enche. E' um PULSO de luz que percorre o filamento e
-     ACENDE cada no ao passar: o progresso se le em "quantos estagios ja
-     acenderam", nao em quanto de uma barra foi preenchido. */
-  .premise-thread-tail{stroke:var(--orange-400);stroke-width:9;opacity:.42;filter:url(#premise-bloom);}
-  .premise-thread-head{stroke:#FFE7BE;stroke-width:3.4;filter:url(#premise-spark);}
-  .premise-node-ring{fill:none;stroke:var(--orange-400);stroke-width:2;opacity:0;}
-  .premise-node-core{fill:#FFE7BE;stroke:var(--orange-500);stroke-width:1.5;opacity:.22;}
   .premise-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;
     background:
-      linear-gradient(180deg,var(--premise-ivory) 0%,rgba(252,246,238,0) 14%,rgba(252,246,238,0) 86%,var(--premise-ivory) 100%),
-      linear-gradient(96deg,var(--premise-ivory) 0%,rgba(252,246,238,.96) 26%,rgba(252,246,238,.74) 40%,rgba(252,246,238,.20) 55%,rgba(252,246,238,0) 68%);}
+      linear-gradient(180deg,var(--premise-ivory) 0%,rgba(253,246,238,0) 14%,rgba(253,246,238,0) 86%,var(--premise-ivory) 100%),
+      linear-gradient(96deg,var(--premise-ivory) 0%,rgba(253,246,238,.96) 26%,rgba(253,246,238,.74) 40%,rgba(253,246,238,.20) 55%,rgba(253,246,238,0) 68%);}
   .premise-inner{position:relative;z-index:3;width:100%;max-width:var(--container-base);margin:0 auto;padding:0 var(--gutter);}
   .premise-copy{max-width:460px;}
   .premise-title{font-size:var(--fs-section-title);margin-top:12px;}
@@ -106,7 +95,7 @@
     .premise-track{height:270vh;}
     .premise-stage{display:grid;grid-template-rows:44% 56%;align-items:stretch;}
     .premise-media{position:relative;inset:auto;grid-row:1;}
-    .premise-scrim{background:linear-gradient(180deg,rgba(252,246,238,0) 58%,var(--premise-ivory) 100%);}
+    .premise-scrim{background:linear-gradient(180deg,rgba(253,246,238,0) 58%,var(--premise-ivory) 100%);}
     .premise-inner{grid-row:2;display:flex;align-items:center;}
     .premise-copy{max-width:none;}
     .premise-support{max-width:none;}
@@ -168,23 +157,6 @@
           <img class="premise-still" data-still="1" data-src="assets/premise/stage-02-intelligence.webp" alt="" aria-hidden="true" decoding="async">
           <img class="premise-still" data-still="2" data-src="assets/premise/stage-03-life.webp" alt="" aria-hidden="true" decoding="async">
           <video class="premise-video" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
-          <!-- Path traced from the amber filament in the artwork itself, so the
-               lit overlay sits exactly on the thread at any viewport size. -->
-          <svg class="premise-thread" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-            <defs><filter id="premise-bloom" x="-10%" y="-200%" width="120%" height="500%"><feGaussianBlur stdDeviation="7"/></filter><filter id="premise-spark" x="-20%" y="-400%" width="140%" height="900%"><feGaussianBlur stdDeviation="2.2"/></filter></defs>
-            <path class="premise-thread-tail" d="M 0 511 C 10 509.2, 40 504, 60 500 C 80 496, 100 489.5, 120 487 C 140 484.5, 160 484, 180 485 C 200 486, 220 488.8, 240 493 C 260 497.2, 280 502.7, 300 510 C 320 517.3, 340 526.3, 360 537 C 380 547.7, 400 561.3, 420 574 C 440 586.7, 460 600.8, 480 613 C 500 625.2, 520 637.5, 540 647 C 560 656.5, 580 664.5, 600 670 C 620 675.5, 640 678.8, 660 680 C 680 681.2, 700 680.2, 720 677 C 740 673.8, 760 668.5, 780 661 C 800 653.5, 820 643.5, 840 632 C 860 620.5, 880 606, 900 592 C 920 578, 940.3 561.8, 960 548 C 979.7 534.2, 998.3 521.3, 1018 509 C 1037.7 496.7, 1058 484, 1078 474 C 1098 464, 1118 455.3, 1138 449 C 1158 442.7, 1178 438.3, 1198 436 C 1218 433.7, 1238 433, 1258 435 C 1278 437, 1298 441.7, 1318 448 C 1338 454.3, 1358 463.2, 1378 473 C 1398 482.8, 1418 494.8, 1438 507 C 1458 519.2, 1478 533.5, 1498 546 C 1518 558.5, 1538 571.5, 1558 582 C 1578 592.5, 1598 601.7, 1618 609 C 1638 616.3, 1658 621.8, 1678 626 C 1698 630.2, 1718 632.8, 1738 634 C 1758 635.2, 1778 634.7, 1798 633 C 1818 631.3, 1838 627, 1858 624 C 1878 621, 1908 616.5, 1918 615"/>
-            <path class="premise-thread-head" d="M 0 511 C 10 509.2, 40 504, 60 500 C 80 496, 100 489.5, 120 487 C 140 484.5, 160 484, 180 485 C 200 486, 220 488.8, 240 493 C 260 497.2, 280 502.7, 300 510 C 320 517.3, 340 526.3, 360 537 C 380 547.7, 400 561.3, 420 574 C 440 586.7, 460 600.8, 480 613 C 500 625.2, 520 637.5, 540 647 C 560 656.5, 580 664.5, 600 670 C 620 675.5, 640 678.8, 660 680 C 680 681.2, 700 680.2, 720 677 C 740 673.8, 760 668.5, 780 661 C 800 653.5, 820 643.5, 840 632 C 860 620.5, 880 606, 900 592 C 920 578, 940.3 561.8, 960 548 C 979.7 534.2, 998.3 521.3, 1018 509 C 1037.7 496.7, 1058 484, 1078 474 C 1098 464, 1118 455.3, 1138 449 C 1158 442.7, 1178 438.3, 1198 436 C 1218 433.7, 1238 433, 1258 435 C 1278 437, 1298 441.7, 1318 448 C 1338 454.3, 1358 463.2, 1378 473 C 1398 482.8, 1418 494.8, 1438 507 C 1458 519.2, 1478 533.5, 1498 546 C 1518 558.5, 1538 571.5, 1558 582 C 1578 592.5, 1598 601.7, 1618 609 C 1638 616.3, 1658 621.8, 1678 626 C 1698 630.2, 1718 632.8, 1738 634 C 1758 635.2, 1778 634.7, 1798 633 C 1818 631.3, 1838 627, 1858 624 C 1878 621, 1908 616.5, 1918 615"/>
-            <!-- Nos nas MESMAS posicoes dos pontos ambar da arte. Fracoes de
-                 arco 0,306 / 0,526 / 0,889, medidas percorrendo o caminho. -->
-            <g class="premise-nodes">
-              <circle class="premise-node-ring" data-node="0" cx="590"  cy="667" r="6"/>
-              <circle class="premise-node-ring" data-node="1" cx="1001" cy="520" r="6"/>
-              <circle class="premise-node-ring" data-node="2" cx="1690" cy="628" r="6"/>
-              <circle class="premise-node-core" data-node="0" cx="590"  cy="667" r="4.2"/>
-              <circle class="premise-node-core" data-node="1" cx="1001" cy="520" r="4.2"/>
-              <circle class="premise-node-core" data-node="2" cx="1690" cy="628" r="4.2"/>
-            </g>
-          </svg>
           <div class="premise-scrim" aria-hidden="true"></div>
         </div>
 
@@ -1007,59 +979,30 @@ var track=sec.querySelector('.premise-track'),
     stills=[].slice.call(sec.querySelectorAll('.premise-still')),
     figs=[].slice.call(sec.querySelectorAll('.premise-stagefig')),
     items=[].slice.call(sec.querySelectorAll('.premise-stageitem')),
-    threadTail=sec.querySelector('.premise-thread-tail'),
-    threadHead=sec.querySelector('.premise-thread-head'),
-    nodeRings=[].slice.call(sec.querySelectorAll('.premise-node-ring')),
-    nodeCores=[].slice.call(sec.querySelectorAll('.premise-node-core')),
     closeLine=sec.querySelector('.premise-close');
 
-/* O filamento ambar e' o unico elemento identico nos tres estados, entao e' ele
-   que carrega o progresso — mas NAO como barra que enche. Um pulso de luz
-   percorre o fio e ACENDE cada no ao passar; o no fica aceso depois. O leitor
-   conta estagios acesos, nao mede uma barra.
-
-   NODE_U: fracao de arco de cada no, MEDIDA percorrendo o proprio caminho para
-   coincidir com os pontos ambar da arte (x = 590, 1001 e 1690 no viewBox).
-   Antes a cabeca parava em 0,15 / 0,50 / 0,85 — caia sobre o no ANTERIOR, e o
-   quarto ponto da arte era alcancado sem texto correspondente. */
-var NODE_U=[0.306,0.526,0.889];
-var PULSE_U=[[0,0.10],[0.15,0.306],[0.50,0.526],[0.85,0.889],[1,0.93]];
-var threadLen=0, HEADLEN=0, TAILLEN=0;
-function pulseU(x){
-  for(var i=1;i<PULSE_U.length;i++){
-    if(x<=PULSE_U[i][0]){
-      var a=PULSE_U[i-1],b=PULSE_U[i];
-      return a[1]+(b[1]-a[1])*((x-a[0])/(b[0]-a[0]));
-    }
-  }
-  return PULSE_U[PULSE_U.length-1][1];
-}
-function initThread(){
-  if(!threadHead||!threadHead.getTotalLength)return;
-  threadLen=threadHead.getTotalLength();
-  if(!threadLen)return;
-  HEADLEN=threadLen*0.022;
-  TAILLEN=threadLen*0.085;
-  threadHead.style.strokeDasharray=HEADLEN+' '+threadLen;
-  threadTail.style.strokeDasharray=TAILLEN+' '+threadLen;
-  threadHead.style.opacity=0;
-  threadTail.style.opacity=0;
-}
-
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';
-var DUR=9.875;              /* clip length; refined from metadata once loaded */
+var DUR=14.708;             /* clip length; refined from metadata once loaded */
 
 /* Scroll progress → position in the clip, as a FRACTION of its duration so
-   the mapping survives a re-encode of any length. Flat bands hold each state
-   "dominant"; the steep bands are the two transitions. The Intelligence band
-   straddles 0.5, which is where the two source clips crossfade. */
-var MAP=[[0,0],[0.28,0.086],[0.42,0.461],[0.58,0.540],[0.76,0.916],[1,1]];
+   the mapping survives a re-encode of any length.
+
+   The clip is three anchored segments joined by 0.2s crossfades:
+     0.000 → 0.336   Matter unfurling into the dot lattice
+     0.336 → 0.665   lattice beginning to peel and lift  (Intelligence at 0.336)
+     0.665 → 1.000   the peel spreading into lit layers  (midpoint at 0.665)
+   The middle keyframe exists so the unfurl has to pass through a plausible
+   half-open geometry instead of taking the shortcut of a dissolve.
+
+   Flat bands hold a state "dominant"; steep bands are the transformation.
+   The Intelligence plateau spans 0.295–0.375 so it straddles 0.336. */
+var MAP=[[0,0],[0.22,0.055],[0.34,0.295],[0.46,0.375],[0.62,0.620],[0.80,0.930],[1,1]];
 
 /* Per-stage text visibility: ramp-in start/full, ramp-out start/end.
    Hand-offs are sequential (out-point == next in-point) so two stage
    copies are never legible at once — a dissolve, not a cross-dissolve. */
-var BANDS=[[-1,-1,0.29,0.355],[0.355,0.42,0.61,0.665],[0.665,0.73,9,9]];
-var CENTRES=[0.15,0.50,0.85];
+var BANDS=[[-1,-1,0.27,0.325],[0.325,0.39,0.55,0.605],[0.605,0.67,9,9]];
+var CENTRES=[0.14,0.45,0.82];
 
 var mode='stills', raf=0, running=false, ready=false, p=-1, curT=0, lastSeek=-1, stuck=0;
 
@@ -1102,35 +1045,11 @@ function paint(x){
     items[i].style.opacity=o;
     items[i].style.transform='translate3d(0,'+y.toFixed(1)+'px,0)';
   }
-  if(threadLen){
-    var u=pulseU(x), d=threadLen*u;
-    /* o pulso: cabeca curta e brilhante, rastro mais longo e difuso atras */
-    threadHead.style.strokeDashoffset=(HEADLEN-d).toFixed(1);
-    threadTail.style.strokeDashoffset=(TAILLEN*0.35-d).toFixed(1);
-    var vis=(x>0.006&&x<0.994)?1:0;
-    threadHead.style.opacity=vis;
-    threadTail.style.opacity=vis?0.42:0;
-    /* cada no: clarao quando o pulso passa por cima, e fica aceso depois.
-       Depende so' da posicao do scroll, entao reverter o scroll reverte tudo. */
-    for(var n=0;n<NODE_U.length;n++){
-      var dist=(u-NODE_U[n])/0.030;
-      var flare=Math.exp(-dist*dist);
-      var passou=u>=NODE_U[n]?1:0;
-      if(nodeCores[n]){
-        nodeCores[n].style.opacity=(0.22+0.62*passou+0.16*flare).toFixed(3);
-        nodeCores[n].setAttribute('r',(4.2+3.4*flare).toFixed(2));
-      }
-      if(nodeRings[n]){
-        nodeRings[n].style.opacity=(0.62*flare).toFixed(3);
-        nodeRings[n].setAttribute('r',(6+30*flare).toFixed(2));
-        nodeRings[n].style.strokeWidth=(2.2-1.1*flare).toFixed(2);
-      }
-    }
-  }
-  if(closeLine)closeLine.style.opacity=band(x,0.84,0.93,9,9);
+  if(closeLine)closeLine.style.opacity=band(x,0.86,0.94,9,9);
   if(mode==='stills'){
-    stills[1].style.opacity=clamp((x-0.28)/0.18,0,1);
-    stills[2].style.opacity=clamp((x-0.58)/0.18,0,1);
+    /* aligned to the text bands above, so picture and copy change together */
+    stills[1].style.opacity=clamp((x-0.26)/0.16,0,1);
+    stills[2].style.opacity=clamp((x-0.58)/0.20,0,1);
   }
 }
 
@@ -1226,7 +1145,6 @@ function setMode(){
   start();
 }
 
-initThread();
 setMode();
 
 if('IntersectionObserver' in window){

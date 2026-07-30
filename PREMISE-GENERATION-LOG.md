@@ -1,199 +1,185 @@
 # The Premise — log de geração dos assets
 
 Assets da seção fixada **Matter → Intelligence → Life** da home
-(`index.html`, `<section id="premise">`). Gerados em 29 de julho de 2026 via
-Higgsfield MCP. Nenhum texto, número ou logo dentro das imagens — toda a
-tipografia da página é HTML.
+(`index.html`, `<section id="premise">`). Gerados via Higgsfield MCP.
+Nenhum texto, número ou logo dentro das imagens — toda a tipografia é HTML.
 
-> **Esta é a versão 2.** A primeira tentativa foi rejeitada: os nós viraram
-> esferas 3D grandes e brilhantes, que foram arrastadas para dentro do estágio
-> LIFE e viraram pérolas — "parece ova de peixe". Além disso a continuidade
-> geométrica foi forçada tanto que os três estados viraram o mesmo objeto com
-> enfeites diferentes, e a transformação não lia como transformação.
-> Os arquivos rejeitados estão em `v1-rejeitado/`.
+## Histórico das três versões
 
-## O que mudou na v2
+**v1 — rejeitada.** Os nós viraram esferas 3D brilhantes, que a cadeia
+image-to-image arrastou para dentro do estágio LIFE e transformou em pérolas
+("parece ova de peixe"). Além disso a continuidade geométrica foi forçada tanto
+que os três estados viraram o mesmo objeto com enfeites diferentes.
+Arquivos em `_source/premise/v1-rejeitado/`.
 
-| | v1 (rejeitada) | v2 |
+**v2 — parcialmente rejeitada.** MATTER e INTELLIGENCE ficaram certos e
+sobreviveram. O LIFE virou tecido fotorrealista com verniz molhado e vasos
+vermelhos: "parece uma membrana de ovo, não é prazeroso de olhar". O diagnóstico
+foi **quebra de registro** — os dois primeiros painéis são abstratos, o terceiro
+tinha virado concreto e anatômico. Arquivos em `_source/premise/v2-com-fio/`.
+
+**v3 — atual.** LIFE refeito como camadas translúcidas se desdobrando com
+backlight forte, e o **filamento âmbar removido de tudo**, arte e código.
+
+## O que a v3 mudou
+
+| | v2 | v3 |
 |---|---|---|
-| MATTER | blob liso com ~15 poros enormes | espuma mineral fina, centenas de poros pequenos, paredes finíssimas |
-| INTELLIGENCE | esferas 3D brilhantes grudadas no blob | pontos minúsculos e **chapados**, malha de fios capilares tipo constelação |
-| LIFE | pérolas cor-de-rosa espalhadas | tecido translúcido com microvasos que **ramificam** |
-| Leitura | três estados quase idênticos | denso e frio → aéreo → blush vascular |
+| LIFE | tecido molhado, vasos vermelhos | camadas se desdobrando, retroiluminadas, matte |
+| Fio âmbar | pintado na arte + overlay animado | **removido por completo** |
+| Chaves | 3 | 4 (entrou um intermediário) |
+| Trechos de vídeo | 2 | 3 |
+| Duração | 9,875 s | 14,708 s |
 
-A correção de prompt que resolveu as bolas foi banir explicitamente o
-vocabulário inteiro (`spheres, balls, beads, pearls, orbs, marbles, eggs,
-caviar, fish roe`), exigir "TINY FLAT MATTE DOTS ... like fine ink dots on
-paper", e dizer o critério de falha em voz alta: *"If any point looks like a
-small shiny ball, the image is wrong."*
+Sobre o brilho, a lição foi separar **luminosidade de umidade**. Uma pétala
+contra o sol responde à luz sem parecer molhada. Os prompts liberam luz
+*transmitida* e proíbem por escrito reflexo especular, verniz e película líquida.
+
+Sobre o fio: era decoração que não fazia nada, e as tentativas de dar-lhe função
+(barra de progresso, depois pulso acendendo nós) não convenceram. Saiu.
+Consequência: **o âmbar deixou de existir como cor de sinal.** O calor agora só
+aparece no LIFE, como conteúdo do estágio em vez de enfeite. O arco ficou
+frio → frio → quente, medível nos pixels.
 
 ---
 
 ## Cadeia de proveniência
 
-Cada chave deriva da anterior como edição image-to-image — é isso que mantém
-câmera, silhueta, luz e o percurso do fio âmbar constantes. Os dois clipes são
-então ancorados exatamente nesse par de quadros.
+Cada chave deriva da anterior como edição image-to-image, e é isso que mantém
+câmera, silhueta e luz constantes. Os três clipes são ancorados nesses pares.
 
 ```
-01-matter ──(img2img)──> 02-intelligence ──(img2img)──> 03-life
-    │                          │                            │
-    └──── Transição A ─────────┘                            │
-         (start → end)          └──── Transição B ──────────┘
-                                     (start → end)
+01-matter ──> 02-intelligence ──> 02b-meio ──> 03-life
+    └ trecho A ┘   └ trecho B1 ┘   └ trecho B2 ┘
 ```
 
-## Chaves — modelo `nano_banana_pro`
+O **02b-meio** existe por um motivo específico. Da malha de pontos até camadas
+desdobradas o salto topológico é grande, e salto grande faz o modelo trapacear e
+entregar algo próximo de um dissolve. Com o intermediário ancorado, a
+transformação é obrigada a passar por uma geometria meio-aberta plausível:
+paredes descolando nas bordas, levantando, e varrendo os poros até fechá-los.
 
-`aspect_ratio 16:9`, `resolution 2k`, `count 2` (dois candidatos por estágio,
-um escolhido). Saída 2752 × 1536 PNG.
+## Chaves — `nano_banana_pro`, 16:9, 2k (2752 × 1536)
 
-| Estágio | Job ID escolhido | Entrada |
+| Estágio | Job ID | Origem |
 |---|---|---|
-| 01 Matter | `5d679efb-b32d-4380-a20e-adc5636dc957` | só texto |
-| 02 Intelligence | `e35de0e3-ae6b-43fc-994a-5593511f047e` | imagem → job `5d679efb…` |
-| 03 Life | `ea99fbbf-9328-4002-8697-a86ebfa47739` | imagem → job `e35de0e3…` |
+| 01 Matter | `69e6b1ee-587b-400e-bd94-7ab4183653cf` | v2 com o fio removido |
+| 02 Intelligence | `26a74527-1cbf-4059-9453-a8d7ef84ce01` | v2 com o fio removido |
+| 02b Meio | `cc5fd49d-cee7-4bd9-9a26-080b3a018e18` | derivado de 02 |
+| 03 Life | `71ad741b-63ad-4352-87bd-3365a27eae8b` | desdobramento retroiluminado |
 
-Critério de escolha: finura do material, fidelidade da silhueta e do percurso do
-fio âmbar à chave 1, limpeza do espaço vazio à esquerda, e ausência total de
-formas esféricas.
+A remoção do fio foi por edição direcionada — "reconstrua o material que estava
+atrás, sem emenda, sombra ou fantasma" — e não regerando do zero, o que
+preservou as composições já aprovadas.
 
-## Transições — modelo `kling3_0`
+O LIFE mantém de propósito um **resquício do scaffold perfurado no canto
+inferior direito**. Não é só continuidade estética: é o que dá ao morph um ponto
+de partida visível, com poros dentro do quadro para fechar.
 
-Escolhido por ser o modelo do catálogo que aceita **`start_image` e `end_image`
-ao mesmo tempo**, o que ancora cada clipe nas chaves em vez de deixar derivar.
-`mode: pro`, `duration: 5`, `sound: off`, `aspect_ratio: 16:9`.
-Saída 1928 × 1076, 24 fps, 121 quadros. 8,75 créditos cada.
+## Trechos de vídeo — `kling3_0`
 
-| Clipe | Job ID | start_image | end_image |
-|---|---|---|---|
-| A — Matter → Intelligence | `a6b8ec36-4809-4124-8d60-1aff910ec585` | `5d679efb…` | `e35de0e3…` |
-| B — Intelligence → Life | `980c5ab1-3b44-423f-a8a2-899043bd1993` | `e35de0e3…` | `ea99fbbf…` |
+Único modelo do catálogo que aceita `start_image` e `end_image` juntos, o que
+ancora cada clipe nas chaves. `mode: pro`, `duration: 5`, `sound: off`, 16:9.
+Saída 1928 × 1076, 24 fps, ~8,75 créditos cada.
 
-Os prompts de vídeo repetem a proibição de esferas, porque o modelo tende a
-"engordar" pontos em bolas ao longo da interpolação.
+| Trecho | Job ID | De → para |
+|---|---|---|
+| A | `d36cc479-976e-4c4e-bb1e-e05a70c36d77` | Matter → Intelligence |
+| B1 | `dad2e3ba-95dd-4105-b487-0da2a2c8731d` | Intelligence → Meio |
+| B2 | `869d68cd-588f-43b1-b036-7236b77ee6a8` | Meio → Life |
+
+O que faz o morph funcionar é descrever o **mecanismo**, não o resultado: em vez
+de "vira tecido vivo", "as bordas se descolam, levantam, enrolam para fora e
+varrem por cima das aberturas, que se fecham". Os prompts também proíbem
+explicitamente qualquer linha ou ponto âmbar, senão o modelo reintroduz o fio.
+
+Nota operacional: prompts assim disparam a recomendação do preset "IN THE DARK"
+do Higgsfield. É preciso declinar com `declined_preset_id` e reenviar literal.
 
 ---
 
 ## Pós-produção (ffmpeg 8.1.2)
 
-Os dois clipes viram um master com crossfade de 0,2 s na junção. Como o
-crossfade é centrado na emenda, o estado Intelligence cai exatamente no meio do
-clipe (4,94 s de 9,875 s = progresso 0,5).
-
 ```
-ffmpeg -i v2-transA.mp4 -i v2-transB.mp4 -filter_complex \
-"[0:v]crop=1912:1076:8:0,scale=1600:900,setsar=1,fps=24[a];\
- [1:v]crop=1912:1076:8:0,scale=1600:900,setsar=1,fps=24[b];\
- [a][b]xfade=transition=fade:duration=0.2:offset=4.84[v]" \
+ffmpeg -i transA-raw.mp4 -i transB1-raw.mp4 -i transB2-raw.mp4 -filter_complex \
+"[0:v]crop=1912:1076:8:0,scale=1920:1080,setsar=1,fps=24[a];\
+ [1:v]crop=1912:1076:8:0,scale=1920:1080,setsar=1,fps=24[b];\
+ [2:v]crop=1912:1076:8:0,scale=1920:1080,setsar=1,fps=24[c];\
+ [a][b]xfade=transition=fade:duration=0.2:offset=4.84[ab];\
+ [ab][c]xfade=transition=fade:duration=0.2:offset=9.68[v]" \
 -map "[v]" -an -c:v libx264 -profile:v high -pix_fmt yuv420p \
--crf 27 -g 6 -keyint_min 6 -sc_threshold 0 -preset slow \
+-crf 26 -g 6 -keyint_min 6 -sc_threshold 0 -preset veryslow \
 -movflags +faststart premise-sequence.mp4
 ```
 
-`-g 6` = keyframe a cada 0,25 s; é isso que deixa o scrub fluido (latência
-medida: 2–3 ms, nos dois sentidos). `+faststart` põe o moov atom na frente.
-O crop corrige o 1928 × 1076 do modelo (1,792:1) para 16:9 real.
+`-g 6` = keyframe a cada 0,25 s; é o que deixa o scrub fluido (latência medida
+1–9 ms, nos dois sentidos). `+faststart` põe o moov atom na frente. O crop
+corrige o 1928 × 1076 do modelo para 16:9 real.
 
-Resolução final **1920 × 1080** (nativa dos clipes), CRF 25, `preset veryslow`
-→ 5,2 MB. A primeira tentativa saiu a 1600 × 900 / CRF 27 (3,6 MB) e ficou
-visivelmente macia: este conteúdo é quase todo detalhe de alta frequência
-(malha capilar, poros finos), que é exatamente o que a compressão come primeiro.
-Medições comparativas: 1600/CRF27 = 3,6 MB, 1600/CRF22 = 6,2 MB,
-1920/CRF25 = 5,6 MB (5,2 com `veryslow`), 1920/CRF23 = 7,0 MB.
+CRF 26 → 6,4 MB: 23% mais bytes para 49% mais duração que a v2, porque camadas
+lisas e gradientes comprimem melhor que o detalhe vascular antigo.
 
-Tentei também usar os PNGs originais (2752 px) sobrepostos nos três platôs, para
-ter nitidez máxima onde o olho descansa e deixar o vídeo só para o movimento.
-Não deu: o SSIM entre o quadro de vídeo e a chave original é 0,93 no Matter,
-0,94 no Intelligence, mas **0,75 no Life** — a câmera deriva o bastante no fim
-para o crossfade dar salto visível.
+**Marcos no clipe**, verificados no navegador:
 
-Stills a partir dos PNG originais (não de quadros do vídeo), para ficarem
-nítidos:
+| Fração | Segundo | Estado |
+|---|---|---|
+| 0,000 | 0,00 | Matter |
+| 0,336 | 4,94 | Intelligence (emenda A/B1) |
+| 0,665 | 9,78 | meio da abertura (emenda B1/B2) |
+| 1,000 | 14,71 | Life |
+
+Calor medido (R−B na zona da estrutura) ao longo do clipe:
+−15 → +7 → +11 → +24 → +42 → +108 → +112, monotônico. O espaço vazio à
+esquerda permanece ivory (de 254,247,235 a 255,253,244) em **todos** os quadros,
+que é o que garante a legibilidade do texto sobreposto.
+
+Stills gerados a partir dos PNG originais, não de quadros do vídeo:
 
 ```
-ffmpeg -i <chave>.png -vf "crop=2731:1536:10:0,scale=1600:900" \
-  -quality 78 -compression_level 6 <stage>.webp
+ffmpeg -i <chave>.png -vf "crop=2731:1536:10:0,scale=2200:1238" \
+  -quality 76 -compression_level 6 <stage>.webp
 ```
+
+Uma tentativa descartada: sobrepor os PNG de 2752 px nos platôs, para ter nitidez
+máxima onde o olho descansa. O SSIM entre quadro de vídeo e chave original é 0,93
+no Matter e 0,94 no Intelligence, mas **0,75 no Life** — a câmera deriva o
+bastante no fim para o crossfade dar salto visível.
 
 ---
 
-## O fio âmbar como instrumento
-
-Na primeira versão o fio era só decoração: uma linha bonita pintada na imagem
-que não fazia nada. Agora ele é o indicador de progresso da seção — acende da
-esquerda para a direita conforme você rola, com uma cabeça mais clara na
-posição atual. É o único elemento idêntico nos três estados, então é ele que
-literalmente desenha "one connected system" enquanto você atravessa.
-
-Isso substituiu a `.premise-rail`, uma barrinha de progresso genérica que
-duplicava a função sem significado nenhum.
-
-O overlay é um SVG cujo caminho foi **traçado do próprio material**: varrendo o
-vídeo coluna a coluna e pegando o centróide ponderado dos pixels âmbar
-(R−B > 78, R−G > 28, R > 170), com mediana entre quatro instantes frios do
-clipe. Os quadros quentes (LIFE) são descartados do traço porque o tecido rosa
-tem R−B alto e contamina a detecção.
-
-Duas medições sustentam a técnica:
-
-- **O fio praticamente não se move** durante o clipe: deriva média de 0,04% da
-  altura, máxima 0,37% (≈3 px). Kling segurou o percurso, então um caminho
-  estático serve para os 9,875 s.
-- **O overlay cai em cima do fio pintado**: desvio médio de 0,67 px, máximo
-  2 px, em 9 de 11 pontos amostrados ao longo da largura visível (os 2 restantes
-  caem fora da tela, no recorte lateral do `cover`).
-
-O alinhamento em qualquer viewport depende de uma coisa: o SVG usa
-`viewBox="0 0 1920 1080"` com `preserveAspectRatio="xMidYMid slice"`, que é
-exatamente `object-fit: cover` a partir do centro. Por isso o
-`object-position` da mídia **tem de continuar `50% 50%`** — qualquer outro valor
-desliza a arte por baixo do overlay.
-
 ## ⚠️ O vídeo exige HTTP Range no servidor
 
-Um vídeo controlado por scroll depende de `video.currentTime`. Se o servidor
-não implementa HTTP Range, o navegador reporta `video.seekable = [0, 0]`
-mesmo com o arquivo inteiro em `buffered`, e **toda atribuição de currentTime
-é silenciosamente truncada para 0** — a figura congela no primeiro quadro.
+Um vídeo controlado por scroll depende de `video.currentTime`. Sem HTTP Range o
+navegador reporta `video.seekable = [0, 0]` mesmo com o arquivo inteiro em
+`buffered`, e **toda atribuição de currentTime é truncada para 0 em silêncio** —
+a figura congela no primeiro quadro.
 
-`python -m http.server` **não** implementa Range. Foi exatamente isso que fez a
-seção parecer quebrada no teste local. GitHub Pages (onde o site é publicado)
-implementa, então em produção funciona.
-
-Para testar localmente use `.claude/devserver.py`, que adiciona Range:
+`python -m http.server` **não** implementa Range. GitHub Pages implementa.
+Para testar local:
 
 ```
 python .claude/devserver.py 8128
 ```
 
-O código da seção agora detecta isso sozinho: se `seekable` vier vazio, ou se o
-clipe se recusar a avançar por ~40 quadros, ele troca para o crossfade das três
-imagens e registra o motivo em `data-fallback` na seção. A figura nunca fica
-parada.
+O código detecta isso sozinho: se `seekable` vier vazio, ou se o clipe se
+recusar a avançar por ~40 quadros, troca para o crossfade das três imagens e
+registra o motivo em `data-fallback` na seção. A figura nunca fica parada.
 
 ---
 
 ## Arquivos
 
-**Publicados** — `assets/premise/` (5,7 MB)
+**Publicados** — `assets/premise/` (6,9 MB)
 
 | Arquivo | Tamanho | Usado em |
 |---|---|---|
-| `premise-sequence.mp4` | 5,2 MB | 1920 × 1080, scrub no desktop |
-| `stage-01-matter.webp` | 205 KB | 2200 px · poster/base (todos os modos) + mobile + reduced-motion |
-| `stage-02-intelligence.webp` | 171 KB | crossfade mobile + reduced-motion |
-| `stage-03-life.webp` | 85 KB | crossfade mobile + reduced-motion |
+| `premise-sequence.mp4` | 6,4 MB | 1920 × 1080, 14,71 s, scrub no desktop |
+| `stage-01-matter.webp` | 199 KB | 2200 px · poster/base + mobile + reduced-motion |
+| `stage-02-intelligence.webp` | 173 KB | crossfade mobile + reduced-motion |
+| `stage-03-life.webp` | 55 KB | idem |
 
-Custo real por visita: **~5,4 MB no desktop** (clipe + um still),
-**461 KB no mobile** (só stills, o clipe nunca é requisitado),
-**461 KB em reduced-motion**.
+Custo por visita: **~6,6 MB no desktop**, **427 KB no mobile** (o clipe nunca é
+requisitado nem baixado), **427 KB em reduced-motion**.
 
-O salto de 3,7 → 5,4 MB no desktop é o preço da nitidez, e é deliberado: a
-seção carrega uma viewport antes de ser alcançada e nunca disputa com o hero.
-
-**Fonte, não publicado** — `_source/premise/` (no .gitignore)
-
-`01-matter.png`, `02-intelligence.png`, `03-life.png` (2752 × 1536),
-`transitionA-raw.mp4`, `transitionB-raw.mp4` (1928 × 1076),
-e `v1-rejeitado/` com a primeira tentativa.
+**Fonte, não publicada** — `_source/premise/` (no .gitignore): as 4 chaves em
+2752 px, os 3 clipes brutos, e as pastas `v1-rejeitado/` e `v2-com-fio/`.
