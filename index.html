@@ -53,21 +53,16 @@
   .platform-card:hover .pf-cv{opacity:.6;}
   .platform-card > *:not(.pf-cv){position:relative;z-index:1;}
 
-  /* ── The premise: pinned Matter → Intelligence → Life ─────────────────
-     Sticky stage inside a tall track. Scroll progress (0→1) drives one
-     continuous 9.875s clip via currentTime; text stages crossfade on the
-     same progress. Mirrors the scroll architecture of matter-for-vitality
-     (.pf-scrolly/.pf-sticky) — vanilla rAF, no animation library. */
+  /* ── The premise: Matter → Intelligence → Life → the whole ────────────
+     The clip PLAYS; it is not scrubbed. Scroll only decides whether it is
+     running. Every caption reads the clip's own clock, so picture and words
+     cannot drift apart — which is what went wrong when scroll drove the text
+     and a rate limit held the video back.
+     The pin is short on purpose: an invitation to linger, not a cage. */
   .premise{--premise-ivory:#FDF6EE;position:relative;background:var(--premise-ivory);}
-  /* Generoso de proposito. O clipe avanca a uma taxa maxima (MAXRATE), entao a
-     travessia leva ~5s no minimo; com pouco curso o scroll natural do usuario
-     chega ao fim antes da animacao e ele perde a transformacao. */
-  .premise-track{position:relative;height:640vh;}
+  .premise-track{position:relative;height:200vh;}
   .premise-stage{position:sticky;top:var(--header-height);height:calc(100vh - var(--header-height));height:calc(100svh - var(--header-height));overflow:hidden;display:flex;align-items:center;}
   .premise-media{position:absolute;inset:0;z-index:0;}
-  /* object-position must stay centred: the thread overlay is an SVG using
-     preserveAspectRatio="xMidYMid slice", which is exactly cover-from-centre.
-     Any other object-position would slide the artwork out from under it. */
   .premise-media img,.premise-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;}
   .premise-still{opacity:0;}
   .premise-still[data-still="0"]{opacity:1;}
@@ -81,26 +76,30 @@
       linear-gradient(96deg,var(--premise-ivory) 0%,rgba(253,246,238,.96) 26%,rgba(253,246,238,.74) 40%,rgba(253,246,238,.20) 55%,rgba(253,246,238,0) 68%);}
   .premise-inner{position:relative;z-index:3;width:100%;max-width:var(--container-base);margin:0 auto;padding:0 var(--gutter);}
   .premise-copy{max-width:460px;}
-  .premise-title{font-size:var(--fs-section-title);margin-top:12px;}
-  .premise-support{margin-top:16px;font-size:16.5px;line-height:1.6;color:var(--text-body);max-width:38ch;}
+  .premise-eyebrow{will-change:opacity;}
+  /* One element, two appearances. It opens the section and returns to close it,
+     in the same place at the same size — identical by construction, because it
+     never moves. Only opacity animates, so the column never reflows. */
+  .premise-title{font-size:var(--fs-section-title);margin-top:12px;will-change:opacity;}
+  .premise-support{margin-top:16px;font-size:16.5px;line-height:1.6;color:var(--text-body);max-width:38ch;will-change:opacity;}
   .premise-stages{position:relative;margin-top:var(--space-8);min-height:clamp(150px,17vh,182px);}
   .premise-stageitem{position:absolute;top:0;left:0;width:100%;opacity:0;will-change:opacity,transform;}
-  .premise-stageitem[data-stage="0"]{opacity:1;}
   .premise-num{display:block;font-family:var(--font-serif);font-size:2.6rem;line-height:1;color:var(--orange-500);opacity:.92;}
   .premise-label{margin-top:10px;font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-700);}
   .premise-line{margin-top:10px;font-size:16px;line-height:1.6;color:var(--text-body);max-width:34ch;}
   .premise-stagefig{display:none;}
-  /* Um slot, dois estados: a deixa convida no inicio, a frase de fecho resolve
-     no fim. Ambos absolutos no mesmo lugar, entao a coluna nao muda de altura e
-     os dois nunca colidem (a deixa sai em 0,12; o fecho entra em 0,88). */
-  .premise-foot{position:relative;margin-top:var(--space-8);min-height:3.4em;}
-  .premise-hint{position:absolute;left:0;top:0;margin:0;font-size:11.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);will-change:opacity;}
-  .premise-close{position:absolute;left:0;top:0;margin:0;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-700);opacity:0;will-change:opacity;}
+  /* The coda state carries no caption — the returning title is the caption. */
+  .premise-stageitem--coda{display:none;}
+  .premise-replay{margin-top:var(--space-8);padding:8px 0;background:none;border:none;border-bottom:1px solid var(--border-strong);
+    font-family:var(--font-sans);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--text-muted);cursor:pointer;opacity:0;pointer-events:none;transition:opacity var(--dur-base) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  .premise-replay:hover{color:var(--blue-700);}
+  .premise.is-done .premise-replay{opacity:1;pointer-events:auto;}
   .premise-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
 
   /* Tablet / mobile: stack media over copy — no overlap, no tiny type */
   @media (max-width:860px){
-    .premise-track{height:340vh;}
+    .premise-track{height:240vh;}
     .premise-stage{display:grid;grid-template-rows:44% 56%;align-items:stretch;}
     .premise-media{position:relative;inset:auto;grid-row:1;}
     .premise-scrim{background:linear-gradient(180deg,rgba(253,246,238,0) 58%,var(--premise-ivory) 100%);}
@@ -109,22 +108,21 @@
     .premise-support{max-width:none;}
     .premise-stages{min-height:clamp(140px,20vh,170px);margin-top:var(--space-6);}
     .premise-num{font-size:2.1rem;}
-    .premise-rail{margin-top:var(--space-6);}
+    .premise-replay{margin-top:var(--space-6);}
   }
 
-  /* Reduced motion: no pinning, no video — three static states in flow */
+  /* Reduced motion: no pinning, no clip — the four states stand in flow */
   .premise--static .premise-track{height:auto;}
   .premise--static .premise-stage{position:static;height:auto;display:block;overflow:visible;padding:var(--space-16) 0;}
   .premise--static .premise-media{display:none;}
   .premise--static .premise-copy{max-width:var(--container-narrow);}
+  .premise--static .premise-eyebrow,.premise--static .premise-title,.premise--static .premise-support{opacity:1;}
   .premise--static .premise-stages{position:static;min-height:0;display:grid;gap:var(--space-12);margin-top:var(--space-10);}
   .premise--static .premise-stageitem{position:static;opacity:1;transform:none;}
+  .premise--static .premise-stageitem--coda{display:block;}
   .premise--static .premise-stagefig{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-md);margin-bottom:var(--space-5);}
-  .premise--static .premise-rail{display:none;}
-  /* sem animacao para acompanhar, a deixa nao tem funcao */
-  .premise--static .premise-hint{display:none;}
-  .premise--static .premise-foot{min-height:0;}
-  .premise--static .premise-close{position:static;opacity:1;}
+  /* nothing plays, so there is nothing to replay */
+  .premise--static .premise-replay{display:none;}
 </style>
 </head>
 <body>
@@ -160,48 +158,54 @@
       <div class="premise-stage">
 
         <div class="premise-media">
-          <p class="premise-sr">A single microscale structure transforms in three stages: an engineered porous scaffold, then a computational lattice of nodes derived from it, then living tissue with fine microvasculature growing through the same architecture. One continuous amber thread runs through all three.</p>
-          <!-- Stage 01 always loads: it is the poster/underlay until the clip
-               paints. 02 and 03 are only needed by the still-crossfade path,
-               so JS promotes data-src → src just for that mode. -->
+          <p class="premise-sr">A single microscale structure passes through four states: an engineered porous scaffold; the same scaffold reorganised into a lattice of computational nodes; the lattice unfurling into warm translucent living layers; and finally a wider view showing all three conditions as one continuous body.</p>
+          <!-- State 01 always loads: it is the poster before the clip paints.
+               The rest are only needed by the still path, so JS promotes
+               data-src → src just for that mode. -->
           <img class="premise-still" data-still="0" src="assets/premise/stage-01-matter.webp" alt="" aria-hidden="true" decoding="async">
           <img class="premise-still" data-still="1" data-src="assets/premise/stage-02-intelligence.webp" alt="" aria-hidden="true" decoding="async">
           <img class="premise-still" data-still="2" data-src="assets/premise/stage-03-life.webp" alt="" aria-hidden="true" decoding="async">
+          <img class="premise-still" data-still="3" data-src="assets/premise/stage-04-fecho.webp" alt="" aria-hidden="true" decoding="async">
           <video class="premise-video" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
           <div class="premise-scrim" aria-hidden="true"></div>
         </div>
 
         <div class="premise-inner">
+          <!-- The copy column never changes height: every element stays in flow
+               and only opacity animates, so nothing shifts as beats hand over.
+               The h2 is a SINGLE element that shows in the opening, hides during
+               the stages, and returns at the close — which is why its position
+               on return is identical by construction, not by calibration. -->
           <div class="premise-copy">
-            <div class="eyebrow">The premise</div>
+            <p class="eyebrow premise-eyebrow">The premise</p>
             <h2 id="premise-heading" class="display premise-title">Designing the materials that should exist.</h2>
             <p class="premise-support">We begin with the biological response and work backwards — designing the matter, models and experimental systems capable of producing it.</p>
 
             <div class="premise-stages">
               <article class="premise-stageitem" data-stage="0">
-                <img class="premise-stagefig" data-src="assets/premise/stage-01-matter.webp" alt="A porous mineral scaffold at the microscale, crossed by a single amber thread." loading="lazy" decoding="async" width="1600" height="900">
+                <img class="premise-stagefig" data-src="assets/premise/stage-01-matter.webp" alt="A fine porous mineral scaffold at the microscale." loading="lazy" decoding="async" width="2200" height="1238">
                 <span class="premise-num">01</span>
                 <h3 class="premise-label">Matter</h3>
                 <p class="premise-line">Advanced materials engineered at the microscale.</p>
               </article>
               <article class="premise-stageitem" data-stage="1">
-                <img class="premise-stagefig" data-src="assets/premise/stage-02-intelligence.webp" alt="The same scaffold reorganised into a lattice of computational nodes, the amber thread unchanged." loading="lazy" decoding="async" width="1600" height="900">
+                <img class="premise-stagefig" data-src="assets/premise/stage-02-intelligence.webp" alt="The same scaffold reorganised into a lattice of small computational nodes." loading="lazy" decoding="async" width="2200" height="1238">
                 <span class="premise-num">02</span>
                 <h3 class="premise-label">Intelligence</h3>
                 <p class="premise-line">Computation to understand, simulate and design biological outcomes.</p>
               </article>
               <article class="premise-stageitem" data-stage="2">
-                <img class="premise-stagefig" data-src="assets/premise/stage-03-life.webp" alt="The same architecture as living tissue, with fine microvasculature following the lattice and the amber thread running through it." loading="lazy" decoding="async" width="1600" height="900">
+                <img class="premise-stagefig" data-src="assets/premise/stage-03-life.webp" alt="The lattice unfurled into warm translucent living layers, lit from behind." loading="lazy" decoding="async" width="2200" height="1238">
                 <span class="premise-num">03</span>
                 <h3 class="premise-label">Life</h3>
                 <p class="premise-line">Translating design into living systems that regenerate and endure.</p>
               </article>
+              <article class="premise-stageitem premise-stageitem--coda" data-stage="3">
+                <img class="premise-stagefig" data-src="assets/premise/stage-04-fecho.webp" alt="A wider view showing mineral, lattice and living layers as one continuous body." loading="lazy" decoding="async" width="2200" height="1238">
+              </article>
             </div>
 
-            <div class="premise-foot">
-              <p class="premise-hint">Scroll &#8595;&nbsp;&nbsp;follow the material becoming tissue</p>
-              <p class="premise-close">One connected system, from matter to living tissue.</p>
-            </div>
+            <button class="premise-replay" type="button">Replay</button>
           </div>
         </div>
 
@@ -980,7 +984,10 @@ requestAnimationFrame(loop);
   addEventListener('resize',size);size();requestAnimationFrame(frame);});})();
 </script>
 
-<!-- ── The premise: scroll-driven Matter → Intelligence → Life ───────── -->
+<!-- ── The premise: Matter → Intelligence → Life → the whole ─────────────
+     The clip plays; it is never scrubbed. Scroll only decides whether it runs.
+     Every caption reads the clip's own clock, so picture and words cannot
+     drift apart. -->
 <script>
 (function(){
 'use strict';
@@ -993,55 +1000,34 @@ var track=sec.querySelector('.premise-track'),
     stills=[].slice.call(sec.querySelectorAll('.premise-still')),
     figs=[].slice.call(sec.querySelectorAll('.premise-stagefig')),
     items=[].slice.call(sec.querySelectorAll('.premise-stageitem')),
-    hint=sec.querySelector('.premise-hint'),
-    closeLine=sec.querySelector('.premise-close');
+    eyebrow=sec.querySelector('.premise-eyebrow'),
+    title=sec.querySelector('.premise-title'),
+    support=sec.querySelector('.premise-support'),
+    replay=sec.querySelector('.premise-replay');
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';
-var DUR=14.708;             /* clip length; refined from metadata once loaded */
+var DUR=17.042;             /* refined from metadata once the clip loads */
+var LEDE=3.6;               /* seconds the opening copy holds alone, before play */
 
-/* Scroll progress → position in the clip, as a FRACTION of its duration so
-   the mapping survives a re-encode of any length.
+/* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
+   Measured from the assembled master:
+     0.000–0.046  Matter, held
+     0.046–0.222  reorganising into the lattice
+     0.222–0.306  Intelligence, held
+     0.306–0.658  the lattice peeling and unfurling
+     0.658–0.741  Life, held
+     0.741–0.917  the camera retreats
+     0.917–1.000  the whole body, held
+   Hand-offs are sequential (each out-point is the next in-point), so two
+   captions are never legible at once. */
+var LEDE_OUT=[0.008,0.030];                     /* opening copy leaves */
+var CAPS=[[0.035,0.060,0.185,0.212],            /* 01 Matter */
+          [0.212,0.240,0.600,0.630],            /* 02 Intelligence */
+          [0.630,0.658,0.755,0.788]];           /* 03 Life */
+var CODA_IN=[0.800,0.862];                      /* the title comes back */
 
-   The clip is three anchored segments joined by 0.2s crossfades:
-     0.000 → 0.336   Matter unfurling into the dot lattice
-     0.336 → 0.665   lattice beginning to peel and lift  (Intelligence at 0.336)
-     0.665 → 1.000   the peel spreading into lit layers  (midpoint at 0.665)
-   The middle keyframe exists so the unfurl has to pass through a plausible
-   half-open geometry instead of taking the shortcut of a dissolve.
-
-   Flat bands hold a state "dominant"; steep bands are the transformation.
-   The Intelligence plateau spans 0.300–0.375 so it straddles 0.336.
-
-   The scroll budget leans deliberately towards the ramps: 62% of the travel is
-   spent on the two transformations and 38% on the plateaus. A plateau is where
-   nothing changes, and someone scrolling briskly is not reading the copy — so
-   spending travel there was waste. */
-var MAP=[[0,0],[0.13,0.035],[0.33,0.300],[0.45,0.375],[0.87,0.955],[1,1]];
-
-/* Per-stage text visibility: ramp-in start/full, ramp-out start/end.
-   Hand-offs are sequential (out-point == next in-point) so two stage
-   copies are never legible at once — a dissolve, not a cross-dissolve. */
-var BANDS=[[-1,-1,0.19,0.27],[0.27,0.33,0.49,0.55],[0.55,0.63,9,9]];
-var CENTRES=[0.10,0.41,0.80];
-
-var mode='stills', raf=0, running=false, ready=false, p=-1, curT=0, lastSeek=-1, stuck=0;
-var prevTs=0, snap=true;
-
-/* Segundos de clipe por segundo real, e o valor nao e' arbitrario: o clipe tem
-   24 fps, entao 2,5 consome exatamente 60 quadros de video por segundo. Num
-   monitor de 60 Hz isso da UM quadro novo por quadro de tela — zero descarte.
-   Acima disso comeca a sobrar video que a tela nao tem como mostrar.
-
-   14,708 / 2,5 = ~5,9s para a travessia inteira: o tempo minimo que a
-   transformacao leva, por mais rapido que o usuario role. */
-var MAXRATE=2.5;
-
-/* Drive the breakpoint off the same media query the stylesheet uses.
-   window.innerWidth can exceed the layout viewport when a page scrolls
-   horizontally, which would let JS pick the desktop path while CSS has
-   already switched to the stacked mobile layout. */
-var MQ_MOBILE=window.matchMedia?window.matchMedia('(max-width: 860px)'):null;
-var MQ_REDUCED=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
+var mode='stills', phase='idle', raf=0, running=false, ready=false;
+var ledeStart=0, clock=0, last=-1;
 
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
 function smooth(t){return t*t*(3-2*t);}
@@ -1052,93 +1038,87 @@ function band(x,a,b,c,d){
   if(x<d)return smooth(1-(x-c)/(d-c));
   return 0;
 }
-function mapTime(x){
-  for(var i=1;i<MAP.length;i++){
-    if(x<=MAP[i][0]){
-      var a=MAP[i-1],b=MAP[i],u=(x-a[0])/(b[0]-a[0]);
-      return (a[1]+(b[1]-a[1])*smooth(u))*DUR;
-    }
-  }
-  return DUR;
-}
-function progress(){
-  var travel=track.offsetHeight-stage.offsetHeight;
-  if(travel<=0)return 0;
-  var top=parseFloat(getComputedStyle(stage).top)||0;
-  return clamp((top-track.getBoundingClientRect().top)/travel,0,1);
-}
+function fadeOut(x,a,b){return x<=a?1:(x<b?smooth(1-(x-a)/(b-a)):0);}
+function fadeIn(x,a,b){return x<=a?0:(x<b?smooth((x-a)/(b-a)):1);}
 
-function paint(x){
-  for(var i=0;i<items.length;i++){
-    var b=BANDS[i],o=band(x,b[0],b[1],b[2],b[3]);
-    var y=(1-o)*12*(x<CENTRES[i]?1:-1);
+/* One clock for both renderers: the video's own time on desktop, a plain timer
+   on the still path. The caption logic below never needs to know which. */
+function paint(t){
+  var lede=fadeOut(t,LEDE_OUT[0],LEDE_OUT[1]);
+  if(eyebrow)eyebrow.style.opacity=lede;
+  if(support)support.style.opacity=lede;
+  /* the title is the only element that appears twice */
+  if(title)title.style.opacity=Math.max(lede,fadeIn(t,CODA_IN[0],CODA_IN[1]));
+
+  for(var i=0;i<CAPS.length;i++){
+    var c=CAPS[i],o=band(t,c[0],c[1],c[2],c[3]);
+    var mid=(c[1]+c[2])/2;
     items[i].style.opacity=o;
-    items[i].style.transform='translate3d(0,'+y.toFixed(1)+'px,0)';
+    items[i].style.transform='translate3d(0,'+((1-o)*10*(t<mid?1:-1)).toFixed(1)+'px,0)';
   }
-  if(hint)hint.style.opacity=band(x,-1,-1,0.03,0.12);
-  if(closeLine)closeLine.style.opacity=band(x,0.88,0.95,9,9);
   if(mode==='stills'){
-    /* aligned to the text bands above, so picture and copy change together */
-    stills[1].style.opacity=clamp((x-0.25)/0.14,0,1);
-    stills[2].style.opacity=clamp((x-0.53)/0.18,0,1);
+    /* the four states crossfade on the same clock the clip would use */
+    stills[1].style.opacity=clamp((t-0.10)/0.14,0,1);
+    stills[2].style.opacity=clamp((t-0.44)/0.20,0,1);
+    stills[3].style.opacity=clamp((t-0.76)/0.14,0,1);
   }
 }
 
-function loop(ts){
-  raf=requestAnimationFrame(loop);
-  var dt=prevTs?Math.min(0.05,(ts-prevTs)/1000):0.016;
-  prevTs=ts;
-  var x=progress();
-  if(x!==p){p=x;paint(x);}
+function reset(){
+  phase='idle';clock=0;last=-1;
+  sec.classList.remove('is-done');
+  if(mode==='video'&&video.src){try{video.pause();video.currentTime=0;}catch(e){}}
+  paint(0);
+}
+
+function begin(){
+  if(phase!=='idle')return;
+  phase='lede';
+  ledeStart=performance.now();
+}
+
+function run(){
+  if(phase!=='lede')return;
+  phase='playing';
   if(mode==='video'&&ready){
-    var target=mapTime(p);
-    /* O clipe persegue a posicao do scroll a uma taxa MAXIMA, em vez de saltar
-       direto para ela. Sem esse limite, um scroll natural (que percorre a secao
-       em ~1s) pedia 14,7s de video nesse intervalo, e o navegador so conseguia
-       renderizar uns poucos quadros — a transformacao aparecia como uma
-       sequencia de saltos. Com o limite, ela desliza continuamente: rolar
-       rapido apenas deixa a animacao atras, e ela termina de resolver sozinha
-       quando o usuario para. Ainda e' funcao so da posicao do scroll, entao
-       voltar continua revertendo. */
-    if(snap){curT=target;snap=false;}
-    else{
-      var step=MAXRATE*dt, diff=target-curT;
-      if(diff>step)curT+=step;
-      else if(diff<-step)curT-=step;
-      else curT=target;
-    }
-    if(Math.abs(curT-lastSeek)>0.012){
-      lastSeek=curT;
-      try{video.currentTime=curT;}catch(e){}
-    }
-    /* If we keep asking for a later frame and the clip refuses to move, the
-       response is not seekable (a server without HTTP Range reports
-       seekable=[0,0] and silently clamps every currentTime to 0). Rather than
-       sit on a frozen first frame, hand over to the still crossfade. */
-    if(target>0.3&&video.currentTime<0.05){ if(++stuck>40)useStills('sem-seek'); }
-    else stuck=0;
+    var pr=video.play();
+    if(pr&&pr.then)pr.catch(function(){useStills('sem-autoplay');});
   }
 }
-/* snap: ao (re)entrar na secao o clipe assume a posicao correta de imediato, em
-   vez de percorrer o caminho a MAXRATE desde onde parou. Sem isso, chegar no
-   meio da secao (recarregar a pagina, seguir um link) daria uma corrida de
-   catch-up visivel desde o quadro zero. */
-function start(){if(!running&&mode!=='static'){running=true;p=-1;prevTs=0;snap=true;raf=requestAnimationFrame(loop);}}
+
+function loop(){
+  raf=requestAnimationFrame(loop);
+  var t=0;
+  if(phase==='idle'){t=0;}
+  else if(phase==='lede'){
+    t=0;
+    if(performance.now()-ledeStart>=LEDE*1000)run();
+  }else{
+    if(mode==='video'&&ready){
+      t=DUR>0?clamp(video.currentTime/DUR,0,1):0;
+      if(video.ended||t>=0.999){t=1;if(phase!=='done'){phase='done';sec.classList.add('is-done');}}
+    }else{
+      clock+=1/60;
+      t=clamp(clock/DUR,0,1);
+      if(t>=1&&phase!=='done'){phase='done';sec.classList.add('is-done');}
+    }
+  }
+  if(t!==last){last=t;paint(t);}
+}
+function start(){if(!running&&mode!=='static'){running=true;raf=requestAnimationFrame(loop);}}
 function stop(){if(running){running=false;cancelAnimationFrame(raf);}}
 
-/* Hand control back to the stylesheet. paint() writes inline opacity and
-   transform, which outrank the class rules — without clearing them a mode
-   switch (resize across 860px, or reduced-motion toggled mid-session)
-   would strand stage copy at opacity 0 or leave stills over the video. */
+/* Hand control back to the stylesheet: paint() writes inline opacity, which
+   outranks the class rules, so a mode switch would otherwise strand copy at
+   zero or leave stills sitting over the clip. */
 function resetInline(){
   for(var i=0;i<items.length;i++){items[i].style.opacity='';items[i].style.transform='';}
   for(var j=0;j<stills.length;j++){stills[j].style.opacity='';}
-  if(hint)hint.style.opacity='';
-  if(closeLine)closeLine.style.opacity='';
+  if(eyebrow)eyebrow.style.opacity='';
+  if(title)title.style.opacity='';
+  if(support)support.style.opacity='';
 }
 
-/* loading="lazy" does not stop a display:none image from being fetched, so
-   each mode's images stay on data-src until that mode is actually chosen. */
 function promoteSrc(list){
   for(var i=0;i<list.length;i++){
     var d=list[i].getAttribute('data-src');
@@ -1146,15 +1126,16 @@ function promoteSrc(list){
   }
 }
 
-/* Degrade to the three-still crossfade. The picture must always change. */
+/* Degrade to the still sequence. The picture must always change. */
 function useStills(reason){
   mode='stills';
   sec.dataset.mode='stills';
   sec.dataset.fallback=reason;
-  ready=false;stuck=0;
+  ready=false;
   sec.classList.remove('is-ready');
   promoteSrc(stills);
-  p=-1;
+  resetInline();
+  clock=0;last=-1;
 }
 
 function loadVideo(){
@@ -1165,16 +1146,8 @@ function loadVideo(){
     if(video.duration&&isFinite(video.duration))DUR=video.duration;
   });
   video.addEventListener('loadeddata',function(){
-    /* Fully buffered but seekable=[0,0] means the response arrived without
-       HTTP Range support — scrubbing is impossible, so don't pretend. */
-    var sk=video.seekable;
-    if(!sk||!sk.length||sk.end(sk.length-1)<0.5){useStills('sem-range');return;}
     ready=true;
     sec.classList.add('is-ready');
-    /* Prime the decoder so currentTime seeks actually paint (Safari/iOS). */
-    var pr=video.play();
-    if(pr&&pr.then)pr.then(function(){video.pause();}).catch(function(){});
-    else{try{video.pause();}catch(e){}}
   });
   video.addEventListener('error',function(){useStills('erro-video');});
   video.load();
@@ -1192,36 +1165,52 @@ function setMode(){
   if(mode==='static'){sec.classList.add('premise--static');promoteSrc(figs);return;}
   sec.classList.remove('premise--static');
   if(mode==='video')loadVideo(); else promoteSrc(stills);
-  p=-1;
+  reset();
   start();
 }
+
+/* Drive the breakpoint off the same media query the stylesheet uses:
+   window.innerWidth can exceed the layout viewport when a page scrolls
+   sideways, which would let JS pick the desktop path while CSS has already
+   switched to the stacked layout. */
+var MQ_MOBILE=window.matchMedia?window.matchMedia('(max-width: 860px)'):null;
+var MQ_REDUCED=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
 
 setMode();
 
-if('IntersectionObserver' in window){
-  /* Warm the media about a viewport ahead, without blocking the hero. */
-  new IntersectionObserver(function(es){
-    for(var i=0;i<es.length;i++){
-      if(es[i].isIntersecting&&mode==='video'){loadVideo();}
-    }
-  },{rootMargin:'0px 0px 100% 0px'}).observe(sec);
-
-  /* Only run the rAF loop while the section is on screen. */
-  new IntersectionObserver(function(es){
-    for(var i=0;i<es.length;i++){es[i].isIntersecting?start():stop();}
-  },{rootMargin:'10% 0px 10% 0px'}).observe(sec);
-}else{
-  start();
+if(replay){
+  replay.addEventListener('click',function(){
+    reset();
+    begin();
+  });
 }
 
-/* progress() reads live geometry every frame, so the running loop absorbs
-   resizes on its own; setMode only re-runs to cross the 860px boundary. */
-var rt;
-window.addEventListener('resize',function(){
-  clearTimeout(rt);
-  rt=setTimeout(setMode,160);
-},{passive:true});
+if('IntersectionObserver' in window){
+  /* Warm the clip about a viewport ahead, without blocking the hero. */
+  new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++)if(es[i].isIntersecting&&mode==='video')loadVideo();
+  },{rootMargin:'0px 0px 100% 0px'}).observe(sec);
 
+  /* The clip waits for you: it starts once the section is properly in view,
+     pauses if you scroll away, and picks up where it left off when you return.
+     Free to leave, and no place lost. */
+  new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){
+      if(es[i].isIntersecting){
+        start();begin();
+        if(phase==='playing'&&mode==='video'&&ready&&video.paused)video.play().catch(function(){});
+      }else{
+        if(mode==='video'&&ready&&!video.paused)video.pause();
+        stop();
+      }
+    }
+  },{threshold:0.55}).observe(sec);
+}else{
+  start();begin();
+}
+
+var rt;
+window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(setMode,160);},{passive:true});
 [MQ_MOBILE,MQ_REDUCED].forEach(function(m){
   if(!m)return;
   m.addEventListener?m.addEventListener('change',setMode):m.addListener&&m.addListener(setMode);
