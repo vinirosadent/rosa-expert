@@ -31,7 +31,28 @@ quadros, e isso dessincronizou: o texto seguia o scroll, o vídeo ficava atrás.
 passou a simplesmente tocar. Entrou o fecho (recuo de câmera) e a frase de
 abertura passou a voltar no fim.
 
-**v5 — atual.** Cinco correções, cada uma com a causa medida:
+**v5.** Cinco correções: tremor da abertura, tempos, tipografia, sincronia e o
+fecho recortado. Detalhes na tabela abaixo — todas continuam valendo, e a v6 as
+levou adiante em três pontos.
+
+**v6 — atual.** Quatro coisas:
+
+| problema relatado | causa | correção |
+|---|---|---|
+| "o fade no começo está bom mas não ótimo, ele já começa com material e fica no vai e vem" | a abertura precisava de 8,5 s e o clipe de repouso tinha 4,25 s, então tocava adiante-e-atrás; a virada era perceptível | a abertura passou a ser **pontos que se tornam Matter** — deriva pura, formação, consolidação. Nada mais é revertido |
+| "quase nem dá pra ver a parte materials" | eu tinha corrigido demais na v5: empurrei o calor para a zona limpa e a espuma mineral virou mancha de canto | fecho reproporcionado — presença mineral 55,0 → 94,0, calor mantido em +81,6 |
+| "as fontes ainda pequenas" | 32,8px no nome do estágio ainda era escala de legenda, não de cartela | nome do estágio 41,6px, título 49,6px, corpo 21,5px |
+| "a transição de 1 para 2 é muito rápida" | `transA` estava comprimida a 2,90 s (1,45×) | 4,30 s de 4,20 s de fonte — praticamente tempo real, e agora a **transição mais longa do filme**, o que `checks/timing.py` exige |
+
+A abertura de pontos custou três clipes porque o kling **não** segura a
+transformação a pedido. Pedi duas vezes, em termos cada vez mais explícitos, que
+os pontos derivassem por quatro quintos do plano e só então fechassem em
+material: nas duas o material estava pronto em 0,6 s. Com `start_image` e
+`end_image` ele interpola entre os dois e adianta a maior mudança. **Ritmo se
+resolve na montagem, não no prompt** — a solução foi um clipe de pontos com eles
+mesmos para a deriva longa, e o clipe de formação depois.
+
+### O que a v5 corrigiu
 
 | problema relatado | causa encontrada | correção |
 |---|---|---|
@@ -51,44 +72,62 @@ transparência do scrim naquela coluna.
 
 ## O corte
 
-25,08 s, 602 quadros a 24 fps. As frações estão em `index.html` e são contadas
+25,21 s, 605 quadros a 24 fps. As frações estão em `index.html` e são contadas
 do master pronto, quadro a quadro — não das durações pretendidas, porque os
 trechos interpolados aterram alguns quadros curtos e estimar poria toda legenda
 levemente fora de lugar.
 
 | beat | quadros | fração | imagem | texto |
 |---|---|---|---|---|
-| abertura | 130 | 0,000–0,216 | Matter, vivo | texto da premissa |
-| matter | 74 | 0,216–0,339 | Matter, vivo | **01 Matter** |
-| transA | 71 | 0,339–0,457 | reorganizando | 01 sai, 02 entra |
-| intel | 41 | 0,457–0,525 | a malha descansa | **02 Intelligence** |
-| peel | 59 | 0,525–0,623 | descolando, ainda frio | 02 sai |
-| unfurl | 59 | 0,623–0,721 | desdobrando, o calor chega | 03 entra |
-| life | 46 | 0,721–0,797 | Life descansa | **03 Life** |
-| recuo | 68 | 0,797–0,910 | a câmera recua | 03 sai, título volta |
-| todo | 54 | 0,910–1,000 | os três estratos | **título de fecho** |
+| deriva | 86 | 0,000–0,142 | pontos à deriva, nada formado | texto da premissa |
+| forma | 12 | 0,142–0,162 | os pontos fecham em material | idem |
+| consolida | 71 | 0,162–0,279 | o material adensa | **01 Matter** |
+| transA | 101 | 0,279–0,446 | reorganizando | 01 sai, 02 entra |
+| intel | 41 | 0,446–0,514 | a malha descansa | **02 Intelligence** |
+| peel | 63 | 0,514–0,618 | descolando, ainda frio | 02 sai |
+| unfurl | 63 | 0,618–0,722 | desdobrando, o calor chega | 03 entra |
+| life | 46 | 0,722–0,798 | Life descansa | **03 Life** |
+| recuo | 68 | 0,798–0,911 | a câmera recua | 03 sai, título volta |
+| todo | 54 | 0,911–1,000 | os três estratos | **título de fecho** |
 
-Duas regras governam as janelas de texto, e a v4 quebrava as duas:
+Os três primeiros são um único segmento, sem emenda — mas são três coisas
+diferentes na tela, e as regras de texto diferem entre elas.
+
+Seis regras governam as janelas de texto. Três existem porque uma versão
+publicada as quebrou:
 
 1. duas peças de texto nunca são legíveis ao mesmo tempo;
-2. nenhuma legenda fica legível sobre um estado que ela não nomeia.
+2. nenhuma legenda fica legível sobre um estado que ela não nomeia;
+3. a legenda 01 não pode aparecer antes de o material existir — ela espera a
+   consolidação, porque nomear matéria sobre uma nuvem de pontos descreveria
+   algo que não está na tela;
+4. cada legenda fica 2,4 s ou mais totalmente opaca;
+5. o título de fecho fica opaco quando a imagem final assenta;
+6. matter→intelligence é a transição mais longa do filme.
 
 Ambas são verificadas por programa (`.claude/premise/checks/timing.py`), não por intenção,
 e um segundo script confere que as constantes em `index.html` reproduzem a
 tabela verificada — inclusive as travessias de imagem do caminho mobile, que
 caem com diferença de 0,00 s das suas legendas.
 
-### Por que a abertura não pode usar a transição
+### A abertura
 
-Medida quadro a quadro, `transA` já mostra pontos de malha em 2,0 s. O andaime
+Medida quadro a quadro, `transA` já mostra pontos de malha em 2,0 s, e o andaime
 só continua legível como andaime até ~1,5 s. Não há como dar tempo de ler
-"Matter" sobre matéria usando a transição — ela transforma sem parar. Daí o
-clipe do Matter consigo mesmo (`start_image` = `end_image`), 0→4,25 s adiante e
-o mesmo revertido: 8,50 s que terminam no quadro 0, que é também o primeiro
-quadro de `transA`. A emenda é idêntica quadro a quadro.
+"Matter" sobre matéria usando a transição — ela transforma sem parar. E abrir no
+material acabado tem dois problemas: não há o que perceber como vídeo, e não
+ilustra a frase que está ao lado.
 
-O último segundo do clipe bruto é descartado porque é onde o modelo freia para
-aterrar na imagem final: 19 dos seus 24 quadros são quase-duplicados.
+Então a seção abre em pontos: 3,58 s de deriva pura (um clipe dos pontos com
+eles mesmos, para que nada possa se formar), depois a formação, depois a
+consolidação. O texto da premissa — *Designing the materials that should
+exist* — é lido enquanto o material vem a existir.
+
+A emenda entre a deriva e a formação é a **única do filme que não é contínua
+quadro a quadro**, e leva um dissolve de 0,25 s: são a mesma nuvem em fases
+diferentes da deriva, então o dissolve é invisível onde um corte seco daria um
+salto. Todas as outras emendas são cortes secos, porque cada segmento começa de
+fato onde o anterior terminou.
 
 ### Os platôs não são congelamentos
 
@@ -101,9 +140,9 @@ literalmente mortos num filme de 25,5 s.
 ## Cadeia de proveniência
 
 ```
-01-matter ─┬─> idleM2 (Matter consigo mesmo)  ── abertura + matter
-           └─> 02-intelligence ──> 02b-meio ──> 03-life ──> 04-fecho
-                └ transA ┘  └ transB1 ┘ └ transB2 ┘ └ transC2 ┘
+00-pontos ─┬─> deriva (pontos consigo mesmos)  ── deriva
+           └─> 01-matter ──> 02-intelligence ──> 02b-meio ──> 03-life ──> 04-fecho
+                └ forma ┘      └ transA ┘   └ transB1 ┘ └ transB2 ┘ └ transC3 ┘
 ```
 
 O **02b-meio** existe por um motivo específico: da malha de pontos até camadas
@@ -118,11 +157,16 @@ direito: é o que dá ao morph um ponto de partida visível.
 
 | Estágio | Job ID |
 |---|---|
+| 00 Pontos | `511f780b-3fa3-4af2-a8a7-71e60aa76e4c` |
 | 01 Matter | `69e6b1ee-587b-400e-bd94-7ab4183653cf` |
 | 02 Intelligence | `26a74527-1cbf-4059-9453-a8d7ef84ce01` |
 | 02b Meio | `cc5fd49d-cee7-4bd9-9a26-080b3a018e18` |
 | 03 Life | `71ad741b-63ad-4352-87bd-3365a27eae8b` |
-| 04 Fecho (empilhado) | `c55aa9fb-43d4-4a5b-af8b-7fa5d9b4d3a4` |
+| 04 Fecho (empilhado, reproporcionado) | `cc6bf568-bdf3-4228-bf1e-cf6158fef59e` |
+
+O **00 Pontos** é o 01 Matter editado: mesma câmera, mesma silhueta, mesma luz,
+mas a massa sólida trocada por uma suspensão de partículas chatas sem nada
+ligando-as. Manter câmera e silhueta é o que faz a formação aterrar no lugar.
 
 O fecho foi gerado com **duas** referências ao mesmo tempo — 03-life para o
 calor e a luz, 02-intelligence para a malha. Com só a primeira, o modelo
@@ -137,17 +181,28 @@ escrito.
 Único modelo do catálogo que aceita `start_image` e `end_image` juntos, o que
 ancora cada clipe nas chaves. Saída 1928 × 1076, 24 fps, ~8,75 créditos cada.
 
-| Trecho | Job ID | De → para |
-|---|---|---|
-| idle Matter | `500bc7d8-ffa1-46d5-bdc2-39593cbd19ed` | Matter → Matter |
-| A | `d36cc479-976e-4c4e-bb1e-e05a70c36d77` | Matter → Intelligence |
-| B1 | `dad2e3ba-95dd-4105-b487-0da2a2c8731d` | Intelligence → Meio |
-| B2 | `869d68cd-588f-43b1-b036-7236b77ee6a8` | Meio → Life |
-| C2 | `cf2b6d4b-3c21-4757-bdef-fdf2357e56cd` | Life → Fecho |
+| Trecho | Job ID | De → para | usado |
+|---|---|---|---|
+| deriva | `d10cb6fe-28db-4fa7-ba34-6faeb99d16da` | Pontos → Pontos | sim |
+| forma | `7e130e71-a471-4149-8e9b-2db7230fd414` | Pontos → Matter | sim |
+| forma (1ª tentativa) | `43bc0ecd-d4a3-4da6-8cff-10060d082aad` | Pontos → Matter | não |
+| idle Matter | `500bc7d8-ffa1-46d5-bdc2-39593cbd19ed` | Matter → Matter | não |
+| A | `d36cc479-976e-4c4e-bb1e-e05a70c36d77` | Matter → Intelligence | sim |
+| B1 | `dad2e3ba-95dd-4105-b487-0da2a2c8731d` | Intelligence → Meio | sim |
+| B2 | `869d68cd-588f-43b1-b036-7236b77ee6a8` | Meio → Life | sim |
+| C3 | `3af027ff-bf51-4326-b690-1a8946712347` | Life → Fecho | sim |
 
 O que faz o morph funcionar é descrever o **mecanismo**, não o resultado: em vez
 de "vira tecido vivo", "as bordas se descolam, levantam, enrolam para fora e
 varrem por cima das aberturas, que se fecham".
+
+**Sobre pedir ritmo interno:** não funciona. As duas tentativas de fazer os
+pontos derivarem por quatro quintos do plano antes de formar o material
+entregaram material pronto em 0,6 s, mesmo com a instrução em maiúsculas e
+repetida. Com `start_image` e `end_image` o modelo interpola entre os dois e
+adianta a maior mudança; não há como pedir que ele espere. A saída foi um clipe
+do estado inicial consigo mesmo, que não tem para onde interpolar e por isso
+fica onde está.
 
 **Sobre pedir movimento sutil:** a primeira tentativa de clipe de repouso
 (`09d326fc`) usava as palavras "calmo", "em repouso", "quase imperceptível". O
@@ -205,8 +260,18 @@ Scripts em `.claude/premise/checks/`:
   (sequências de quadros quase idênticos). Foi o que provou o diagnóstico do
   `zoompan` e o que aprovou cada clipe novo.
 - `film_audit.py` — o mesmo por beat, mais a garantia de que a coluna de texto
-  fica ivory em todos os 602 quadros (o pixel mais escuro que já apareceu ali
-  foi 233 de 255).
+  fica ivory em todos os 605 quadros (o pixel mais escuro que já apareceu ali
+  foi 235 de 255). O detector de tremor conta **reversões de alta frequência**
+  (sequências de 1–2 quadros entre trocas de sinal) por 100 quadros, não trocas
+  de sinal absolutas: contar todas acusava três beats perfeitamente lisos, porque
+  num beat que transforma muito o deslocamento estimado cruza zero por ruído.
+  Referências medidas: a deriva do `zoompan` que tremia dá **11 por 100**; todos
+  os beats deste filme ficam abaixo de 3,5.
+- `strata.py` — mede se cada um dos três estratos está de fato **presente** no
+  quadro de fecho, dentro do que a página mostra e deixa passar. Calor sozinho
+  não pega o problema, porque o estrato mineral se define por não ter calor;
+  então mede também distância do ivory e contraste local, que é o que separa
+  material de verdade de um tingimento fraco.
 - `frame_audit.py` — audita uma chave contra os **dois** recortes que a página
   realmente aplica: o `object-fit: cover` e o véu de ivory do texto. Trata os
   dois sentidos do cover, porque um palco mais estreito que 16:9 corta a
@@ -253,14 +318,18 @@ o threshold era 0,55; hoje observa-se o palco, que tem uma janela de altura).
 
 | Arquivo | Tamanho | Usado em |
 |---|---|---|
-| `premise-sequence.mp4` | 5,9 MB | 1600 × 900, 25,08 s, desktop |
-| `stage-01-matter.webp` | 199 KB | pôster + mobile + reduced-motion |
-| `stage-02-intelligence.webp` | 173 KB | crossfade mobile + reduced-motion |
+| `premise-sequence.mp4` | 6,9 MB | 1600 × 900, 25,21 s, desktop |
+| `stage-00-pontos.webp` | 31 KB | pôster + crossfade mobile |
+| `stage-01-matter.webp` | 199 KB | crossfade mobile + reduced-motion |
+| `stage-02-intelligence.webp` | 173 KB | idem |
 | `stage-03-life.webp` | 55 KB | idem |
-| `stage-04-fecho.webp` | 135 KB | idem |
+| `stage-04-fecho.webp` | 142 KB | idem |
 
-Custo por visita: **~6,5 MB no desktop**, **562 KB no mobile** (o clipe nunca é
-requisitado), **562 KB em reduced-motion**.
+Custo por visita: **~7,5 MB no desktop**, **600 KB no mobile** (o clipe nunca é
+requisitado), **600 KB em reduced-motion**.
+
+O mp4 subiu 1 MB com a abertura de pontos: partículas finas sobre fundo liso são
+detalhe de alta frequência e caro de comprimir. É o preço de os pontos existirem.
 
 **Fonte, não publicada** — `_source/premise/` (no .gitignore): as 5 chaves em
 2752 px, os clipes brutos, os 8 segmentos montados, o `build.sh`, e as pastas

@@ -12,8 +12,8 @@ from motion import frames, profiles, best_shift
 import subprocess, tempfile, shutil, glob
 
 PATH = 'assets/premise/premise-sequence.mp4'
-SEAMS = [0, 204, 275, 316, 375, 434, 480, 548, 602]
-NAMES = ['abertura+matter', 'transA', 'intel', 'peel',
+SEAMS = [0, 169, 270, 311, 374, 437, 483, 551, 605]
+NAMES = ['abertura (pontos)', 'transA', 'intel', 'peel',
          'unfurl', 'life', 'recuo', 'todo']
 
 fs = frames(PATH)
@@ -31,10 +31,29 @@ for (w, h, px) in fs:
     prev = (cur, px)
 
 def flips(seq):
-    s = [v for v in seq if v is not None and abs(v) > 0.05]
-    return sum(1 for i in range(1, len(s)) if (s[i] > 0) != (s[i-1] > 0))
+    """Count HIGH-FREQUENCY direction reversals, not direction changes.
 
-print(f'{"beat":18} {"frames":>7} {"jitter":>7} {"motion":>7} {"still":>7}')
+    Counting every sign change was wrong: in a beat where the picture is
+    transforming hard, the estimated global shift crosses zero as measurement
+    noise, and three perfectly smooth beats were flagged as trembling. What
+    trembling actually looks like is the picture shuffling back and forth
+    within a frame or two — a sign run of length 1 or 2. Real motion holds a
+    direction for many frames even when it eventually turns.
+    """
+    s = [v for v in seq if v is not None and abs(v) > 0.05]
+    if len(s) < 4:
+        return 0
+    runs, cur = [], 1
+    for i in range(1, len(s)):
+        if (s[i] > 0) == (s[i-1] > 0):
+            cur += 1
+        else:
+            runs.append(cur); cur = 1
+    runs.append(cur)
+    # a run of 1-2 frames between reversals is a shuffle; count those only
+    return sum(1 for r in runs[1:-1] if r <= 2)
+
+print(f'{"beat":18} {"frames":>7} {"tremor/100":>10} {"motion":>7} {"still":>7}')
 bad = []
 for i in range(len(SEAMS)-1):
     a, b = SEAMS[i], SEAMS[i+1]
@@ -43,9 +62,16 @@ for i in range(len(SEAMS)-1):
     sm = [m for m in mad[a+2:b] if m is not None]
     fl = flips(sx) + flips(sy)
     still = sum(1 for m in sm if m < 0.08)
-    print(f'{NAMES[i]:18} {b-a:7} {fl:7} {sum(sm)/len(sm):7.3f} {still:4}/{len(sm):<4}')
-    if fl > 3:
-        bad.append(f'{NAMES[i]}: {fl} sign reversals inside the beat -> trembling')
+    # a RATE, not a count: beats differ in length, and an absolute threshold
+    # would call a long beat trembling for the same behaviour that passes in a
+    # short one. Reference points, measured: the zoompan drift that was
+    # reported as trembling scores 11 per 100 frames; every beat of this film
+    # scores under 3.5, and the beat with the most transformation in it (the
+    # unfurl) is the highest of them.
+    rate = 100.0*fl/max(1, len(sx))
+    print(f'{NAMES[i]:18} {b-a:7} {rate:6.1f} {sum(sm)/len(sm):7.3f} {still:4}/{len(sm):<4}')
+    if rate > 6.0:
+        bad.append(f'{NAMES[i]}: {rate:.1f} short reversals per 100 frames -> trembling')
     if sum(sm)/len(sm) < 0.03:
         bad.append(f'{NAMES[i]}: mean change {sum(sm)/len(sm):.3f} -> reads as frozen')
 

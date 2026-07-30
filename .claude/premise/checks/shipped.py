@@ -49,7 +49,8 @@ for k in ('DUR', 'LEDE_OUT', 'cap01', 'cap02', 'cap03', 'CODA_IN'):
 # the stacked path crossfades four stills on the same clock; each must land as
 # its own caption becomes opaque, or mobile drifts even though desktop is right
 print('\ncaminho empilhado — cada imagem chega junto com a sua legenda:')
-alvo = {'1': T.COPY['cap02'][1], '2': T.COPY['cap03'][1], '3': T.COPY['coda'][1]}
+alvo = {'1': T.COPY['cap01'][1], '2': T.COPY['cap02'][1],
+        '3': T.COPY['cap03'][1], '4': T.COPY['coda'][1]}
 for idx, start, dur in re.findall(
         r'stills\[(\d)\]\.style\.opacity=clamp\(\(t-([\d.]+)\)/([\d.]+)', src):
     cheia = (float(start) + float(dur)) * T.DUR
