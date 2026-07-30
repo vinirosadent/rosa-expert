@@ -90,7 +90,12 @@
   .premise-label{margin-top:10px;font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-700);}
   .premise-line{margin-top:10px;font-size:16px;line-height:1.6;color:var(--text-body);max-width:34ch;}
   .premise-stagefig{display:none;}
-  .premise-close{margin-top:var(--space-8);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-700);opacity:0;will-change:opacity;}
+  /* Um slot, dois estados: a deixa convida no inicio, a frase de fecho resolve
+     no fim. Ambos absolutos no mesmo lugar, entao a coluna nao muda de altura e
+     os dois nunca colidem (a deixa sai em 0,12; o fecho entra em 0,88). */
+  .premise-foot{position:relative;margin-top:var(--space-8);min-height:3.4em;}
+  .premise-hint{position:absolute;left:0;top:0;margin:0;font-size:11.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);will-change:opacity;}
+  .premise-close{position:absolute;left:0;top:0;margin:0;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-700);opacity:0;will-change:opacity;}
   .premise-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
 
   /* Tablet / mobile: stack media over copy — no overlap, no tiny type */
@@ -116,7 +121,10 @@
   .premise--static .premise-stageitem{position:static;opacity:1;transform:none;}
   .premise--static .premise-stagefig{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-md);margin-bottom:var(--space-5);}
   .premise--static .premise-rail{display:none;}
-  .premise--static .premise-close{opacity:1;}
+  /* sem animacao para acompanhar, a deixa nao tem funcao */
+  .premise--static .premise-hint{display:none;}
+  .premise--static .premise-foot{min-height:0;}
+  .premise--static .premise-close{position:static;opacity:1;}
 </style>
 </head>
 <body>
@@ -190,7 +198,10 @@
               </article>
             </div>
 
-            <p class="premise-close">One connected system, from matter to living tissue.</p>
+            <div class="premise-foot">
+              <p class="premise-hint">Scroll &#8595;&nbsp;&nbsp;follow the material becoming tissue</p>
+              <p class="premise-close">One connected system, from matter to living tissue.</p>
+            </div>
           </div>
         </div>
 
@@ -982,6 +993,7 @@ var track=sec.querySelector('.premise-track'),
     stills=[].slice.call(sec.querySelectorAll('.premise-still')),
     figs=[].slice.call(sec.querySelectorAll('.premise-stagefig')),
     items=[].slice.call(sec.querySelectorAll('.premise-stageitem')),
+    hint=sec.querySelector('.premise-hint'),
     closeLine=sec.querySelector('.premise-close');
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';
@@ -1063,6 +1075,7 @@ function paint(x){
     items[i].style.opacity=o;
     items[i].style.transform='translate3d(0,'+y.toFixed(1)+'px,0)';
   }
+  if(hint)hint.style.opacity=band(x,-1,-1,0.03,0.12);
   if(closeLine)closeLine.style.opacity=band(x,0.88,0.95,9,9);
   if(mode==='stills'){
     /* aligned to the text bands above, so picture and copy change together */
@@ -1120,6 +1133,7 @@ function stop(){if(running){running=false;cancelAnimationFrame(raf);}}
 function resetInline(){
   for(var i=0;i<items.length;i++){items[i].style.opacity='';items[i].style.transform='';}
   for(var j=0;j<stills.length;j++){stills[j].style.opacity='';}
+  if(hint)hint.style.opacity='';
   if(closeLine)closeLine.style.opacity='';
 }
 
