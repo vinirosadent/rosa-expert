@@ -1027,6 +1027,11 @@ var CAPS=[[0.035,0.060,0.185,0.212],            /* 01 Matter */
 var CODA_IN=[0.800,0.862];                      /* the title comes back */
 
 var mode='stills', phase='idle', raf=0, running=false, ready=false;
+
+/* A fase fica exposta em data-phase. Serve para diagnostico: da para ver de
+   fora se o clipe foi mandado tocar, e foi assim que se pegou o observador que
+   nunca disparava porque o threshold era inalcancavel. */
+function setPhase(p){phase=p;sec.dataset.phase=p;}
 var ledeStart=0, clock=0, last=-1;
 
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
@@ -1065,7 +1070,7 @@ function paint(t){
 }
 
 function reset(){
-  phase='idle';clock=0;last=-1;
+  setPhase('idle');clock=0;last=-1;
   sec.classList.remove('is-done');
   if(mode==='video'&&video.src){try{video.pause();video.currentTime=0;}catch(e){}}
   paint(0);
@@ -1073,13 +1078,13 @@ function reset(){
 
 function begin(){
   if(phase!=='idle')return;
-  phase='lede';
+  setPhase('lede');
   ledeStart=performance.now();
 }
 
 function run(){
   if(phase!=='lede')return;
-  phase='playing';
+  setPhase('playing');
   if(mode==='video'&&ready){
     var pr=video.play();
     if(pr&&pr.then)pr.catch(function(){useStills('sem-autoplay');});
@@ -1096,11 +1101,11 @@ function loop(){
   }else{
     if(mode==='video'&&ready){
       t=DUR>0?clamp(video.currentTime/DUR,0,1):0;
-      if(video.ended||t>=0.999){t=1;if(phase!=='done'){phase='done';sec.classList.add('is-done');}}
+      if(video.ended||t>=0.999){t=1;if(phase!=='done'){setPhase('done');sec.classList.add('is-done');}}
     }else{
       clock+=1/60;
       t=clamp(clock/DUR,0,1);
-      if(t>=1&&phase!=='done'){phase='done';sec.classList.add('is-done');}
+      if(t>=1&&phase!=='done'){setPhase('done');sec.classList.add('is-done');}
     }
   }
   if(t!==last){last=t;paint(t);}
@@ -1191,9 +1196,14 @@ if('IntersectionObserver' in window){
     for(var i=0;i<es.length;i++)if(es[i].isIntersecting&&mode==='video')loadVideo();
   },{rootMargin:'0px 0px 100% 0px'}).observe(sec);
 
-  /* The clip waits for you: it starts once the section is properly in view,
+  /* The clip waits for you: it starts once the stage is properly in view,
      pauses if you scroll away, and picks up where it left off when you return.
-     Free to leave, and no place lost. */
+     Free to leave, and no place lost.
+
+     Observe the STAGE, not the section. The section is 200vh, so on a 900px
+     viewport its intersection ratio can never exceed 0.5 — any threshold above
+     that is unreachable and the clip would never be told to play. The stage is
+     one viewport tall, so a 0.6 threshold is comfortably achievable. */
   new IntersectionObserver(function(es){
     for(var i=0;i<es.length;i++){
       if(es[i].isIntersecting){
@@ -1204,7 +1214,7 @@ if('IntersectionObserver' in window){
         stop();
       }
     }
-  },{threshold:0.55}).observe(sec);
+  },{threshold:0.6}).observe(stage);
 }else{
   start();begin();
 }
