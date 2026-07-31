@@ -72,7 +72,7 @@ transparência do scrim naquela coluna.
 
 ## O corte
 
-22,17 s, 532 quadros a 24 fps. As frações estão em `index.html` e são contadas
+23,83 s, 572 quadros a 24 fps. As frações estão em `index.html` e são contadas
 do master pronto, quadro a quadro — não das durações pretendidas, porque os
 trechos interpolados aterram alguns quadros curtos e estimar poria toda legenda
 levemente fora de lugar.
@@ -155,13 +155,18 @@ Contando desde o topo da seção, com o prelúdio de 6,2 s incluído:
 |---|---|
 | 0 – 6,2 s | a premissa, em ivory, desdobrando-se |
 | 6,2 s | o material emerge e o filme entra |
-| 9,55 s | a legenda 01 acaba de ser lida |
-| **9,66 s** | a matéria começa a mudar |
-| 11,49 s | a malha já se vê |
+| 11,00 s | a legenda 01 acaba de ser lida |
+| **11,33 s** | a matéria começa a mudar |
+| 12,89 s | a malha já se vê |
 
 Antes a transformação começava aos 8,91 s — 0,8 s **antes** de a leitura
 acabar, de modo que o material já virava malha enquanto a palavra ainda dizia
-matéria. O beat do Matter passou de 2,71 s para 3,46 s para resolver isso.
+matéria. O beat do Matter passou por 1,3 s, depois 2,71 s, depois 3,46 s, e está
+em **5,13 s**: das três primeiras vezes, rápido demais para se estar com a
+matéria antes de ela mudar.
+
+Para alongá-lo usa-se **mais fonte, não mais interpolação** — 0,75 s esticados a
+7× começam a artefactar. Hoje é 1,0 s de `transA` a 5×.
 
 Nota prática: `minterpolate` entrega cerca de 89% da duração que se lhe pede.
 Para 83 quadros foi preciso pedir o equivalente a 3,88 s, não 3,45 s.
@@ -211,7 +216,7 @@ literalmente mortos num filme de 25,5 s.
 
 O telefone recebe **outro corte do mesmo filme**: `premise-mobile.mp4`,
 720 × 900 (4:5), 1,3 MB contra os 6,9 MB do desktop. Mesma duração e mesmos
-532 quadros, então a tabela de legendas serve para os dois sem ajuste — e
+572 quadros, então a tabela de legendas serve para os dois sem ajuste — e
 `checks/shipped.py` verifica isso, porque uma divergência dessincronizaria o
 telefone em silêncio.
 
@@ -455,7 +460,7 @@ Scripts em `.claude/premise/checks/`:
   (sequências de quadros quase idênticos). Foi o que provou o diagnóstico do
   `zoompan` e o que aprovou cada clipe novo.
 - `film_audit.py` — o mesmo por beat, mais a garantia de que a coluna de texto
-  fica ivory em todos os 532 quadros (o pixel mais escuro que já apareceu ali
+  fica ivory em todos os 572 quadros (o pixel mais escuro que já apareceu ali
   foi 235 de 255). O detector de tremor conta **reversões de alta frequência**
   (sequências de 1–2 quadros entre trocas de sinal) por 100 quadros, não trocas
   de sinal absolutas: contar todas acusava três beats perfeitamente lisos, porque
@@ -513,7 +518,7 @@ o threshold era 0,55; hoje observa-se o palco, que tem uma janela de altura).
 
 | Arquivo | Tamanho | Usado em |
 |---|---|---|
-| `premise-sequence.mp4` | 5,2 MB | 1600 × 900, 22,17 s, desktop |
+| `premise-sequence.mp4` | 5,3 MB | 1600 × 900, 23,83 s, desktop |
 | `stage-01-matter.webp` | 199 KB | pôster + crossfade mobile + reduced-motion |
 | `stage-02-intelligence.webp` | 173 KB | idem |
 | `stage-03-life.webp` | 55 KB | idem |

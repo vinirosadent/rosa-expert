@@ -8,7 +8,7 @@
 #
 #   (a abertura NAO esta neste ficheiro: e' so' a premissa em ivory. Ver index.html)
 #
-#   matter    3.45  matter, barely stirring                caption 01 reads
+#   matter    4.95  matter, barely stirring                caption 01 reads
 #   transA    5.00  matter -> lattice                     the 1->2 transition
 #   intel     1.80  the lattice rests                     caption 02 reads
 #   peel      2.70  the lattice peeling, still cool       caption 02 leaves
@@ -17,15 +17,16 @@
 #   recuo     2.90  the camera retreats
 #   todo      2.30  three strata                          the title returns
 #                  -----
-#                  22.85
+#                  23.65
 #
 # O beat do Matter dura o suficiente para a legenda 01 ser LIDA ATE' AO FIM
 # antes de a materia comecar a mudar. Somando o prelúdio de 6,2s, a
-# transformacao comeca aos 9,65s do inicio da seccao, que e' o instante em que a
-# legenda acaba. Antes comecava aos 8,91s — a materia virava malha enquanto o
-# visitante ainda lia "Matter".
+# transformacao comeca aos 11,16s do inicio da seccao, e a legenda 01 acaba de
+# ser lida aos 11,00s. O beat do Matter ja' foi 1,3s e 3,46s: ambas as vezes
+# rapidas demais para se estar com a materia antes de ela mudar.
 #
-# The first 0.75s of transA, slowed almost to a standstill.
+# The first 1.0s of transA, slowed almost to a standstill.  Usar MAIS fonte e
+# nao mais interpolacao: 0,75s esticados a 7x comecam a artefactar.
 #
 # Three things this build does deliberately:
 #
@@ -89,9 +90,9 @@ seg () { echo "  -> $1"; }
 # dots do not appear in transA until 2.0s), and using it means the beat is real
 # forward motion continuous with the transition that follows: no repeated
 # footage, no reversal, no seam.
-seg "s1-matter.mp4    3.45s"
+seg "s1-matter.mp4    4.95s"
 ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:0.75,setpts=(PTS-STARTPTS)/0.1933,${MI}[v]" -map "[v]" $ENC s1-matter.mp4
+"[0:v]${FIX},trim=0:1.00,setpts=(PTS-STARTPTS)/0.1802,${MI}[v]" -map "[v]" $ENC s1-matter.mp4
 
 # ── 2. matter -> lattice, at essentially real speed ──────────────────────
 # Picks up exactly where the beat above stopped.  It had been compressed to
@@ -99,7 +100,7 @@ ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
 # conceptual centre of the section and it is now the longest transition.
 seg "s3-transA.mp4   5.00s"
 ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0.75:4.20,setpts=(PTS-STARTPTS)/0.6900,fps=24[v]" -map "[v]" $ENC s3-transA.mp4
+"[0:v]${FIX},trim=1.00:4.20,setpts=(PTS-STARTPTS)/0.6400,fps=24[v]" -map "[v]" $ENC s3-transA.mp4
 
 # ── 4. the lattice rests ─────────────────────────────────────────────────
 seg "s4-intel.mp4    1.80s"

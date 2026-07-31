@@ -17,14 +17,14 @@ FPS = 24.0
 # e' desenhada ao vivo em WebGL antes de o clipe comecar. Por isso o texto da
 # premissa tambem nao aparece aqui — ele pertence ao prelúdio.
 BEATS = [          # name,          frames,  what the picture is
-    ('matter',       83, 'matter'),
+    ('matter',      123, 'matter'),
     # transA e' UM segmento, dividido aqui em dois estados: medido quadro a
     # quadro, os pontos da malha aparecem aos 2,0s do transA bruto, que neste
     # corte cai 45 quadros depois de a transicao comecar. A partir dali o que
     # esta na tela ja' e' Intelligence a emergir, e a legenda 01 nao pode estar
     # no ar — foi exactamente esse o defeito relatado.
-    ('transA',       44, 'matter->intel'),
-    ('transA2',      76, 'intel-emergindo'),
+    ('transA',       38, 'matter->intel'),
+    ('transA2',      82, 'intel-emergindo'),
     ('intel',        39, 'intel'),
     ('peel',         64, 'intel->meio'),
     ('unfurl',       64, 'meio->life'),
@@ -43,10 +43,10 @@ DUR = t
 # copy windows in seconds: (fade-in start, fade-in end, fade-out start, fade-out end)
 PRELUDIO = 6.2     # segundos de premissa em ivory antes de o clipe comecar
 COPY = {
-    'cap01': (0.30,  0.90,   3.35,  4.00),
-    'cap02': (5.60,  6.30,  11.00, 11.70),
-    'cap03': (13.95, 14.65, 17.85, 18.60),
-    'coda':  (18.85, 19.75, None,  None),
+    'cap01': (0.35,  1.10,   4.75,  5.50),
+    'cap02': (7.05,  7.85,  12.65, 13.35),
+    'cap03': (15.60, 16.30, 19.50, 20.25),
+    'coda':  (20.55, 21.42, None,  None),
 }
 # which picture-state each piece of copy may be legible over.
 # cap01 is NOT allowed over 'pontos': the material does not exist yet there,
