@@ -72,7 +72,7 @@ transparência do scrim naquela coluna.
 
 ## O corte
 
-26,42 s, 634 quadros a 24 fps. As frações estão em `index.html` e são contadas
+19,96 s, 479 quadros a 24 fps. As frações estão em `index.html` e são contadas
 do master pronto, quadro a quadro — não das durações pretendidas, porque os
 trechos interpolados aterram alguns quadros curtos e estimar poria toda legenda
 levemente fora de lugar.
@@ -107,54 +107,37 @@ e um segundo script confere que as constantes em `index.html` reproduzem a
 tabela verificada — inclusive as travessias de imagem do caminho mobile, que
 caem com diferença de 0,00 s das suas legendas.
 
-### A abertura não é vídeo
+### A abertura é só a premissa
 
-O hero são 160 mil pontos que **flutuam** e tomam a forma das coisas. Esta
-seção tinha de falar a mesma língua, e **um modelo generativo não consegue
-fazer isso**: ele interpola entre duas imagens e não tem noção de partícula com
-destino. Três tentativas provaram:
+A seção abre em ivory, com a frase e nada mais no quadro. Depois o material
+sobe do ivory e o filme corre. Não há imagem nenhuma no prelúdio, e é esse
+silêncio que faz a matéria valer quando entra.
 
-1. pontos com eles mesmos → deriva sem rumo, "pontos que vão e vêm";
-2. uma chave intermédia com o scaffold desenhado inteiramente em pontos → a
-   forma chegava de uma vez e os pontos deixavam de flutuar;
-3. uma chave esparsa → "um blob que abre e fecha, e aí o scaffold surge do
-   nada".
+Foram gastas quatro tentativas a pôr movimento aqui antes de aceitar que ele
+não pertence a este lugar:
 
-Então a abertura é **desenhada ao vivo em WebGL**, como o hero. As posições-alvo
-são **amostradas do próprio `stage-01-matter.webp`**: quando os pontos pousam,
-estão exatamente onde o material vai estar, e o clipe pega dali — por isso o
-filme agora começa na matéria sólida e não tem abertura nenhuma dentro dele.
+1. deriva de pontos gerada em vídeo → sem rumo, "pontos que vão e vêm";
+2. uma chave intermédia densa → a forma chegava de uma vez;
+3. uma chave esparsa → "um blob que abre e fecha";
+4. partículas de verdade em WebGL, como o hero → o mecanismo estava certo e a
+   correlação com a estrutura subia 0,26 → 0,79, mas o resultado era **pesado**.
+   Portei o mecanismo do hero sem a contenção dele: os pontos do hero são
+   minúsculos e translúcidos e a forma nasce da densidade; 26 mil pontos opacos
+   concentrados em meio quadro empastam e leem como blob. Corrigível — menos
+   pontos, mais finos, trajetórias curvas, profundidade — mas cada volta de
+   afinação estética custa uma ida e volta, porque as ferramentas aqui não
+   mostram o resultado.
 
-O peso da amostragem privilegia muito o **contraste local** sobre o escuro
-(`dark*0,16 + edge*4,4`, elevado a 1,45). Pesando o escuro, os pontos só se
-espalham pela massa e o resultado lê como ruído com gradiente; são as bordas
-dos poros que fazem a estrutura ser legível.
+O filme é a coisa elegante. A abertura passou a sair da frente dele.
 
-Medido no navegador: a correlação entre onde os pontos pousam e o mapa de
-estrutura do scaffold sobe **0,26 → 0,72 → 0,79** ao longo do voo.
+Consequência prática: o clipe perdeu qualquer beat de abertura e começa na
+matéria sólida — 479 quadros, 19,96 s, contra os 26,4 s de antes.
 
-Detalhes que fazem o movimento parecer o do hero:
-
-| | |
-|---|---|
-| atraso por ponto | cada partícula tem o seu, então a nuvem chega aos poucos em vez de aterrar toda junta (é o `aGrow` do hero) |
-| inquietação | nunca chega a zero: mesmo pousada a partícula continua a estremecer, então nada "estaciona" |
-| partida | de fora e afastada do centro da massa, para as partículas **voarem para dentro** |
-| recorte | o mesmo do clipe — no telefone o 4:5, senão pousariam fora de onde o material aparece |
-
-46 000 pontos no desktop, 26 000 no telefone.
-
-**O material fica escondido enquanto elas voam** — nem a imagem nem o primeiro
-quadro do clipe — e é a entrada dele por baixo dos pontos que faz a passagem
-parecer fusão em vez de troca. Essa regra CSS tem de vir depois da regra
-`is-ready`: mesma especificidade, ganha a última.
-
-Há uma **rede de segurança por relógio**. O prelúdio corre em
-`requestAnimationFrame` e o clipe só arranca quando ele acaba; sem o
-temporizador, uma aba em segundo plano deixaria a seção parada para sempre num
-painel vazio. Todos os caminhos passam pelo prelúdio, inclusive os que não
-desenham partículas — a copia da premissa vive nele desde que saiu do clipe, e
-sem isso o caminho de imagens ficaria sem ela.
+A passagem do prelúdio para o clipe é feita por **temporizador, não por
+requestAnimationFrame**: o clipe só arranca quando o prelúdio acaba, e com uma
+aba em segundo plano a seção ficaria parada para sempre num painel vazio.
+Todos os caminhos passam pelo prelúdio, inclusive o de imagens — a copia da
+premissa vive nele desde que saiu do clipe.
 
 ### Os platôs não são congelamentos
 
@@ -167,8 +150,8 @@ literalmente mortos num filme de 25,5 s.
 ## Telefone
 
 O telefone recebe **outro corte do mesmo filme**: `premise-mobile.mp4`,
-720 × 900 (4:5), 2,0 MB contra os 6,9 MB do desktop. Mesma duração e mesmos
-634 quadros, então a tabela de legendas serve para os dois sem ajuste — e
+720 × 900 (4:5), 1,3 MB contra os 6,9 MB do desktop. Mesma duração e mesmos
+479 quadros, então a tabela de legendas serve para os dois sem ajuste — e
 `checks/shipped.py` verifica isso, porque uma divergência dessincronizaria o
 telefone em silêncio.
 
@@ -412,7 +395,7 @@ Scripts em `.claude/premise/checks/`:
   (sequências de quadros quase idênticos). Foi o que provou o diagnóstico do
   `zoompan` e o que aprovou cada clipe novo.
 - `film_audit.py` — o mesmo por beat, mais a garantia de que a coluna de texto
-  fica ivory em todos os 634 quadros (o pixel mais escuro que já apareceu ali
+  fica ivory em todos os 479 quadros (o pixel mais escuro que já apareceu ali
   foi 235 de 255). O detector de tremor conta **reversões de alta frequência**
   (sequências de 1–2 quadros entre trocas de sinal) por 100 quadros, não trocas
   de sinal absolutas: contar todas acusava três beats perfeitamente lisos, porque
@@ -470,9 +453,8 @@ o threshold era 0,55; hoje observa-se o palco, que tem uma janela de altura).
 
 | Arquivo | Tamanho | Usado em |
 |---|---|---|
-| `premise-sequence.mp4` | 7,0 MB | 1600 × 900, 26,42 s, desktop |
-| `stage-00-pontos.webp` | 31 KB | pôster + crossfade mobile |
-| `stage-01-matter.webp` | 199 KB | crossfade mobile + reduced-motion |
+| `premise-sequence.mp4` | 4,9 MB | 1600 × 900, 19,96 s, desktop |
+| `stage-01-matter.webp` | 199 KB | pôster + crossfade mobile + reduced-motion |
 | `stage-02-intelligence.webp` | 173 KB | idem |
 | `stage-03-life.webp` | 55 KB | idem |
 | `stage-04-fecho.webp` | 142 KB | idem |

@@ -47,8 +47,7 @@ for k in ('DUR', 'cap01', 'cap02', 'cap03', 'CODA_IN'):
 # the stacked path crossfades four stills on the same clock; each must land as
 # its own caption becomes opaque, or mobile drifts even though desktop is right
 print('\ncaminho empilhado — cada imagem chega junto com a sua legenda:')
-alvo = {'1': T.COPY['cap01'][1], '2': T.COPY['cap02'][1],
-        '3': T.COPY['cap03'][1], '4': T.COPY['coda'][1]}
+alvo = {'1': T.COPY['cap02'][1], '2': T.COPY['cap03'][1], '3': T.COPY['coda'][1]}
 for idx, start, dur in re.findall(
         r'stills\[(\d)\]\.style\.opacity=clamp\(\(t-([\d.]+)\)/([\d.]+)', src):
     cheia = (float(start) + float(dur)) * T.DUR
@@ -58,30 +57,24 @@ for idx, start, dur in re.findall(
     print(f'  {"ok " if d <= 0.10 else "XX "} imagem {idx} cheia em {cheia:5.2f}s, '
           f'legenda em {quer:5.2f}s  (dif {d:.2f}s)')
 
-# The opening is particles that fly and take the scaffold's shape, drawn live
-# in WebGL because a generative model cannot do it — it interpolates between
-# two pictures and has no notion of a particle with a destination. Three
-# attempts proved that. Measured in-browser when this was built: the
-# correlation between where the points land and the scaffold's own structure
-# map rises 0.26 -> 0.72 -> 0.79 across the flight.
-print('\nabertura em particulas (fonte, nao render):')
-pontos = [
-    ('motor existe',                 r'window\.__premisePontos=\(function'),
-    ('alvos amostrados do scaffold', r"img\.src='assets/premise/stage-01-matter\.webp'"),
-    ('peso privilegia as bordas',    r'dark\*0\.16\+edge\*4\.4'),
-    ('voo com atraso por ponto',     r'float d=aRnd\.x\*0\.42'),
-    ('inquietacao nunca chega a 0',  r'mix\(0\.016,0\.0022,p\)'),
-    ('mesmo recorte que o clipe',    r'movel\?\[880/1600,1\]:\[0,1\]'),
-    ('material escondido sob eles',  r'\.is-pontos \.premise-video\{opacity:0'),
-    ('fase de preludio no controlo', r"setPhase\('preludio'\)"),
-    ('degrada sem WebGL',            r'if\(!ok\)fecharPreludio\(\);'),
-    ('preludio tambem sem GL',       r'comParticulas\?PRELUDIO\.duracao:PRE_SEM_GL'),
-    ('rede de seguranca no relogio',  r'preTimer=setTimeout\(fecharPreludio'),
+# The section opens on the premise alone, in ivory, with no picture at all —
+# then the material fades up as the film starts. An earlier attempt put flying
+# particles there to echo the hero, but ported the mechanism without the
+# restraint: 26k opaque dots read as a heavy blob, not as air. The film is the
+# elegant thing, so the opening gets out of its way.
+print('\nabertura em texto (fonte, nao render):')
+abertura = [
+    ('fase de preludio',        r"setPhase\('preludio'\)"),
+    ('imagem so no fim dele',   r"sec\.classList\.add\('is-live'\);   /\* a imagem sobe"),
+    ('passagem por relogio',    r'preTimer=setTimeout\(fecharPreludio,PRE_DUR\*1000\)'),
 ]
-for label, pat in pontos:
+for label, pat in abertura:
     ok = re.search(pat, src) is not None
     bad += not ok
     print(f'  {"ok " if ok else "XX "} {label}')
+limpo = '__premisePontos' not in src and 'is-pontos' not in src and 'premise-points' not in src
+bad += not limpo
+print(f'  {"ok " if limpo else "XX "} sem restos do motor de particulas')
 
 # The hero hands over to this section: its 160k points lose cohesion and pale
 # to the ivory the premise opens on. That effect lives in a GLSL shader driven
