@@ -147,13 +147,25 @@
     .premise-media img{object-position:74% 50%;}
     .premise-scrim{background:linear-gradient(180deg,rgba(253,246,238,0) 62%,var(--premise-ivory) 100%);}
     .premise-inner{flex:0 0 auto;padding-bottom:var(--space-6);}
-    .premise-copy{max-width:none;}
+    /* A abertura e as legendas ocupam a MESMA celula: a coluna passa a ter a
+       altura do MAIOR dos dois estados em vez da SOMA. Solta, a legenda ficava
+       depois de ~226px de texto invisivel (a copia de abertura continua no
+       fluxo, so' com opacidade 0, para a coluna nunca refluir) — no desktop
+       nao se nota porque a coluna fica AO LADO da imagem, mas no telefone fica
+       ABAIXO e o vazio salta a' vista. Aqui a coluna encurta ~150px, e e' esse
+       espaco que deixa a imagem ser retrato. */
+    .premise-copy{max-width:none;display:grid;grid-template-rows:auto auto;}
+    .premise-lede{grid-area:1/1;}
+    .premise-stages{grid-area:1/1;margin-top:0;}
+    .premise-replay{grid-row:2;justify-self:start;}
     /* Driven by vh with only a floor and a ceiling in px: a rem-based middle
        term barely moves between a 667px and an 844px phone, which is exactly
        the range where the copy either fits or does not. */
     .premise-title{font-size:clamp(1.35rem,3.9vh,2.05rem);margin-top:10px;}
     .premise-support{max-width:none;margin-top:clamp(10px,1.8vh,17px);font-size:clamp(15px,2.25vh,18.5px);line-height:1.48;}
-    .premise-stages{min-height:clamp(118px,21.5vh,196px);margin-top:clamp(16px,2.6vh,24px);}
+    /* piso so' para o instante antes de ajustarCaixa() medir; sem margem,
+       porque aqui esta caixa divide a celula com a abertura */
+    .premise-stages{min-height:118px;margin-top:0;}
     .premise-num{font-size:12px;}
     .premise-label{margin-top:7px;font-size:clamp(1.25rem,3.5vh,1.95rem);}
     .premise-line{margin-top:clamp(8px,1.5vh,13px);font-size:clamp(15px,2.25vh,18.5px);line-height:1.48;}
@@ -177,7 +189,9 @@
   .premise--static .premise-stage{position:static;height:auto;display:block;overflow:visible;padding:var(--space-16) 0;}
   .premise--static .premise-media{display:none;}
   .premise--static .premise-copy{max-width:var(--container-narrow);}
-  .premise--static .premise-eyebrow,.premise--static .premise-title,.premise--static .premise-support{opacity:1;}
+  /* Sem pinagem os estados nao se sobrepoem: tudo volta a empilhar-se no fluxo */
+  .premise--static .premise-copy{display:block;}
+  .premise--static .premise-lede,.premise--static .premise-eyebrow,.premise--static .premise-title,.premise--static .premise-support{opacity:1;}
   .premise--static .premise-stages{position:static;min-height:0;display:grid;gap:var(--space-12);margin-top:var(--space-10);}
   .premise--static .premise-stageitem{position:static;opacity:1;transform:none;}
   .premise--static .premise-stageitem--coda{display:block;}
@@ -240,9 +254,15 @@
                the stages, and returns at the close — which is why its position
                on return is identical by construction, not by calibration. -->
           <div class="premise-copy">
-            <p class="eyebrow premise-eyebrow">The premise</p>
-            <h2 id="premise-heading" class="display premise-title">Designing the materials that should exist.</h2>
-            <p class="premise-support">We begin with the biological response and work backwards — designing the matter, models and experimental systems capable of producing it.</p>
+            <!-- Agrupado para que no telefone este bloco e o das legendas possam
+                 ocupar a MESMA celula da grade. Soltos, somavam-se: a legenda
+                 aparecia depois de ~226px de texto invisivel, e no ecra isso e'
+                 um buraco entre a imagem e a palavra. -->
+            <div class="premise-lede">
+              <p class="eyebrow premise-eyebrow">The premise</p>
+              <h2 id="premise-heading" class="display premise-title">Designing the materials that should exist.</h2>
+              <p class="premise-support">We begin with the biological response and work backwards — designing the matter, models and experimental systems capable of producing it.</p>
+            </div>
 
             <div class="premise-stages">
               <article class="premise-stageitem" data-stage="0">
@@ -1122,6 +1142,7 @@ var track=sec.querySelector('.premise-track'),
     figs=[].slice.call(sec.querySelectorAll('.premise-stagefig')),
     items=[].slice.call(sec.querySelectorAll('.premise-stageitem')),
     stages=sec.querySelector('.premise-stages'),
+    ledeBox=sec.querySelector('.premise-lede'),
     eyebrow=sec.querySelector('.premise-eyebrow'),
     title=sec.querySelector('.premise-title'),
     support=sec.querySelector('.premise-support'),
@@ -1187,10 +1208,14 @@ function fadeIn(x,a,b){return x<=a?0:(x<b?smooth((x-a)/(b-a)):1);}
    on the still path. The caption logic below never needs to know which. */
 function paint(t){
   var lede=fadeOut(t,LEDE_OUT[0],LEDE_OUT[1]);
+  var coda=fadeIn(t,CODA_IN[0],CODA_IN[1]);
+  /* O invólucro carrega as DUAS aparições; dentro dele, só o h2 volta no fecho
+     — o eyebrow e o parágrafo ficam em zero. Assim o h2 continua sendo UM
+     elemento que nunca se move, e a frase reaparece exactamente onde abriu. */
+  if(ledeBox)ledeBox.style.opacity=Math.max(lede,coda);
   if(eyebrow)eyebrow.style.opacity=lede;
   if(support)support.style.opacity=lede;
-  /* the title is the only element that appears twice */
-  if(title)title.style.opacity=Math.max(lede,fadeIn(t,CODA_IN[0],CODA_IN[1]));
+  if(title)title.style.opacity=1;
 
   for(var i=0;i<CAPS.length;i++){
     var c=CAPS[i],o=band(t,c[0],c[1],c[2],c[3]);
@@ -1262,6 +1287,7 @@ function stop(){if(running){running=false;cancelAnimationFrame(raf);}}
 function resetInline(){
   for(var i=0;i<items.length;i++){items[i].style.opacity='';items[i].style.transform='';}
   for(var j=0;j<stills.length;j++){stills[j].style.opacity='';}
+  if(ledeBox)ledeBox.style.opacity='';
   if(eyebrow)eyebrow.style.opacity='';
   if(title)title.style.opacity='';
   if(support)support.style.opacity='';

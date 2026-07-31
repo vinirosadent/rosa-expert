@@ -137,6 +137,65 @@ literalmente mortos num filme de 25,5 s.
 
 ---
 
+## Telefone
+
+O telefone recebe **outro corte do mesmo filme**: `premise-mobile.mp4`,
+720 × 900 (4:5), 1,8 MB contra os 6,9 MB do desktop. Mesma duração e mesmos
+605 quadros, então a tabela de legendas serve para os dois sem ajuste — e
+`checks/shipped.py` verifica isso, porque uma divergência dessincronizaria o
+telefone em silêncio.
+
+Não é o 16:9 espremido numa faixa. O 16:9 tem o terço esquerdo deliberadamente
+**vazio**, porque no desktop o texto fica por cima dali; no telefone o texto
+fica **abaixo**, e esse vazio seria só ecrã desperdiçado. O corte é fixo em
+x = 880 de 1600 porque dá para ser: medido nos dez beats, o centro de massa do
+conteúdo varia só de 0,71 a 0,77 da largura, e a massa corre para fora pela
+direita.
+
+### O buraco entre a imagem e a palavra
+
+A coluna de texto nunca reflui: a cópia de abertura continua no fluxo com
+opacidade 0 enquanto a legenda aparece. No desktop isso é invisível, porque a
+coluna fica **ao lado** da imagem. No telefone ela fica **abaixo**, e a legenda
+passava a aparecer depois de ~226 px de texto invisível — um buraco entre a
+figura e a palavra que media zero em qualquer teste de espaço livre, porque o
+espaço não estava livre, estava ocupado por texto que não se vê.
+
+A correção é empilhar: no telefone a abertura e as legendas ocupam a **mesma
+célula** de grade, então a coluna tem a altura do **maior** dos dois estados em
+vez da **soma**. Encurta ~150 px, e é esse espaço que deixa a imagem ser
+retrato — de 35% para 61% da tela num 390 × 844.
+
+O `h2` continua sendo **um** elemento que nunca se move: quem carrega as duas
+aparições é o invólucro `.premise-lede`, e no fecho só o `h2` fica visível
+dentro dele. Verificado: o topo do título é o mesmo nos quatro estados.
+
+### A caixa das legendas é medida, não escrita à mão
+
+O `clamp` reservava 181 px para uma legenda de 127 num 390 × 844, e 216 para
+156 no desktop. Esses pixels saíam directamente do tamanho da imagem.
+`ajustarCaixa()` mede a legenda mais alta no layout real e fixa a caixa nela —
+exacto em qualquer ecrã, com qualquer tipo carregado, e não envelhece se o
+texto mudar.
+
+### Medido
+
+| tela | imagem | proporção da caixa | sobra vazia |
+|---|---|---|---|
+| 360 × 640 | 55% | 1,15 | 0 |
+| 390 × 844 | 61% | 0,83 | 0 |
+| 430 × 932 | 65% | 0,78 | 0 |
+
+O layout é uma coluna flex, não percentagens: a cópia ocupa a altura de que
+precisa e a imagem fica com todo o resto, o que torna impossível sobrar faixa
+branca em qualquer telefone.
+
+**Não é limitação do GitHub Pages.** Ele serve qualquer ficheiro. O telefone
+recebia imagens porque o código estava escrito assim, para não gastar 6,9 MB de
+dados móveis. Hoje `Save-Data` é o único motivo restante para servir imagens.
+
+---
+
 ## A passagem do hero para esta seção
 
 O hero da home é um motor WebGL de 160 mil pontos. Quando esta seção passou a

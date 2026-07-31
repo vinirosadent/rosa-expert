@@ -165,21 +165,25 @@ ffmpeg -v error -y -f concat -safe 0 -i concat.txt -filter_complex \
 -movflags +faststart "$OUT/premise-sequence.mp4"
 
 # ── versao para telefone ─────────────────────────────────────────────────
-# QUADRADA, nao o mesmo 16:9 espremido numa faixa. O 16:9 tem o terco
-# esquerdo deliberadamente VAZIO, porque no desktop o texto fica por cima
-# dali; no telefone o texto fica ABAIXO, entao esse vazio seria so' ecra
-# desperdicado.
+# RETRATO 4:5, nao o 16:9 espremido numa faixa. O 16:9 tem o terco esquerdo
+# deliberadamente VAZIO, porque no desktop o texto fica POR CIMA dali; no
+# telefone o texto fica ABAIXO, entao esse vazio seria so' ecra desperdicado.
 #
-# O corte e' fixo em x=700 de 1600 porque da' para ser: medido nos dez beats,
-# o centro de massa do conteudo varia so' de 0,71 a 0,77 da largura. Um corte
-# quadrado ancorado a' direita segue o assunto o filme inteiro sem precisar de
-# pan.
+# O corte e' fixo em x=880 de 1600 porque da' para ser: medido nos dez beats,
+# o centro de massa do conteudo varia so' de 0,71 a 0,77 da largura, e a massa
+# corre para fora pela direita. Um corte de altura cheia ancorado a' direita
+# segue o assunto o filme inteiro sem precisar de pan.
 #
-# 720x720 e CRF 30: o telefone recebe o filme de verdade em vez de uma
+# 4:5 e nao 1:1 porque e' o que a coluna de texto deixa: com os estados de
+# texto empilhados numa so' celula (ver index.html), a copia encurta ~150px e
+# a caixa da imagem passa a ~0,83 de proporcao num telefone tipico. O video
+# tem de ser talhado para a caixa que existe, nao ao contrario.
+#
+# 720x900 e CRF 30: o telefone recebe o filme de verdade em vez de uma
 # sequencia de imagens, e ainda assim pesa uma fracao do master.
 echo "  -> premise-mobile.mp4"
 ffmpeg -v error -y -f concat -safe 0 -i concat.txt -filter_complex \
-"[0:v]crop=900:900:700:0,scale=720:720,fps=24,setsar=1[v]" -map "[v]" -an \
+"[0:v]crop=720:900:880:0,scale=720:900,fps=24,setsar=1[v]" -map "[v]" -an \
 -c:v libx264 -profile:v high -pix_fmt yuv420p \
 -crf 30 -g 48 -keyint_min 48 -sc_threshold 0 -preset veryslow \
 -x264-params "aq-mode=3:aq-strength=1.3:mbtree=0" \
