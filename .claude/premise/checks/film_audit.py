@@ -12,7 +12,7 @@ from motion import frames, profiles, best_shift
 import subprocess, tempfile, shutil, glob
 
 PATH = 'assets/premise/premise-sequence.mp4'
-SEAMS = [0, 65, 182, 221, 285, 349, 392, 461, 511]
+SEAMS = [0, 83, 203, 242, 306, 370, 413, 482, 532]
 NAMES = ['matter', 'transA', 'intel', 'peel',
          'unfurl', 'life', 'recuo', 'todo']
 

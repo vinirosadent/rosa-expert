@@ -17,14 +17,14 @@ FPS = 24.0
 # e' desenhada ao vivo em WebGL antes de o clipe comecar. Por isso o texto da
 # premissa tambem nao aparece aqui — ele pertence ao prelúdio.
 BEATS = [          # name,          frames,  what the picture is
-    ('matter',       65, 'matter'),
+    ('matter',       83, 'matter'),
     # transA e' UM segmento, dividido aqui em dois estados: medido quadro a
     # quadro, os pontos da malha aparecem aos 2,0s do transA bruto, que neste
     # corte cai 45 quadros depois de a transicao comecar. A partir dali o que
     # esta na tela ja' e' Intelligence a emergir, e a legenda 01 nao pode estar
     # no ar — foi exactamente esse o defeito relatado.
-    ('transA',       45, 'matter->intel'),
-    ('transA2',      72, 'intel-emergindo'),
+    ('transA',       44, 'matter->intel'),
+    ('transA2',      76, 'intel-emergindo'),
     ('intel',        39, 'intel'),
     ('peel',         64, 'intel->meio'),
     ('unfurl',       64, 'meio->life'),
@@ -41,11 +41,12 @@ for name, fr, state in BEATS:
 DUR = t
 
 # copy windows in seconds: (fade-in start, fade-in end, fade-out start, fade-out end)
+PRELUDIO = 6.2     # segundos de premissa em ivory antes de o clipe comecar
 COPY = {
-    'cap01': (0.45,  1.15,   3.55,  4.35),
-    'cap02': (4.80,  5.60,  10.10, 10.90),
-    'cap03': (13.10, 13.90, 17.00, 17.75),
-    'coda':  (17.95, 18.85, None,  None),
+    'cap01': (0.30,  0.90,   3.35,  4.00),
+    'cap02': (5.60,  6.30,  11.00, 11.70),
+    'cap03': (13.95, 14.65, 17.85, 18.60),
+    'coda':  (18.85, 19.75, None,  None),
 }
 # which picture-state each piece of copy may be legible over.
 # cap01 is NOT allowed over 'pontos': the material does not exist yet there,
@@ -117,7 +118,16 @@ if trans['transA'] < max(trans.values()):
 if trans['transA'] < 4.5:
     fails.append(f'transA is only {trans["transA"]:.2f}s (want >= 4.0)')
 
-# 6. the film must open ON the material: the particles land exactly where it
+# 6. THE MATERIAL MUST NOT START CHANGING WHILE CAPTION 01 IS STILL BEING READ.
+#    This is the rule the section kept breaking: the transformation began 0.8s
+#    before the reader had finished with "Matter", so the material was already
+#    becoming a lattice while the word said matter.
+s0, s1 = solid(COPY['cap01'])
+if s1 > SPAN['matter'][1] + 0.01:
+    fails.append(f'the material starts changing at {SPAN["matter"][1]:.2f}s but '
+                 f'caption 01 is still solid until {s1:.2f}s')
+
+# 7. the film must open ON the material: the particles land exactly where it
 #    is about to be, so anything else here would break the hand-off.
 if BEATS[0][2] != 'matter':
     fails.append(f'the film opens on "{BEATS[0][2]}", but the particle prelude '
@@ -136,3 +146,6 @@ if __name__ == '__main__':
         print('  - the returning title lands with the closing picture')
         print(f'  - matter->intelligence is the longest transition ({trans["transA"]:.2f}s)')
         print('  - the film opens on the material the particles land on')
+        print(f'  - the transformation begins at {PRELUDIO+SPAN["matter"][1]:.2f}s from the '
+              f'top of the section, after caption 01 is read '
+              f'({PRELUDIO+solid(COPY["cap01"])[1]:.2f}s)')

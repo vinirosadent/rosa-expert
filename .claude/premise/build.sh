@@ -8,8 +8,8 @@
 #
 #   (a abertura NAO esta neste ficheiro: e' so' a premissa em ivory. Ver index.html)
 #
-#   matter    3.00  matter, barely stirring                caption 01 reads
-#   transA    4.90  matter -> lattice                     the 1->2 transition
+#   matter    3.45  matter, barely stirring                caption 01 reads
+#   transA    5.00  matter -> lattice                     the 1->2 transition
 #   intel     1.80  the lattice rests                     caption 02 reads
 #   peel      2.70  the lattice peeling, still cool       caption 02 leaves
 #   unfurl    2.70  unfurling; warmth arrives             caption 03 enters
@@ -17,12 +17,15 @@
 #   recuo     2.90  the camera retreats
 #   todo      2.30  three strata                          the title returns
 #                  -----
-#                  22.30
+#                  22.85
 #
-# O corte inteiro ganhou ~3s face a versao anterior, e a maior parte foi para o
-# beat do Matter e para a transicao 1->2: estava corrido demais para se
-# apreciar a transformacao, e a legenda 01 ainda estava no ar quando os pontos
-# da malha ja tinham aparecido.
+# O beat do Matter dura o suficiente para a legenda 01 ser LIDA ATE' AO FIM
+# antes de a materia comecar a mudar. Somando o prelúdio de 6,2s, a
+# transformacao comeca aos 9,65s do inicio da seccao, que e' o instante em que a
+# legenda acaba. Antes comecava aos 8,91s — a materia virava malha enquanto o
+# visitante ainda lia "Matter".
+#
+# The first 0.75s of transA, slowed almost to a standstill.
 #
 # Three things this build does deliberately:
 #
@@ -77,7 +80,7 @@ ENC="-an -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 18 -preset medium"
 seg () { echo "  -> $1"; }
 
 # ── 1. matter, formed, barely stirring ───────────────────────────────────
-# The first 0.65s of transA, slowed almost to a standstill.  NOT the idle clip:
+# NOT the idle clip:
 # that one was asked to make the mass "swell and contract", and it obliged by
 # growing a big smooth bubble from about its frame 30 — plainly visible in the
 # phone crop, and read as a blob that does not belong on a mineral scaffold.
@@ -86,17 +89,17 @@ seg () { echo "  -> $1"; }
 # dots do not appear in transA until 2.0s), and using it means the beat is real
 # forward motion continuous with the transition that follows: no repeated
 # footage, no reversal, no seam.
-seg "s1-matter.mp4    3.00s"
+seg "s1-matter.mp4    3.45s"
 ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:0.65,setpts=(PTS-STARTPTS)/0.2167,${MI}[v]" -map "[v]" $ENC s1-matter.mp4
+"[0:v]${FIX},trim=0:0.75,setpts=(PTS-STARTPTS)/0.1933,${MI}[v]" -map "[v]" $ENC s1-matter.mp4
 
 # ── 2. matter -> lattice, at essentially real speed ──────────────────────
 # Picks up exactly where the beat above stopped.  It had been compressed to
 # 2.90s (1.45x) and the transformation went by too fast to follow: this is the
 # conceptual centre of the section and it is now the longest transition.
-seg "s3-transA.mp4   4.90s"
+seg "s3-transA.mp4   5.00s"
 ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0.65:4.20,setpts=(PTS-STARTPTS)/0.7245,fps=24[v]" -map "[v]" $ENC s3-transA.mp4
+"[0:v]${FIX},trim=0.75:4.20,setpts=(PTS-STARTPTS)/0.6900,fps=24[v]" -map "[v]" $ENC s3-transA.mp4
 
 # ── 4. the lattice rests ─────────────────────────────────────────────────
 seg "s4-intel.mp4    1.80s"

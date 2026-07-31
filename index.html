@@ -1203,21 +1203,26 @@ var track=sec.querySelector('.premise-track'),
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';   /* 1600x900, 6,9 MB */
 var VIDEO_SRC_M='assets/premise/premise-mobile.mp4';   /*  720x720, 1,3 MB */
-var DUR=21.292;             /* refined from metadata once the clip loads */
+var DUR=22.167;             /* refined from metadata once the clip loads */
 
 /* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
    Counted off the built master frame by frame (605 frames at 24fps), not from
    the durations the cut was meant to have — the interpolated holds land a few
    frames short and guessing would put every caption slightly out:
-     0.000–0.127  matter, barely stirring          <- caption 01 reads here
-     0.127–0.215  reorganising, still all matter
-     0.215–0.356  the lattice is now VISIBLE       <- caption 01 must be gone
-     0.356–0.433  the lattice, resting             <- caption 02 reads here
-     0.433–0.558  the lattice peeling — still cool
-     0.558–0.683  unfurling; warmth arrives here
-     0.683–0.767  Life, resting
-     0.767–0.902  the camera retreats
-     0.902–1.000  the whole body, resting
+     0.000–0.156  matter, barely stirring          <- caption 01 is read HERE,
+     0.156–0.239  reorganising, still all matter      and must be done by 0.156
+     0.239–0.382  the lattice is now VISIBLE
+     0.382–0.455  the lattice, resting             <- caption 02 reads here
+     0.455–0.575  the lattice peeling — still cool
+     0.575–0.696  unfurling; warmth arrives here
+     0.696–0.776  Life, resting
+     0.776–0.906  the camera retreats
+     0.906–1.000  the whole body, resting
+
+   Contando desde o topo da seccao (prelúdio de 6,2s incluido), a materia comeca
+   a mudar aos 9,66s, e a legenda 01 acaba de ser lida aos 9,55s. Antes a
+   transformacao comecava aos 8,91s — a materia virava malha enquanto o
+   visitante ainda lia "Matter".
 
    The opening is NOT in this clip and is not a picture at all: the section
    opens on the premise, set in ivory, with nothing else in the frame. Then the
@@ -1237,10 +1242,10 @@ var DUR=21.292;             /* refined from metadata once the clip loads */
         waits for 0.202 and not for the start of the clip.
    Each caption is fully opaque for 2.5–3.9s: long enough to read without
    having to stop watching, which is what the larger type is for. */
-var CAPS=[[0.0211,0.0540,0.1667,0.2043],        /* 01 Matter        */
-          [0.2254,0.2630,0.4744,0.5119],        /* 02 Intelligence  */
-          [0.6153,0.6528,0.7984,0.8337]];       /* 03 Life          */
-var CODA_IN=[0.8431,0.8853];                    /* the title comes back */
+var CAPS=[[0.0135,0.0406,0.1511,0.1805],        /* 01 Matter        */
+          [0.2526,0.2842,0.4962,0.5278],        /* 02 Intelligence  */
+          [0.6293,0.6609,0.8053,0.8391]];       /* 03 Life          */
+var CODA_IN=[0.8504,0.8910];                    /* the title comes back */
 var ledeVal=1;                                  /* opacidade da copia de abertura */
 
 var mode='stills', phase='idle', raf=0, running=false, ready=false, visible=false;
@@ -1287,9 +1292,9 @@ function paint(t){
        stacked layout keeps the same word-to-picture agreement as the clip.
        Four states: the section opens on the premise alone, so the material is
        the first picture there is. */
-    stills[1].style.opacity=clamp((t-0.203)/0.0600,0,1);  /* -> 0.2630, with 02 */
-    stills[2].style.opacity=clamp((t-0.593)/0.0600,0,1);  /* -> 0.6528, with 03 */
-    stills[3].style.opacity=clamp((t-0.825)/0.0600,0,1);  /* -> 0.8853, with the title */
+    stills[1].style.opacity=clamp((t-0.224)/0.0600,0,1);  /* -> 0.2842, with 02 */
+    stills[2].style.opacity=clamp((t-0.601)/0.0600,0,1);  /* -> 0.6609, with 03 */
+    stills[3].style.opacity=clamp((t-0.831)/0.0600,0,1);  /* -> 0.8910, with the title */
   }
 }
 
