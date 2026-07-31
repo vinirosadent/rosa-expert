@@ -14,9 +14,9 @@ para 2 e' muito rapida"). Both are now conditions checked by code.
 # caption slightly out, because the motion-interpolated holds land short.
 FPS = 24.0
 BEATS = [          # name,          frames,  what the picture is
-    ('converge',     92, 'pontos'),          # points gather INTO the form
-    ('materia',      59, 'pontos->matter'),  # the points fuse into material
-    ('matter',       46, 'matter'),
+    ('converge',     82, 'pontos'),          # points float and organise
+    ('materia',      73, 'pontos->matter'),  # the structure arrives, then solidifies
+    ('matter',       43, 'matter'),
     ('transA',      101, 'matter->intel'),
     ('intel',        41, 'intel'),
     ('peel',         63, 'intel->meio'),
@@ -35,11 +35,11 @@ DUR = t
 
 # copy windows in seconds: (fade-in start, fade-in end, fade-out start, fade-out end)
 COPY = {
-    'lede':  (None,  None,   5.00,  5.80),
-    'cap01': (6.40,  7.10,   9.90, 10.60),
-    'cap02': (10.90, 11.60, 15.30, 16.00),
-    'cap03': (18.05, 18.75, 21.75, 22.45),
-    'coda':  (23.00, 23.90, None,  None),
+    'lede':  (None,  None,   5.20,  6.00),
+    'cap01': (6.60,  7.30,  10.00, 10.70),
+    'cap02': (11.00, 11.70, 15.35, 16.05),
+    'cap03': (18.10, 18.80, 21.80, 22.50),
+    'coda':  (23.05, 23.95, None,  None),
 }
 # which picture-state each piece of copy may be legible over.
 # cap01 is NOT allowed over 'pontos': the material does not exist yet there,

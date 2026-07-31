@@ -6,9 +6,9 @@
 # (as a fraction of DUR); checks/timing.py checks the pair and checks/shipped.py
 # checks that index.html really carries what timing.py verified.
 #
-#   converge  3.80  points gather INTO the scaffold form  opening copy reads
-#   materia   2.40  the points fuse into solid matter
-#   matter    1.90  matter, formed and alive              caption 01 reads
+#   converge  3.40  points float, and organise as they do   opening copy reads
+#   materia   3.00  the structure arrives, then solidifies
+#   matter    1.80  matter, formed and alive               caption 01 reads
 #   transA    4.30  matter -> lattice                     the 1->2 transition
 #   intel     1.90  the lattice rests                     caption 02 reads
 #   peel      2.60  the lattice peeling, still cool       caption 02 leaves
@@ -21,21 +21,27 @@
 #
 # Three things this build does deliberately:
 #
-#  * THE OPENING IS THE HERO'S LANGUAGE.  The hero is 160k points that take
-#    the shape of things; this section opens the same way — a scattered cloud
-#    GATHERS INTO THE SCAFFOLD'S FORM, and only then fuses into material, under
-#    the words "Designing the materials that should exist."
+#  * THE OPENING IS THE HERO'S LANGUAGE — points that float, and become form.
+#    The balance between those two verbs is the whole thing, and it took three
+#    tries to find:
+#      - points with themselves gave drifting with no direction at all
+#        ("pontos que vao e vem"): movement without intent;
+#      - then an intermediate keyframe of the scaffold drawn ENTIRELY in points
+#        overcorrected — the form had already arrived, dense, in the first beat,
+#        and there was nothing left for the second one to do.
+#    What works is a SPARSE intermediate, 00b-pontos-insinua: still a loose
+#    floating cloud, with only faint concentrations and a few clearings.  You
+#    sense an order arriving without being able to name the shape.  The
+#    structure itself arrives in the SECOND beat, which is why that beat is the
+#    longer of the two.
 #
-#    That needs an intermediate keyframe, 00b-pontos-forma: the scaffold drawn
-#    ENTIRELY in points, right silhouette and right pores, nothing solid.  It
-#    is the same lesson as 02b-meio — without a keyframe in the middle the
-#    model takes the shortcut.  Two earlier attempts to prompt one clip from
-#    scattered points straight to solid matter both delivered finished material
-#    by 0.6s, and a clip of points with themselves only ever produced aimless
-#    drifting ("pontos que vao e vem"), which is movement without intent.
+#    An intermediate keyframe is needed at all for the same reason 02b-meio is:
+#    without one the model takes the shortcut.  Asked twice to go from scattered
+#    points straight to solid matter in one clip, it delivered finished material
+#    by 0.6s both times.
 #
 #    Every seam here is frame-identical, so nothing is cross-faded:
-#      00-pontos -> 00b-pontos-forma -> 01-matter -> (transA)
+#      00-pontos -> 00b-pontos-insinua -> 01-matter -> (transA)
 #
 #  * transA gets 4.30s out of 4.20s of source — essentially real time.  It had
 #    been compressed to 2.90s, which is 1.45x, and the matter-to-intelligence
@@ -63,7 +69,7 @@ SRC="$ROOT/_source/premise"
 OUT="$ROOT/assets/premise"
 cd "$SRC"
 
-for f in converge-raw.mp4 materia-raw.mp4 idleM2-raw.mp4 transA-raw.mp4 transB1-raw.mp4 \
+for f in converge2-raw.mp4 materia2-raw.mp4 idleM2-raw.mp4 transA-raw.mp4 transB1-raw.mp4 \
          transB2-raw.mp4 transC3-raw.mp4; do
   [ -f "$f" ] || { echo "falta $SRC/$f — ver os job IDs em PREMISE-GENERATION-LOG.md" >&2; exit 1; }
 done
@@ -74,28 +80,30 @@ ENC="-an -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 18 -preset medium"
 
 seg () { echo "  -> $1"; }
 
-# ── 1. the points gather into the scaffold's form ────────────────────────
-# Scattered cloud -> the same cloud arranged into the scaffold: right
-# silhouette, right pores, still nothing solid.  Purposeful movement, which is
-# what "vao e vem" was missing.
-seg "s1-converge.mp4  3.80s"
-ffmpeg -v error -y -i converge-raw.mp4 -filter_complex \
-"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.3263[v]" -map "[v]" $ENC s1-converge.mp4
+# ── 1. the points float, and organise as they float ──────────────────────
+# The subject here is the FLOATING.  The organising happens underneath it and
+# only just: faint concentrations, a few clearings, and by the end you sense
+# an order arriving without being able to name the shape.  Nothing is dense,
+# nothing is solid, nothing parks.
+seg "s1-converge.mp4  3.40s"
+ffmpeg -v error -y -i converge2-raw.mp4 -filter_complex \
+"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.4824[v]" -map "[v]" $ENC s1-converge.mp4
 
-# ── 2. the points fuse into material ─────────────────────────────────────
-# Same silhouette, same pores; only the substance changes.  Ends exactly on
-# the Matter keyframe, which is frame 0 of the idle clip AND of transA.
-seg "s2-materia.mp4   2.40s"
-ffmpeg -v error -y -i materia-raw.mp4 -filter_complex \
-"[0:v]${FIX},setpts=(PTS-STARTPTS)/2.1000[v]" -map "[v]" $ENC s2-materia.mp4
+# ── 2. the structure arrives, and then solidifies ────────────────────────
+# THIS is where the scaffold comes for real.  It carries the whole emergence,
+# so it gets more time than the drift before it.  Ends exactly on the Matter
+# keyframe, which is frame 0 of the idle clip AND of transA.
+seg "s2-materia.mp4   3.00s"
+ffmpeg -v error -y -i materia2-raw.mp4 -filter_complex \
+"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.6800[v]" -map "[v]" $ENC s2-materia.mp4
 
 # ── 3. matter, formed, alive ─────────────────────────────────────────────
 # The pore walls flex, particles cross, the light travels.  Only the first
 # seconds of that clip are usable — its last second is where the model brakes
 # to land back on its end frame, and 19 of those 24 frames are near-duplicates.
-seg "s3-matter.mp4    1.90s"
+seg "s3-matter.mp4    1.80s"
 ffmpeg -v error -y -i idleM2-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:1.90,setpts=PTS-STARTPTS[v]" -map "[v]" $ENC s3-matter.mp4
+"[0:v]${FIX},trim=0:1.80,setpts=PTS-STARTPTS[v]" -map "[v]" $ENC s3-matter.mp4
 
 # ── 4. matter -> lattice, at essentially real speed ──────────────────────
 # 4.30s out of 4.20s of source.  It had been 2.90s (1.45x) and the
