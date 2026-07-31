@@ -1150,22 +1150,22 @@ var track=sec.querySelector('.premise-track'),
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';   /* 1600x900, 6,9 MB */
 var VIDEO_SRC_M='assets/premise/premise-mobile.mp4';   /*  720x720, 1,3 MB */
-var DUR=25.208;             /* refined from metadata once the clip loads */
+var DUR=26.375;             /* refined from metadata once the clip loads */
 
 /* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
    Counted off the built master frame by frame (605 frames at 24fps), not from
    the durations the cut was meant to have — the interpolated holds land a few
    frames short and guessing would put every caption slightly out:
-     0.000–0.142  points drifting, nothing formed  <- the premise reads here
-     0.142–0.162  the points close into material
-     0.162–0.279  the material consolidating       <- caption 01 reads here
-     0.279–0.446  reorganising into the lattice    <- the 1->2 transition
-     0.446–0.514  the lattice, resting
-     0.514–0.618  the lattice peeling — still cool
-     0.618–0.722  unfurling; warmth arrives here
-     0.722–0.798  Life, resting
-     0.798–0.911  the camera retreats
-     0.911–1.000  the whole body, resting
+     0.000–0.145  points GATHERING INTO the scaffold's form  <- the premise reads
+     0.145–0.238  the points fuse into solid material
+     0.238–0.310  matter, formed and alive         <- caption 01 reads here
+     0.310–0.469  reorganising into the lattice    <- the 1->2 transition
+     0.469–0.534  the lattice, resting
+     0.534–0.633  the lattice peeling — still cool
+     0.633–0.732  unfurling; warmth arrives here
+     0.732–0.805  Life, resting
+     0.805–0.912  the camera retreats
+     0.912–1.000  the whole body, resting
 
    These windows come from reading time and were then checked against those
    beats, not the other way round. checks/timing.py asserts the rules; three of
@@ -1178,11 +1178,11 @@ var DUR=25.208;             /* refined from metadata once the clip loads */
         waits for 0.202 and not for the start of the clip.
    Each caption is fully opaque for 2.5–3.9s: long enough to read without
    having to stop watching, which is what the larger type is for. */
-var LEDE_OUT=[0.1666,0.1983];                   /* opening copy leaves */
-var CAPS=[[0.2023,0.2301,0.3412,0.3689],        /* 01 Matter        */
-          [0.3808,0.4086,0.5633,0.5911],        /* 02 Intelligence  */
-          [0.6704,0.6982,0.8172,0.8450]];       /* 03 Life          */
-var CODA_IN=[0.8668,0.9025];                    /* the title comes back */
+var LEDE_OUT=[0.1896,0.2199];                   /* opening copy leaves */
+var CAPS=[[0.2427,0.2692,0.3754,0.4019],        /* 01 Matter        */
+          [0.4133,0.4398,0.5801,0.6066],        /* 02 Intelligence  */
+          [0.6844,0.7109,0.8246,0.8512]];       /* 03 Life          */
+var CODA_IN=[0.8720,0.9062];                    /* the title comes back */
 
 var mode='stills', phase='idle', raf=0, running=false, ready=false, visible=false;
 
@@ -1228,10 +1228,10 @@ function paint(t){
        stacked layout keeps the same word-to-picture agreement as the clip.
        Five states here, not four: the section now opens on drifting particles
        that become the material, so the material itself is the second one. */
-    stills[1].style.opacity=clamp((t-0.145)/0.0850,0,1);  /* -> 0.2301, with 01 */
-    stills[2].style.opacity=clamp((t-0.322)/0.0866,0,1);  /* -> 0.4086, with 02 */
-    stills[3].style.opacity=clamp((t-0.612)/0.0862,0,1);  /* -> 0.6982, with 03 */
-    stills[4].style.opacity=clamp((t-0.816)/0.0865,0,1);  /* -> 0.9025, with the title */
+    stills[1].style.opacity=clamp((t-0.183)/0.0862,0,1);  /* -> 0.2692, with 01 */
+    stills[2].style.opacity=clamp((t-0.354)/0.0858,0,1);  /* -> 0.4398, with 02 */
+    stills[3].style.opacity=clamp((t-0.625)/0.0859,0,1);  /* -> 0.7109, with 03 */
+    stills[4].style.opacity=clamp((t-0.820)/0.0862,0,1);  /* -> 0.9062, with the title */
   }
 }
 

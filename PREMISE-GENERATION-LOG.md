@@ -72,26 +72,23 @@ transparência do scrim naquela coluna.
 
 ## O corte
 
-25,21 s, 605 quadros a 24 fps. As frações estão em `index.html` e são contadas
+26,38 s, 633 quadros a 24 fps. As frações estão em `index.html` e são contadas
 do master pronto, quadro a quadro — não das durações pretendidas, porque os
 trechos interpolados aterram alguns quadros curtos e estimar poria toda legenda
 levemente fora de lugar.
 
 | beat | quadros | fração | imagem | texto |
 |---|---|---|---|---|
-| deriva | 86 | 0,000–0,142 | pontos à deriva, nada formado | texto da premissa |
-| forma | 12 | 0,142–0,162 | os pontos fecham em material | idem |
-| consolida | 71 | 0,162–0,279 | o material adensa | **01 Matter** |
-| transA | 101 | 0,279–0,446 | reorganizando | 01 sai, 02 entra |
-| intel | 41 | 0,446–0,514 | a malha descansa | **02 Intelligence** |
-| peel | 63 | 0,514–0,618 | descolando, ainda frio | 02 sai |
-| unfurl | 63 | 0,618–0,722 | desdobrando, o calor chega | 03 entra |
-| life | 46 | 0,722–0,798 | Life descansa | **03 Life** |
-| recuo | 68 | 0,798–0,911 | a câmera recua | 03 sai, título volta |
-| todo | 54 | 0,911–1,000 | os três estratos | **título de fecho** |
-
-Os três primeiros são um único segmento, sem emenda — mas são três coisas
-diferentes na tela, e as regras de texto diferem entre elas.
+| converge | 92 | 0,000–0,145 | pontos se organizando na forma | texto da premissa |
+| materia | 59 | 0,145–0,238 | os pontos se fundem em material | idem |
+| matter | 46 | 0,238–0,310 | matéria formada, viva | **01 Matter** |
+| transA | 101 | 0,310–0,469 | reorganizando | 01 sai, 02 entra |
+| intel | 41 | 0,469–0,534 | a malha descansa | **02 Intelligence** |
+| peel | 63 | 0,534–0,633 | descolando, ainda frio | 02 sai |
+| unfurl | 63 | 0,633–0,732 | desdobrando, o calor chega | 03 entra |
+| life | 46 | 0,732–0,805 | Life descansa | **03 Life** |
+| recuo | 68 | 0,805–0,912 | a câmera recua | 03 sai, título volta |
+| todo | 54 | 0,912–1,000 | os três estratos | **título de fecho** |
 
 Seis regras governam as janelas de texto. Três existem porque uma versão
 publicada as quebrou:
@@ -110,24 +107,26 @@ e um segundo script confere que as constantes em `index.html` reproduzem a
 tabela verificada — inclusive as travessias de imagem do caminho mobile, que
 caem com diferença de 0,00 s das suas legendas.
 
-### A abertura
+### A abertura é a linguagem do hero
 
-Medida quadro a quadro, `transA` já mostra pontos de malha em 2,0 s, e o andaime
-só continua legível como andaime até ~1,5 s. Não há como dar tempo de ler
-"Matter" sobre matéria usando a transição — ela transforma sem parar. E abrir no
-material acabado tem dois problemas: não há o que perceber como vídeo, e não
-ilustra a frase que está ao lado.
+O hero são 160 mil pontos que tomam a forma das coisas. Esta seção abre do mesmo
+jeito: uma nuvem dispersa **se organiza na forma do scaffold**, e só então se
+funde em material — sob a frase *Designing the materials that should exist*.
 
-Então a seção abre em pontos: 3,58 s de deriva pura (um clipe dos pontos com
-eles mesmos, para que nada possa se formar), depois a formação, depois a
-consolidação. O texto da premissa — *Designing the materials that should
-exist* — é lido enquanto o material vem a existir.
+Isso exige uma chave intermédia, `00b-pontos-forma`: o scaffold desenhado
+**inteiramente em pontos**, silhueta certa e poros certos, nada sólido. É a
+mesma lição do `02b-meio` — sem uma chave no meio o modelo atalha. Duas
+tentativas de pedir num só clipe, de pontos dispersos direto a material sólido,
+entregaram material pronto em 0,6 s; e um clipe dos pontos com eles mesmos só
+produzia deriva sem rumo ("pontos que vão e vêm"), que é movimento sem intenção.
 
-A emenda entre a deriva e a formação é a **única do filme que não é contínua
-quadro a quadro**, e leva um dissolve de 0,25 s: são a mesma nuvem em fases
-diferentes da deriva, então o dissolve é invisível onde um corte seco daria um
-salto. Todas as outras emendas são cortes secos, porque cada segmento começa de
-fato onde o anterior terminou.
+A cadeia é `00-pontos → 00b-pontos-forma → 01-matter`, e com ela **todas as
+emendas do filme voltaram a ser contínuas quadro a quadro** — o dissolve de
+0,25 s que existia na abertura deixou de ser necessário.
+
+Não dá para usar a transição para isto: medida quadro a quadro, `transA` já
+mostra pontos de malha em 2,0 s, e o andaime só continua legível como andaime
+até ~1,5 s.
 
 ### Os platôs não são congelamentos
 
@@ -140,8 +139,8 @@ literalmente mortos num filme de 25,5 s.
 ## Telefone
 
 O telefone recebe **outro corte do mesmo filme**: `premise-mobile.mp4`,
-720 × 900 (4:5), 1,8 MB contra os 6,9 MB do desktop. Mesma duração e mesmos
-605 quadros, então a tabela de legendas serve para os dois sem ajuste — e
+720 × 900 (4:5), 2,0 MB contra os 6,9 MB do desktop. Mesma duração e mesmos
+633 quadros, então a tabela de legendas serve para os dois sem ajuste — e
 `checks/shipped.py` verifica isso, porque uma divergência dessincronizaria o
 telefone em silêncio.
 
@@ -276,7 +275,8 @@ direito: é o que dá ao morph um ponto de partida visível.
 
 | Estágio | Job ID |
 |---|---|
-| 00 Pontos | `511f780b-3fa3-4af2-a8a7-71e60aa76e4c` |
+| 00 Pontos (dispersos) | `511f780b-3fa3-4af2-a8a7-71e60aa76e4c` |
+| 00b Pontos na forma | `2e0de1eb-5e53-4b08-aa72-48ca044d7ab6` |
 | 01 Matter | `69e6b1ee-587b-400e-bd94-7ab4183653cf` |
 | 02 Intelligence | `26a74527-1cbf-4059-9453-a8d7ef84ce01` |
 | 02b Meio | `cc5fd49d-cee7-4bd9-9a26-080b3a018e18` |
@@ -302,8 +302,10 @@ ancora cada clipe nas chaves. Saída 1928 × 1076, 24 fps, ~8,75 créditos cada.
 
 | Trecho | Job ID | De → para | usado |
 |---|---|---|---|
-| deriva | `d10cb6fe-28db-4fa7-ba34-6faeb99d16da` | Pontos → Pontos | sim |
-| forma | `7e130e71-a471-4149-8e9b-2db7230fd414` | Pontos → Matter | sim |
+| converge | `66e18a23-efb4-4d17-9c71-0ffdeb30c747` | Pontos → Pontos na forma | sim |
+| materia | `b3129037-9670-421c-ab7b-e1cfb4260662` | Pontos na forma → Matter | sim |
+| deriva (sem rumo) | `d10cb6fe-28db-4fa7-ba34-6faeb99d16da` | Pontos → Pontos | não |
+| forma (2ª tentativa) | `7e130e71-a471-4149-8e9b-2db7230fd414` | Pontos → Matter | não |
 | forma (1ª tentativa) | `43bc0ecd-d4a3-4da6-8cff-10060d082aad` | Pontos → Matter | não |
 | idle Matter | `500bc7d8-ffa1-46d5-bdc2-39593cbd19ed` | Matter → Matter | não |
 | A | `d36cc479-976e-4c4e-bb1e-e05a70c36d77` | Matter → Intelligence | sim |
@@ -379,7 +381,7 @@ Scripts em `.claude/premise/checks/`:
   (sequências de quadros quase idênticos). Foi o que provou o diagnóstico do
   `zoompan` e o que aprovou cada clipe novo.
 - `film_audit.py` — o mesmo por beat, mais a garantia de que a coluna de texto
-  fica ivory em todos os 605 quadros (o pixel mais escuro que já apareceu ali
+  fica ivory em todos os 633 quadros (o pixel mais escuro que já apareceu ali
   foi 235 de 255). O detector de tremor conta **reversões de alta frequência**
   (sequências de 1–2 quadros entre trocas de sinal) por 100 quadros, não trocas
   de sinal absolutas: contar todas acusava três beats perfeitamente lisos, porque
@@ -437,7 +439,7 @@ o threshold era 0,55; hoje observa-se o palco, que tem uma janela de altura).
 
 | Arquivo | Tamanho | Usado em |
 |---|---|---|
-| `premise-sequence.mp4` | 6,9 MB | 1600 × 900, 25,21 s, desktop |
+| `premise-sequence.mp4` | 7,7 MB | 1600 × 900, 26,38 s, desktop |
 | `stage-00-pontos.webp` | 31 KB | pôster + crossfade mobile |
 | `stage-01-matter.webp` | 199 KB | crossfade mobile + reduced-motion |
 | `stage-02-intelligence.webp` | 173 KB | idem |

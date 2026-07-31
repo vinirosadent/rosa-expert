@@ -14,18 +14,16 @@ para 2 e' muito rapida"). Both are now conditions checked by code.
 # caption slightly out, because the motion-interpolated holds land short.
 FPS = 24.0
 BEATS = [          # name,          frames,  what the picture is
-    # the first three are one segment (s12-abertura, 169 frames): no seam,
-    # but three distinct things are on screen and the copy rules differ
-    ('deriva',       86, 'pontos'),
-    ('forma',        12, 'pontos->matter'),
-    ('consolida',    71, 'matter'),
+    ('converge',     92, 'pontos'),          # points gather INTO the form
+    ('materia',      59, 'pontos->matter'),  # the points fuse into material
+    ('matter',       46, 'matter'),
     ('transA',      101, 'matter->intel'),
     ('intel',        41, 'intel'),
     ('peel',         63, 'intel->meio'),
     ('unfurl',       63, 'meio->life'),
     ('life',         46, 'life'),
     ('recuo',        68, 'life->todo'),
-    ('todo',         54, 'todo'),
+    ('todo',         54, 'todo'),   # 52 medidos + 2 de deriva do concat
 ]
 
 t = 0.0
@@ -37,11 +35,11 @@ DUR = t
 
 # copy windows in seconds: (fade-in start, fade-in end, fade-out start, fade-out end)
 COPY = {
-    'lede':  (None,  None,   4.20,  5.00),
-    'cap01': (5.10,  5.80,   8.60,  9.30),
-    'cap02': (9.60,  10.30, 14.20, 14.90),
-    'cap03': (16.90, 17.60, 20.60, 21.30),
-    'coda':  (21.85, 22.75, None,  None),
+    'lede':  (None,  None,   5.00,  5.80),
+    'cap01': (6.40,  7.10,   9.90, 10.60),
+    'cap02': (10.90, 11.60, 15.30, 16.00),
+    'cap03': (18.05, 18.75, 21.75, 22.45),
+    'coda':  (23.00, 23.90, None,  None),
 }
 # which picture-state each piece of copy may be legible over.
 # cap01 is NOT allowed over 'pontos': the material does not exist yet there,
@@ -115,13 +113,13 @@ if trans['transA'] < 4.0:
 
 # 6. the premise must be read over the points, before the material exists.
 #    That is the whole reason the points beat was introduced.
-if SPAN['deriva'][1] < 3.0:
-    fails.append(f'the points only drift for {SPAN["deriva"][1]:.2f}s before the '
+if SPAN['converge'][1] < 3.0:
+    fails.append(f'the points only gather for {SPAN["converge"][1]:.2f}s before the '
                  f'material forms (want >= 3.0, it is the whole point of the beat)')
-_, cap01_a = legible(COPY['cap01'])[0], legible(COPY['cap01'])[0]
-if cap01_a < SPAN['consolida'][0]:
-    fails.append(f'caption 01 starts at {cap01_a:.2f}s but the material does not '
-                 f'exist until {SPAN["consolida"][0]:.2f}s')
+cap01_a = legible(COPY['cap01'])[0]
+if cap01_a < SPAN['matter'][0]:
+    fails.append(f'caption 01 starts at {cap01_a:.2f}s but the material is not solid '
+                 f'until {SPAN["matter"][0]:.2f}s')
 
 if __name__ == '__main__':
     print()

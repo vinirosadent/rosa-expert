@@ -6,9 +6,9 @@
 # (as a fraction of DUR); checks/timing.py checks the pair and checks/shipped.py
 # checks that index.html really carries what timing.py verified.
 #
-#   deriva    3.60  points drifting, nothing formed yet   opening copy reads
-#   forma     0.50  the points close into material
-#   consolida 2.90  the material consolidates             caption 01 reads
+#   converge  3.80  points gather INTO the scaffold form  opening copy reads
+#   materia   2.40  the points fuse into solid matter
+#   matter    1.90  matter, formed and alive              caption 01 reads
 #   transA    4.30  matter -> lattice                     the 1->2 transition
 #   intel     1.90  the lattice rests                     caption 02 reads
 #   peel      2.60  the lattice peeling, still cool       caption 02 leaves
@@ -21,13 +21,21 @@
 #
 # Three things this build does deliberately:
 #
-#  * THE OPENING IS NOT THE MATERIAL.  It is a cloud of fine points that
-#    drifts for three and a half seconds and only then closes into the porous
-#    scaffold — so the section opens on something that BECOMES matter, under
-#    the words "Designing the materials that should exist."  The version before
-#    this one opened on the finished material and had to fill 8.5s from a 4.25s
-#    clip by playing it forward then backward; the turnaround was perceptible
-#    ("fica no vai e vem").  Nothing is reversed any more.
+#  * THE OPENING IS THE HERO'S LANGUAGE.  The hero is 160k points that take
+#    the shape of things; this section opens the same way — a scattered cloud
+#    GATHERS INTO THE SCAFFOLD'S FORM, and only then fuses into material, under
+#    the words "Designing the materials that should exist."
+#
+#    That needs an intermediate keyframe, 00b-pontos-forma: the scaffold drawn
+#    ENTIRELY in points, right silhouette and right pores, nothing solid.  It
+#    is the same lesson as 02b-meio — without a keyframe in the middle the
+#    model takes the shortcut.  Two earlier attempts to prompt one clip from
+#    scattered points straight to solid matter both delivered finished material
+#    by 0.6s, and a clip of points with themselves only ever produced aimless
+#    drifting ("pontos que vao e vem"), which is movement without intent.
+#
+#    Every seam here is frame-identical, so nothing is cross-faded:
+#      00-pontos -> 00b-pontos-forma -> 01-matter -> (transA)
 #
 #  * transA gets 4.30s out of 4.20s of source — essentially real time.  It had
 #    been compressed to 2.90s, which is 1.45x, and the matter-to-intelligence
@@ -55,7 +63,7 @@ SRC="$ROOT/_source/premise"
 OUT="$ROOT/assets/premise"
 cd "$SRC"
 
-for f in deriva-raw.mp4 pontos2-raw.mp4 transA-raw.mp4 transB1-raw.mp4 \
+for f in converge-raw.mp4 materia-raw.mp4 idleM2-raw.mp4 transA-raw.mp4 transB1-raw.mp4 \
          transB2-raw.mp4 transC3-raw.mp4; do
   [ -f "$f" ] || { echo "falta $SRC/$f — ver os job IDs em PREMISE-GENERATION-LOG.md" >&2; exit 1; }
 done
@@ -66,41 +74,30 @@ ENC="-an -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 18 -preset medium"
 
 seg () { echo "  -> $1"; }
 
-# ── 1. the points only drift ─────────────────────────────────────────────
-# A clip of the point cloud with ITSELF (start == end frame), so nothing can
-# form: 3.85s of specks floating, the cloud turning, a few crossing the empty
-# ivory on the left.  This exists because kling will NOT hold off the
-# transformation on request.  Asked twice, in increasingly explicit terms, for
-# the points to drift for four fifths of the shot and only then close into
-# material, it delivered finished material by 0.6s both times: with a
-# start_image and an end_image it interpolates between them and front-loads
-# whatever change is largest.  Pacing has to be cut, not prompted.
-seg "s1-deriva.mp4   3.85s"
-ffmpeg -v error -y -i deriva-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:3.85,setpts=PTS-STARTPTS[v]" -map "[v]" $ENC s1-deriva.mp4
+# ── 1. the points gather into the scaffold's form ────────────────────────
+# Scattered cloud -> the same cloud arranged into the scaffold: right
+# silhouette, right pores, still nothing solid.  Purposeful movement, which is
+# what "vao e vem" was missing.
+seg "s1-converge.mp4  3.80s"
+ffmpeg -v error -y -i converge-raw.mp4 -filter_complex \
+"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.3263[v]" -map "[v]" $ENC s1-converge.mp4
 
-# ── 2. the points close into matter, and it consolidates ─────────────────
-# The whole points->matter clip at 1.48x.  Its formation lands in the first
-# half-second and the rest is the mass consolidating and deepening, which is
-# why caption 01 does not appear until the consolidation is under way — by
-# then there really is a material on screen to name.  Ends exactly on the
-# Matter keyframe, which is frame 0 of transA.
-seg "s2-forma.mp4    3.40s"
-ffmpeg -v error -y -i pontos2-raw.mp4 -filter_complex \
-"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.4824[v]" -map "[v]" $ENC s2-forma.mp4
+# ── 2. the points fuse into material ─────────────────────────────────────
+# Same silhouette, same pores; only the substance changes.  Ends exactly on
+# the Matter keyframe, which is frame 0 of the idle clip AND of transA.
+seg "s2-materia.mp4   2.40s"
+ffmpeg -v error -y -i materia-raw.mp4 -filter_complex \
+"[0:v]${FIX},setpts=(PTS-STARTPTS)/2.1000[v]" -map "[v]" $ENC s2-materia.mp4
 
-# ── 1b. the one seam that is not frame-continuous ────────────────────────
-# The drift clip ends at its own 3.85s mark; the formation clip begins on the
-# points keyframe.  Both frames are the same cloud in a different phase of its
-# drifting, so a 0.25s dissolve makes the join invisible where a hard cut
-# would pop.  Every OTHER seam in this film is a straight cut, because each
-# segment genuinely begins where the previous one ended.
-seg "s12-abertura.mp4  7.00s (emenda com dissolve de 0,25s)"
-ffmpeg -v error -y -i s1-deriva.mp4 -i s2-forma.mp4 -filter_complex \
-"[0:v][1:v]xfade=transition=fade:duration=0.25:offset=3.60,fps=24,setsar=1[v]" \
--map "[v]" $ENC s12-abertura.mp4
+# ── 3. matter, formed, alive ─────────────────────────────────────────────
+# The pore walls flex, particles cross, the light travels.  Only the first
+# seconds of that clip are usable — its last second is where the model brakes
+# to land back on its end frame, and 19 of those 24 frames are near-duplicates.
+seg "s3-matter.mp4    1.90s"
+ffmpeg -v error -y -i idleM2-raw.mp4 -filter_complex \
+"[0:v]${FIX},trim=0:1.90,setpts=PTS-STARTPTS[v]" -map "[v]" $ENC s3-matter.mp4
 
-# ── 3. matter -> lattice, at essentially real speed ──────────────────────
+# ── 4. matter -> lattice, at essentially real speed ──────────────────────
 # 4.30s out of 4.20s of source.  It had been 2.90s (1.45x) and the
 # transformation went by too fast to follow: this is the conceptual centre of
 # the section and it is now the longest transition in the film.
@@ -139,8 +136,8 @@ ffmpeg -v error -y -i transC3-raw.mp4 -filter_complex \
 "[0:v]${FIX},trim=4.20:5.04,setpts=(PTS-STARTPTS)/0.3500,${MI}[v]" -map "[v]" $ENC s9-todo.mp4
 
 # ── join ─────────────────────────────────────────────────────────────────
-printf "file '%s'\n" s12-abertura.mp4 s3-transA.mp4 s4-intel.mp4 s5-peel.mp4 \
-  s6-unfurl.mp4 s7-life.mp4 s8-recuo.mp4 s9-todo.mp4 > concat.txt
+printf "file '%s'\n" s1-converge.mp4 s2-materia.mp4 s3-matter.mp4 s3-transA.mp4 \
+  s4-intel.mp4 s5-peel.mp4 s6-unfurl.mp4 s7-life.mp4 s8-recuo.mp4 s9-todo.mp4 > concat.txt
 
 echo "  -> premise-sequence.mp4"
 # -g 48 (keyframe every 2s) is all that is needed: the clip only ever plays
@@ -195,7 +192,7 @@ echo
 # The fractions in index.html are counted off THIS file, frame by frame, so
 # print the segment lengths the table has to be built from.
 echo "  quadros por beat (para a tabela em checks/timing.py):"
-for f in s1-deriva s2-forma s12-abertura s3-transA s4-intel s5-peel s6-unfurl s7-life s8-recuo s9-todo; do
+for f in s1-converge s2-materia s3-matter s3-transA s4-intel s5-peel s6-unfurl s7-life s8-recuo s9-todo; do
   n=$(ffprobe -v error -select_streams v -count_frames \
       -show_entries stream=nb_read_frames -of csv=p=0 $f.mp4)
   printf "    %-22s %4s\n" "$f" "$n"

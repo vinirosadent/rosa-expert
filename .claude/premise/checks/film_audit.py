@@ -12,8 +12,8 @@ from motion import frames, profiles, best_shift
 import subprocess, tempfile, shutil, glob
 
 PATH = 'assets/premise/premise-sequence.mp4'
-SEAMS = [0, 169, 270, 311, 374, 437, 483, 551, 605]
-NAMES = ['abertura (pontos)', 'transA', 'intel', 'peel',
+SEAMS = [0, 92, 151, 197, 298, 339, 402, 465, 511, 579, 633]
+NAMES = ['converge', 'materia', 'matter', 'transA', 'intel', 'peel',
          'unfurl', 'life', 'recuo', 'todo']
 
 fs = frames(PATH)
