@@ -25,13 +25,11 @@ caps = [caps[i:i+4] for i in range(0, 12, 4)]
 
 shipped = {
     'DUR':      nums(r'var DUR=([\d.]+);'),
-    'LEDE_OUT': nums(r'var LEDE_OUT=\[([^\]]+)\]'),
     'cap01': caps[0], 'cap02': caps[1], 'cap03': caps[2],
     'CODA_IN':  nums(r'var CODA_IN=\[([^\]]+)\]'),
 }
 expect = {
     'DUR':      [round(T.DUR, 3)],
-    'LEDE_OUT': [round(T.COPY['lede'][2]/T.DUR, 4), round(T.COPY['lede'][3]/T.DUR, 4)],
     'cap01':    [round(x/T.DUR, 4) for x in T.COPY['cap01']],
     'cap02':    [round(x/T.DUR, 4) for x in T.COPY['cap02']],
     'cap03':    [round(x/T.DUR, 4) for x in T.COPY['cap03']],
@@ -40,7 +38,7 @@ expect = {
 
 bad = 0
 print('constantes do clipe:')
-for k in ('DUR', 'LEDE_OUT', 'cap01', 'cap02', 'cap03', 'CODA_IN'):
+for k in ('DUR', 'cap01', 'cap02', 'cap03', 'CODA_IN'):
     ok = shipped[k] == expect[k]
     bad += not ok
     print(f'  {"ok " if ok else "XX "} {k:9} {shipped[k]}'
@@ -59,6 +57,31 @@ for idx, start, dur in re.findall(
     bad += d > 0.10
     print(f'  {"ok " if d <= 0.10 else "XX "} imagem {idx} cheia em {cheia:5.2f}s, '
           f'legenda em {quer:5.2f}s  (dif {d:.2f}s)')
+
+# The opening is particles that fly and take the scaffold's shape, drawn live
+# in WebGL because a generative model cannot do it — it interpolates between
+# two pictures and has no notion of a particle with a destination. Three
+# attempts proved that. Measured in-browser when this was built: the
+# correlation between where the points land and the scaffold's own structure
+# map rises 0.26 -> 0.72 -> 0.79 across the flight.
+print('\nabertura em particulas (fonte, nao render):')
+pontos = [
+    ('motor existe',                 r'window\.__premisePontos=\(function'),
+    ('alvos amostrados do scaffold', r"img\.src='assets/premise/stage-01-matter\.webp'"),
+    ('peso privilegia as bordas',    r'dark\*0\.16\+edge\*4\.4'),
+    ('voo com atraso por ponto',     r'float d=aRnd\.x\*0\.42'),
+    ('inquietacao nunca chega a 0',  r'mix\(0\.016,0\.0022,p\)'),
+    ('mesmo recorte que o clipe',    r'movel\?\[880/1600,1\]:\[0,1\]'),
+    ('material escondido sob eles',  r'\.is-pontos \.premise-video\{opacity:0'),
+    ('fase de preludio no controlo', r"setPhase\('preludio'\)"),
+    ('degrada sem WebGL',            r'if\(!ok\)fecharPreludio\(\);'),
+    ('preludio tambem sem GL',       r'comParticulas\?PRELUDIO\.duracao:PRE_SEM_GL'),
+    ('rede de seguranca no relogio',  r'preTimer=setTimeout\(fecharPreludio'),
+]
+for label, pat in pontos:
+    ok = re.search(pat, src) is not None
+    bad += not ok
+    print(f'  {"ok " if ok else "XX "} {label}')
 
 # The hero hands over to this section: its 160k points lose cohesion and pale
 # to the ivory the premise opens on. That effect lives in a GLSL shader driven

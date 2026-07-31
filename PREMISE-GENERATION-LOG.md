@@ -107,32 +107,54 @@ e um segundo script confere que as constantes em `index.html` reproduzem a
 tabela verificada — inclusive as travessias de imagem do caminho mobile, que
 caem com diferença de 0,00 s das suas legendas.
 
-### A abertura é a linguagem do hero
+### A abertura não é vídeo
 
-O hero são 160 mil pontos que **flutuam** e tomam a forma das coisas. O
-equilíbrio entre esses dois verbos é a coisa toda, e levou três tentativas:
+O hero são 160 mil pontos que **flutuam** e tomam a forma das coisas. Esta
+seção tinha de falar a mesma língua, e **um modelo generativo não consegue
+fazer isso**: ele interpola entre duas imagens e não tem noção de partícula com
+destino. Três tentativas provaram:
 
-1. pontos com eles mesmos deram deriva sem rumo nenhum — "pontos que vão e
-   vêm", movimento sem intenção;
-2. uma chave intermédia com o scaffold desenhado **inteiramente em pontos**
-   corrigiu demais: a forma já tinha chegado, densa, no primeiro tempo, e não
-   sobrava nada para o segundo fazer;
-3. o que funciona é uma intermédia **esparsa**, `00b-pontos-insinua`: ainda uma
-   nuvem solta e flutuante, com apenas concentrações fracas e algumas clareiras.
-   Dá para sentir uma ordem chegando sem conseguir nomear a forma.
+1. pontos com eles mesmos → deriva sem rumo, "pontos que vão e vêm";
+2. uma chave intermédia com o scaffold desenhado inteiramente em pontos → a
+   forma chegava de uma vez e os pontos deixavam de flutuar;
+3. uma chave esparsa → "um blob que abre e fecha, e aí o scaffold surge do
+   nada".
 
-A estrutura em si chega no **segundo** tempo, que por isso é o mais longo dos
-dois. Uma chave intermédia é necessária de qualquer modo pela mesma razão do
-`02b-meio`: sem ela o modelo atalha — pedindo num só clipe, de pontos dispersos
-direto a material sólido, ele entregou material pronto em 0,6 s duas vezes.
+Então a abertura é **desenhada ao vivo em WebGL**, como o hero. As posições-alvo
+são **amostradas do próprio `stage-01-matter.webp`**: quando os pontos pousam,
+estão exatamente onde o material vai estar, e o clipe pega dali — por isso o
+filme agora começa na matéria sólida e não tem abertura nenhuma dentro dele.
 
-A cadeia é `00-pontos → 00b-pontos-insinua → 01-matter`, e com ela **todas as
-emendas do filme voltaram a ser contínuas quadro a quadro** — o dissolve de
-0,25 s que existia na abertura deixou de ser necessário.
+O peso da amostragem privilegia muito o **contraste local** sobre o escuro
+(`dark*0,16 + edge*4,4`, elevado a 1,45). Pesando o escuro, os pontos só se
+espalham pela massa e o resultado lê como ruído com gradiente; são as bordas
+dos poros que fazem a estrutura ser legível.
 
-Não dá para usar a transição para isto: medida quadro a quadro, `transA` já
-mostra pontos de malha em 2,0 s, e o andaime só continua legível como andaime
-até ~1,5 s.
+Medido no navegador: a correlação entre onde os pontos pousam e o mapa de
+estrutura do scaffold sobe **0,26 → 0,72 → 0,79** ao longo do voo.
+
+Detalhes que fazem o movimento parecer o do hero:
+
+| | |
+|---|---|
+| atraso por ponto | cada partícula tem o seu, então a nuvem chega aos poucos em vez de aterrar toda junta (é o `aGrow` do hero) |
+| inquietação | nunca chega a zero: mesmo pousada a partícula continua a estremecer, então nada "estaciona" |
+| partida | de fora e afastada do centro da massa, para as partículas **voarem para dentro** |
+| recorte | o mesmo do clipe — no telefone o 4:5, senão pousariam fora de onde o material aparece |
+
+46 000 pontos no desktop, 26 000 no telefone.
+
+**O material fica escondido enquanto elas voam** — nem a imagem nem o primeiro
+quadro do clipe — e é a entrada dele por baixo dos pontos que faz a passagem
+parecer fusão em vez de troca. Essa regra CSS tem de vir depois da regra
+`is-ready`: mesma especificidade, ganha a última.
+
+Há uma **rede de segurança por relógio**. O prelúdio corre em
+`requestAnimationFrame` e o clipe só arranca quando ele acaba; sem o
+temporizador, uma aba em segundo plano deixaria a seção parada para sempre num
+painel vazio. Todos os caminhos passam pelo prelúdio, inclusive os que não
+desenham partículas — a copia da premissa vive nele desde que saiu do clipe, e
+sem isso o caminho de imagens ficaria sem ela.
 
 ### Os platôs não são congelamentos
 

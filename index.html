@@ -89,12 +89,23 @@
      watch the picture appear, fade away, and only then fade back in. This way
      hiding is instant and only the arrival is animated. */
   .premise[data-mode].is-live .premise-media{opacity:1;transition:opacity .9s var(--ease-out);}
+  /* A abertura em particulas, desenhada ao vivo. Fica por cima das imagens e
+     do clipe, e por baixo do veu de texto. */
+  .premise-points{position:absolute;inset:0;width:100%;height:100%;z-index:1;
+    opacity:0;transition:opacity .55s var(--ease-out);pointer-events:none;}
+  .premise.is-pontos .premise-points{opacity:1;}
   .premise-still{opacity:0;}
   .premise-still[data-still="0"]{opacity:1;}
   .premise-video{opacity:0;transition:opacity .6s var(--ease-out);}
   /* Scoped to the video mode so a resize down to the stacked layout cannot
      leave a frozen frame sitting on top of the still crossfade. */
   .premise[data-mode="video"].is-ready .premise-video{opacity:1;}
+  /* Enquanto os pontos voam, o material NAO pode estar por baixo deles — nem a
+     imagem nem o primeiro quadro do clipe. So' aparece quando eles pousam, e e'
+     essa entrada por baixo dos pontos que faz a passagem parecer fusao.
+     Tem de vir DEPOIS da regra acima: mesma especificidade, ganha a ultima. */
+  .premise.is-pontos .premise-still[data-still="0"]{opacity:0;}
+  .premise[data-mode="video"].is-pontos .premise-video{opacity:0;}
   .premise-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;
     background:
       linear-gradient(180deg,var(--premise-ivory) 0%,rgba(253,246,238,0) 14%,rgba(253,246,238,0) 86%,var(--premise-ivory) 100%),
@@ -244,6 +255,7 @@
           <img class="premise-still" data-still="3" data-src="assets/premise/stage-03-life.webp" alt="" aria-hidden="true" decoding="async">
           <img class="premise-still" data-still="4" data-src="assets/premise/stage-04-fecho.webp" alt="" aria-hidden="true" decoding="async">
           <video class="premise-video" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+          <canvas class="premise-points" aria-hidden="true"></canvas>
           <div class="premise-scrim" aria-hidden="true"></div>
         </div>
 
@@ -1125,6 +1137,218 @@ requestAnimationFrame(loop);
   addEventListener('resize',size);size();requestAnimationFrame(frame);});})();
 </script>
 
+<!-- ── A abertura da premissa: particulas que voam e tomam a forma ───────
+     Isto NAO e' video. Um modelo generativo interpola entre duas imagens; nao
+     tem nocao de particula com destino, e por isso as tres tentativas de gerar
+     esta abertura deram, em ordem: deriva sem rumo, a forma chegando de uma
+     vez, e um blob abrindo e fechando com o scaffold surgindo do nada.
+     O hero faz porque sao pontos de verdade com posicao-alvo. Aqui e' o mesmo
+     mecanismo, e os alvos sao AMOSTRADOS DO PROPRIO 01-matter: quando os
+     pontos pousam, estao exactamente onde o material vai estar, e o clipe pega
+     dali. -->
+<script>
+window.__premisePontos=(function(){
+'use strict';
+var cv=document.querySelector('.premise-points');
+if(!cv)return null;
+var gl=cv.getContext('webgl2',{alpha:true,premultipliedAlpha:false,antialias:true,depth:false});
+if(!gl)return null;
+
+var VS=`#version 300 es
+in vec2 aTo; in vec2 aFrom; in vec3 aRnd;   /* aRnd: atraso, semente, tamanho */
+uniform vec2 uRes;      /* caixa em pixels                */
+uniform vec4 uRect;     /* recorte visivel: off.xy, tam.zw */
+uniform float uP;       /* 0..1 do voo                     */
+uniform float uT;       /* segundos, para a inquietacao    */
+uniform float uDpr;
+out float vA;
+void main(){
+  /* Cada ponto tem o seu proprio atraso, entao a nuvem chega aos poucos em vez
+     de aterrar toda junta -- e' o que o hero faz com aGrow. */
+  float d=aRnd.x*0.42;
+  float p=clamp((uP-d)/(1.0-0.42),0.0,1.0);
+  p=p*p*(3.0-2.0*p);
+  vec2 uv=mix(aFrom,aTo,p);
+  /* Nada nunca estaciona: a inquietacao diminui ao pousar mas nao chega a zero */
+  float s=aRnd.y*62.8;
+  float amp=mix(0.016,0.0022,p);
+  uv+=vec2(sin(uT*0.55+s),cos(uT*0.47+s*1.7))*amp;
+  vec2 px=uRect.xy+uv*uRect.zw;
+  gl_Position=vec4((px.x/uRes.x)*2.0-1.0, 1.0-(px.y/uRes.y)*2.0, 0.0, 1.0);
+  /* aparecem no comeco, e engrossam um pouco ao pousar: e' esse engrossar que
+     faz a passagem para o material solido parecer fusao e nao troca */
+  float fin=smoothstep(0.0,0.10,uP);
+  gl_PointSize=max(1.0,(aRnd.z*(1.0+0.45*p))*uDpr);
+  vA=fin*(0.30+0.52*p);
+}`;
+var FS=`#version 300 es
+precision mediump float;
+in float vA; out vec4 o;
+void main(){
+  vec2 d=gl_PointCoord-0.5; float r=length(d)*2.0;
+  if(r>1.0) discard;
+  o=vec4(0.396,0.475,0.573, vA*(1.0-r*r));   /* azul-aco fosco, chato */
+}`;
+function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
+  if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(o));return o;}
+var prog=gl.createProgram();
+try{
+  gl.attachShader(prog,sh(gl.VERTEX_SHADER,VS));
+  gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,FS));
+  gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(prog));
+}catch(e){ return null; }
+gl.useProgram(prog);
+var U={};['uRes','uRect','uP','uT','uDpr'].forEach(function(k){U[k]=gl.getUniformLocation(prog,k);});
+var A={to:gl.getAttribLocation(prog,'aTo'),from:gl.getAttribLocation(prog,'aFrom'),
+       rnd:gl.getAttribLocation(prog,'aRnd')};
+var bTo=gl.createBuffer(),bFrom=gl.createBuffer(),bRnd=gl.createBuffer();
+
+var GW=440,GH=248;         /* grade de amostragem */
+var N=0, pronto=false, srcW=1600, srcH=900;
+var img=new Image();
+
+/* Amostra as posicoes-alvo da propria imagem do scaffold. O peso privilegia
+   MUITO o contraste local sobre o escuro: sao as bordas dos poros que fazem a
+   estrutura ser legivel; pesando o escuro os pontos so espalham pela massa e
+   o resultado le' como ruido com gradiente. */
+function amostrar(rect,alvo){
+  var c=document.createElement('canvas');c.width=GW;c.height=GH;
+  var g=c.getContext('2d',{willReadFrequently:true});
+  g.drawImage(img,0,0,GW,GH);
+  var d;
+  try{ d=g.getImageData(0,0,GW,GH).data; }catch(e){ return 0; }
+  var lum=new Float32Array(GW*GH),i;
+  for(i=0;i<GW*GH;i++) lum[i]=d[i*4]*0.299+d[i*4+1]*0.587+d[i*4+2]*0.114;
+  var x0=Math.floor(rect[0]*GW),x1=Math.ceil(rect[1]*GW);
+  var cum=[],pos=[],tot=0,x,y;
+  for(y=1;y<GH-1;y++)for(x=Math.max(1,x0);x<Math.min(GW-1,x1);x++){
+    var k=y*GW+x;
+    var dark=Math.max(0,236-lum[k])/236;
+    var edge=(Math.abs(lum[k-1]-lum[k+1])+Math.abs(lum[k-GW]-lum[k+GW]))/510;
+    var v=Math.pow(dark*0.16+edge*4.4,1.45);
+    if(v<=0)continue;
+    tot+=v; cum.push(tot); pos.push(k);
+  }
+  if(!tot)return 0;
+  var to=new Float32Array(alvo*2),fr=new Float32Array(alvo*2),rn=new Float32Array(alvo*3);
+  var rw=rect[1]-rect[0];
+  for(i=0;i<alvo;i++){
+    var r=Math.random()*tot, lo=0, hi=cum.length-1;
+    while(lo<hi){var m=(lo+hi)>>1; if(cum[m]<r)lo=m+1; else hi=m;}
+    var kk=pos[lo], px=kk%GW, py=(kk/GW)|0;
+    var u=((px+Math.random())/GW-rect[0])/rw, v2=(py+Math.random())/GH;
+    to[i*2]=u; to[i*2+1]=v2;
+    /* partem de fora, afastados do centro da massa, para VOAREM para dentro */
+    var a=Math.random()*6.283, dist=0.22+0.62*Math.random();
+    fr[i*2]=u+Math.cos(a)*dist*0.62; fr[i*2+1]=v2+Math.sin(a)*dist;
+    rn[i*3]=Math.random(); rn[i*3+1]=Math.random(); rn[i*3+2]=1.25+Math.random()*1.35;
+  }
+  function up(b,arr,loc,n){gl.bindBuffer(gl.ARRAY_BUFFER,b);
+    gl.bufferData(gl.ARRAY_BUFFER,arr,gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,n,gl.FLOAT,false,0,0);}
+  up(bTo,to,A.to,2); up(bFrom,fr,A.from,2); up(bRnd,rn,A.rnd,3);
+  return alvo;
+}
+
+var W=0,H=0,DPR=1,rectPx=[0,0,1,1],rectSrc=[0,1];
+function medir(){
+  DPR=Math.min(window.devicePixelRatio||1,2);
+  W=cv.clientWidth;H=cv.clientHeight;
+  if(!W||!H)return false;
+  cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);
+  gl.viewport(0,0,cv.width,cv.height);
+  /* O clipe do telefone e' o recorte 4:5 (x 880..1600 de 1600); o do desktop e'
+     o quadro inteiro. Os pontos tem de usar o MESMO recorte, senao pousam fora
+     de onde o material vai aparecer. */
+  var movel=window.matchMedia&&window.matchMedia('(max-width: 860px)').matches;
+  rectSrc = movel?[880/1600,1]:[0,1];
+  var sw=(rectSrc[1]-rectSrc[0])*srcW, shh=srcH;
+  var s=Math.max(W/sw,H/shh);
+  rectPx=[(W-sw*s)/2,(H-shh*s)/2,sw*s,shh*s];
+  return true;
+}
+
+var raf=0,t0=0,DUR=5.4,rodando=false,aoFim=null;
+function quadro(now){
+  if(!rodando)return;
+  raf=requestAnimationFrame(quadro);
+  var el=(now-t0)/1000;
+  var p=Math.max(0,Math.min(1,el/DUR));
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  if(pronto&&N){
+    gl.uniform2f(U.uRes,cv.width,cv.height);
+    gl.uniform4f(U.uRect,rectPx[0]*DPR,rectPx[1]*DPR,rectPx[2]*DPR,rectPx[3]*DPR);
+    gl.uniform1f(U.uP,p); gl.uniform1f(U.uT,el); gl.uniform1f(U.uDpr,DPR);
+    gl.drawArrays(gl.POINTS,0,N);
+  }
+  if(p>=1){ rodando=false; if(aoFim){var f=aoFim;aoFim=null;f();} }
+}
+
+gl.disable(gl.DEPTH_TEST);
+gl.enable(gl.BLEND);
+gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
+gl.clearColor(0,0,0,0);
+
+var carregando=null;
+function preparar(){
+  if(carregando)return carregando;
+  carregando=new Promise(function(res){
+    img.onload=function(){
+      srcW=img.naturalWidth;srcH=img.naturalHeight;
+      if(!medir()){res(false);return;}
+      var movel=window.matchMedia&&window.matchMedia('(max-width: 860px)').matches;
+      N=amostrar(rectSrc,movel?26000:46000);
+      pronto=N>0; res(pronto);
+    };
+    img.onerror=function(){res(false);};
+    img.src='assets/premise/stage-01-matter.webp';
+  });
+  return carregando;
+}
+
+var rt;
+window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){
+  if(!pronto)return;
+  var antes=rectSrc[0];
+  if(medir()&&rectSrc[0]!==antes){
+    var movel=window.matchMedia&&window.matchMedia('(max-width: 860px)').matches;
+    N=amostrar(rectSrc,movel?26000:46000);
+  }
+},200);},{passive:true});
+
+return {
+  duracao:DUR,
+  /* devolve false se nao der para desenhar: quem chama entao vai direto ao clipe */
+  tocar:function(fim){
+    return preparar().then(function(ok){
+      if(!ok)return false;
+      medir(); t0=performance.now(); rodando=true; aoFim=fim;
+      cancelAnimationFrame(raf); raf=requestAnimationFrame(quadro);
+      return true;
+    });
+  },
+  parar:function(){ rodando=false; cancelAnimationFrame(raf); aoFim=null; },
+  limpar:function(){ try{gl.clear(gl.COLOR_BUFFER_BIT);}catch(e){} },
+  /* Desenha UM quadro num ponto qualquer do voo. Existe para verificacao: o
+     painel de preview nao dispara rAF, entao sem isto nao ha' como medir se as
+     particulas realmente voam nem se pousam sobre a estrutura certa. */
+  desenhar:function(p,segundos){
+    return preparar().then(function(ok){
+      if(!ok)return false;
+      medir();
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform2f(U.uRes,cv.width,cv.height);
+      gl.uniform4f(U.uRect,rectPx[0]*DPR,rectPx[1]*DPR,rectPx[2]*DPR,rectPx[3]*DPR);
+      gl.uniform1f(U.uP,p); gl.uniform1f(U.uT,segundos||0); gl.uniform1f(U.uDpr,DPR);
+      gl.drawArrays(gl.POINTS,0,N);
+      return {n:N,box:[cv.width,cv.height]};
+    });
+  }
+};
+})();
+</script>
+
 <!-- ── The premise: Matter → Intelligence → Life → the whole ─────────────
      The clip plays; it is never scrubbed. Scroll only decides whether it runs.
      Every caption reads the clip's own clock, so picture and words cannot
@@ -1150,22 +1374,25 @@ var track=sec.querySelector('.premise-track'),
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';   /* 1600x900, 6,9 MB */
 var VIDEO_SRC_M='assets/premise/premise-mobile.mp4';   /*  720x720, 1,3 MB */
-var DUR=26.417;             /* refined from metadata once the clip loads */
+var DUR=19.958;             /* refined from metadata once the clip loads */
 
 /* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
    Counted off the built master frame by frame (605 frames at 24fps), not from
    the durations the cut was meant to have — the interpolated holds land a few
    frames short and guessing would put every caption slightly out:
-     0.000–0.129  points FLOATING, organising only as a tendency <- premise reads
-     0.129–0.245  the structure arrives, then turns to material
-     0.245–0.312  matter, formed and alive         <- caption 01 reads here
-     0.312–0.472  reorganising into the lattice    <- the 1->2 transition
-     0.472–0.536  the lattice, resting
-     0.536–0.636  the lattice peeling — still cool
-     0.636–0.735  unfurling; warmth arrives here
-     0.735–0.808  Life, resting
-     0.808–0.915  the camera retreats
-     0.915–1.000  the whole body, resting
+     0.000–0.090  matter, formed and alive         <- caption 01 reads here
+     0.090–0.301  reorganising into the lattice    <- the 1->2 transition
+     0.301–0.386  the lattice, resting
+     0.386–0.518  the lattice peeling — still cool
+     0.518–0.649  unfurling; warmth arrives here
+     0.649–0.745  Life, resting
+     0.745–0.887  the camera retreats
+     0.887–1.000  the whole body, resting
+
+   The opening is NOT in this clip. The particles that fly in and take the
+   scaffold's shape are drawn live in WebGL (see the premise-points script
+   above), and the film picks up on the first solid frame — which is exactly
+   where those particles land, because their targets were sampled out of it.
 
    These windows come from reading time and were then checked against those
    beats, not the other way round. checks/timing.py asserts the rules; three of
@@ -1178,11 +1405,12 @@ var DUR=26.417;             /* refined from metadata once the clip loads */
         waits for 0.202 and not for the start of the clip.
    Each caption is fully opaque for 2.5–3.9s: long enough to read without
    having to stop watching, which is what the larger type is for. */
-var LEDE_OUT=[0.1968,0.2271];                   /* opening copy leaves */
-var CAPS=[[0.2498,0.2763,0.3785,0.4050],        /* 01 Matter        */
-          [0.4164,0.4429,0.5811,0.6076],        /* 02 Intelligence  */
-          [0.6852,0.7117,0.8252,0.8517]];       /* 03 Life          */
-var CODA_IN=[0.8726,0.9066];                    /* the title comes back */
+var CAPS=[[0.0276,0.0626,0.2104,0.2455],        /* 01 Matter        */
+          [0.2605,0.2956,0.4559,0.4910],        /* 02 Intelligence  */
+          [0.5837,0.6188,0.7691,0.8042]];       /* 03 Life          */
+var CODA_IN=[0.8317,0.8768];                    /* the title comes back */
+var PRELUDIO=window.__premisePontos||null;      /* as particulas, se houver GL */
+var ledeVal=1;                                  /* opacidade da copia de abertura */
 
 var mode='stills', phase='idle', raf=0, running=false, ready=false, visible=false;
 
@@ -1207,7 +1435,7 @@ function fadeIn(x,a,b){return x<=a?0:(x<b?smooth((x-a)/(b-a)):1);}
 /* One clock for both renderers: the video's own time on desktop, a plain timer
    on the still path. The caption logic below never needs to know which. */
 function paint(t){
-  var lede=fadeOut(t,LEDE_OUT[0],LEDE_OUT[1]);
+  var lede=ledeVal;
   var coda=fadeIn(t,CODA_IN[0],CODA_IN[1]);
   /* O invólucro carrega as DUAS aparições; dentro dele, só o h2 volta no fecho
      — o eyebrow e o parágrafo ficam em zero. Assim o h2 continua sendo UM
@@ -1228,17 +1456,20 @@ function paint(t){
        stacked layout keeps the same word-to-picture agreement as the clip.
        Five states here, not four: the section now opens on drifting particles
        that become the material, so the material itself is the second one. */
-    stills[1].style.opacity=clamp((t-0.190)/0.0863,0,1);  /* -> 0.2763, with 01 */
-    stills[2].style.opacity=clamp((t-0.357)/0.0859,0,1);  /* -> 0.4429, with 02 */
-    stills[3].style.opacity=clamp((t-0.626)/0.0857,0,1);  /* -> 0.7117, with 03 */
-    stills[4].style.opacity=clamp((t-0.820)/0.0866,0,1);  /* -> 0.9066, with the title */
+    stills[1].style.opacity=clamp((t-0.000)/0.0626,0,1);  /* -> 0.0626, with 01 */
+    stills[2].style.opacity=clamp((t-0.236)/0.0600,0,1);  /* -> 0.2956, with 02 */
+    stills[3].style.opacity=clamp((t-0.559)/0.0600,0,1);  /* -> 0.6188, with 03 */
+    stills[4].style.opacity=clamp((t-0.817)/0.0600,0,1);  /* -> 0.8768, with the title */
   }
 }
 
 function reset(){
-  setPhase('idle');clock=0;last=-1;
+  setPhase('idle');clock=0;last=-1;preT0=0;ledeVal=1;
+  if(preTimer){clearTimeout(preTimer);preTimer=0;}
+  if(PRELUDIO){PRELUDIO.parar();PRELUDIO.limpar();}
   sec.classList.remove('is-done');
   sec.classList.remove('is-live');
+  sec.classList.remove('is-pontos');
   if(mode==='video'&&video.src){try{video.pause();video.currentTime=0;}catch(e){}}
   paint(0);
 }
@@ -1252,20 +1483,80 @@ function reset(){
    uma deriva de camera feita com zoompan, tremia: o filtro arredonda o corte
    para pixel inteiro, entao um movimento sub-pixel virava um vai-e-vem de 1px
    -- 10 inversoes de sinal em 100 quadros, medidas. */
-function begin(){
-  if(phase!=='idle')return;
-  setPhase('playing');
-  sec.classList.add('is-live');
+/* A abertura e' um PRELUDIO: particulas voando ate' tomarem a forma do
+   scaffold, desenhadas ao vivo. So' quando pousam e' que o clipe entra, e ele
+   comeca justamente no material solido em que elas pousaram. A copia da
+   premissa pertence a este prelúdio, e sai no fim dele.
+
+   Se nao houver WebGL, ou se a amostragem falhar, o prelúdio devolve false e a
+   seccao vai directamente ao clipe: nada depende dele para funcionar. */
+var PRE_SAIDA=0.86;   /* fracao do prelúdio em que a copia comeca a sair */
+var PRE_SEM_GL=4.0;   /* prelúdio sem particulas: so' o tempo de leitura      */
+
+function pintarPreludio(p){
+  ledeVal=p<PRE_SAIDA?1:smooth(1-(p-PRE_SAIDA)/(1-PRE_SAIDA));
+  paint(0);
+}
+
+function tocarClipe(){
+  if(!visible)return;   /* o observador retoma quando voltar a' vista */
   if(mode==='video'&&ready){
     var pr=video.play();
     if(pr&&pr.then)pr.catch(function(){useStills('sem-autoplay');});
   }
 }
 
+function begin(){
+  if(phase!=='idle')return;
+  sec.classList.add('is-live');
+  /* TODOS os caminhos passam pelo prelúdio, mesmo os que nao desenham
+     particulas. A copia da premissa vive aqui desde que saiu do clipe, e sem
+     esta passagem o caminho de imagens (Save-Data) e o de reduced-motion
+     ficariam sem ela. Sem WebGL o prelúdio e' so' o tempo de leitura sobre a
+     imagem dos pontos. */
+  var comParticulas=(mode==='video'&&!!PRELUDIO);
+  var dur=comParticulas?PRELUDIO.duracao:PRE_SEM_GL;
+  setPhase('preludio');
+  ledeVal=1;
+  preDur=dur;
+  var fechou=false;
+  function fecharPreludio(){
+    if(fechou||phase!=='preludio')return;
+    fechou=true;
+    setPhase('playing');
+    ledeVal=0;
+    sec.classList.remove('is-pontos');   /* os pontos apagam, o material entra */
+    tocarClipe();
+  }
+  /* Rede de seguranca por relogio. O prelúdio corre em requestAnimationFrame,
+     e o clipe so' arranca quando ele acaba — se o rAF nao estiver a correr
+     (aba em segundo plano, motor estrangulado) a seccao ficaria parada para
+     sempre num painel vazio. O temporizador nao depende de rAF nenhum. */
+  if(preTimer)clearTimeout(preTimer);
+  preTimer=setTimeout(fecharPreludio,(dur+0.5)*1000);
+  if(comParticulas){
+    var arrancou=PRELUDIO.tocar(fecharPreludio);
+    if(arrancou&&arrancou.then)arrancou.then(function(ok){
+      if(!ok)fecharPreludio();
+      else sec.classList.add('is-pontos');
+    });
+  }
+}
+
+var preT0=0, preTimer=0, preDur=5.4;
 function loop(){
   raf=requestAnimationFrame(loop);
   var t=0;
   if(phase==='idle'){t=0;}
+  else if(phase==='preludio'){
+    /* o clipe ainda nao anda; o relogio aqui e' o do prelúdio, e serve so' para
+       a copia da premissa sair no fim dele */
+    if(!preT0)preT0=performance.now();
+    var pp=clamp((performance.now()-preT0)/1000/(preDur||5.4),0,1);
+    pintarPreludio(pp);
+    last=-1;
+    return;
+  }
   else{
     if(mode==='video'&&ready){
       t=DUR>0?clamp(video.currentTime/DUR,0,1):0;

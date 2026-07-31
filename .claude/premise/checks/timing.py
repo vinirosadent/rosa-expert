@@ -13,9 +13,10 @@ para 2 e' muito rapida"). Both are now conditions checked by code.
 # build.sh prints these; paste them here after a rebuild. Guessing puts every
 # caption slightly out, because the motion-interpolated holds land short.
 FPS = 24.0
+# A abertura (particulas voando ate' tomarem a forma) NAO esta neste filme:
+# e' desenhada ao vivo em WebGL antes de o clipe comecar. Por isso o texto da
+# premissa tambem nao aparece aqui — ele pertence ao prelúdio.
 BEATS = [          # name,          frames,  what the picture is
-    ('converge',     82, 'pontos'),          # points float and organise
-    ('materia',      73, 'pontos->matter'),  # the structure arrives, then solidifies
     ('matter',       43, 'matter'),
     ('transA',      101, 'matter->intel'),
     ('intel',        41, 'intel'),
@@ -35,19 +36,15 @@ DUR = t
 
 # copy windows in seconds: (fade-in start, fade-in end, fade-out start, fade-out end)
 COPY = {
-    'lede':  (None,  None,   5.20,  6.00),
-    'cap01': (6.60,  7.30,  10.00, 10.70),
-    'cap02': (11.00, 11.70, 15.35, 16.05),
-    'cap03': (18.10, 18.80, 21.80, 22.50),
-    'coda':  (23.05, 23.95, None,  None),
+    'cap01': (0.55,  1.25,   4.20,  4.90),
+    'cap02': (5.20,  5.90,   9.10,  9.80),
+    'cap03': (11.65, 12.35, 15.35, 16.05),
+    'coda':  (16.60, 17.50, None,  None),
 }
 # which picture-state each piece of copy may be legible over.
 # cap01 is NOT allowed over 'pontos': the material does not exist yet there,
 # so naming it would describe something the viewer cannot see.
 ALLOWED = {
-    # the premise reads while the material is coming into being, which is the
-    # whole conceit: "Designing the materials that should exist."
-    'lede':  {'pontos', 'pontos->matter', 'matter'},
     'cap01': {'matter', 'matter->intel'},
     'cap02': {'intel', 'matter->intel', 'intel->meio'},
     'cap03': {'life', 'meio->life', 'life->todo'},
@@ -111,15 +108,11 @@ if trans['transA'] < max(trans.values()):
 if trans['transA'] < 4.0:
     fails.append(f'transA is only {trans["transA"]:.2f}s (want >= 4.0)')
 
-# 6. the premise must be read over the points, before the material exists.
-#    That is the whole reason the points beat was introduced.
-if SPAN['converge'][1] < 3.0:
-    fails.append(f'the points only gather for {SPAN["converge"][1]:.2f}s before the '
-                 f'material forms (want >= 3.0, it is the whole point of the beat)')
-cap01_a = legible(COPY['cap01'])[0]
-if cap01_a < SPAN['matter'][0]:
-    fails.append(f'caption 01 starts at {cap01_a:.2f}s but the material is not solid '
-                 f'until {SPAN["matter"][0]:.2f}s')
+# 6. the film must open ON the material: the particles land exactly where it
+#    is about to be, so anything else here would break the hand-off.
+if BEATS[0][2] != 'matter':
+    fails.append(f'the film opens on "{BEATS[0][2]}", but the particle prelude '
+                 f'hands over on solid matter')
 
 if __name__ == '__main__':
     print()
@@ -133,4 +126,4 @@ if __name__ == '__main__':
         print('  - every caption fully legible >= 2.4 s')
         print('  - the returning title lands with the closing picture')
         print(f'  - matter->intelligence is the longest transition ({trans["transA"]:.2f}s)')
-        print('  - the premise reads over the points, before matter exists')
+        print('  - the film opens on the material the particles land on')

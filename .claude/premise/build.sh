@@ -6,8 +6,9 @@
 # (as a fraction of DUR); checks/timing.py checks the pair and checks/shipped.py
 # checks that index.html really carries what timing.py verified.
 #
-#   converge  3.40  points float, and organise as they do   opening copy reads
-#   materia   3.00  the structure arrives, then solidifies
+#   (a abertura NAO esta neste ficheiro: os pontos que voam e tomam a forma do
+#    scaffold sao renderizados ao vivo em WebGL, como o hero. Ver index.html.)
+#
 #   matter    1.80  matter, formed and alive               caption 01 reads
 #   transA    4.30  matter -> lattice                     the 1->2 transition
 #   intel     1.90  the lattice rests                     caption 02 reads
@@ -21,27 +22,21 @@
 #
 # Three things this build does deliberately:
 #
-#  * THE OPENING IS THE HERO'S LANGUAGE — points that float, and become form.
-#    The balance between those two verbs is the whole thing, and it took three
-#    tries to find:
-#      - points with themselves gave drifting with no direction at all
-#        ("pontos que vao e vem"): movement without intent;
-#      - then an intermediate keyframe of the scaffold drawn ENTIRELY in points
-#        overcorrected — the form had already arrived, dense, in the first beat,
-#        and there was nothing left for the second one to do.
-#    What works is a SPARSE intermediate, 00b-pontos-insinua: still a loose
-#    floating cloud, with only faint concentrations and a few clearings.  You
-#    sense an order arriving without being able to name the shape.  The
-#    structure itself arrives in the SECOND beat, which is why that beat is the
-#    longer of the two.
-#
-#    An intermediate keyframe is needed at all for the same reason 02b-meio is:
-#    without one the model takes the shortcut.  Asked twice to go from scattered
-#    points straight to solid matter in one clip, it delivered finished material
-#    by 0.6s both times.
-#
-#    Every seam here is frame-identical, so nothing is cross-faded:
-#      00-pontos -> 00b-pontos-insinua -> 01-matter -> (transA)
+#  * THE OPENING IS NOT IN THIS FILE, and that is the point.  It has to be
+#    particles that FLY and take the exact shape of the scaffold — the hero's
+#    mechanism — and a generative video model cannot do that.  Three attempts
+#    proved it:
+#      - points with themselves: drifting with no direction ("vao e vem");
+#      - a dense point-scaffold keyframe: the form arrived at once, and the
+#        points stopped floating;
+#      - a sparse one: "um blob que abre e fecha, e ai o scaffold surge do
+#        nada".
+#    The model interpolates between two pictures; it has no notion of a
+#    particle with a destination.  So the opening is rendered live in WebGL
+#    from real point positions SAMPLED OUT OF 01-matter itself (see the
+#    premise-points script in index.html).  When the points arrive they sit
+#    exactly where the material is about to be, and this file takes over from
+#    the first solid frame.
 #
 #  * transA gets 4.30s out of 4.20s of source — essentially real time.  It had
 #    been compressed to 2.90s, which is 1.45x, and the matter-to-intelligence
@@ -69,7 +64,7 @@ SRC="$ROOT/_source/premise"
 OUT="$ROOT/assets/premise"
 cd "$SRC"
 
-for f in converge2-raw.mp4 materia2-raw.mp4 idleM2-raw.mp4 transA-raw.mp4 transB1-raw.mp4 \
+for f in idleM2-raw.mp4 transA-raw.mp4 transB1-raw.mp4 \
          transB2-raw.mp4 transC3-raw.mp4; do
   [ -f "$f" ] || { echo "falta $SRC/$f — ver os job IDs em PREMISE-GENERATION-LOG.md" >&2; exit 1; }
 done
@@ -80,30 +75,13 @@ ENC="-an -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 18 -preset medium"
 
 seg () { echo "  -> $1"; }
 
-# ── 1. the points float, and organise as they float ──────────────────────
-# The subject here is the FLOATING.  The organising happens underneath it and
-# only just: faint concentrations, a few clearings, and by the end you sense
-# an order arriving without being able to name the shape.  Nothing is dense,
-# nothing is solid, nothing parks.
-seg "s1-converge.mp4  3.40s"
-ffmpeg -v error -y -i converge2-raw.mp4 -filter_complex \
-"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.4824[v]" -map "[v]" $ENC s1-converge.mp4
-
-# ── 2. the structure arrives, and then solidifies ────────────────────────
-# THIS is where the scaffold comes for real.  It carries the whole emergence,
-# so it gets more time than the drift before it.  Ends exactly on the Matter
-# keyframe, which is frame 0 of the idle clip AND of transA.
-seg "s2-materia.mp4   3.00s"
-ffmpeg -v error -y -i materia2-raw.mp4 -filter_complex \
-"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.6800[v]" -map "[v]" $ENC s2-materia.mp4
-
-# ── 3. matter, formed, alive ─────────────────────────────────────────────
+# ── 1. matter, formed, alive ─────────────────────────────────────────────
 # The pore walls flex, particles cross, the light travels.  Only the first
 # seconds of that clip are usable — its last second is where the model brakes
 # to land back on its end frame, and 19 of those 24 frames are near-duplicates.
-seg "s3-matter.mp4    1.80s"
+seg "s1-matter.mp4    1.80s"
 ffmpeg -v error -y -i idleM2-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:1.80,setpts=PTS-STARTPTS[v]" -map "[v]" $ENC s3-matter.mp4
+"[0:v]${FIX},trim=0:1.80,setpts=PTS-STARTPTS[v]" -map "[v]" $ENC s1-matter.mp4
 
 # ── 4. matter -> lattice, at essentially real speed ──────────────────────
 # 4.30s out of 4.20s of source.  It had been 2.90s (1.45x) and the
@@ -144,7 +122,7 @@ ffmpeg -v error -y -i transC3-raw.mp4 -filter_complex \
 "[0:v]${FIX},trim=4.20:5.04,setpts=(PTS-STARTPTS)/0.3500,${MI}[v]" -map "[v]" $ENC s9-todo.mp4
 
 # ── join ─────────────────────────────────────────────────────────────────
-printf "file '%s'\n" s1-converge.mp4 s2-materia.mp4 s3-matter.mp4 s3-transA.mp4 \
+printf "file '%s'\n" s1-matter.mp4 s3-transA.mp4 \
   s4-intel.mp4 s5-peel.mp4 s6-unfurl.mp4 s7-life.mp4 s8-recuo.mp4 s9-todo.mp4 > concat.txt
 
 echo "  -> premise-sequence.mp4"
@@ -200,7 +178,7 @@ echo
 # The fractions in index.html are counted off THIS file, frame by frame, so
 # print the segment lengths the table has to be built from.
 echo "  quadros por beat (para a tabela em checks/timing.py):"
-for f in s1-converge s2-materia s3-matter s3-transA s4-intel s5-peel s6-unfurl s7-life s8-recuo s9-todo; do
+for f in s1-matter s3-transA s4-intel s5-peel s6-unfurl s7-life s8-recuo s9-todo; do
   n=$(ffprobe -v error -select_streams v -count_frames \
       -show_entries stream=nb_read_frames -of csv=p=0 $f.mp4)
   printf "    %-22s %4s\n" "$f" "$n"
