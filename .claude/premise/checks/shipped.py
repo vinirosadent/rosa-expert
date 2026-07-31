@@ -68,8 +68,9 @@ abertura = [
     ('imagem so no fim dele',   r"sec\.classList\.add\('is-live'\);   /\* a imagem sobe"),
     ('passagem por relogio',    r'preTimer=setTimeout\(fecharPreludio,PRE_DUR\*1000\)'),
     ('texto revelado, nao fade', r'@keyframes premise-revelar'),
-    ('revelacao escalonada',    r'\.premise-support\{--rev:1\.45s;animation-delay:\.92s;\}'),
-    ('curva de varredura',      r'cubic-bezier\(\.42,\.10,\.32,1\)'),
+    ('revelacao escalonada',    r'\.premise-support\{--rev:2\.7s;animation-delay:1\.70s;\}'),
+    ('curva de varredura',      r'cubic-bezier\(\.42,\.16,\.58,\.86\)'),
+    ('rampa larga na mascara',  r'#000 34%,transparent 66%'),
     ('reflow no replay',        r'void sec\.offsetWidth'),
 ]
 for label, pat in abertura:

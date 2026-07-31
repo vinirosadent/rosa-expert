@@ -88,7 +88,23 @@
      poster from 1 down to 0 — so anyone landing on #premise directly would
      watch the picture appear, fade away, and only then fade back in. This way
      hiding is instant and only the arrival is animated. */
-  .premise[data-mode].is-live .premise-media{opacity:1;transition:opacity .9s var(--ease-out);}
+  /* O material EMERGE, nao aparece. E' a mesma mascara que revela o texto —
+     rampa larga, atravessando devagar — para que a seccao inteira tenha um so'
+     gesto: primeiro a premissa se desdobra, depois a materia se desdobra por
+     baixo dela. Um crossfade de opacidade seria uma troca, nao uma emergencia. */
+  .premise[data-mode].is-live .premise-media{
+    opacity:1;
+    -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 34%,transparent 66%,transparent 100%);
+            mask-image:linear-gradient(90deg,#000 0%,#000 34%,transparent 66%,transparent 100%);
+    -webkit-mask-size:300% 100%;   mask-size:300% 100%;
+    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+    animation:premise-revelar 2.6s cubic-bezier(.42,.16,.58,.86) both;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .premise[data-mode].is-live .premise-media{
+      -webkit-mask-image:none;mask-image:none;animation:none;
+      transition:opacity .9s var(--ease-out);}
+  }
   .premise-still{opacity:0;}
   .premise-still[data-still="0"]{opacity:1;}
   .premise-video{opacity:0;transition:opacity .6s var(--ease-out);}
@@ -112,21 +128,28 @@
   .premise.is-abrindo .premise-eyebrow,
   .premise.is-abrindo .premise-title,
   .premise.is-abrindo .premise-support{
-    -webkit-mask-image:linear-gradient(90deg,#000 26%,rgba(0,0,0,.45) 52%,transparent 74%);
-            mask-image:linear-gradient(90deg,#000 26%,rgba(0,0,0,.45) 52%,transparent 74%);
-    -webkit-mask-size:360% 100%;         mask-size:360% 100%;
+    /* A rampa do gradiente ocupa um terco da mascara, que e' exactamente a
+       largura do elemento: a linha INTEIRA esta em revelacao parcial ao mesmo
+       tempo, e o que atravessa e' um limite macio, nao uma aresta. Com a rampa
+       estreita isto lia como limpa-para-brisas; assim desdobra.
+       As paradas em 34% e 66% nao sao esteticas: com mask-size 300% o elemento
+       ocupa um terco da mascara, entao o opaco e o transparente tem de ter pelo
+       menos um terco cada, senao nunca chega a estar totalmente escondido nem
+       totalmente revelado. */
+    -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 34%,transparent 66%,transparent 100%);
+            mask-image:linear-gradient(90deg,#000 0%,#000 34%,transparent 66%,transparent 100%);
+    -webkit-mask-size:300% 100%;         mask-size:300% 100%;
     -webkit-mask-repeat:no-repeat;       mask-repeat:no-repeat;
-    animation:premise-revelar var(--rev,1.5s) cubic-bezier(.42,.10,.32,1) both;
-    /* NAO --ease-out: aquele token e um expo-out (0.22,1,0.36,1) e revela 76%
-       no primeiro quarto do tempo, o que le como um estalo. Uma varredura quer
-       uma curva quase constante, com as pontas suaves. */
+    animation:premise-revelar var(--rev,3s) cubic-bezier(.42,.16,.58,.86) both;
+    /* NAO --ease-out: aquele token e' um expo-out (0.22,1,0.36,1) e revela 76%
+       no primeiro quarto do tempo, o que le' como estalo. */
   }
-  .premise.is-abrindo .premise-eyebrow{--rev:1.05s;animation-delay:.10s;}
-  .premise.is-abrindo .premise-title  {--rev:1.60s;animation-delay:.32s;}
-  .premise.is-abrindo .premise-support{--rev:1.45s;animation-delay:.92s;}
+  .premise.is-abrindo .premise-eyebrow{--rev:2.0s;animation-delay:.15s;}
+  .premise.is-abrindo .premise-title  {--rev:3.1s;animation-delay:.55s;}
+  .premise.is-abrindo .premise-support{--rev:2.7s;animation-delay:1.70s;}
   @keyframes premise-revelar{
-    from{-webkit-mask-position:100% 0;mask-position:100% 0;}
-    to  {-webkit-mask-position:0% 0;  mask-position:0% 0;}
+    from{-webkit-mask-position:100% 0;mask-position:100% 0;transform:translateY(5px);}
+    to  {-webkit-mask-position:0% 0;  mask-position:0% 0;  transform:none;}
   }
   @media (prefers-reduced-motion: reduce){
     .premise.is-abrindo .premise-eyebrow,
@@ -1180,20 +1203,21 @@ var track=sec.querySelector('.premise-track'),
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';   /* 1600x900, 6,9 MB */
 var VIDEO_SRC_M='assets/premise/premise-mobile.mp4';   /*  720x720, 1,3 MB */
-var DUR=19.292;             /* refined from metadata once the clip loads */
+var DUR=21.292;             /* refined from metadata once the clip loads */
 
 /* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
    Counted off the built master frame by frame (605 frames at 24fps), not from
    the durations the cut was meant to have — the interpolated holds land a few
    frames short and guessing would put every caption slightly out:
-     0.000–0.067  matter, barely stirring          <- caption 01 reads here
-     0.067–0.285  reorganising into the lattice    <- the 1->2 transition
-     0.285–0.373  the lattice, resting
-     0.373–0.509  the lattice peeling — still cool
-     0.509–0.644  unfurling; warmth arrives here
-     0.644–0.743  Life, resting
-     0.743–0.888  the camera retreats
-     0.888–1.000  the whole body, resting
+     0.000–0.127  matter, barely stirring          <- caption 01 reads here
+     0.127–0.215  reorganising, still all matter
+     0.215–0.356  the lattice is now VISIBLE       <- caption 01 must be gone
+     0.356–0.433  the lattice, resting             <- caption 02 reads here
+     0.433–0.558  the lattice peeling — still cool
+     0.558–0.683  unfurling; warmth arrives here
+     0.683–0.767  Life, resting
+     0.767–0.902  the camera retreats
+     0.902–1.000  the whole body, resting
 
    The opening is NOT in this clip and is not a picture at all: the section
    opens on the premise, set in ivory, with nothing else in the frame. Then the
@@ -1213,10 +1237,10 @@ var DUR=19.292;             /* refined from metadata once the clip loads */
         waits for 0.202 and not for the start of the clip.
    Each caption is fully opaque for 2.5–3.9s: long enough to read without
    having to stop watching, which is what the larger type is for. */
-var CAPS=[[0.0233,0.0570,0.1996,0.2359],        /* 01 Matter        */
-          [0.2514,0.2877,0.4484,0.4847],        /* 02 Intelligence  */
-          [0.5754,0.6117,0.7672,0.8035]];       /* 03 Life          */
-var CODA_IN=[0.8268,0.8734];                    /* the title comes back */
+var CAPS=[[0.0211,0.0540,0.1667,0.2043],        /* 01 Matter        */
+          [0.2254,0.2630,0.4744,0.5119],        /* 02 Intelligence  */
+          [0.6153,0.6528,0.7984,0.8337]];       /* 03 Life          */
+var CODA_IN=[0.8431,0.8853];                    /* the title comes back */
 var ledeVal=1;                                  /* opacidade da copia de abertura */
 
 var mode='stills', phase='idle', raf=0, running=false, ready=false, visible=false;
@@ -1263,9 +1287,9 @@ function paint(t){
        stacked layout keeps the same word-to-picture agreement as the clip.
        Four states: the section opens on the premise alone, so the material is
        the first picture there is. */
-    stills[1].style.opacity=clamp((t-0.228)/0.0600,0,1);  /* -> 0.2877, with 02 */
-    stills[2].style.opacity=clamp((t-0.552)/0.0600,0,1);  /* -> 0.6117, with 03 */
-    stills[3].style.opacity=clamp((t-0.813)/0.0600,0,1);  /* -> 0.8734, with the title */
+    stills[1].style.opacity=clamp((t-0.203)/0.0600,0,1);  /* -> 0.2630, with 02 */
+    stills[2].style.opacity=clamp((t-0.593)/0.0600,0,1);  /* -> 0.6528, with 03 */
+    stills[3].style.opacity=clamp((t-0.825)/0.0600,0,1);  /* -> 0.8853, with the title */
   }
 }
 
@@ -1296,7 +1320,7 @@ function reset(){
    Se nao houver WebGL, ou se a amostragem falhar, o prelúdio devolve false e a
    seccao vai directamente ao clipe: nada depende dele para funcionar. */
 var PRE_SAIDA=0.86;   /* fracao do prelúdio em que a copia comeca a sair */
-var PRE_DUR=4.2;      /* o prelúdio: a premissa em ivory, sem imagem nenhuma  */
+var PRE_DUR=6.2;      /* o prelúdio: a premissa em ivory, sem imagem nenhuma  */
 
 function pintarPreludio(p){
   ledeVal=p<PRE_SAIDA?1:smooth(1-(p-PRE_SAIDA)/(1-PRE_SAIDA));
@@ -1341,7 +1365,7 @@ function begin(){
   preTimer=setTimeout(fecharPreludio,PRE_DUR*1000);
 }
 
-var preT0=0, preTimer=0, preDur=4.2;
+var preT0=0, preTimer=0, preDur=6.2;
 function loop(){
   raf=requestAnimationFrame(loop);
   var t=0;
@@ -1350,7 +1374,7 @@ function loop(){
     /* o clipe ainda nao anda; o relogio aqui e' o do prelúdio, e serve so' para
        a copia da premissa sair no fim dele */
     if(!preT0)preT0=performance.now();
-    var pp=clamp((performance.now()-preT0)/1000/(preDur||4.2),0,1);
+    var pp=clamp((performance.now()-preT0)/1000/(preDur||6.2),0,1);
     pintarPreludio(pp);
     last=-1;
     return;

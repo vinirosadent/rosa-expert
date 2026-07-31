@@ -17,14 +17,20 @@ FPS = 24.0
 # e' desenhada ao vivo em WebGL antes de o clipe comecar. Por isso o texto da
 # premissa tambem nao aparece aqui — ele pertence ao prelúdio.
 BEATS = [          # name,          frames,  what the picture is
-    ('matter',       31, 'matter'),
-    ('transA',      102, 'matter->intel'),
-    ('intel',        41, 'intel'),
-    ('peel',         62, 'intel->meio'),
-    ('unfurl',       62, 'meio->life'),
-    ('life',         46, 'life'),
-    ('recuo',        67, 'life->todo'),
-    ('todo',         52, 'todo'),
+    ('matter',       65, 'matter'),
+    # transA e' UM segmento, dividido aqui em dois estados: medido quadro a
+    # quadro, os pontos da malha aparecem aos 2,0s do transA bruto, que neste
+    # corte cai 45 quadros depois de a transicao comecar. A partir dali o que
+    # esta na tela ja' e' Intelligence a emergir, e a legenda 01 nao pode estar
+    # no ar — foi exactamente esse o defeito relatado.
+    ('transA',       45, 'matter->intel'),
+    ('transA2',      72, 'intel-emergindo'),
+    ('intel',        39, 'intel'),
+    ('peel',         64, 'intel->meio'),
+    ('unfurl',       64, 'meio->life'),
+    ('life',         43, 'life'),
+    ('recuo',        69, 'life->todo'),
+    ('todo',         50, 'todo'),
 ]
 
 t = 0.0
@@ -36,17 +42,19 @@ DUR = t
 
 # copy windows in seconds: (fade-in start, fade-in end, fade-out start, fade-out end)
 COPY = {
-    'cap01': (0.45,  1.10,   3.85,  4.55),
-    'cap02': (4.85,  5.55,   8.65,  9.35),
-    'cap03': (11.10, 11.80, 14.80, 15.50),
-    'coda':  (15.95, 16.85, None,  None),
+    'cap01': (0.45,  1.15,   3.55,  4.35),
+    'cap02': (4.80,  5.60,  10.10, 10.90),
+    'cap03': (13.10, 13.90, 17.00, 17.75),
+    'coda':  (17.95, 18.85, None,  None),
 }
 # which picture-state each piece of copy may be legible over.
 # cap01 is NOT allowed over 'pontos': the material does not exist yet there,
 # so naming it would describe something the viewer cannot see.
 ALLOWED = {
+    # 'intel-emergindo' esta deliberadamente FORA de cap01: a partir dali a
+    # malha ja' se ve, e chamar-lhe Matter descreve o que ja' nao esta na tela.
     'cap01': {'matter', 'matter->intel'},
-    'cap02': {'intel', 'matter->intel', 'intel->meio'},
+    'cap02': {'intel', 'matter->intel', 'intel-emergindo', 'intel->meio'},
     'cap03': {'life', 'meio->life', 'life->todo'},
     'coda':  {'todo', 'life->todo'},
 }
@@ -101,11 +109,12 @@ if c0 > SPAN['todo'][0] + 0.05:
 
 # 5. matter -> intelligence is the conceptual centre of the section and was
 #    reported as too fast to follow. It must stay the longest transition.
-trans = {k: SPAN[k][1]-SPAN[k][0] for k in ('transA', 'peel', 'unfurl', 'recuo')}
+trans = {k: SPAN[k][1]-SPAN[k][0] for k in ('peel', 'unfurl', 'recuo')}
+trans['transA'] = (SPAN['transA'][1]-SPAN['transA'][0]) + (SPAN['transA2'][1]-SPAN['transA2'][0])
 if trans['transA'] < max(trans.values()):
     fails.append(f'transA is {trans["transA"]:.2f}s, shorter than '
                  f'{max(trans, key=trans.get)} at {max(trans.values()):.2f}s')
-if trans['transA'] < 4.0:
+if trans['transA'] < 4.5:
     fails.append(f'transA is only {trans["transA"]:.2f}s (want >= 4.0)')
 
 # 6. the film must open ON the material: the particles land exactly where it

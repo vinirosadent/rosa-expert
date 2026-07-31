@@ -72,7 +72,7 @@ transparência do scrim naquela coluna.
 
 ## O corte
 
-19,29 s, 463 quadros a 24 fps. As frações estão em `index.html` e são contadas
+21,29 s, 511 quadros a 24 fps. As frações estão em `index.html` e são contadas
 do master pronto, quadro a quadro — não das durações pretendidas, porque os
 trechos interpolados aterram alguns quadros curtos e estimar poria toda legenda
 levemente fora de lugar.
@@ -107,36 +107,54 @@ e um segundo script confere que as constantes em `index.html` reproduzem a
 tabela verificada — inclusive as travessias de imagem do caminho mobile, que
 caem com diferença de 0,00 s das suas legendas.
 
-### A abertura é só a premissa, e ela chega
+### A abertura é só a premissa, e ela se desdobra
 
 A seção abre em ivory, com a frase e nada mais no quadro. Depois o material
-sobe do ivory e o filme corre.
+**emerge** por baixo dela e o filme corre.
 
-O texto **não aparece parado**: cada linha é revelada da esquerda para a
-direita, com uma borda suave em vez de um corte, escalonadas — sobrancelha aos
-0,10 s, título aos 0,32 s, parágrafo aos 0,92 s. É o sinal de que a seção está
-viva antes de a imagem sequer existir. Feito com **máscara e não com
-opacidade**: opacidade é um fade, isto é um desenrolar, que é a mesma gramática
-do último estágio do filme.
+O texto não aparece parado: cada linha é revelada da esquerda para a direita,
+escalonada — sobrancelha aos 0,15 s, título aos 0,55 s, parágrafo aos 1,70 s,
+com 2,0 a 3,1 s de duração cada, e 1,8 s de quietude antes de o filme começar.
 
-A curva **não** é o token `--ease-out` do sistema. Aquele é um expo-out
-`(0.22, 1, 0.36, 1)`, ótimo para um elemento assentar, mas numa varredura
-revela 76% no primeiro quarto do tempo e lê como estalo. Medido:
-`cubic-bezier(.42,.10,.32,1)` dá 100 → 78 → 28 → 5 → 0.
+Três coisas fazem isso ler como **desdobramento** e não como limpa-para-brisas,
+e as três foram erros antes de serem acertos:
 
-Foram gastas quatro tentativas a pôr movimento **de imagem** aqui antes de
-aceitar que ele não pertence a este lugar: deriva de pontos gerada em vídeo,
+1. **Máscara, não opacidade.** Opacidade é um fade; máscara é um desenrolar, a
+   mesma gramática do último estágio do filme.
+2. **A rampa ocupa a largura inteira do elemento.** Com `mask-size: 300%` o
+   elemento é um terço da máscara, então o opaco e o transparente precisam de
+   pelo menos um terço cada — daí as paradas em 34% e 66%. Com a rampa estreita
+   que eu tinha antes, o que atravessava era uma aresta.
+3. **A curva não é o `--ease-out` do sistema.** Aquele é um expo-out
+   `(0.22, 1, 0.36, 1)` e numa varredura revela 76% no primeiro quarto do tempo.
+   Medido, `cubic-bezier(.42,.16,.58,.86)` dá 100 → 87 → 64 → 49 → 35 → 12 → 0.
+
+O **material usa a mesma máscara**, em 2,6 s: assim a seção tem um só gesto —
+primeiro a premissa se desdobra, depois a matéria se desdobra por baixo dela.
+Um crossfade de opacidade seria uma troca, não uma emergência.
+
+Foram gastas quatro tentativas a pôr movimento **de imagem** na abertura antes
+de aceitar que ele não pertence a este lugar: deriva de pontos gerada em vídeo,
 uma chave intermédia densa, uma esparsa, e partículas de verdade em WebGL. A
 última tinha o mecanismo certo — a correlação entre onde os pontos pousavam e a
-estrutura do scaffold subia 0,26 → 0,79 — mas o resultado era **pesado**: portei
-o mecanismo do hero sem a contenção dele, e 26 mil pontos opacos concentrados em
-meio quadro empastam. O filme é a coisa elegante; a abertura saiu da frente
-dele e carrega o seu movimento na tipografia.
+estrutura do scaffold subia 0,26 → 0,79 — mas o resultado era **pesado**. O
+filme é a coisa elegante; a abertura carrega o seu movimento na tipografia.
 
 A passagem do prelúdio para o clipe é por **temporizador, não por
 requestAnimationFrame** — com uma aba em segundo plano a seção ficaria parada
-para sempre num painel vazio. Todos os caminhos passam pelo prelúdio, inclusive
-o de imagens: a copia da premissa vive nele desde que saiu do clipe.
+para sempre num painel vazio.
+
+### Quando a malha aparece
+
+`transA` é **um** segmento mas **dois estados** na tabela. Medido quadro a
+quadro, os pontos da malha aparecem aos 2,0 s do `transA` bruto, o que neste
+corte cai 45 quadros depois de a transição começar. A partir dali o que está na
+tela já é Intelligence a emergir, e chamar-lhe *Matter* descreve o que já não
+está lá — foi exatamente esse o defeito relatado, duas vezes.
+
+A regra anterior permitia a legenda 01 sobre **toda** a transição, o que era
+frouxo demais. Agora `intel-emergindo` está fora do conjunto permitido, e a
+legenda 01 tem de sair antes dos 4,56 s.
 
 ### O blob que não devia estar lá
 
@@ -171,7 +189,7 @@ literalmente mortos num filme de 25,5 s.
 
 O telefone recebe **outro corte do mesmo filme**: `premise-mobile.mp4`,
 720 × 900 (4:5), 1,3 MB contra os 6,9 MB do desktop. Mesma duração e mesmos
-463 quadros, então a tabela de legendas serve para os dois sem ajuste — e
+511 quadros, então a tabela de legendas serve para os dois sem ajuste — e
 `checks/shipped.py` verifica isso, porque uma divergência dessincronizaria o
 telefone em silêncio.
 
@@ -415,7 +433,7 @@ Scripts em `.claude/premise/checks/`:
   (sequências de quadros quase idênticos). Foi o que provou o diagnóstico do
   `zoompan` e o que aprovou cada clipe novo.
 - `film_audit.py` — o mesmo por beat, mais a garantia de que a coluna de texto
-  fica ivory em todos os 463 quadros (o pixel mais escuro que já apareceu ali
+  fica ivory em todos os 511 quadros (o pixel mais escuro que já apareceu ali
   foi 235 de 255). O detector de tremor conta **reversões de alta frequência**
   (sequências de 1–2 quadros entre trocas de sinal) por 100 quadros, não trocas
   de sinal absolutas: contar todas acusava três beats perfeitamente lisos, porque
@@ -473,7 +491,7 @@ o threshold era 0,55; hoje observa-se o palco, que tem uma janela de altura).
 
 | Arquivo | Tamanho | Usado em |
 |---|---|---|
-| `premise-sequence.mp4` | 4,8 MB | 1600 × 900, 19,29 s, desktop |
+| `premise-sequence.mp4` | 5,1 MB | 1600 × 900, 21,29 s, desktop |
 | `stage-01-matter.webp` | 199 KB | pôster + crossfade mobile + reduced-motion |
 | `stage-02-intelligence.webp` | 173 KB | idem |
 | `stage-03-life.webp` | 55 KB | idem |

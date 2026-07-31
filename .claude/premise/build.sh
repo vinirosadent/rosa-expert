@@ -8,16 +8,21 @@
 #
 #   (a abertura NAO esta neste ficheiro: e' so' a premissa em ivory. Ver index.html)
 #
-#   matter    1.71  matter, barely stirring                caption 01 reads
-#   transA    3.88  matter -> lattice                     the 1->2 transition
-#   intel     1.90  the lattice rests                     caption 02 reads
-#   peel      2.60  the lattice peeling, still cool       caption 02 leaves
-#   unfurl    2.60  unfurling; warmth arrives             caption 03 enters
-#   life      2.10  the warm layers rest                  caption 03 reads
-#   recuo     2.80  the camera retreats
-#   todo      2.40  three strata                          the title returns
+#   matter    3.00  matter, barely stirring                caption 01 reads
+#   transA    4.90  matter -> lattice                     the 1->2 transition
+#   intel     1.80  the lattice rests                     caption 02 reads
+#   peel      2.70  the lattice peeling, still cool       caption 02 leaves
+#   unfurl    2.70  unfurling; warmth arrives             caption 03 enters
+#   life      2.00  the warm layers rest                  caption 03 reads
+#   recuo     2.90  the camera retreats
+#   todo      2.30  three strata                          the title returns
 #                  -----
-#                  19.46
+#                  22.30
+#
+# O corte inteiro ganhou ~3s face a versao anterior, e a maior parte foi para o
+# beat do Matter e para a transicao 1->2: estava corrido demais para se
+# apreciar a transformacao, e a legenda 01 ainda estava no ar quando os pontos
+# da malha ja tinham aparecido.
 #
 # Three things this build does deliberately:
 #
@@ -29,11 +34,12 @@
 #    thing; the opening now gets out of its way, and carries its own movement
 #    in the way the copy arrives (a left-to-right reveal, in index.html).
 #
-#  * transA gets 4.30s out of 4.20s of source — essentially real time.  It had
-#    been compressed to 2.90s, which is 1.45x, and the matter-to-intelligence
-#    transformation went by too fast to follow.  This is the conceptual centre
-#    of the section and it is now the longest transition in the film, which
-#    checks/timing.py asserts.
+#  * transA is the longest thing in the film, 4.90s, and the Matter beat before
+#    it is 3.00s.  Both were repeatedly too short: the transformation went by
+#    too fast to appreciate, and caption 01 was still on screen when the lattice
+#    dots had already appeared.  Measured frame by frame, those dots arrive at
+#    2.0s of the raw transA — which is why the table in checks/timing.py splits
+#    this segment into two states and forbids caption 01 over the second.
 #
 #  * The holds are not freezes.  Each one is the TAIL of its own clip played
 #    very slowly with motion-compensated interpolation, so the picture keeps
@@ -71,7 +77,7 @@ ENC="-an -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 18 -preset medium"
 seg () { echo "  -> $1"; }
 
 # ── 1. matter, formed, barely stirring ───────────────────────────────────
-# The first 0.35s of transA, slowed almost to a standstill.  NOT the idle clip:
+# The first 0.65s of transA, slowed almost to a standstill.  NOT the idle clip:
 # that one was asked to make the mass "swell and contract", and it obliged by
 # growing a big smooth bubble from about its frame 30 — plainly visible in the
 # phone crop, and read as a blob that does not belong on a mineral scaffold.
@@ -80,47 +86,47 @@ seg () { echo "  -> $1"; }
 # dots do not appear in transA until 2.0s), and using it means the beat is real
 # forward motion continuous with the transition that follows: no repeated
 # footage, no reversal, no seam.
-seg "s1-matter.mp4    1.80s"
+seg "s1-matter.mp4    3.00s"
 ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:0.35,setpts=(PTS-STARTPTS)/0.1944,${MI}[v]" -map "[v]" $ENC s1-matter.mp4
+"[0:v]${FIX},trim=0:0.65,setpts=(PTS-STARTPTS)/0.2167,${MI}[v]" -map "[v]" $ENC s1-matter.mp4
 
 # ── 2. matter -> lattice, at essentially real speed ──────────────────────
 # Picks up exactly where the beat above stopped.  It had been compressed to
 # 2.90s (1.45x) and the transformation went by too fast to follow: this is the
 # conceptual centre of the section and it is now the longest transition.
-seg "s3-transA.mp4   4.25s"
+seg "s3-transA.mp4   4.90s"
 ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0.35:4.20,setpts=(PTS-STARTPTS)/0.9059,fps=24[v]" -map "[v]" $ENC s3-transA.mp4
+"[0:v]${FIX},trim=0.65:4.20,setpts=(PTS-STARTPTS)/0.7245,fps=24[v]" -map "[v]" $ENC s3-transA.mp4
 
 # ── 4. the lattice rests ─────────────────────────────────────────────────
-seg "s4-intel.mp4    1.90s"
+seg "s4-intel.mp4    1.80s"
 ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=4.20:5.04,setpts=(PTS-STARTPTS)/0.4421,${MI}[v]" -map "[v]" $ENC s4-intel.mp4
+"[0:v]${FIX},trim=4.20:5.04,setpts=(PTS-STARTPTS)/0.4667,${MI}[v]" -map "[v]" $ENC s4-intel.mp4
 
 # ── 5. peeling — must stay COOL: caption 02 is still leaving here ────────
-seg "s5-peel.mp4     2.60s"
+seg "s5-peel.mp4     2.70s"
 ffmpeg -v error -y -i transB1-raw.mp4 -filter_complex \
-"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.9385,fps=24[v]" -map "[v]" $ENC s5-peel.mp4
+"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.8667,fps=24[v]" -map "[v]" $ENC s5-peel.mp4
 
 # ── 6. unfurling: warmth arrives, caption 03 comes in over it ───────────
-seg "s6-unfurl.mp4   2.60s"
+seg "s6-unfurl.mp4   2.70s"
 ffmpeg -v error -y -i transB2-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/1.6154,fps=24[v]" -map "[v]" $ENC s6-unfurl.mp4
+"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/1.5556,fps=24[v]" -map "[v]" $ENC s6-unfurl.mp4
 
 # ── 7. Life rests ────────────────────────────────────────────────────────
-seg "s7-life.mp4     2.10s"
+seg "s7-life.mp4     2.00s"
 ffmpeg -v error -y -i transB2-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=4.20:5.04,setpts=(PTS-STARTPTS)/0.4000,${MI}[v]" -map "[v]" $ENC s7-life.mp4
+"[0:v]${FIX},trim=4.20:5.04,setpts=(PTS-STARTPTS)/0.4200,${MI}[v]" -map "[v]" $ENC s7-life.mp4
 
 # ── 8. the camera retreats ───────────────────────────────────────────────
-seg "s8-recuo.mp4    2.80s"
+seg "s8-recuo.mp4    2.90s"
 ffmpeg -v error -y -i transC3-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/1.5000,fps=24[v]" -map "[v]" $ENC s8-recuo.mp4
+"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/1.4483,fps=24[v]" -map "[v]" $ENC s8-recuo.mp4
 
 # ── 9. the whole body rests, and the title comes back over it ────────────
-seg "s9-todo.mp4     2.40s"
+seg "s9-todo.mp4     2.30s"
 ffmpeg -v error -y -i transC3-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=4.20:5.04,setpts=(PTS-STARTPTS)/0.3500,${MI}[v]" -map "[v]" $ENC s9-todo.mp4
+"[0:v]${FIX},trim=4.20:5.04,setpts=(PTS-STARTPTS)/0.3652,${MI}[v]" -map "[v]" $ENC s9-todo.mp4
 
 # ── join ─────────────────────────────────────────────────────────────────
 printf "file '%s'\n" s1-matter.mp4 s3-transA.mp4 \
