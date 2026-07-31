@@ -72,7 +72,7 @@ transparência do scrim naquela coluna.
 
 ## O corte
 
-19,96 s, 479 quadros a 24 fps. As frações estão em `index.html` e são contadas
+19,29 s, 463 quadros a 24 fps. As frações estão em `index.html` e são contadas
 do master pronto, quadro a quadro — não das durações pretendidas, porque os
 trechos interpolados aterram alguns quadros curtos e estimar poria toda legenda
 levemente fora de lugar.
@@ -107,37 +107,57 @@ e um segundo script confere que as constantes em `index.html` reproduzem a
 tabela verificada — inclusive as travessias de imagem do caminho mobile, que
 caem com diferença de 0,00 s das suas legendas.
 
-### A abertura é só a premissa
+### A abertura é só a premissa, e ela chega
 
 A seção abre em ivory, com a frase e nada mais no quadro. Depois o material
-sobe do ivory e o filme corre. Não há imagem nenhuma no prelúdio, e é esse
-silêncio que faz a matéria valer quando entra.
+sobe do ivory e o filme corre.
 
-Foram gastas quatro tentativas a pôr movimento aqui antes de aceitar que ele
-não pertence a este lugar:
+O texto **não aparece parado**: cada linha é revelada da esquerda para a
+direita, com uma borda suave em vez de um corte, escalonadas — sobrancelha aos
+0,10 s, título aos 0,32 s, parágrafo aos 0,92 s. É o sinal de que a seção está
+viva antes de a imagem sequer existir. Feito com **máscara e não com
+opacidade**: opacidade é um fade, isto é um desenrolar, que é a mesma gramática
+do último estágio do filme.
 
-1. deriva de pontos gerada em vídeo → sem rumo, "pontos que vão e vêm";
-2. uma chave intermédia densa → a forma chegava de uma vez;
-3. uma chave esparsa → "um blob que abre e fecha";
-4. partículas de verdade em WebGL, como o hero → o mecanismo estava certo e a
-   correlação com a estrutura subia 0,26 → 0,79, mas o resultado era **pesado**.
-   Portei o mecanismo do hero sem a contenção dele: os pontos do hero são
-   minúsculos e translúcidos e a forma nasce da densidade; 26 mil pontos opacos
-   concentrados em meio quadro empastam e leem como blob. Corrigível — menos
-   pontos, mais finos, trajetórias curvas, profundidade — mas cada volta de
-   afinação estética custa uma ida e volta, porque as ferramentas aqui não
-   mostram o resultado.
+A curva **não** é o token `--ease-out` do sistema. Aquele é um expo-out
+`(0.22, 1, 0.36, 1)`, ótimo para um elemento assentar, mas numa varredura
+revela 76% no primeiro quarto do tempo e lê como estalo. Medido:
+`cubic-bezier(.42,.10,.32,1)` dá 100 → 78 → 28 → 5 → 0.
 
-O filme é a coisa elegante. A abertura passou a sair da frente dele.
+Foram gastas quatro tentativas a pôr movimento **de imagem** aqui antes de
+aceitar que ele não pertence a este lugar: deriva de pontos gerada em vídeo,
+uma chave intermédia densa, uma esparsa, e partículas de verdade em WebGL. A
+última tinha o mecanismo certo — a correlação entre onde os pontos pousavam e a
+estrutura do scaffold subia 0,26 → 0,79 — mas o resultado era **pesado**: portei
+o mecanismo do hero sem a contenção dele, e 26 mil pontos opacos concentrados em
+meio quadro empastam. O filme é a coisa elegante; a abertura saiu da frente
+dele e carrega o seu movimento na tipografia.
 
-Consequência prática: o clipe perdeu qualquer beat de abertura e começa na
-matéria sólida — 479 quadros, 19,96 s, contra os 26,4 s de antes.
+A passagem do prelúdio para o clipe é por **temporizador, não por
+requestAnimationFrame** — com uma aba em segundo plano a seção ficaria parada
+para sempre num painel vazio. Todos os caminhos passam pelo prelúdio, inclusive
+o de imagens: a copia da premissa vive nele desde que saiu do clipe.
 
-A passagem do prelúdio para o clipe é feita por **temporizador, não por
-requestAnimationFrame**: o clipe só arranca quando o prelúdio acaba, e com uma
-aba em segundo plano a seção ficaria parada para sempre num painel vazio.
-Todos os caminhos passam pelo prelúdio, inclusive o de imagens — a copia da
-premissa vive nele desde que saiu do clipe.
+### O blob que não devia estar lá
+
+O primeiro beat do filme era o clipe de repouso do Matter. Aquele clipe foi
+pedido com "a massa incha e contrai numa respiração profunda", e o modelo
+obedeceu **fazendo crescer uma bolha grande e lisa** a partir do seu quadro 30 —
+invisível no enquadramento largo, evidente no recorte do telefone, e sem nada a
+ver com um andaime mineral.
+
+O beat passou a ser os primeiros 0,35 s da própria `transA`, desacelerados quase
+até parar. Medido quadro a quadro, os pontos da malha só aparecem em `transA`
+aos 2,0 s, então esta janela ainda é andaime limpo — e, ao contrário do clipe de
+repouso, é movimento real para a frente, contínuo com a transição que vem a
+seguir: sem material repetido, sem reversão, sem emenda.
+
+### Taxa constante por segmento
+
+Cada segmento termina com `fps=24` **depois** do `setpts`. Sem isso o tempo fica
+fraccionário e o concat final insere quadros para fechar as contas — foram 9
+numa montagem, e aí a tabela de legendas deixa de bater com o ficheiro. Com a
+correção, a soma dos segmentos é exactamente o total do filme.
 
 ### Os platôs não são congelamentos
 
@@ -151,7 +171,7 @@ literalmente mortos num filme de 25,5 s.
 
 O telefone recebe **outro corte do mesmo filme**: `premise-mobile.mp4`,
 720 × 900 (4:5), 1,3 MB contra os 6,9 MB do desktop. Mesma duração e mesmos
-479 quadros, então a tabela de legendas serve para os dois sem ajuste — e
+463 quadros, então a tabela de legendas serve para os dois sem ajuste — e
 `checks/shipped.py` verifica isso, porque uma divergência dessincronizaria o
 telefone em silêncio.
 
@@ -395,7 +415,7 @@ Scripts em `.claude/premise/checks/`:
   (sequências de quadros quase idênticos). Foi o que provou o diagnóstico do
   `zoompan` e o que aprovou cada clipe novo.
 - `film_audit.py` — o mesmo por beat, mais a garantia de que a coluna de texto
-  fica ivory em todos os 479 quadros (o pixel mais escuro que já apareceu ali
+  fica ivory em todos os 463 quadros (o pixel mais escuro que já apareceu ali
   foi 235 de 255). O detector de tremor conta **reversões de alta frequência**
   (sequências de 1–2 quadros entre trocas de sinal) por 100 quadros, não trocas
   de sinal absolutas: contar todas acusava três beats perfeitamente lisos, porque
@@ -453,7 +473,7 @@ o threshold era 0,55; hoje observa-se o palco, que tem uma janela de altura).
 
 | Arquivo | Tamanho | Usado em |
 |---|---|---|
-| `premise-sequence.mp4` | 4,9 MB | 1600 × 900, 19,96 s, desktop |
+| `premise-sequence.mp4` | 4,8 MB | 1600 × 900, 19,29 s, desktop |
 | `stage-01-matter.webp` | 199 KB | pôster + crossfade mobile + reduced-motion |
 | `stage-02-intelligence.webp` | 173 KB | idem |
 | `stage-03-life.webp` | 55 KB | idem |

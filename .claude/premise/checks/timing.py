@@ -17,14 +17,14 @@ FPS = 24.0
 # e' desenhada ao vivo em WebGL antes de o clipe comecar. Por isso o texto da
 # premissa tambem nao aparece aqui — ele pertence ao prelúdio.
 BEATS = [          # name,          frames,  what the picture is
-    ('matter',       43, 'matter'),
-    ('transA',      101, 'matter->intel'),
+    ('matter',       31, 'matter'),
+    ('transA',      102, 'matter->intel'),
     ('intel',        41, 'intel'),
-    ('peel',         63, 'intel->meio'),
-    ('unfurl',       63, 'meio->life'),
+    ('peel',         62, 'intel->meio'),
+    ('unfurl',       62, 'meio->life'),
     ('life',         46, 'life'),
-    ('recuo',        68, 'life->todo'),
-    ('todo',         54, 'todo'),   # 52 medidos + 2 de deriva do concat
+    ('recuo',        67, 'life->todo'),
+    ('todo',         52, 'todo'),
 ]
 
 t = 0.0
@@ -36,10 +36,10 @@ DUR = t
 
 # copy windows in seconds: (fade-in start, fade-in end, fade-out start, fade-out end)
 COPY = {
-    'cap01': (0.55,  1.25,   4.20,  4.90),
-    'cap02': (5.20,  5.90,   9.10,  9.80),
-    'cap03': (11.65, 12.35, 15.35, 16.05),
-    'coda':  (16.60, 17.50, None,  None),
+    'cap01': (0.45,  1.10,   3.85,  4.55),
+    'cap02': (4.85,  5.55,   8.65,  9.35),
+    'cap03': (11.10, 11.80, 14.80, 15.50),
+    'coda':  (15.95, 16.85, None,  None),
 }
 # which picture-state each piece of copy may be legible over.
 # cap01 is NOT allowed over 'pontos': the material does not exist yet there,

@@ -102,6 +102,37 @@
   .premise-inner{position:relative;z-index:3;width:100%;max-width:var(--container-base);margin:0 auto;padding:0 var(--gutter);}
   .premise-copy{max-width:520px;}
   .premise-eyebrow{will-change:opacity;}
+  /* A premissa CHEGA: cada linha e' revelada da esquerda para a direita, com
+     uma borda suave em vez de um corte. O primeiro tempo da seccao e' texto
+     parado sobre ivory, e sem isto o visitante nao tem como saber que ha' algo
+     a acontecer — a revelacao e' o sinal de que a seccao esta viva, antes de a
+     imagem sequer aparecer.
+     Feito com mascara e nao com opacidade: opacidade e' um fade, isto e' um
+     desenrolar, que e' a mesma gramatica do ultimo estagio do filme. */
+  .premise.is-abrindo .premise-eyebrow,
+  .premise.is-abrindo .premise-title,
+  .premise.is-abrindo .premise-support{
+    -webkit-mask-image:linear-gradient(90deg,#000 26%,rgba(0,0,0,.45) 52%,transparent 74%);
+            mask-image:linear-gradient(90deg,#000 26%,rgba(0,0,0,.45) 52%,transparent 74%);
+    -webkit-mask-size:360% 100%;         mask-size:360% 100%;
+    -webkit-mask-repeat:no-repeat;       mask-repeat:no-repeat;
+    animation:premise-revelar var(--rev,1.5s) cubic-bezier(.42,.10,.32,1) both;
+    /* NAO --ease-out: aquele token e um expo-out (0.22,1,0.36,1) e revela 76%
+       no primeiro quarto do tempo, o que le como um estalo. Uma varredura quer
+       uma curva quase constante, com as pontas suaves. */
+  }
+  .premise.is-abrindo .premise-eyebrow{--rev:1.05s;animation-delay:.10s;}
+  .premise.is-abrindo .premise-title  {--rev:1.60s;animation-delay:.32s;}
+  .premise.is-abrindo .premise-support{--rev:1.45s;animation-delay:.92s;}
+  @keyframes premise-revelar{
+    from{-webkit-mask-position:100% 0;mask-position:100% 0;}
+    to  {-webkit-mask-position:0% 0;  mask-position:0% 0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .premise.is-abrindo .premise-eyebrow,
+    .premise.is-abrindo .premise-title,
+    .premise.is-abrindo .premise-support{-webkit-mask-image:none;mask-image:none;animation:none;}
+  }
   /* One element, two appearances. It opens the section and returns to close it,
      in the same place at the same size — identical by construction, because it
      never moves. Only opacity animates, so the column never reflows. */
@@ -1149,20 +1180,20 @@ var track=sec.querySelector('.premise-track'),
 
 var VIDEO_SRC='assets/premise/premise-sequence.mp4';   /* 1600x900, 6,9 MB */
 var VIDEO_SRC_M='assets/premise/premise-mobile.mp4';   /*  720x720, 1,3 MB */
-var DUR=19.958;             /* refined from metadata once the clip loads */
+var DUR=19.292;             /* refined from metadata once the clip loads */
 
 /* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
    Counted off the built master frame by frame (605 frames at 24fps), not from
    the durations the cut was meant to have — the interpolated holds land a few
    frames short and guessing would put every caption slightly out:
-     0.000–0.090  matter, formed and alive         <- caption 01 reads here
-     0.090–0.301  reorganising into the lattice    <- the 1->2 transition
-     0.301–0.386  the lattice, resting
-     0.386–0.518  the lattice peeling — still cool
-     0.518–0.649  unfurling; warmth arrives here
-     0.649–0.745  Life, resting
-     0.745–0.887  the camera retreats
-     0.887–1.000  the whole body, resting
+     0.000–0.067  matter, barely stirring          <- caption 01 reads here
+     0.067–0.285  reorganising into the lattice    <- the 1->2 transition
+     0.285–0.373  the lattice, resting
+     0.373–0.509  the lattice peeling — still cool
+     0.509–0.644  unfurling; warmth arrives here
+     0.644–0.743  Life, resting
+     0.743–0.888  the camera retreats
+     0.888–1.000  the whole body, resting
 
    The opening is NOT in this clip and is not a picture at all: the section
    opens on the premise, set in ivory, with nothing else in the frame. Then the
@@ -1182,10 +1213,10 @@ var DUR=19.958;             /* refined from metadata once the clip loads */
         waits for 0.202 and not for the start of the clip.
    Each caption is fully opaque for 2.5–3.9s: long enough to read without
    having to stop watching, which is what the larger type is for. */
-var CAPS=[[0.0276,0.0626,0.2104,0.2455],        /* 01 Matter        */
-          [0.2605,0.2956,0.4559,0.4910],        /* 02 Intelligence  */
-          [0.5837,0.6188,0.7691,0.8042]];       /* 03 Life          */
-var CODA_IN=[0.8317,0.8768];                    /* the title comes back */
+var CAPS=[[0.0233,0.0570,0.1996,0.2359],        /* 01 Matter        */
+          [0.2514,0.2877,0.4484,0.4847],        /* 02 Intelligence  */
+          [0.5754,0.6117,0.7672,0.8035]];       /* 03 Life          */
+var CODA_IN=[0.8268,0.8734];                    /* the title comes back */
 var ledeVal=1;                                  /* opacidade da copia de abertura */
 
 var mode='stills', phase='idle', raf=0, running=false, ready=false, visible=false;
@@ -1232,9 +1263,9 @@ function paint(t){
        stacked layout keeps the same word-to-picture agreement as the clip.
        Four states: the section opens on the premise alone, so the material is
        the first picture there is. */
-    stills[1].style.opacity=clamp((t-0.236)/0.0600,0,1);  /* -> 0.2956, with 02 */
-    stills[2].style.opacity=clamp((t-0.559)/0.0600,0,1);  /* -> 0.6188, with 03 */
-    stills[3].style.opacity=clamp((t-0.817)/0.0600,0,1);  /* -> 0.8768, with the title */
+    stills[1].style.opacity=clamp((t-0.228)/0.0600,0,1);  /* -> 0.2877, with 02 */
+    stills[2].style.opacity=clamp((t-0.552)/0.0600,0,1);  /* -> 0.6117, with 03 */
+    stills[3].style.opacity=clamp((t-0.813)/0.0600,0,1);  /* -> 0.8734, with the title */
   }
 }
 
@@ -1243,6 +1274,7 @@ function reset(){
   if(preTimer){clearTimeout(preTimer);preTimer=0;}
   sec.classList.remove('is-done');
   sec.classList.remove('is-live');
+  sec.classList.remove('is-abrindo');
   if(mode==='video'&&video.src){try{video.pause();video.currentTime=0;}catch(e){}}
   paint(0);
 }
@@ -1287,6 +1319,10 @@ function tocarClipe(){
 function begin(){
   if(phase!=='idle')return;
   setPhase('preludio');
+  /* reflow forcado: sem isto a animacao nao volta a correr no Replay, porque a
+     classe e' removida e reposta dentro do mesmo quadro */
+  sec.classList.remove('is-abrindo'); void sec.offsetWidth;
+  sec.classList.add('is-abrindo');
   ledeVal=1;
   preDur=PRE_DUR;
   var fechou=false;

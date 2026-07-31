@@ -6,11 +6,10 @@
 # (as a fraction of DUR); checks/timing.py checks the pair and checks/shipped.py
 # checks that index.html really carries what timing.py verified.
 #
-#   (a abertura NAO esta neste ficheiro: os pontos que voam e tomam a forma do
-#    scaffold sao renderizados ao vivo em WebGL, como o hero. Ver index.html.)
+#   (a abertura NAO esta neste ficheiro: e' so' a premissa em ivory. Ver index.html)
 #
-#   matter    1.80  matter, formed and alive               caption 01 reads
-#   transA    4.30  matter -> lattice                     the 1->2 transition
+#   matter    1.71  matter, barely stirring                caption 01 reads
+#   transA    3.88  matter -> lattice                     the 1->2 transition
 #   intel     1.90  the lattice rests                     caption 02 reads
 #   peel      2.60  the lattice peeling, still cool       caption 02 leaves
 #   unfurl    2.60  unfurling; warmth arrives             caption 03 enters
@@ -18,25 +17,17 @@
 #   recuo     2.80  the camera retreats
 #   todo      2.40  three strata                          the title returns
 #                  -----
-#                  25.70
+#                  19.46
 #
 # Three things this build does deliberately:
 #
-#  * THE OPENING IS NOT IN THIS FILE, and that is the point.  It has to be
-#    particles that FLY and take the exact shape of the scaffold — the hero's
-#    mechanism — and a generative video model cannot do that.  Three attempts
-#    proved it:
-#      - points with themselves: drifting with no direction ("vao e vem");
-#      - a dense point-scaffold keyframe: the form arrived at once, and the
-#        points stopped floating;
-#      - a sparse one: "um blob que abre e fecha, e ai o scaffold surge do
-#        nada".
-#    The model interpolates between two pictures; it has no notion of a
-#    particle with a destination.  So the opening is rendered live in WebGL
-#    from real point positions SAMPLED OUT OF 01-matter itself (see the
-#    premise-points script in index.html).  When the points arrive they sit
-#    exactly where the material is about to be, and this file takes over from
-#    the first solid frame.
+#  * THE OPENING IS NOT IN THIS FILE and is not a picture at all.  The section
+#    opens on the premise set in ivory, with nothing else in the frame; then
+#    the material fades up and this clip runs.  Four attempts to put movement
+#    there — generated drift, two point-scaffold keyframes, and real WebGL
+#    particles — all read as heavy or arbitrary.  The film is the elegant
+#    thing; the opening now gets out of its way, and carries its own movement
+#    in the way the copy arrives (a left-to-right reveal, in index.html).
 #
 #  * transA gets 4.30s out of 4.20s of source — essentially real time.  It had
 #    been compressed to 2.90s, which is 1.45x, and the matter-to-intelligence
@@ -64,32 +55,42 @@ SRC="$ROOT/_source/premise"
 OUT="$ROOT/assets/premise"
 cd "$SRC"
 
-for f in idleM2-raw.mp4 transA-raw.mp4 transB1-raw.mp4 \
+for f in transA-raw.mp4 transB1-raw.mp4 \
          transB2-raw.mp4 transC3-raw.mp4; do
   [ -f "$f" ] || { echo "falta $SRC/$f — ver os job IDs em PREMISE-GENERATION-LOG.md" >&2; exit 1; }
 done
 
 FIX="crop=1912:1076:8:0,scale=1920:1080,setsar=1,fps=24"
+# Cada segmento sai em taxa CONSTANTE: o setpts torna o tempo fraccionario, e
+# sem um fps=24 depois dele o concat final acaba por inserir quadros para
+# fechar as contas — foram 9 numa montagem, e a tabela de legendas deixa de
+# bater com o ficheiro.
 MI="minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1"
 ENC="-an -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 18 -preset medium"
 
 seg () { echo "  -> $1"; }
 
-# ── 1. matter, formed, alive ─────────────────────────────────────────────
-# The pore walls flex, particles cross, the light travels.  Only the first
-# seconds of that clip are usable — its last second is where the model brakes
-# to land back on its end frame, and 19 of those 24 frames are near-duplicates.
+# ── 1. matter, formed, barely stirring ───────────────────────────────────
+# The first 0.35s of transA, slowed almost to a standstill.  NOT the idle clip:
+# that one was asked to make the mass "swell and contract", and it obliged by
+# growing a big smooth bubble from about its frame 30 — plainly visible in the
+# phone crop, and read as a blob that does not belong on a mineral scaffold.
+#
+# This window is still clean scaffold (measured frame by frame, the lattice
+# dots do not appear in transA until 2.0s), and using it means the beat is real
+# forward motion continuous with the transition that follows: no repeated
+# footage, no reversal, no seam.
 seg "s1-matter.mp4    1.80s"
-ffmpeg -v error -y -i idleM2-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:1.80,setpts=PTS-STARTPTS[v]" -map "[v]" $ENC s1-matter.mp4
-
-# ── 4. matter -> lattice, at essentially real speed ──────────────────────
-# 4.30s out of 4.20s of source.  It had been 2.90s (1.45x) and the
-# transformation went by too fast to follow: this is the conceptual centre of
-# the section and it is now the longest transition in the film.
-seg "s3-transA.mp4   4.30s"
 ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/0.9767[v]" -map "[v]" $ENC s3-transA.mp4
+"[0:v]${FIX},trim=0:0.35,setpts=(PTS-STARTPTS)/0.1944,${MI}[v]" -map "[v]" $ENC s1-matter.mp4
+
+# ── 2. matter -> lattice, at essentially real speed ──────────────────────
+# Picks up exactly where the beat above stopped.  It had been compressed to
+# 2.90s (1.45x) and the transformation went by too fast to follow: this is the
+# conceptual centre of the section and it is now the longest transition.
+seg "s3-transA.mp4   4.25s"
+ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
+"[0:v]${FIX},trim=0.35:4.20,setpts=(PTS-STARTPTS)/0.9059,fps=24[v]" -map "[v]" $ENC s3-transA.mp4
 
 # ── 4. the lattice rests ─────────────────────────────────────────────────
 seg "s4-intel.mp4    1.90s"
@@ -99,12 +100,12 @@ ffmpeg -v error -y -i transA-raw.mp4 -filter_complex \
 # ── 5. peeling — must stay COOL: caption 02 is still leaving here ────────
 seg "s5-peel.mp4     2.60s"
 ffmpeg -v error -y -i transB1-raw.mp4 -filter_complex \
-"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.9385[v]" -map "[v]" $ENC s5-peel.mp4
+"[0:v]${FIX},setpts=(PTS-STARTPTS)/1.9385,fps=24[v]" -map "[v]" $ENC s5-peel.mp4
 
 # ── 6. unfurling: warmth arrives, caption 03 comes in over it ───────────
 seg "s6-unfurl.mp4   2.60s"
 ffmpeg -v error -y -i transB2-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/1.6154[v]" -map "[v]" $ENC s6-unfurl.mp4
+"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/1.6154,fps=24[v]" -map "[v]" $ENC s6-unfurl.mp4
 
 # ── 7. Life rests ────────────────────────────────────────────────────────
 seg "s7-life.mp4     2.10s"
@@ -114,7 +115,7 @@ ffmpeg -v error -y -i transB2-raw.mp4 -filter_complex \
 # ── 8. the camera retreats ───────────────────────────────────────────────
 seg "s8-recuo.mp4    2.80s"
 ffmpeg -v error -y -i transC3-raw.mp4 -filter_complex \
-"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/1.5000[v]" -map "[v]" $ENC s8-recuo.mp4
+"[0:v]${FIX},trim=0:4.20,setpts=(PTS-STARTPTS)/1.5000,fps=24[v]" -map "[v]" $ENC s8-recuo.mp4
 
 # ── 9. the whole body rests, and the title comes back over it ────────────
 seg "s9-todo.mp4     2.40s"

@@ -67,6 +67,10 @@ abertura = [
     ('fase de preludio',        r"setPhase\('preludio'\)"),
     ('imagem so no fim dele',   r"sec\.classList\.add\('is-live'\);   /\* a imagem sobe"),
     ('passagem por relogio',    r'preTimer=setTimeout\(fecharPreludio,PRE_DUR\*1000\)'),
+    ('texto revelado, nao fade', r'@keyframes premise-revelar'),
+    ('revelacao escalonada',    r'\.premise-support\{--rev:1\.45s;animation-delay:\.92s;\}'),
+    ('curva de varredura',      r'cubic-bezier\(\.42,\.10,\.32,1\)'),
+    ('reflow no replay',        r'void sec\.offsetWidth'),
 ]
 for label, pat in abertura:
     ok = re.search(pat, src) is not None
