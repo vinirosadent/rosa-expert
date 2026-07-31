@@ -29,8 +29,20 @@
   .platform-cta{margin-top:18px;font-size:13.5px;font-weight:600;color:var(--blue-600);}
   @media (max-width:820px){
     .chain{grid-template-columns:1fr 1fr;} .chain-step:not(:last-child)::after{display:none;}
-    .platforms{grid-template-columns:1fr;} .home-hero-cv{opacity:.72;}
+    .platforms{grid-template-columns:1fr;} .home-hero-cv{opacity:.85;}
+    /* No desktop a materia fica numa caixa a' direita, longe da coluna de
+       texto. No telefone nao ha' direita, e a nuvem acabava centrada ATRAS da
+       copia — texto sobre a parte mais densa do campo. A copia desce para o
+       fundo e a nuvem sobe (cy no resize()), o que separa as duas e ainda
+       ocupa os ~490px que sobravam vazios no meio. */
+    .home-hero{align-items:flex-end;}
+    .home-hero-inner{padding-bottom:var(--space-12);}
   }
+  /* Telefone baixo: a nuvem tem 347px e a copia 340 num hero de 568 — nao ha'
+     como separar as duas, a soma nao cabe. Onde a sobreposicao e' inevitavel,
+     o campo recua para o texto continuar legivel em vez de encolher a nuvem
+     ate' ela deixar de ter presenca. */
+  @media (max-width:820px) and (max-height:720px){ .home-hero-cv{opacity:.55;} }
   @media (max-width:560px){ .chain{grid-template-columns:1fr;} }
   /* integrated method as a connected rail (not cards) */
   .flow{position:relative;margin-top:var(--space-10);}
@@ -121,10 +133,20 @@
      for exactly the same words. */
   @media (max-width:860px){
     .premise-track{height:240vh;}
-    .premise-stage{display:grid;grid-template-rows:36% 64%;align-items:stretch;}
-    .premise-media{position:relative;inset:auto;grid-row:1;}
-    .premise-scrim{background:linear-gradient(180deg,rgba(253,246,238,0) 58%,var(--premise-ivory) 100%);}
-    .premise-inner{grid-row:2;display:flex;align-items:center;}
+    /* Coluna, e nao uma grade de percentagens. A copia ocupa exactamente a
+       altura de que precisa e a imagem fica com TODO o resto, o que torna
+       impossivel sobrar faixa branca — que era o defeito de 36%/64%: a copia
+       era mais baixa que a sua linha e a diferenca virava vazio. Assim o
+       enquadramento se resolve sozinho em qualquer telefone, do 360x640 ao
+       430x932, sem uma consulta de media por altura. */
+    .premise-stage{display:flex;flex-direction:column;align-items:stretch;}
+    .premise-media{position:relative;inset:auto;flex:1 1 auto;min-height:26vh;}
+    /* O assunto vive na direita do quadro 16:9 (centro de massa medido: 0,74
+       da largura). No telefone o corte e' vertical, entao as imagens tem de
+       ser ancoradas ali, senao aparece o vazio da esquerda. */
+    .premise-media img{object-position:74% 50%;}
+    .premise-scrim{background:linear-gradient(180deg,rgba(253,246,238,0) 62%,var(--premise-ivory) 100%);}
+    .premise-inner{flex:0 0 auto;padding-bottom:var(--space-6);}
     .premise-copy{max-width:none;}
     /* Driven by vh with only a floor and a ceiling in px: a rem-based middle
        term barely moves between a 667px and an 844px phone, which is exactly
@@ -136,11 +158,6 @@
     .premise-label{margin-top:7px;font-size:clamp(1.25rem,3.5vh,1.95rem);}
     .premise-line{margin-top:clamp(8px,1.5vh,13px);font-size:clamp(15px,2.25vh,18.5px);line-height:1.48;}
     .premise-replay{margin-top:clamp(14px,2.4vh,24px);}
-  }
-  /* Short phones: the picture yields the room, since a wide band above the
-     copy still reads — the composition was built for wide crops anyway. */
-  @media (max-width:860px) and (max-height:740px){
-    .premise-stage{grid-template-rows:30% 70%;}
   }
   /* A short desktop window — a half-height window on a large monitor — has as
      little vertical room as a phone while still using the overlaid layout, and
@@ -888,7 +905,10 @@ function resize(){DPR=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clie
   if(!W||!H)return;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);
   gl.viewport(0,0,cv.width,cv.height);
   cy=H*0.5;
-  if(W<=900){ cx=W*0.5; S=Math.min(W*0.40,H*0.40); return; }
+  /* Telefone: a nuvem sobe para o terco de cima e a copia vai para o fundo
+     (ver o @media 820px). Assim as duas nao se sobrepoem — medido num ecra de
+     390x844: nuvem de y=52 a 412, copia de 440 a 724. */
+  if(W<=900){ cx=W*0.5; cy=H*0.30; S=Math.min(W*0.42,H*0.30); return; }
   /* CAIXA: os mesmos tokens do design system — container 1180 com gutter.
      A borda direita da materia coincide com a borda do container (onde
      termina "Contact"); a esquerda comeca depois da coluna de texto. */
@@ -1101,12 +1121,14 @@ var track=sec.querySelector('.premise-track'),
     stills=[].slice.call(sec.querySelectorAll('.premise-still')),
     figs=[].slice.call(sec.querySelectorAll('.premise-stagefig')),
     items=[].slice.call(sec.querySelectorAll('.premise-stageitem')),
+    stages=sec.querySelector('.premise-stages'),
     eyebrow=sec.querySelector('.premise-eyebrow'),
     title=sec.querySelector('.premise-title'),
     support=sec.querySelector('.premise-support'),
     replay=sec.querySelector('.premise-replay');
 
-var VIDEO_SRC='assets/premise/premise-sequence.mp4';
+var VIDEO_SRC='assets/premise/premise-sequence.mp4';   /* 1600x900, 6,9 MB */
+var VIDEO_SRC_M='assets/premise/premise-mobile.mp4';   /*  720x720, 1,3 MB */
 var DUR=25.208;             /* refined from metadata once the clip loads */
 
 /* Beats as FRACTIONS of the clip, so a re-cut of any length keeps its timing.
@@ -1264,26 +1286,61 @@ function useStills(reason){
   clock=0;last=-1;
 }
 
+/* Os ouvintes ficam fora de loadVideo: a fonte troca quando se atravessa o
+   ponto de quebra, e registados la' dentro seriam somados a cada troca. */
+video.addEventListener('loadedmetadata',function(){
+  if(video.duration&&isFinite(video.duration))DUR=video.duration;
+});
+video.addEventListener('loadeddata',function(){
+  ready=true;
+  sec.classList.add('is-ready');
+});
+video.addEventListener('error',function(){ if(mode==='video')useStills('erro-video'); });
+
+/* O telefone recebe o corte QUADRADO, nao o 16:9 espremido: 1,3 MB em vez de
+   6,9 MB, e um enquadramento feito para o ecra em pe'. Os dois ficheiros tem a
+   mesma duracao e o mesmo numero de quadros, entao as fracoes das legendas
+   servem para ambos sem qualquer ajuste. */
+function wantSrc(){
+  return (MQ_MOBILE&&MQ_MOBILE.matches)?VIDEO_SRC_M:VIDEO_SRC;
+}
 function loadVideo(){
-  if(video.src)return;
+  var want=wantSrc();
+  if(video.getAttribute('src')===want)return;
+  ready=false;
+  sec.classList.remove('is-ready');
   video.preload='auto';
-  video.src=VIDEO_SRC;
-  video.addEventListener('loadedmetadata',function(){
-    if(video.duration&&isFinite(video.duration))DUR=video.duration;
-  });
-  video.addEventListener('loadeddata',function(){
-    ready=true;
-    sec.classList.add('is-ready');
-  });
-  video.addEventListener('error',function(){useStills('erro-video');});
+  video.setAttribute('src',want);
   video.load();
+}
+
+/* As legendas sao absolutas, entao a caixa delas precisa de uma altura
+   reservada. Ate' aqui essa altura era um clamp escrito a' mao — e um chute:
+   num telefone de 390x844 reservava 181px para uma legenda de 127, e os 54px
+   de diferenca saiam directamente do tamanho da imagem. Medir e' exacto em
+   qualquer ecra, com qualquer tipo carregado, e nao envelhece se o texto
+   mudar. Opacidade nao afecta layout, entao da' para medir sem mostrar. */
+function ajustarCaixa(){
+  if(!stages||mode==='static'){ if(stages)stages.style.minHeight=''; return; }
+  var h=0;
+  for(var i=0;i<items.length;i++){
+    var r=items[i].getBoundingClientRect();
+    if(r.height>h)h=r.height;
+  }
+  if(h>0)stages.style.minHeight=Math.ceil(h)+'px';
 }
 
 function setMode(){
   var reduced=!!(MQ_REDUCED&&MQ_REDUCED.matches);
-  var mobile=MQ_MOBILE?MQ_MOBILE.matches:(document.documentElement.clientWidth<=860);
-  var next=reduced?'static':(mobile?'stills':'video');
-  if(next===mode&&sec.dataset.mode)return;
+  /* Save-Data e' o unico motivo restante para nao servir o clipe: o telefone
+     agora recebe video, so' que o dele. Quem pediu economia de dados fica com
+     a sequencia de imagens, que pesa 600 KB. */
+  var poupar=!!(navigator.connection&&navigator.connection.saveData);
+  var next=reduced?'static':(poupar?'stills':'video');
+  /* Atravessar o ponto de quebra nao muda o MODO, muda o FICHEIRO — sem isto
+     o retorno antecipado abaixo deixaria o telefone com o master de desktop. */
+  var trocouFonte=(next==='video'&&video.getAttribute('src')&&video.getAttribute('src')!==wantSrc());
+  if(next===mode&&sec.dataset.mode&&!trocouFonte)return;
   mode=next;
   sec.dataset.mode=mode;
   stop();
@@ -1297,6 +1354,7 @@ function setMode(){
      out. The observer will not fire again just because the window was resized,
      so without this a resize mid-play would leave an empty ivory panel. */
   if(visible)begin();
+  ajustarCaixa();
 }
 
 /* Drive the breakpoint off the same media query the stylesheet uses:
@@ -1307,6 +1365,8 @@ var MQ_MOBILE=window.matchMedia?window.matchMedia('(max-width: 860px)'):null;
 var MQ_REDUCED=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
 
 setMode();
+/* o tipo serif chega depois do primeiro layout e muda a altura das legendas */
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(ajustarCaixa);
 
 if(replay){
   replay.addEventListener('click',function(){
@@ -1346,7 +1406,7 @@ if('IntersectionObserver' in window){
 }
 
 var rt;
-window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(setMode,160);},{passive:true});
+window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){setMode();ajustarCaixa();},160);},{passive:true});
 [MQ_MOBILE,MQ_REDUCED].forEach(function(m){
   if(!m)return;
   m.addEventListener?m.addEventListener('change',setMode):m.addListener&&m.addListener(setMode);

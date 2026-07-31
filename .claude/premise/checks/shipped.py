@@ -82,18 +82,39 @@ for label, pat in hero:
     bad += not ok
     print(f'  {"ok " if ok else "XX "} {label}')
 
-# the master on disk must be the length the fractions were computed against
+# Both cuts on disk must be the length the fractions were computed against.
+# Desktop and phone share ONE caption table, so if a rebuild leaves them at
+# different lengths the phone desyncs and nothing says so.
+print('\nos dois cortes contra a tabela:')
 try:
     import subprocess
-    mp4 = os.path.join(ROOT, 'assets', 'premise', 'premise-sequence.mp4')
-    d = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries',
-                              'format=duration', '-of', 'csv=p=0', mp4],
-                             capture_output=True, text=True).stdout.strip())
-    ok = abs(d - T.DUR) < 0.02
-    bad += not ok
-    print(f'\nmaster no disco: {d:.3f}s   tabela: {T.DUR:.3f}s   {"ok" if ok else "XX DIVERGE"}')
+    def dur_frames(name):
+        p = os.path.join(ROOT, 'assets', 'premise', name)
+        if not os.path.exists(p):
+            return None
+        out = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v',
+                              '-count_frames', '-show_entries',
+                              'format=duration:stream=nb_read_frames,width,height',
+                              '-of', 'default=nw=1:nk=1', p],
+                             capture_output=True, text=True).stdout.split()
+        return out
+    ref = None
+    for name in ('premise-sequence.mp4', 'premise-mobile.mp4'):
+        v = dur_frames(name)
+        if v is None:
+            bad += 1; print(f'  XX  {name} nao existe'); continue
+        w, h, fr, d = int(v[0]), int(v[1]), int(v[2]), float(v[3])
+        ok = abs(d - T.DUR) < 0.02
+        if ref is None:
+            ref = fr
+        elif fr != ref:
+            ok = False
+        bad += not ok
+        print(f'  {"ok " if ok else "XX "} {name:24} {w}x{h}  {fr} quadros  {d:.3f}s'
+              f'   {os.path.getsize(os.path.join(ROOT,"assets","premise",name))/1048576:.1f} MB')
+    print(f'      tabela: {T.DUR:.3f}s')
 except Exception as e:
-    print(f'\n(nao foi possivel medir o master: {e})')
+    print(f'  (nao foi possivel medir: {e})')
 
 print()
 print('index.html reproduz a tabela verificada' if not bad else f'{bad} DIVERGENCIA(S)')
