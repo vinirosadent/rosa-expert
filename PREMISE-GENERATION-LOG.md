@@ -1,5 +1,18 @@
 # The Premise — log de geração dos assets
 
+> **`premissa-v1` é a versão aprovada.** Marcada em 31/07/2026 como ponto de
+> retorno: qualquer alteração a esta seção parte daí, e se não ficar boa
+> volta-se a esse estado.
+>
+> Voltar só esta seção, sem mexer no resto do site:
+>
+> ```
+> git checkout premissa-v1 -- index.html assets/premise .claude/premise
+> ```
+>
+> Ver o que essa versão era: `git show premissa-v1`
+
+
 Assets da seção fixada **Matter → Intelligence → Life → o todo** da home
 (`index.html`, `<section id="premise">`). Gerados via Higgsfield MCP.
 Nenhum texto, número ou logo dentro das imagens — toda a tipografia é HTML.
