@@ -21,33 +21,54 @@ window.connectedScienceData = {
 
   /* ---- Exchange -------------------------------------------------- */
   exchangeLead:
-    'Students, fellows, researchers and staff have joined the lab in Singapore, ' +
-    'bringing knowledge, methods and perspectives that become part of the work built here.',
+    'Students, fellows and researchers have joined the lab in Singapore, bringing ' +
+    'knowledge, expertise and new perspectives for a shared vision.',
 
   exchangeInstitutions: [
-    /* TODO placeholder — replace with real institutions */
-    { institutionName: 'Institution 01', country: 'Country', logo: null, url: null, displayOrder: 1 },
-    { institutionName: 'Institution 02', country: 'Country', logo: null, url: null, displayOrder: 2 },
-    { institutionName: 'Institution 03', country: 'Country', logo: null, url: null, displayOrder: 3 },
-    { institutionName: 'Institution 04', country: 'Country', logo: null, url: null, displayOrder: 4 },
-    { institutionName: 'Institution 05', country: 'Country', logo: null, url: null, displayOrder: 5 },
-    { institutionName: 'Institution 06', country: 'Country', logo: null, url: null, displayOrder: 6 },
+    /* Real list from Vinicius (2026-08-02), display order as given.
+       Full English names carry the line; the acronym stays where it IS
+       the recognisable brand.
+       TODO: Temasek Polytechnic name flagged by Vinicius as "conferir".
+
+       Crests are the OFFICIAL marks Vinicius supplied (2026-08-02), background-
+       keyed and cropped to the ink only — never redrawn. `h` is each crest's
+       optical height in px, solved on bounding-box area (not raw height, not
+       ink area — ink area gave Nanyang's 2.18:1 lettermark the same footprint
+       as an 11-fold-wider set of roundels). The renderer remaps `h` into a
+       narrow band at paint time — see band() in the inline script below. */
+    { institutionName: 'S\u00e3o Paulo State University (UNESP)', country: 'Brazil', logo: 'assets/connected-science/logos/crest/unesp-crest.png', h: 54.8, url: null, displayOrder: 1 },
+    { institutionName: 'Universitas Padjadjaran', country: 'Indonesia', logo: 'assets/connected-science/logos/crest/unpad-crest.png', h: 55.6, url: null, displayOrder: 2 },
+    { institutionName: 'Federal University of Pelotas (UFPel)', country: 'Brazil', logo: 'assets/connected-science/logos/crest/ufpel-crest.png', h: 59.0, url: null, displayOrder: 3 },
+    { institutionName: 'University of Campinas (UNICAMP)', country: 'Brazil', logo: 'assets/connected-science/logos/crest/unicamp-crest.png', h: 54.3, url: null, displayOrder: 4 },
+    { institutionName: 'Chulalongkorn University', country: 'Thailand', logo: 'assets/connected-science/logos/crest/chula-crest.png', h: 64.0, url: null, displayOrder: 5 },
+    { institutionName: 'Mahidol University', country: 'Thailand', logo: 'assets/connected-science/logos/crest/mahidol-crest.png', h: 55.0, url: null, displayOrder: 6 },
+    { institutionName: 'Nihon University', country: 'Japan', logo: 'assets/connected-science/logos/crest/nihon-crest.png', h: 56.9, url: null, displayOrder: 7 },
+    { institutionName: 'University of Otago', country: 'New Zealand', logo: 'assets/connected-science/logos/crest/otago-crest.png', h: 55.0, url: null, displayOrder: 8 },
+    { institutionName: 'Temasek Polytechnic', country: 'Singapore', logo: 'assets/connected-science/logos/crest/temasek-crest.png', h: 55.9, url: null, displayOrder: 9 },
+    { institutionName: 'Singapore Polytechnic', country: 'Singapore', logo: 'assets/connected-science/logos/crest/sp-crest.png', h: 58.2, url: null, displayOrder: 10 },
+    { institutionName: 'Nanyang Polytechnic', country: 'Singapore', logo: 'assets/connected-science/logos/crest/nyp-crest.png', h: 38.6, url: null, displayOrder: 11 },
   ],
 
   /* ---- Collaborations -------------------------------------------- */
   collaborationsLead:
-    'Long-standing scientific relationships across institutions bring together shared questions ' +
-    'and complementary expertise, creating work that develops over time.',
+    'Some of these collaborations with institutions abroad span many years, ' +
+    'producing joint publications and continued research.',
 
   collaborationInstitutions: [
-    /* TODO placeholder — replace with real institutions.
-       Institution 02 is repeated on purpose: it exercises the case of one
-       institution appearing in both areas. */
-    { institutionName: 'Institution 07', country: 'Country', logo: null, url: null, displayOrder: 1 },
-    { institutionName: 'Institution 02', country: 'Country', logo: null, url: null, displayOrder: 2 },
-    { institutionName: 'Institution 08', country: 'Country', logo: null, url: null, displayOrder: 3 },
-    { institutionName: 'Institution 09 with a deliberately long name for layout testing', country: 'Country', logo: null, url: null, displayOrder: 4 },
-    { institutionName: 'Institution 10', country: 'Country', logo: null, url: null, displayOrder: 5 },
+    /* Real list from Vinicius (2026-08-02), order as given. Chulalongkorn
+       and Padjadjaran/UNESP crests are the same official files already
+       used in Exchange — repetition across the two lists is intentional
+       (see file header). `h` solved the same way as Exchange (bounding-box
+       area, box=58/hmax=64/wmax=84) but on THIS list's own five crests,
+       since bandHeights() remaps each list independently — see
+       connected-science.html. Manchester's source had a white backdrop
+       outside the shield silhouette, keyed out by flood-fill from the
+       corners; Jeonbuk's seal already carried a transparent background. */
+    { institutionName: 'University of Manchester', country: 'United Kingdom', logo: 'assets/connected-science/logos/crest/manchester-crest.png', h: 61.7, url: null, displayOrder: 1 },
+    { institutionName: 'Chulalongkorn University', country: 'Thailand', logo: 'assets/connected-science/logos/crest/chula-crest.png', h: 64.0, url: null, displayOrder: 2 },
+    { institutionName: 'Jeonbuk National University', country: 'South Korea', logo: 'assets/connected-science/logos/crest/jeonbuk-crest.png', h: 57.4, url: null, displayOrder: 3 },
+    { institutionName: 'Universitas Padjadjaran', country: 'Indonesia', logo: 'assets/connected-science/logos/crest/unpad-crest.png', h: 58.0, url: null, displayOrder: 4 },
+    { institutionName: 'São Paulo State University (UNESP)', country: 'Brazil', logo: 'assets/connected-science/logos/crest/unesp-crest.png', h: 57.0, url: null, displayOrder: 5 },
   ],
 
   /* ---- Work built together --------------------------------------- */
