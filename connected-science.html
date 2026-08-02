@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connected Science | Vinicius Rosa</title>
+<meta name="description" content="International research exchange and long-standing scientific collaborations connecting people, institutions and work built together.">
+<link rel="canonical" href="https://rosa.expert/connected-science.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rosa.expert/connected-science.html">
+<meta property="og:title" content="Connected Science | Vinicius Rosa">
+<meta property="og:description" content="International research exchange and long-standing scientific collaborations connecting people, institutions and work built together.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+/* ============================================================
+   Connected Science — page-scoped styles (prefix cs-)
+   Everything structural comes from tokens.css / components.css.
+   Only two atmospheres exist on this page and the background
+   changes exactly once: warm ivory for the opening chapter,
+   cool slate for "Work built together". No zebra.
+   ============================================================ */
+
+/* The ivory is the SAME value the approved premise section uses on the
+   home page (--premise-ivory #FDF6EE); reusing it is what makes this page
+   read as part of the site rather than as a second warm palette. */
+.cs-warm { --cs-ivory:#FDF6EE; background: var(--cs-ivory); }
+.cs-cool { background: var(--slate-50); }
+
+.cs-eyebrow { letter-spacing: .2em; }
+
+/* ── Chapter 1 — one continuous warm field ───────────────── */
+/* overflow:hidden is load-bearing: the ripple field is deliberately wider
+   than the viewport on the right, and without the clip every phone would
+   scroll sideways. */
+.cs-opening { position: relative; overflow: hidden; }
+
+/* ── Hero ─────────────────────────────────────────────────
+   Not a full screen. The height is capped so that at 1440x900 the top of
+   "The wider lab" is already on screen — the visitor must not scroll and
+   find only another big title. */
+.cs-hero {
+  position: relative;
+  min-height: clamp(440px, 60vh, 600px);
+  display: flex; align-items: center;
+  padding-top: var(--space-10); padding-bottom: var(--space-10);
+}
+.cs-hero-inner {
+  position: relative; z-index: 2;
+  width: 100%; max-width: var(--container-base); margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid; grid-template-columns: minmax(0, 40%) minmax(0, 60%);
+  align-items: center; gap: var(--space-8);
+}
+.cs-hero-copy { max-width: 30rem; }
+.cs-hero h1 {
+  font-family: var(--font-serif); font-weight: var(--weight-medium);
+  font-size: var(--fs-page-title);       /* shared ramp — same H1 size as Who / To read / News */
+  line-height: 1.02; letter-spacing: var(--tracking-tight);
+  color: var(--text-strong); margin: 14px 0 0;
+}
+.cs-hero-lede {
+  margin-top: 18px; font-size: clamp(1rem, .93rem + .35vw, 1.2rem);
+  line-height: 1.6; color: var(--text-body); max-width: 34ch;
+}
+
+/* ── The hero field ──────────────────────────────────────
+   A particle ocean at a shallow angle, rendered by
+   assets/js/cs-wave-field.js. An invisible impact lands on it and a
+   damped wave packet travels outward; the dots ARE the wave — they
+   only rise and fall, the wave is what travels. Nothing here is a
+   drawn circle, and the projection (not a thicker foreground stroke)
+   is what makes the near ripple read more strongly than the far one.
+
+   The field runs behind the copy and dies out before it. That guard
+   lives in the renderer's per-particle alpha, not in a mask, so
+   there is never a hard edge between text and art. */
+.cs-wave-field {
+  position: absolute; top: 50%; left: 0; right: -12%;
+  height: 128%;
+  transform: translateY(calc(-50% + var(--cs-shift, 0px)));
+  opacity: var(--cs-fade, 1);
+  z-index: 0; pointer-events: none;
+  overflow: hidden;
+
+  /* Fallback wash, and the atmosphere underneath the particles: four
+     soft lobes as plain CSS gradients — no filter, no blur, no extra
+     DOM. With JavaScript off this is all that remains, which is a
+     quiet warm hero rather than an empty one. */
+  background-image:
+    radial-gradient(58% 52% at 76% 36%, rgba(201,174,142,.13), rgba(201,174,142,0) 70%),
+    radial-gradient(52% 46% at 47% 74%, rgba(126,154,180,.07),  rgba(126,154,180,0) 70%),
+    radial-gradient(46% 54% at 93% 64%, rgba(0,61,124,.055),    rgba(0,61,124,0)    70%),
+    radial-gradient(38% 34% at 86% 18%, rgba(239,124,0,.07),    rgba(239,124,0,0)   70%);
+}
+.cs-wave-canvas { display: block; width: 100%; height: 100%; }
+
+/* ── The wider lab ───────────────────────────────────────
+   Deliberately NOT a second hero: no extra top padding beyond the section
+   rhythm, and the H2 is one step down the shared heading ramp. */
+.cs-wider { max-width: var(--container-base); margin: 0 auto; padding: var(--space-4) var(--gutter) 0; position: relative; z-index: 2; }
+.cs-wider-grid { display: grid; grid-template-columns: minmax(0, 34%) minmax(0, 66%); gap: var(--space-10); align-items: end; }
+.cs-wider h2 {
+  font-family: var(--font-serif); font-weight: var(--weight-medium);
+  font-size: var(--fs-section-title); line-height: 1.06;
+  letter-spacing: var(--tracking-tight); color: var(--text-strong); margin-top: 12px;
+}
+.cs-wider-lede { font-size: clamp(1.05rem, .95rem + .5vw, 1.35rem); line-height: 1.5; color: var(--text-body); max-width: 40ch; }
+
+/* ── Exchange · Collaborations ───────────────────────────
+   Two modes of the same network. Equal width, equal type, separated by a
+   hairline and negative space — never two boxes, never a ranking. */
+.cs-modes {
+  max-width: var(--container-base); margin: var(--space-12) auto 0;
+  padding: 0 var(--gutter) var(--space-20);
+  position: relative; z-index: 2;
+}
+.cs-modes-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border-subtle);
+}
+.cs-mode { padding: var(--space-10) var(--space-10) var(--space-8) 0; min-width: 0; }
+.cs-mode + .cs-mode { border-left: 1px solid var(--border-subtle); padding-left: var(--space-10); padding-right: 0; }
+.cs-mode h3 {
+  font-family: var(--font-serif); font-weight: var(--weight-medium);
+  font-size: clamp(1.45rem, 1.05rem + 1.1vw, 1.95rem); line-height: 1.1;
+  letter-spacing: var(--tracking-tight); color: var(--text-strong); margin: 0;
+}
+.cs-mode-lead { margin-top: 14px; font-size: 16px; line-height: 1.6; color: var(--text-muted); max-width: 46ch; }
+
+.cs-inst-grid {
+  margin-top: var(--space-10);
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  column-gap: var(--space-8); row-gap: var(--space-6);
+}
+.cs-inst { padding-left: 14px; border-left: 1px solid var(--border-strong); min-width: 0; }
+.cs-inst-name {
+  display: block; font-family: var(--font-serif); font-weight: var(--weight-regular);
+  font-size: 17px; line-height: 1.25; color: var(--text-strong);
+  overflow-wrap: break-word;   /* long institution names must not push the grid sideways */
+}
+a.cs-inst-name { transition: opacity var(--dur-fast) var(--ease-out); }
+a.cs-inst-name:hover { opacity: .62; color: var(--text-strong); }
+.cs-inst-logo { max-height: 34px; width: auto; margin-bottom: 8px; }
+.cs-inst-country {
+  display: block; margin-top: 6px; font-family: var(--font-sans);
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text-faint); font-weight: var(--weight-medium);
+}
+
+/* ── The single atmosphere change ────────────────────────
+   One transition on the whole page: warm ivory dissolving into the cool
+   field. A gradient band rather than a rule, so it is a change of air and
+   not a new section starting. */
+.cs-shift { height: 96px; background: linear-gradient(180deg, #FDF6EE 0%, var(--slate-50) 100%); }
+
+/* ── Work built together ─────────────────────────────────── */
+.cs-work { padding: var(--space-16) 0 var(--space-20); }
+.cs-work-inner { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter); }
+.cs-work-head { display: grid; grid-template-columns: minmax(0, 38%) minmax(0, 62%); gap: var(--space-10); align-items: end; }
+.cs-work-head h2 {
+  font-family: var(--font-serif); font-weight: var(--weight-medium);
+  font-size: var(--fs-section-title); line-height: 1.06;
+  letter-spacing: var(--tracking-tight); color: var(--text-strong); margin-top: 12px;
+}
+.cs-work-lede { font-size: clamp(1rem, .93rem + .35vw, 1.2rem); line-height: 1.6; color: var(--text-muted); max-width: 52ch; }
+
+.cs-stories { margin-top: var(--space-16); display: flex; flex-direction: column; gap: var(--space-16); }
+.cs-story { border-top: 1px solid var(--border-subtle); padding-top: var(--space-10); }
+.cs-story-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-12); align-items: start; }
+/* The lead story carries slightly more weight — but it is a proportion,
+   not a different component. */
+.cs-story--lead .cs-story-grid { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); }
+/* Alternate which side the image sits on, moderately. */
+.cs-story--flip .cs-story-media { order: 2; }
+/* With no photograph the block becomes a typographic composition: one
+   measured column and air. No generic avatar is ever drawn. */
+.cs-story--noimage .cs-story-grid { grid-template-columns: minmax(0, 1fr); }
+.cs-story--noimage .cs-story-body { max-width: 62ch; }
+
+.cs-story-media { margin: 0; }
+.cs-story-media img { width: 100%; height: auto; border-radius: var(--radius-lg); background: var(--slate-100); }
+.cs-story-caption { margin-top: 10px; font-family: var(--font-sans); font-style: italic; font-size: 12.5px; line-height: 1.5; color: var(--text-muted); }
+
+.cs-story-title {
+  font-family: var(--font-serif); font-weight: var(--weight-medium);
+  font-size: clamp(1.4rem, 1.05rem + 1vw, 1.85rem); line-height: 1.15;
+  letter-spacing: var(--tracking-tight); color: var(--text-strong); margin: 0;
+}
+.cs-story--lead .cs-story-title { font-size: clamp(1.55rem, 1.1rem + 1.4vw, 2.15rem); }
+.cs-story-person {
+  margin-top: 14px; font-family: var(--font-sans); font-size: 11.5px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted);
+  font-weight: var(--weight-semibold); line-height: 1.6;
+}
+.cs-story-body p.cs-story-para { margin-top: 16px; font-size: 16px; line-height: 1.7; color: var(--text-body); max-width: 58ch; }
+.cs-pubs { margin-top: var(--space-8); border-top: 1px solid var(--border-subtle); }
+.cs-pub { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; line-height: 1.55; }
+.cs-pub-title { color: var(--text-strong); font-weight: var(--weight-semibold); }
+a.cs-pub-title { color: var(--blue-600); }
+a.cs-pub-title:hover { color: var(--text-link-hover); }
+.cs-pub-meta { display: block; margin-top: 4px; font-size: 13px; color: var(--text-muted); }
+.cs-pub-meta em { font-family: var(--font-serif); font-style: italic; }
+.cs-pub-doi { color: var(--text-faint); }
+
+/* ── Entrance ────────────────────────────────────────────
+   A single quiet fade-and-rise, never a reason to read the page. */
+.cs-reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+.cs-reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .cs-reveal { opacity: 1; transform: none; transition: none; }
+}
+/* If JavaScript never runs, nothing may stay invisible. */
+.no-js .cs-reveal { opacity: 1; transform: none; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .cs-hero-inner { grid-template-columns: minmax(0, 46%) minmax(0, 54%); }
+  /* Tablet keeps the full field; the renderer's own copy-guard moves
+     with the narrower text column, so nothing has to shift here. */
+  .cs-wave-field { right: -18%; }
+  .cs-mode { padding-right: var(--space-8); }
+  .cs-mode + .cs-mode { padding-left: var(--space-8); }
+}
+@media (max-width: 900px) {
+  .cs-wider-grid, .cs-work-head { grid-template-columns: 1fr; gap: var(--space-5); align-items: start; }
+  .cs-story-grid, .cs-story--lead .cs-story-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+  .cs-story--flip .cs-story-media { order: 0; }
+}
+@media (max-width: 780px) {
+  /* Hero copy first, ripples behind it in the lower-right where no text sits. */
+  .cs-hero { min-height: clamp(380px, 52vh, 460px); align-items: flex-start; }
+  .cs-hero-inner { grid-template-columns: 1fr; }
+  .cs-hero-copy { max-width: none; }
+  .cs-hero-lede { max-width: 38ch; }
+  /* The phone is not a crop of the desktop composition: the plane sits
+     lower and further right, the renderer drops to ~3,200 particles,
+     lowers the amplitude and lets the lower band carry the wave — so
+     the copy sits on clean ivory and the ripple still reads. */
+  .cs-wave-field {
+    top: auto; bottom: -22%; left: 0; right: -26%; height: 118%;
+    transform: translateY(var(--cs-shift, 0px));
+  }
+
+  .cs-modes-grid { grid-template-columns: 1fr; }
+  .cs-mode { padding: var(--space-8) 0 var(--space-6); }
+  .cs-mode + .cs-mode { border-left: 0; border-top: 1px solid var(--border-subtle); padding-left: 0; }
+  /* Measured at 768px the mode column is 678px wide, which auto-fill split into
+     four 154px tracks — long institution names wrapped three lines deep. */
+  .cs-inst-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); column-gap: var(--space-5); }
+  .cs-modes { padding-bottom: var(--space-12); }
+  .cs-work { padding: var(--space-12) 0 var(--space-16); }
+  .cs-stories { gap: var(--space-12); }
+}
+@media (max-width: 600px) {
+  /* On the phone 190px would collapse to a single track and waste the width;
+     148px keeps two readable columns down to ~360px. */
+  .cs-inst-grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.remove('no-js');</script>
+<div id="app">
+<main>
+
+  <!-- ═══ Chapter 1 — one warm field: opening, the wider lab, the two modes ═══ -->
+  <div class="cs-opening cs-warm">
+
+    <section class="cs-hero" aria-labelledby="cs-h1">
+      <div class="cs-wave-field" aria-hidden="true">
+        <canvas class="cs-wave-canvas"></canvas>
+      </div>
+
+      <div class="cs-hero-inner">
+        <div class="cs-hero-copy">
+          <p class="eyebrow cs-eyebrow">Connected Science</p>
+          <h1 id="cs-h1">Science in Motion.</h1>
+          <p class="cs-hero-lede">Science gains reach and depth when people connect, knowledge is shared and ideas are developed together across institutions.</p>
+        </div>
+        <div></div>
+      </div>
+    </section>
+
+    <!-- The wider lab — continues the same field; no new background, no hero height -->
+    <section class="cs-wider cs-reveal" aria-labelledby="cs-wider-h">
+      <div class="cs-wider-grid">
+        <div>
+          <p class="eyebrow cs-eyebrow">The network</p>
+          <h2 id="cs-wider-h">The wider lab.</h2>
+        </div>
+        <p class="cs-wider-lede">The lab extends through the people and institutions connected to it.</p>
+      </div>
+    </section>
+
+    <!-- Exchange · Collaborations — two modes, equal weight -->
+    <section class="cs-modes cs-reveal" aria-label="Exchange and collaborations">
+      <div class="cs-modes-grid">
+        <section class="cs-mode" aria-labelledby="cs-exchange-h">
+          <h3 id="cs-exchange-h">Exchange</h3>
+          <p class="cs-mode-lead" id="cs-exchange-lead"></p>
+          <ul class="cs-inst-grid" id="cs-exchange-list"></ul>
+        </section>
+        <section class="cs-mode" aria-labelledby="cs-collab-h">
+          <h3 id="cs-collab-h">Collaborations</h3>
+          <p class="cs-mode-lead" id="cs-collab-lead"></p>
+          <ul class="cs-inst-grid" id="cs-collab-list"></ul>
+        </section>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══ The single atmosphere change: warm → cool ═══ -->
+  <div class="cs-shift" aria-hidden="true"></div>
+
+  <!-- ═══ Chapter 2 — Work built together ═══ -->
+  <div class="cs-cool">
+    <section class="cs-work" aria-labelledby="cs-work-h">
+      <div class="cs-work-inner">
+        <div class="cs-work-head cs-reveal">
+          <div>
+            <p class="eyebrow cs-eyebrow">Selected stories</p>
+            <h2 id="cs-work-h">Work built together.</h2>
+          </div>
+          <p class="cs-work-lede" id="cs-work-lede"></p>
+        </div>
+        <div class="cs-stories" id="cs-stories"></div>
+      </div>
+    </section>
+  </div>
+
+</main>
+</div><!-- /app -->
+
+<script src="assets/js/data/connected-science.js"></script>
+<script src="assets/js/shared.js"></script>
+<script src="assets/js/cs-wave-field.js" defer></script>
+<script>
+(function () {
+  'use strict';
+  var D = window.connectedScienceData || {};
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ── Institutions ──────────────────────────────────────────
+     Name (or logo, when one is supplied) plus country. Nothing else:
+     no status, no counts, no per-institution description. */
+  function renderInstitutions(el, list) {
+    if (!el) return;
+    el.innerHTML = (list || []).map(function (i) {
+      var label = i.logo
+        ? '<img class="cs-inst-logo" src="' + esc(i.logo) + '" alt="' + esc(i.institutionName) + '" loading="lazy">'
+        : esc(i.institutionName);
+      var name = i.url
+        ? '<a class="cs-inst-name" href="' + esc(i.url) + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
+        : '<span class="cs-inst-name">' + label + '</span>';
+      return '<li class="cs-inst">' + name +
+             '<span class="cs-inst-country">' + esc(i.country) + '</span></li>';
+    }).join('');
+  }
+
+  function setText(id, txt) { var e = document.getElementById(id); if (e && txt) e.textContent = txt; }
+
+  setText('cs-exchange-lead', D.exchangeLead);
+  setText('cs-collab-lead',   D.collaborationsLead);
+  setText('cs-work-lede',     D.storiesLead);
+  renderInstitutions(document.getElementById('cs-exchange-list'), D.exchangeInstitutions);
+  renderInstitutions(document.getElementById('cs-collab-list'),   D.collaborationInstitutions);
+
+  /* ── Stories ───────────────────────────────────────────────
+     Editorial blocks, not a card grid. The first is proportionally larger;
+     the image side alternates. A story with no photograph collapses to a
+     single measured text column rather than borrowing a stock face. */
+  function renderPubs(pubs) {
+    if (!pubs || !pubs.length) return '';
+    var rows = pubs.map(function (p) {
+      var href = p.externalURL || (p.doi ? 'https://doi.org/' + p.doi : '');
+      var title = esc(p.publicationTitle);
+      var titleHtml = href
+        ? '<a class="cs-pub-title" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' + title + '</a>'
+        : '<span class="cs-pub-title">' + title + '</span>';
+      var bits = [];
+      if (p.journal) bits.push('<em>' + esc(p.journal) + '</em>');
+      if (p.year)    bits.push(esc(p.year));
+      var meta = bits.join(' · ');
+      if (p.doi) meta += (meta ? ' · ' : '') + '<span class="cs-pub-doi">doi:' + esc(p.doi) + '</span>';
+      return '<li class="cs-pub">' + titleHtml +
+             (meta ? '<span class="cs-pub-meta">' + meta + '</span>' : '') + '</li>';
+    }).join('');
+    return '<ul class="cs-pubs">' + rows + '</ul>';
+  }
+
+  function renderStory(s, index) {
+    var hasImage = !!s.portrait;
+    var cls = ['cs-story', 'cs-reveal'];
+    if (index === 0) cls.push('cs-story--lead');
+    if (!hasImage) cls.push('cs-story--noimage');
+    else if (index % 2 === 1) cls.push('cs-story--flip');
+
+    var who = [s.collaboratorName, s.collaboratorRole, s.institution, s.country]
+      .filter(Boolean).map(esc).join(' · ');
+
+    var paras = [s.relationshipOrigin, s.workBuilt, s.publicationOutcome, s.whatContinues]
+      .filter(Boolean)
+      .map(function (t) { return '<p class="cs-story-para">' + esc(t) + '</p>'; })
+      .join('');
+
+    var media = hasImage
+      ? '<figure class="cs-story-media"><img src="' + esc(s.portrait) + '" alt="' + esc(s.imageAlt || '') + '" loading="lazy" decoding="async" width="1200" height="900">' +
+        (s.caption ? '<figcaption class="cs-story-caption">' + esc(s.caption) + '</figcaption>' : '') +
+        '</figure>'
+      : '';
+
+    return '<article class="' + cls.join(' ') + '"' + (s.id ? ' id="' + esc(s.id) + '"' : '') + '>' +
+             '<div class="cs-story-grid">' + media +
+               '<div class="cs-story-body">' +
+                 '<h3 class="cs-story-title">' + esc(s.title) + '</h3>' +
+                 (who ? '<p class="cs-story-person">' + who + '</p>' : '') +
+                 paras + renderPubs(s.publications) +
+               '</div>' +
+             '</div>' +
+           '</article>';
+  }
+
+  var wrap = document.getElementById('cs-stories');
+  if (wrap) wrap.innerHTML = (D.stories || []).map(renderStory).join('');
+
+  /* ── Entrance + ripple idling ──────────────────────────────
+     Both are progressive enhancements: without IntersectionObserver the
+     content is simply visible and the field simply runs. */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('.cs-reveal');
+
+  if (!('IntersectionObserver' in window) || reduce) {
+    Array.prototype.forEach.call(items, function (el) { el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e, i) {
+        if (!e.isIntersecting) return;
+        e.target.style.transitionDelay = (i * 70) + 'ms';
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+    Array.prototype.forEach.call(items, function (el) { io.observe(el); });
+
+    /* Fail-safe. IntersectionObserver callbacks ride the rendering lifecycle,
+       which Chrome suspends while a tab is in the background — a page opened
+       in a background tab can therefore sit at opacity 0 with no callback
+       pending. Observed exactly that during testing. After 2.5s the entrance
+       has stopped being an entrance anyway, so reveal everything: the
+       fail-safe state has to be visible, never blank. */
+    setTimeout(function () {
+      Array.prototype.forEach.call(items, function (el) {
+        /* transition:none, not just the class: with the lifecycle suspended a
+           pending transition never starts and the element stays painted at 0. */
+        if (!el.classList.contains('is-in')) { el.style.transition = 'none'; el.classList.add('is-in'); }
+      });
+    }, 2500);
+  }
+
+  var art = document.querySelector('.cs-wave-field');
+  var heroEl = document.querySelector('.cs-hero');
+  var heroOnScreen = true;
+
+  if (art && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        heroOnScreen = e.isIntersecting;
+        art.classList.toggle('is-idle', !e.isIntersecting);
+      });
+    }, { threshold: 0 }).observe(art);
+  }
+
+  /* Scroll continuity — deliberately almost nothing.
+     The field lags the page by at most 26px and loses a third of its weight,
+     so its lower arcs trail down into "The wider lab" instead of ending at the
+     hero's edge. That is the whole point: one warm chapter, not a hero and
+     then a section. Anything larger than this becomes parallax theatre.
+     Reads are rAF-batched and stop once the hero leaves the viewport. */
+  if (art && heroEl && !reduce) {
+    var ticking = false;
+    var apply = function () {
+      ticking = false;
+      if (!heroOnScreen) return;
+      var s = Math.min(1, Math.max(0, window.pageYOffset / Math.max(1, heroEl.offsetHeight)));
+      art.style.setProperty('--cs-shift', (s * 16).toFixed(1) + 'px');
+      art.style.setProperty('--cs-fade', (1 - s * 0.30).toFixed(3));
+    };
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+    }, { passive: true });
+    apply();
+  }
+})();
+</script>
+</body>
+</html>
