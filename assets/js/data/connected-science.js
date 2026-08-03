@@ -55,20 +55,25 @@ window.connectedScienceData = {
     'producing joint publications and continued research.',
 
   collaborationInstitutions: [
-    /* Real list from Vinicius (2026-08-02), order as given. Chulalongkorn
-       and Padjadjaran/UNESP crests are the same official files already
-       used in Exchange — repetition across the two lists is intentional
-       (see file header). `h` solved the same way as Exchange (bounding-box
-       area, box=58/hmax=64/wmax=84) but on THIS list's own five crests,
-       since bandHeights() remaps each list independently — see
-       connected-science.html. Manchester's source had a white backdrop
-       outside the shield silhouette, keyed out by flood-fill from the
-       corners; Jeonbuk's seal already carried a transparent background. */
-    { institutionName: 'University of Manchester', country: 'United Kingdom', logo: 'assets/connected-science/logos/crest/manchester-crest.png', h: 61.7, url: null, displayOrder: 1 },
+    /* Real list from Vinicius (2026-08-02, Michigan added 2026-08-03),
+       order as given. Chulalongkorn and Padjadjaran/UNESP crests are the
+       same official files already used in Exchange — repetition across
+       the two lists is intentional (see file header). `h` solved the same
+       way as Exchange (bounding-box area, box=58/hmax=64/wmax=84) but on
+       THIS list's own six crests, since bandHeights() remaps each list
+       independently — see connected-science.html. Manchester's source had
+       a white backdrop outside the shield silhouette, keyed out by
+       flood-fill from the corners; Jeonbuk's seal already carried a
+       transparent background; Michigan's seal was the same white-square
+       case as Manchester/Otago, same flood-fill treatment. Six items on a
+       3-column grid (.cs-inst-grid--collab) lands exactly 3+3 — no last-
+       row centring needed, unlike the previous 5-item 3+2. */
+    { institutionName: 'University of Manchester', country: 'United Kingdom', logo: 'assets/connected-science/logos/crest/manchester-crest.png', h: 62.0, url: null, displayOrder: 1 },
     { institutionName: 'Chulalongkorn University', country: 'Thailand', logo: 'assets/connected-science/logos/crest/chula-crest.png', h: 64.0, url: null, displayOrder: 2 },
-    { institutionName: 'Jeonbuk National University', country: 'South Korea', logo: 'assets/connected-science/logos/crest/jeonbuk-crest.png', h: 57.4, url: null, displayOrder: 3 },
-    { institutionName: 'Universitas Padjadjaran', country: 'Indonesia', logo: 'assets/connected-science/logos/crest/unpad-crest.png', h: 58.0, url: null, displayOrder: 4 },
-    { institutionName: 'São Paulo State University (UNESP)', country: 'Brazil', logo: 'assets/connected-science/logos/crest/unesp-crest.png', h: 57.0, url: null, displayOrder: 5 },
+    { institutionName: 'Jeonbuk National University', country: 'South Korea', logo: 'assets/connected-science/logos/crest/jeonbuk-crest.png', h: 57.7, url: null, displayOrder: 3 },
+    { institutionName: 'University of Michigan', country: 'United States', logo: 'assets/connected-science/logos/crest/michigan-crest.png', h: 57.7, url: null, displayOrder: 4 },
+    { institutionName: 'Universitas Padjadjaran', country: 'Indonesia', logo: 'assets/connected-science/logos/crest/unpad-crest.png', h: 58.3, url: null, displayOrder: 5 },
+    { institutionName: 'São Paulo State University (UNESP)', country: 'Brazil', logo: 'assets/connected-science/logos/crest/unesp-crest.png', h: 57.3, url: null, displayOrder: 6 },
   ],
 
   /* ---- Work built together --------------------------------------- */

@@ -27,6 +27,14 @@
    read as part of the site rather than as a second warm palette. */
 .cs-warm { --cs-ivory:#FDF6EE; background: var(--cs-ivory); }
 .cs-cool { background: var(--slate-50); }
+/* Chapter 2 (cool slate) is held back for launch, so .cs-warm's box now
+   ends exactly at the last institution row — and the footer's own
+   space-12 margin-top (shared, not this page's to touch) sits OUTSIDE
+   that box, unpainted, showing the site's near-white body background
+   (#FBFDFD) instead of ivory. Every other page is fine with that seam
+   because they never paint a contrasting tone in the first place; this
+   page does, so the seam reads as a bug. Scoped to this page only. */
+body { background: #FDF6EE; }
 
 .cs-eyebrow { letter-spacing: .2em; }
 
@@ -184,8 +192,16 @@
      centred with no container around it. Every other serif "name" role on
      the site — h2/h3 titles, .cs-story-title, .display — sits at
      weight-medium; matching that plus the shared text-md token and a touch
-     of negative tracking is what the rest of the page already agrees on. */
-  display: block; font-family: var(--font-serif); font-weight: var(--weight-medium);
+     of negative tracking is what the rest of the page already agrees on.
+
+     min-height stays 2.6em so a 1-line name (Chulalongkorn) and a 2-line
+     name (UNESP) sitting in the same row still line their country labels
+     up. The flex column + justify-content:flex-end is what makes THAT
+     work without stranding the 1-line names in a pool of dead air above
+     the country label — the text itself now sits at the BOTTOM of the
+     reserved box, same distance from country either way. */
+  display: flex; flex-direction: column; justify-content: flex-end;
+  font-family: var(--font-serif); font-weight: var(--weight-medium);
   font-size: var(--text-md); line-height: 1.3; letter-spacing: var(--tracking-tight);
   color: var(--text-strong); overflow-wrap: break-word; min-height: 2.6em;
 }
