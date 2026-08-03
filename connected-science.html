@@ -124,12 +124,12 @@
    lets real logos breathe instead of fighting inside half a column. */
 .cs-modes {
   max-width: var(--container-base); margin: var(--space-16) auto 0;
-  /* space-8, not space-20: that padding used to lead into Chapter 2's
-     atmosphere shift. With Stories held back for launch, Collaborations
-     now runs straight into the shared footer (its own space-12 margin-top
-     is untouched — global, not this page's to change), and space-20 read
-     as 168px of dead ivory air above it. */
-  padding: 0 var(--gutter) var(--space-8);
+  /* 0, not space-8: still 120px of dead ivory air above the footer after
+     the first cut — Stories is gone, so Collaborations is the true end of
+     the page and needs none of its own trailing padding. What's left is
+     .cs-mode's own space-10 under the last row, plus the shared footer's
+     space-12 margin-top (untouched — global, not this page's to change). */
+  padding: 0 var(--gutter) 0;
   position: relative; z-index: 2;
 }
 .cs-mode { padding: var(--space-12) 0 var(--space-10); min-width: 0; }
