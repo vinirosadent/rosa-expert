@@ -156,10 +156,10 @@ body { background: #FDF6EE; }
 
 /* Institutions: a calm, centred wall across the full width, run over a
    quiet copy of the hero's wave field. The crest sits in a fixed-height
-   stage (each mark's optical height is precomputed in the data — see
-   band() below — object-fit: contain, official marks never stretched or
-   cropped) and the name + country hold a consistent centred text block
-   beneath.
+   stage — EVERY crest renders at the same height (object-fit: contain,
+   official marks never stretched or cropped, width free per its own
+   aspect ratio) — and the name + country hold a consistent centred text
+   block beneath.
 
    Grid: twice as many tracks as columns, every item spanning two, so a
    short final row can start on a HALF column and land centred — on a
@@ -184,8 +184,19 @@ body { background: #FDF6EE; }
    centred by the same half-track math. Exchange is untouched. */
 .cs-inst-grid--collab { grid-template-columns: repeat(6, 1fr); }
 .cs-inst { min-width: 0; grid-column-end: span 2; text-align: center; }
-.cs-inst-logo-stage { height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
-.cs-inst-logo { max-height: 78px; max-width: 118px; width: auto; height: auto; object-fit: contain; }
+/* One shared height for every crest, in both lists — Vinicius's call
+   (2026-08-03): UNESP's own crest as the baliza, every other mark scaled
+   to match ITS height, width free. This replaces a per-list bounding-box-
+   AREA remap that gave the same UNESP file two different sizes depending
+   on which list it appeared in, and made a narrow-tall mark (Manchester)
+   read taller than a square one (Michigan) by design — both read as bugs.
+   Stage height now equals the logo height exactly (was 80px around a
+   62-78px mark, leaving dead centring space above/below that showed up
+   as "muito espaco em branco" before the name); max-width is a safety
+   cap only, well above anything a 60px-tall crest reaches in this set
+   (widest is Nanyang Polytechnic's lettermark at ar 2.17 -> 130px). */
+.cs-inst-logo-stage { height: 60px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.cs-inst-logo { height: 60px; width: auto; max-width: 150px; object-fit: contain; }
 .cs-inst-name {
   /* Regular weight at a magic 16.5px was the one serif label on the page not
      pulling from the shared scale, and Source Serif 4 at 400 reads pale when
@@ -433,37 +444,16 @@ a.cs-pub-title:hover { color: var(--text-link-hover); }
      Name (or logo, when one is supplied) plus country. Nothing else:
      no status, no counts, no per-institution description. */
 
-  /* Optical heights arrive in `h` as bounding-box-area values (raw crest
-     pixels), which range far wider than is calm on a page — 38.6 to 64 in
-     this set. Clamping would flatten the extremes onto two values; a
-     linear remap into [60,78] keeps every crest's rank and relative
-     weight, just compressed. Only runs when at least one entry has `h`.
-     Was [46,60] — reported as too small to read at a glance. Bumped the
-     band, the logo-stage height and .cs-inst-logo's max box to match
-     (see the .cs-inst-logo-stage/.cs-inst-logo rules above); row-gap and
-     everything else in the grid is untouched, so rows don't spread out,
-     only the marks themselves grow. */
-  function bandHeights(list) {
-    var hs = (list || []).map(function (i) { return i.h; }).filter(function (h) { return typeof h === 'number'; });
-    if (!hs.length) return function (i) { return i.h || 52; };
-    var lo = Math.min.apply(null, hs), hi = Math.max.apply(null, hs);
-    return function (i) {
-      if (typeof i.h !== 'number') return 52;
-      if (hi === lo) return 69;
-      return 60 + (i.h - lo) / (hi - lo) * (78 - 60);
-    };
-  }
-
   function renderInstitutions(el, list) {
     if (!el) return;
-    var band = bandHeights(list);
     el.innerHTML = (list || []).map(function (i) {
       /* the logo is an image ABOVE the name, never a replacement for it:
          the name stays real text for search, screen readers and the
-         no-logo fallback */
+         no-logo fallback. Height comes from .cs-inst-logo alone (one
+         value, shared by every crest in every list) — no per-item sizing
+         here anymore. */
       var logo = i.logo
-        ? '<div class="cs-inst-logo-stage"><img class="cs-inst-logo" style="height:' + band(i).toFixed(1) +
-          'px" src="' + esc(i.logo) + '" alt="" loading="lazy"></div>'
+        ? '<div class="cs-inst-logo-stage"><img class="cs-inst-logo" src="' + esc(i.logo) + '" alt="" loading="lazy"></div>'
         : '';
       var name = i.url
         ? '<a class="cs-inst-name" href="' + esc(i.url) + '" target="_blank" rel="noopener noreferrer">' + esc(i.institutionName) + '</a>'
