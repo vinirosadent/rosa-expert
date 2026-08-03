@@ -184,8 +184,8 @@ body { background: #FDF6EE; }
    centred by the same half-track math. Exchange is untouched. */
 .cs-inst-grid--collab { grid-template-columns: repeat(6, 1fr); }
 .cs-inst { min-width: 0; grid-column-end: span 2; text-align: center; }
-.cs-inst-logo-stage { height: 62px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
-.cs-inst-logo { max-height: 60px; max-width: 92px; width: auto; height: auto; object-fit: contain; }
+.cs-inst-logo-stage { height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.cs-inst-logo { max-height: 78px; max-width: 118px; width: auto; height: auto; object-fit: contain; }
 .cs-inst-name {
   /* Regular weight at a magic 16.5px was the one serif label on the page not
      pulling from the shared scale, and Source Serif 4 at 400 reads pale when
@@ -436,16 +436,21 @@ a.cs-pub-title:hover { color: var(--text-link-hover); }
   /* Optical heights arrive in `h` as bounding-box-area values (raw crest
      pixels), which range far wider than is calm on a page — 38.6 to 64 in
      this set. Clamping would flatten the extremes onto two values; a
-     linear remap into [46,60] keeps every crest's rank and relative
-     weight, just compressed. Only runs when at least one entry has `h`. */
+     linear remap into [60,78] keeps every crest's rank and relative
+     weight, just compressed. Only runs when at least one entry has `h`.
+     Was [46,60] — reported as too small to read at a glance. Bumped the
+     band, the logo-stage height and .cs-inst-logo's max box to match
+     (see the .cs-inst-logo-stage/.cs-inst-logo rules above); row-gap and
+     everything else in the grid is untouched, so rows don't spread out,
+     only the marks themselves grow. */
   function bandHeights(list) {
     var hs = (list || []).map(function (i) { return i.h; }).filter(function (h) { return typeof h === 'number'; });
-    if (!hs.length) return function (i) { return i.h || 40; };
+    if (!hs.length) return function (i) { return i.h || 52; };
     var lo = Math.min.apply(null, hs), hi = Math.max.apply(null, hs);
     return function (i) {
-      if (typeof i.h !== 'number') return 40;
-      if (hi === lo) return 53;
-      return 46 + (i.h - lo) / (hi - lo) * (60 - 46);
+      if (typeof i.h !== 'number') return 52;
+      if (hi === lo) return 69;
+      return 60 + (i.h - lo) / (hi - lo) * (78 - 60);
     };
   }
 
