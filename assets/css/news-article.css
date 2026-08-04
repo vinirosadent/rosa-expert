@@ -1,0 +1,283 @@
+/* ============================================================
+   news-article.css — a página de notícia (prefixo na-)
+   Carregar depois de tokens.css e components.css, nas 41 páginas
+   de news/<slug>.html.
+
+   Por que é folha compartilhada e não <style> por página: são 41
+   arquivos com o mesmo layout. Com o bloco duplicado, um ajuste de
+   espaçamento vira 41 edições — e foi assim que as páginas antigas
+   ficaram diferentes entre si.
+
+   O PRINCÍPIO desta folha, que é o pedido do Vinicius em 2026-08-04:
+   o conteúdo manda, o design cede. O acervo real tem 29 páginas com
+   uma foto, 12 sem nenhuma e uma com quatro; nenhuma tem subtítulo.
+   Então cada bloco (foto, legenda, citação, índice, ficha, keywords)
+   é OPCIONAL e some sem deixar buraco. Nada aqui exige que a matéria
+   tenha algo que ela não tem — não se inventa conteúdo para preencher
+   um slot de layout.
+
+   Duas decisões herdadas da listagem (news.html), para as duas lerem
+   como a mesma página:
+   · o hero para em --container-base, não em 100vw;
+   · não há campo de pontos. O véu existe pela tipografia.
+
+   2026-08-04 — correção de layout (feedback com print anotado):
+   ficha, nota e keywords saíam do fluxo de texto e ficavam empilhadas
+   no fim do .na-body; sem índice (nenhuma matéria tem subtítulo) a
+   coluna de 552px sobrava vazia à direita em QUALQUER largura de tela,
+   nas 3 páginas-piloto. Viraram uma margem (aside.na-side) ao lado do
+   texto, cada bloco no seu cartão — a mesma ideia do "quadro do
+   apontamento" que o Vinicius apontou no print. A cor do topo do
+   cartão e a cor do nome-fonte no meta passam a seguir a MESMA cor do
+   selo do hero (press=azul, award=laranja, appt=teal); antes o selo
+   saía colorido por categoria mas o meta saía sempre azul, sem relação
+   com a matéria — é o que lia como "cores misturadas".
+   ============================================================ */
+
+.na { --na-ivory: #FDF6EE; background: var(--na-ivory); }
+body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o body near-white */
+
+/* ── Hero ─────────────────────────────────────────────────────
+   Mesma caixa do header (.header-inner) e da listagem: 1180. Em
+   full-bleed, a 2560px o object-fit:cover descartava 61% da altura da
+   imagem e a foto passava 754px do texto do nav. */
+.na-hero {
+  position: relative; overflow: hidden;
+  max-width: var(--container-base); margin: 0 auto;
+  min-height: clamp(420px, 56vh, 540px);
+  display: flex; align-items: center;
+  /* Explícito, não herdado: sem foto (12 das 41) não há <img> nem
+     .na-hero-scrim, e o hero não pode depender de pintura por trás —
+     vira uma faixa branca colada na faixa ivory do corpo, duas cores
+     na mesma página. */
+  background: var(--na-ivory);
+}
+.na-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+/* Véu: vertical (a foto não bate no header nem no texto) + 96°, que a
+   dissolve para a esquerda e abre o papel onde a manchete se apoia.
+   Os stops do 96° são os mesmos da .premise-scrim da home. */
+.na-hero-scrim {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--na-ivory) 0%, rgba(253,246,238,0) 18%, rgba(253,246,238,0) 82%, var(--na-ivory) 100%),
+    linear-gradient(96deg, var(--na-ivory) 0%, rgba(253,246,238,.96) 27%, rgba(253,246,238,.74) 42%, rgba(253,246,238,.22) 58%, rgba(253,246,238,0) 72%);
+}
+/* Acima de 1180 o container corta a faixa e nasce uma borda vertical
+   dura na direita. Ela morre em feather, nunca em corte. Abaixo disso a
+   foto chega na borda da tela e não há emenda a esconder. */
+@media (min-width: 1180px) {
+  .na-hero-scrim {
+    background:
+      linear-gradient(180deg, var(--na-ivory) 0%, rgba(253,246,238,0) 18%, rgba(253,246,238,0) 82%, var(--na-ivory) 100%),
+      linear-gradient(270deg, var(--na-ivory) 0%, rgba(253,246,238,0) 20%),
+      linear-gradient(96deg, var(--na-ivory) 0%, rgba(253,246,238,.96) 27%, rgba(253,246,238,.74) 42%, rgba(253,246,238,.22) 58%, rgba(253,246,238,0) 72%);
+  }
+}
+.na-hero-inner { position: relative; z-index: 3; width: 100%; max-width: var(--container-base); margin: 0 auto; padding: var(--space-6) var(--gutter); }
+.na-hero-copy { max-width: 30rem; }
+/* Sem fotografia — 12 das 41. Some a imagem, some o véu, a coluna
+   respira mais. Nenhuma imagem entra só para preencher o hero. */
+.na-hero--nopic { min-height: clamp(340px, 40vh, 420px); }
+.na-hero--nopic .na-hero-copy { max-width: 34rem; }
+
+/* ── Barra do topo: volta + tipo + idiomas, numa linha ────────
+   Em linha própria, o "← All news" empurrava a matéria ~45px para baixo
+   do header sem ganhar nada. Ele pertence à régua que já existe. */
+.na-topbar { display: flex; align-items: center; gap: 18px; margin-bottom: 20px; flex-wrap: wrap; }
+.na-back { font-size: 12px; font-weight: var(--weight-medium); color: var(--text-faint); text-decoration: none; }
+.na-back:hover { color: var(--text-muted); }
+.na-badge { font-size: 11px; font-weight: var(--weight-bold); letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius-pill); white-space: nowrap; }
+.na-badge--press { background: var(--wash-blue); color: var(--blue-700); }
+.na-badge--award { background: var(--wash-orange); color: var(--orange-600); }
+.na-badge--appt  { background: var(--wash-teal); color: var(--teal-700); }
+.na-topbar-rule { flex: 1; height: 1px; background: var(--border-subtle); min-width: 40px; }
+.lang-switch { display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: var(--weight-bold); letter-spacing: .08em; }
+.lang-opt { background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: var(--text-faint); transition: color var(--dur-fast) var(--ease-out); }
+.lang-opt:hover { color: var(--text-muted); }
+.lang-opt.active { color: var(--blue-700); }
+.lang-sep { color: var(--border-strong); user-select: none; }
+
+.na-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 11.5px; font-weight: var(--weight-bold); letter-spacing: .12em; text-transform: uppercase; }
+/* A cor do nome-fonte segue a categoria — a mesma cor do selo acima
+   dela. Antes era azul fixo mesmo em matéria de apontamento (selo
+   teal): duas cores de acento lado a lado sem relação entre si. */
+.na-meta-src { color: var(--text-strong); }
+.na-meta-src--press { color: var(--blue-700); }
+.na-meta-src--award { color: var(--orange-600); }
+.na-meta-src--appt  { color: var(--teal-700); }
+.na-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); flex: none; }
+.na-meta-faint { color: var(--text-faint); }
+.na-h1 { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: var(--fs-page-title); line-height: 1.06; letter-spacing: var(--tracking-tight); color: var(--text-strong); margin: 14px 0 0; }
+.na-deck { font-family: var(--font-serif); font-style: italic; font-size: 18px; line-height: 1.55; color: var(--text-muted); margin: 16px 0 0; }
+
+/* ── Corpo: coluna de leitura + margem de fatos ────────────────
+   2026-08-04 — a peça que faltava: quem é FIXO é o cartão (mede pelo
+   próprio conteúdo, fit-content, teto 380px) e o GAP (fixo, 45px —
+   24px/var(--space-6) tinha ficado "muito perto" no julgamento do
+   Vinicius; 40px foi o meio-termo, 45px o valor final aprovado).
+   Quem é ELÁSTICO é o TEXTO — minmax(0,1fr), não
+   552px fixo. Com isso as três coisas pedidas saem de graça, do
+   próprio algoritmo do grid, sem hack nenhum:
+     · cartão sempre mede pelo que tem dentro (fit-content);
+     · cartão sempre encosta na margem direita (é a última trilha, e
+       a trilha 1fr do texto absorve exatamente o que sobra depois de
+       cartão+gap — não fica nada depois do cartão);
+     · vão entre texto e cartão é sempre o gap fixo, nunca esticado.
+   As duas tentativas anteriores (texto fixo em 552 + gap esticado
+   até a margem, OU texto fixo em 552 + gap fixo e cartão aquém da
+   margem) eram as duas ERRADAS da mesma conta: com texto fixo, o
+   sobra só podia virar vão largo OU cartão desalinhado — nunca as
+   duas coisas resolvidas. Deixando o texto variar é que fecha a
+   conta sem sobra em lugar nenhum.
+
+   Trade-off assumido: a coluna de leitura deixa de ser sempre 552px
+   (66 caracteres, a medida "ideal" medida antes) — ela cresce ou
+   encolhe conforme o cartão ao lado for mais fino ou mais largo.
+   Numa matéria com cartão curto (poucas linhas de ficha), o texto
+   fica um pouco mais largo que 552; isso é o preço deste modelo, e é
+   o que foi pedido.
+
+   Sem índice (nenhuma das 41 matérias tem 2+ subtítulos) a margem
+   virou o lugar da ficha/nota/keywords; --solo só entra quando a
+   matéria não tem ficha, nota, tag NEM CTA (não acontece hoje entre
+   as 41). Nesse caso único, sem cartão para referenciar, a coluna
+   volta a ser fixa em 552px — a medida de leitura só faz sentido
+   como "ideal" quando não há nada ao lado ditando a largura.
+   ATENÇÃO: fit-content() não pode ir dentro de minmax() — é sintaxe
+   inválida (fit-content já É uma função de tamanho de trilha completa;
+   as duas juntas fazem o navegador descartar a declaração inteira e
+   colapsar a segunda coluna). */
+.na-wrap { max-width: var(--container-base); margin: 0 auto; padding: var(--space-8) var(--gutter) var(--space-12); display: grid; grid-template-columns: minmax(0, 1fr) fit-content(380px); gap: 45px; align-items: start; }
+.na-wrap--solo { grid-template-columns: minmax(0, 552px); }
+
+/* Índice ("In this story") — dormente hoje (nenhuma matéria tem 2+
+   subtítulos), mas o mecanismo fica pronto pra próxima que tiver. O
+   sticky vive no ITEM DA GRADE, não num filho: sticky só viaja dentro
+   do seu bloco contentor — foi esse o bug que fazia o índice andar
+   12px e ir embora com a página. */
+.na-rail { align-self: start; position: sticky; top: 96px; }
+.na-rail-inner { position: relative; padding-left: 14px; }
+.na-rail-label { display: block; font-size: 10.5px; font-weight: var(--weight-bold); letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 14px; }
+.na-rail-line { position: absolute; left: 0; top: 26px; bottom: 4px; width: 1px; background: var(--border-subtle); }
+.na-rail-mark { position: absolute; left: -1px; width: 3px; background: var(--orange-500); transition: top var(--dur-base) var(--ease-out), height var(--dur-base) var(--ease-out); }
+.na-rail-item { display: block; font-size: 13.5px; line-height: 1.4; color: var(--text-muted); text-decoration: none; padding: 5px 0; }
+.na-rail-item.is-on { color: var(--text-strong); font-weight: var(--weight-semibold); }
+.na-rail-item:hover { color: var(--blue-600); }
+
+/* Sem max-width fixo aqui de propósito: a largura do texto é ditada
+   pela trilha 1fr do .na-wrap (container − gap − cartão). O único
+   lugar em que 552px ainda é a medida fixa é --solo (ver acima), onde
+   não há cartão ao lado para o texto reagir. */
+.na-body p { font-size: 16.5px; line-height: 1.55; color: var(--text-body); margin: 0 0 17px; }
+/* Alinhado à esquerda de propósito: justificado abre rios de espaço no
+   meio da linha e piora a volta do olho. */
+.na-sub { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 24px; line-height: 1.2; letter-spacing: var(--tracking-tight); color: var(--text-strong); margin: 34px 0 14px; scroll-margin-top: 96px; }
+
+/* ── Citação ──────────────────────────────────────────────── */
+.na-quote { margin: 4px 0 26px; padding-left: 18px; border-left: 3px solid var(--orange-500); }
+.na-quote-label { font-family: var(--font-sans); font-size: 12px; font-weight: var(--weight-semibold); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+.na-quote p { margin-top: .6rem; font-family: var(--font-serif); font-style: italic; font-size: 1.35rem; line-height: 1.36; color: var(--blue-700); }
+
+/* ── Figuras ──────────────────────────────────────────────────
+   Foto ancorada é 3:2 e tem a medida do texto: uma medida, uma
+   proporção, nenhuma figura órfã ao lado da coluna. */
+.na-fig { margin: 26px 0; }
+.na-fig img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+.na-hero-caption { max-width: var(--container-base); margin: 12px auto 0; padding: 0 var(--gutter); }
+.na-cap { margin-top: 12px; max-width: 62ch; }
+/* A legenda é CONTEÚDO, não rodapé: quem só olha as imagens lê as
+   legendas, e esse é o caminho mais provável de consumo, não o mais
+   raro. Daí serif em cor de leitura, com o crédito destacado à parte. */
+.na-cap-text { font-family: var(--font-serif); font-size: 15.5px; line-height: 1.5; color: var(--text-body); }
+.na-cap-credit { display: block; margin-top: 6px; font-family: var(--font-sans); font-size: 11px; font-weight: var(--weight-semibold); letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
+
+/* ── Margem: ficha + nota, cada uma no seu cartão ─────────────
+   Sticky (acompanha a rolagem). Largura própria (fit-content, ver
+   .na-wrap acima) — o cartão mede pelo conteúdo dele, não pela
+   coluna. A cor do topo do cartão é a cor da categoria, o mesmo fio
+   que já corre pelo selo e pelo nome-fonte no meta.
+
+   min-width:0 é obrigatório aqui: item de grid/flex sem isso usa o
+   min-content do conteúdo como piso, e uma dd/CTA sem quebra (uma
+   palavra comprida) trava o cartão largo o bastante pra vazar da
+   tela em vez de simplesmente quebrar linha. */
+.na-side { align-self: start; position: sticky; top: 96px; min-width: 0; display: flex; flex-direction: column; gap: var(--space-6); }
+.na-side-card { min-width: 0; background: var(--surface-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--slate-300); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-sm); }
+.na-side-card--press { border-top-color: var(--blue-500); }
+.na-side-card--award { border-top-color: var(--orange-500); }
+.na-side-card--appt  { border-top-color: var(--teal-600); }
+
+.na-record-label, .na-kw-label { font-size: 10.5px; font-weight: var(--weight-bold); letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle); display: block; }
+.na-record-row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--border-subtle); }
+.na-record-row:last-child { border-bottom: none; padding-bottom: 0; }
+.na-record-row dt { flex: none; font-size: 13px; color: var(--text-muted); margin: 0; }
+.na-record-row dd { font-size: 13px; font-weight: var(--weight-semibold); color: var(--text-strong); text-align: right; margin: 0; min-width: 0; }
+.na-record dl { margin: 0; }
+/* Nome da instituição/veículo logo abaixo do rótulo da ficha: é valor sem
+   par, então não vira linha de dt/dd. */
+.na-record-org { font-family: var(--font-serif); font-size: 17px; line-height: 1.3; color: var(--text-strong); margin: 12px 0 4px; }
+
+/* Bloco livre: o escopo das nomeações, o resultado clínico, o headline
+   original das matérias de imprensa. Vem como lista ou como prosa curta,
+   conforme a matéria — não se força um formato só. */
+.na-note p { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); margin: 12px 0 0; }
+.na-note p:first-child { margin-top: 12px; }
+.na-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.na-list li { position: relative; padding-left: 18px; font-size: 14px; line-height: 1.5; color: var(--text-body); }
+.na-list li::before { content: ''; position: absolute; left: 0; top: .6em; width: 6px; height: 1.5px; background: var(--orange-500); }
+
+.na-cta { display: inline-block; margin-top: var(--space-4); font-size: 13px; font-weight: var(--weight-semibold); color: var(--blue-700); border-bottom: 1.5px solid var(--orange-500); padding-bottom: 3px; text-decoration: none; }
+.na-cta:hover { color: var(--orange-600); }
+
+/* Keywords ficam soltas, fora do cartão — são metadado leve, não fato. */
+.na-kw-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.na-kw-list a { font-size: 11px; font-weight: var(--weight-bold); letter-spacing: .02em; padding: 5px 12px; border-radius: var(--radius-pill); background: var(--wash-blue); color: var(--blue-600); text-decoration: none; }
+.na-kw-list a:hover { background: var(--blue-100); color: var(--blue-700); }
+
+/* ── Related ──────────────────────────────────────────────── */
+.na-related { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter) var(--space-16); }
+.na-related-head { display: flex; align-items: baseline; gap: var(--space-6); border-top: 1px solid var(--border-subtle); padding-top: var(--space-5); }
+.na-related-title { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 24px; color: var(--text-strong); }
+.na-related-all { margin-left: auto; font-size: 13px; }
+.na-rows { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-12); margin-top: var(--space-3); }
+.na-row { display: flex; gap: 18px; align-items: baseline; padding: var(--space-4) 0; border-bottom: 1px solid var(--border-subtle); text-decoration: none; }
+.na-row-date { flex: none; width: 74px; font-size: 12px; color: var(--text-faint); }
+.na-row-title { font-family: var(--font-serif); font-size: 18px; line-height: 1.35; color: var(--text-strong); }
+.na-row:hover .na-row-title { color: var(--blue-600); }
+
+/* ── Responsivo ───────────────────────────────────────────────
+   Uma conta, feita uma vez: o corpo é fixo em 552px e NÃO cede espaço
+   ao cartão quando a tela aperta — minmax(0,552px) cresce até 552
+   sempre que o parágrafo tem texto pra isso (sempre tem), e não recua
+   depois. Então duas colunas só cabem sem cortar nada quando sobra
+   552 + gap(40) + cartão no pior caso (380, o teto do fit-content):
+   972px de largura ÚTIL (sem contar o gutter).
+   gutter = clamp(20px, 5vw, 64px); abaixo de 1280px de viewport ele é
+   5vw, então a largura útil é 0.9×viewport. 0.9v ≥ 972 → v ≥ 1080.
+   Essa é a largura real onde o cartão passava a cortar texto — por
+   isso as duas colunas só coexistem a partir de 1100px (folga de
+   20px sobre a conta), e abaixo disso é uma coluna só, sempre. Não
+   existe mais uma faixa intermediária "espremida" entre dois
+   breakpoints — era isso que ainda vazava texto do cartão. */
+@media (max-width: 1100px) {
+  /* Sem margem lateral no tablet e no celular: o cartão desce e vira
+     bloco normal, o índice (se algum dia existir) vira atalhos acima
+     do texto — não há margem pra sticky sobrar. */
+  .na-wrap { grid-template-columns: minmax(0, 1fr); justify-content: normal; }
+  .na-side { position: static; margin-top: var(--space-10); }
+  .na-rail { position: static; border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--space-4); margin-bottom: var(--space-6); }
+  .na-rail-inner { padding-left: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; }
+  .na-rail-line, .na-rail-mark { display: none; }
+  .na-rail-label { width: 100%; margin-bottom: 8px; }
+  .na-rail-item { padding: 0; }
+  .na-rail-item.is-on { border-bottom: 2px solid var(--orange-500); }
+  .na-rows { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 780px) {
+  /* Sem "direita" no telefone: a dissolução vira vertical. */
+  .na-hero { min-height: 0; display: block; padding-top: 46vw; }
+  .na-hero-img { height: 62%; object-position: center 18%; }
+  .na-hero-scrim { background: linear-gradient(180deg, rgba(253,246,238,.30) 0%, rgba(253,246,238,.10) 16%, rgba(253,246,238,.62) 40%, var(--na-ivory) 62%); }
+  .na-hero-copy { max-width: none; }
+  .na-hero--nopic { padding-top: var(--space-10); }
+}

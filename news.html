@@ -39,9 +39,9 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o nea
 .nw-eyebrow { letter-spacing: .2em; }
 
 /* ── Hero ────────────────────────────────────────────────────
-   Não é tela cheia: a altura é limitada para que "Also this year" já
-   esteja começando a aparecer a 1440x900. O visitante não deve rolar e
-   encontrar apenas outro título grande. */
+   Não é tela cheia: a altura é limitada para que a lista das últimas
+   notícias já esteja começando a aparecer a 1440x900. O visitante não
+   deve rolar e encontrar apenas outro título grande. */
 .nw-hero {
   position: relative; overflow: hidden;
   /* A faixa da foto para no MESMO 1180 do header (.header-inner) e do
@@ -111,15 +111,18 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o nea
 }
 a:hover .nw-cta, .nw-cta:hover { color: var(--orange-600); }
 
-/* ── Also this year ──────────────────────────────────────────
+/* ── Últimas notícias (5 mais recentes, sem a principal) ───────
    Registro, não grade. Duas matérias com placa (as que têm fotografia
-   que vale) e o resto em filetes de duas colunas. */
+   que vale) e o resto em filetes de duas colunas.
+   2026-08-04: era "Also this year" (título + contagem "2026 · N
+   entries") com o recorte por ANO da matéria principal — removido a
+   pedido. Sem título agora, só a régua (border-top) separando do hero;
+   o recorte também deixou de ser "mesmo ano do lead" e virou "as 5 mais
+   recentes", ponto — não importa o ano de nenhuma delas. */
 /* Fecho curto embaixo: o arquivo dos anos anteriores corre logo em
    seguida, e o margin-top do primeiro .nw-year já dá a separação. */
-.nw-also { max-width: var(--container-base); margin: 0 auto; padding: var(--space-12) var(--gutter) var(--space-2); }
-.nw-also-head { display: flex; align-items: baseline; gap: var(--space-6); border-top: 1px solid var(--border-subtle); padding-top: var(--space-5); }
+.nw-also { max-width: var(--container-base); margin: 0 auto; padding: var(--space-12) var(--gutter) var(--space-2); border-top: 1px solid var(--border-subtle); }
 .nw-also-title { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 26px; color: var(--text-strong); }
-.nw-also-count { font-size: 13px; color: var(--text-muted); margin-left: auto; }
 
 .nw-feature { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: var(--space-8); align-items: center; padding: var(--space-8) 0; border-bottom: 1px solid var(--border-subtle); text-decoration: none; }
 .nw-feature-media { position: relative; overflow: hidden; aspect-ratio: 5 / 3; }
@@ -195,11 +198,7 @@ a:hover .nw-cta, .nw-cta:hover { color: var(--orange-600); }
     </div>
   </section>
 
-  <section class="nw-also nw-reveal" aria-labelledby="nw-also-h">
-    <div class="nw-also-head">
-      <h2 class="nw-also-title" id="nw-also-h">Also this year</h2>
-      <span class="nw-also-count" id="nw-also-count"></span>
-    </div>
+  <section class="nw-also nw-reveal" aria-label="Latest news">
     <div id="nw-features"></div>
     <div class="nw-rows" id="nw-rows"></div>
   </section>
@@ -236,11 +235,58 @@ a:hover .nw-cta, .nw-cta:hover { color: var(--orange-600); }
   function stamp(item) { return item.dateISO ? item.dateISO : year(item) + '-00-00'; }
   ALL.sort(function (a, b) { return stamp(b).localeCompare(stamp(a)); });
 
+  function rowHTML(n) {
+    return '<a class="nw-row" href="' + href(n) + '">' +
+      '<span class="nw-row-date">' + n.date + '</span>' +
+      '<span class="nw-row-title">' + n.headline + '</span></a>';
+  }
+
+  /* ── ?tag= ────────────────────────────────────────────────────
+     As keywords das páginas de notícia apontam para cá. O vocabulário
+     não é inventado: `tags` em news.js foi extraído das próprias
+     matérias. Com filtro ativo a página vira um registro só — sem hero
+     de destaque, porque a matéria em destaque provavelmente não é do
+     assunto pedido, e mostrá-la seria mentir sobre o recorte. */
+  var TAG = null;
+  try { TAG = new URLSearchParams(location.search).get('tag'); } catch (e) {}
+  if (TAG) {
+    var hits = ALL.filter(function (n) { return (n.tags || []).indexOf(TAG) >= 0; });
+    var label = TAG;
+    for (var i = 0; i < hits.length && label === TAG; i++) {
+      var k = (hits[i].tags || []).indexOf(TAG);
+      if (k >= 0 && hits[i].tagLabels && hits[i].tagLabels[k]) label = hits[i].tagLabels[k];
+    }
+
+    var heroEl = document.getElementById('nw-hero');
+    heroEl.classList.add('nw-hero--nopic');
+    var im = document.getElementById('nw-hero-img');
+    if (im) im.remove();
+    var sc = heroEl.querySelector('.nw-hero-scrim');
+    if (sc) sc.remove();
+    heroEl.querySelector('.nw-eyebrow').textContent = 'Newsroom · Filtered';
+    document.getElementById('nw-h1').textContent = label;
+    document.getElementById('nw-dek').remove();
+    document.getElementById('nw-kicker').innerHTML =
+      '<span class="nw-kicker-faint">' + hits.length +
+      (hits.length === 1 ? ' entry' : ' entries') + '</span>';
+    var cta = document.getElementById('nw-cta');
+    cta.href = 'news.html';
+    cta.querySelector('.nw-cta').textContent = '← All news';
+
+    document.querySelector('.nw-also').remove();
+    document.getElementById('nw-archive-body').innerHTML = hits.length
+      ? '<div class="nw-rows">' + hits.map(rowHTML).join('') + '</div>'
+      : '<p style="color:var(--text-muted);padding:var(--space-10) 0;">Nothing filed under this keyword yet.</p>';
+    return;
+  }
+
   var lead = ALL.filter(function (n) { return n.lead; })[0] || ALL[0];
   var rest = ALL.filter(function (n) { return n !== lead; });
-  var newest = year(lead);
-  var thisYear = rest.filter(function (n) { return year(n) === newest; });
-  var older = rest.filter(function (n) { return year(n) !== newest; });
+  /* As 5 mais recentes, sem olhar pra ano — `rest` já vem ordenado do
+     .sort() acima (mais novo primeiro). O resto (older) segue pro
+     arquivo por ano, exatamente como antes. */
+  var recent = rest.slice(0, 5);
+  var older = rest.slice(5);
 
   /* ── Hero ── */
   var hero = document.getElementById('nw-hero');
@@ -266,8 +312,8 @@ a:hover .nw-cta, .nw-cta:hover { color: var(--orange-600); }
     (lead.readMinutes ? '<span class="nw-kicker-dot"></span><span class="nw-kicker-faint">' + lead.readMinutes + ' min read</span>' : '');
   document.getElementById('nw-cta').href = href(lead);
 
-  /* ── Also this year: até duas placas + filetes ── */
-  var withPic = thisYear.filter(function (n) { return n.image; }).slice(0, 2);
+  /* ── Últimas 5: até duas placas + filetes ── */
+  var withPic = recent.filter(function (n) { return n.image; }).slice(0, 2);
   document.getElementById('nw-features').innerHTML = withPic.map(function (n, i) {
     return '<a class="nw-feature" href="' + href(n) + '">' +
       '<div class="nw-feature-media"><img src="' + esc(n.image) + '" alt="' + esc(n.imageAlt || '') + '" loading="lazy" decoding="async">' +
@@ -278,15 +324,8 @@ a:hover .nw-cta, .nw-cta:hover { color: var(--orange-600); }
       '</div></a>';
   }).join('');
 
-  function rowHTML(n) {
-    return '<a class="nw-row" href="' + href(n) + '">' +
-      '<span class="nw-row-date">' + n.date + '</span>' +
-      '<span class="nw-row-title">' + n.headline + '</span></a>';
-  }
-  var rows = thisYear.filter(function (n) { return withPic.indexOf(n) < 0; });
+  var rows = recent.filter(function (n) { return withPic.indexOf(n) < 0; });
   document.getElementById('nw-rows').innerHTML = rows.map(rowHTML).join('');
-  document.getElementById('nw-also-count').textContent =
-    newest + ' · ' + thisYear.length + (thisYear.length === 1 ? ' entry' : ' entries');
 
   /* ── Arquivo ── */
   var years = [];

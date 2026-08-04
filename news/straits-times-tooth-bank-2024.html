@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,128 +7,111 @@
 <meta name="description" content="The Straits Times featured the NUCOHS Tooth Tissue Bank, Singapore's first centralised dental-tissue repository, built with NUS Dentistry and NUHS.">
 <link rel="stylesheet" href="../assets/css/tokens.css">
 <link rel="stylesheet" href="../assets/css/components.css">
-<style>
-.art-page { min-height: 60vh; padding-bottom: var(--space-20); }
-.art-global { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter); }
-.art-back { display: inline-block; padding: 0; margin-bottom: 20px; font-size: 12px; font-weight: 500; color: var(--text-faint); text-decoration: none; }
-.art-back:hover { color: var(--text-muted); }
-.art-badge-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-.art-badge { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
-.art-badge-blue { background: var(--wash-blue); color: var(--blue-700); }
-.art-badge-rule { flex: 1; height: 1px; background: var(--border-subtle); }
-.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
-.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
-.lang-opt:hover { color: var(--text-muted); }
-.lang-opt.active { color: var(--blue-700); }
-.lang-sep { color: var(--border-strong); user-select: none; }
-.art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
-.art-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); display: inline-block; flex-shrink: 0; }
-.art-headline { font-family: var(--font-serif); font-size: var(--fs-page-title); font-weight: 500; letter-spacing: -0.025em; line-height: 1.07; color: var(--text-strong); margin: 0 0 20px; }
-.art-deck { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0; }
-.aw-grid { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px; margin-top: 16px; }
-.aw-main { flex: 1 1 440px; max-width: 680px; min-width: 0; }
-.aw-main p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 22px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
-.cov-figure { margin: 0 0 28px; }
-.cov-figure img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--border-subtle); }
-.cov-figcaption { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
-.art-pull { margin: 14px 0 34px; text-align: center; }
-.art-pull-mark { font-family: var(--font-serif); font-size: 88px; line-height: 0.6; color: var(--blue-200); user-select: none; display: block; margin-bottom: 10px; }
-.art-pull .art-pull-text { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
-.aw-rail { flex: 1 1 280px; max-width: 320px; min-width: 0; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px; }
-.aw-card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--blue-500); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; }
-.aw-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
-.aw-medal { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--blue-400), var(--blue-600)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow-sm); color: #fff; }
-.aw-card-head-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--blue-600); }
-.aw-card-head-org { font-family: var(--font-serif); font-size: 19px; font-weight: 500; color: var(--text-strong); line-height: 1.3; margin-top: 2px; }
-.aw-row { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); }
-.aw-row:last-of-type { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
-.aw-row-label { font-size: 13.5px; color: var(--text-muted); flex-shrink: 0; }
-.aw-row-value { font-size: 13.5px; font-weight: 600; color: var(--text-strong); text-align: right; }
-.aw-btn { margin-top: 22px; }
-.aw-callout { background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px 22px; }
-.aw-callout-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--blue-600); }
-.aw-callout p { margin: 11px 0 0; font-family: var(--font-serif); font-style: italic; font-size: 15px; line-height: 1.4; color: var(--text-strong); }
-.art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-8); padding-top: 20px; border-top: 1px solid var(--border-subtle); }
-.art-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--blue-700); border: 1.5px solid var(--border-strong); padding: 10px 20px; border-radius: 10px; text-decoration: none; }
-.art-cta:hover { border-color: var(--blue-400); }
-@media (max-width: 760px) { .aw-rail { position: static; max-width: none; flex-basis: 100%; } }
-@media (max-width: 600px) { .art-headline { line-height: 1.12; } }
-</style>
+<link rel="stylesheet" href="../assets/css/news-article.css">
 </head>
 <body>
+<script>document.documentElement.classList.remove('no-js');</script>
 <div id="app">
-<main class="art-page">
-  <div class="art-global" style="padding-top:24px;">
-    <a href="../news.html" class="art-back" data-i18n="back">← All news</a>
-    <div class="art-badge-row">
-      <span class="art-badge art-badge-blue" data-i18n="badge">Media Feature</span>
-      <div class="art-badge-rule"></div>
-      <div class="lang-switch" aria-label="Language">
-        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="zh">中文</button>
-      </div>
-    </div>
-    <div class="art-meta">
-      <span style="color:var(--blue-700);">The Straits Times</span>
-      <span class="art-meta-dot"></span>
-      <span data-i18n="date">July 2024</span>
-      <span class="art-meta-dot"></span>
-      <span data-i18n="read">4 min read</span>
-    </div>
-    <div class="aw-grid">
-      <div class="aw-main">
-        <h1 class="art-headline" data-i18n="headline">The Straits Times spotlights Singapore's first Tooth Tissue Bank and its role in advancing dental research</h1>
-        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">Singapore's national newspaper, The Straits Times, featured the NUCOHS Tooth Tissue Bank — Singapore's first dedicated repository of extracted human teeth for research, established at the National University Centre for Oral Health Singapore (NUCOHS) with the support of NUS Dentistry.</p>
-        <figure class="cov-figure">
-          <a href="https://www.straitstimes.com/multimedia/graphics/2024/07/tooth-tissue-bank-singapore/index.html?shell" target="_blank" rel="noopener"><img src="Assets/tooth-bank-st.png" alt="The Straits Times — Tooth Tissue Bank feature"></a>
-          <figcaption class="cov-figcaption"><span data-i18n="heroCaption">The Tooth Tissue Bank at the National University Centre for Oral Health Singapore (NUCOHS).</span> <span style="color:var(--text-faint);" data-i18n="heroSource">Source: The Straits Times.</span></figcaption>
-        </figure>
-        <p data-i18n="p1">What was once routinely discarded as biomedical waste is now being transformed into a valuable research resource.</p>
-        <p data-i18n="p2">Through a structured donation process, patients undergoing tooth extractions at NUCOHS are invited to contribute their extracted teeth for science. Donations are voluntary, donors remain anonymous to researchers, and samples are handled under established ethical and regulatory frameworks, including Singapore's Human Biomedical Research Act.</p>
-        <p data-i18n="p3">After collection, the teeth are decontaminated, stored, cleaned, sorted and catalogued by the Clinical Research Unit. Specimens are organised by tooth type — including incisors, canines, premolars and molars — and further classified according to their condition, such as intact, restored or carious teeth.</p>
-        <p data-i18n="p4">This creates a ready supply of biologically relevant samples for researchers who would otherwise spend months, or even years, recruiting patients and collecting teeth before a project could begin.</p>
-        <div class="art-pull"><span class="art-pull-mark">&ldquo;</span><p class="art-pull-text" data-i18n="pull">The Tooth Tissue Bank is more than a repository. It is research infrastructure.</p></div>
-        <p data-i18n="p5">The value of the Tooth Tissue Bank goes beyond storage. Teeth can be sectioned, trimmed and prepared into precise geometries for different experimental needs — from testing new restorative materials and bonding systems to studying caries, tooth structure, microbial infiltration and regenerative approaches.</p>
-        <p data-i18n="p6">As highlighted in the feature, one major research direction is dental pulp tissue engineering, where stem cells from extracted teeth may help regenerate the living soft tissue inside the tooth, including nerves and blood vessels.</p>
-        <p data-i18n="p7">By centralising access to high-quality donated teeth, the NUCOHS Tooth Tissue Bank removes a major bottleneck in translational dental research. It gives scientists faster access to standardised human dental tissues, supports more reproducible experiments, reduces biomedical waste and strengthens the link between clinical care and laboratory discovery.</p>
-        <p data-i18n="p8">In a field where new materials, therapies and regenerative technologies must be tested on real dental tissues before reaching patients, the Tooth Tissue Bank is more than a repository. It is research infrastructure — turning extracted teeth into a platform for developing better, safer and longer-lasting solutions for oral health.</p>
-        <div class="art-tags">
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagMedia">Media Feature</span>
-          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagBank">Tooth Tissue Bank</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagNucohs">NUCOHS</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span>
-        </div>
-        <div style="margin-top:16px;">
-          <a href="https://www.straitstimes.com/multimedia/graphics/2024/07/tooth-tissue-bank-singapore/index.html?shell" target="_blank" rel="noopener" class="art-cta" data-i18n="cta">Read the full feature on The Straits Times →</a>
+<main class="na">
+
+  <article>
+  <header class="na-hero">
+    <img class="na-hero-img" src="Assets/tooth-bank-st.png" alt="The Straits Times — Tooth Tissue Bank feature" decoding="async">
+    <div class="na-hero-scrim" aria-hidden="true"></div>
+    <div class="na-hero-inner">
+      <div class="na-topbar">
+        <a href="../news.html" class="na-back" data-i18n="back">← All news</a>
+        <span class="na-badge na-badge--press" data-i18n="badge">Media Feature</span>
+        <span class="na-topbar-rule" aria-hidden="true"></span>
+        <div class="lang-switch" aria-label="Language">
+          <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="zh">中文</button>
         </div>
       </div>
-      <aside class="aw-rail">
-        <div class="aw-card">
-          <div class="aw-card-head">
-            <div class="aw-medal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg></div>
-            <div>
-              <div class="aw-card-head-label" data-i18n="cardKicker">The coverage</div>
-              <div class="aw-card-head-org">The Straits Times</div>
-            </div>
-          </div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowDate">Date</span><span class="aw-row-value" data-i18n="date">July 2024</span></div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowType">Type</span><span class="aw-row-value" data-i18n="valType">National feature</span></div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowReach">Reach</span><span class="aw-row-value" data-i18n="valReach">National daily</span></div>
-          <div class="aw-btn"><a href="https://www.straitstimes.com/multimedia/graphics/2024/07/tooth-tissue-bank-singapore/index.html?shell" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" data-i18n="cardBtn">Read the article →</a></div>
+      <div class="na-hero-copy">
+        <div class="na-meta">
+          <span class="na-meta-src na-meta-src--press">The Straits Times</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="date">July 2024</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="read">4 min read</span>
         </div>
-        <div class="aw-callout">
-          <div class="aw-callout-label" data-i18n="calloutLabel">Headline</div>
+        <h1 class="na-h1" data-i18n="headline">The Straits Times spotlights Singapore's first Tooth Tissue Bank and its role in advancing dental research</h1>
+        <p class="na-deck" data-i18n="deck">Singapore's national newspaper, The Straits Times, featured the NUCOHS Tooth Tissue Bank — Singapore's first dedicated repository of extracted human teeth for research, established at the National University Centre for Oral Health Singapore (NUCOHS) with the support of NUS Dentistry.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- A legenda fica FORA da imagem: legenda é texto, nunca overlay. -->
+  <div class="na-hero-caption">
+    <figcaption class="na-cap">
+      <span class="na-cap-text"><span data-i18n="heroCaption">The Tooth Tissue Bank at the National University Centre for Oral Health Singapore (NUCOHS).</span> <span style="color:var(--text-faint);" data-i18n="heroSource">Source: The Straits Times.</span></span>
+    </figcaption>
+  </div>
+
+  <div class="na-wrap">
+    <div class="na-body" data-article-body>
+      <p data-i18n="p1">What was once routinely discarded as biomedical waste is now being transformed into a valuable research resource.</p>
+      <p data-i18n="p2">Through a structured donation process, patients undergoing tooth extractions at NUCOHS are invited to contribute their extracted teeth for science. Donations are voluntary, donors remain anonymous to researchers, and samples are handled under established ethical and regulatory frameworks, including Singapore's Human Biomedical Research Act.</p>
+      <p data-i18n="p3">After collection, the teeth are decontaminated, stored, cleaned, sorted and catalogued by the Clinical Research Unit. Specimens are organised by tooth type — including incisors, canines, premolars and molars — and further classified according to their condition, such as intact, restored or carious teeth.</p>
+      <p data-i18n="p4">This creates a ready supply of biologically relevant samples for researchers who would otherwise spend months, or even years, recruiting patients and collecting teeth before a project could begin.</p>
+      <blockquote class="na-quote">
+        <p data-i18n="pull">The Tooth Tissue Bank is more than a repository. It is research infrastructure.</p>
+      </blockquote>
+      <p data-i18n="p5">The value of the Tooth Tissue Bank goes beyond storage. Teeth can be sectioned, trimmed and prepared into precise geometries for different experimental needs — from testing new restorative materials and bonding systems to studying caries, tooth structure, microbial infiltration and regenerative approaches.</p>
+      <p data-i18n="p6">As highlighted in the feature, one major research direction is dental pulp tissue engineering, where stem cells from extracted teeth may help regenerate the living soft tissue inside the tooth, including nerves and blood vessels.</p>
+      <p data-i18n="p7">By centralising access to high-quality donated teeth, the NUCOHS Tooth Tissue Bank removes a major bottleneck in translational dental research. It gives scientists faster access to standardised human dental tissues, supports more reproducible experiments, reduces biomedical waste and strengthens the link between clinical care and laboratory discovery.</p>
+      <p data-i18n="p8">In a field where new materials, therapies and regenerative technologies must be tested on real dental tissues before reaching patients, the Tooth Tissue Bank is more than a repository. It is research infrastructure — turning extracted teeth into a platform for developing better, safer and longer-lasting solutions for oral health.</p>
+    </div>
+    <aside class="na-side">
+      <div class="na-side-card na-side-card--press">
+        <div class="na-record">
+          <span class="na-record-label" data-i18n="cardKicker">The coverage</span>
+          <p class="na-record-org">The Straits Times</p>
+          <dl>
+            <div class="na-record-row"><dt data-i18n="rowDate">Date</dt><dd data-i18n="date">July 2024</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowType">Type</dt><dd data-i18n="valType">National feature</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowReach">Reach</dt><dd data-i18n="valReach">National daily</dd></div>
+          </dl>
+          <a class="na-cta" href="https://www.straitstimes.com/multimedia/graphics/2024/07/tooth-tissue-bank-singapore/index.html?shell" target="_blank" rel="noopener" data-i18n="cta">Read the full feature on The Straits Times →</a>
+        </div>
+      </div>
+      <div class="na-side-card na-side-card--press">
+        <div class="na-note">
+          <span class="na-record-label" data-i18n="calloutLabel">Headline</span>
           <p data-i18n="calloutHeadline">Teeth wanted: How S'pore's first Tooth Tissue Bank is advancing dental research</p>
         </div>
-      </aside>
-    </div>
+      </div>
+      <div class="na-kw">
+        <span class="na-kw-label">Keywords</span>
+        <div class="na-kw-list">
+          <a href="../news.html?tag=media-feature" data-i18n="tagMedia">Media Feature</a>
+          <a href="../news.html?tag=tooth-tissue-bank" data-i18n="tagBank">Tooth Tissue Bank</a>
+          <a href="../news.html?tag=nucohs" data-i18n="tagNucohs">NUCOHS</a>
+          <a href="../news.html?tag=nus-dentistry">NUS Dentistry</a>
+        </div>
+      </div>
+    </aside>
   </div>
+  </article>
+
+  <section class="na-related" aria-labelledby="na-related-h">
+    <div class="na-related-head">
+      <h2 class="na-related-title" id="na-related-h">Related</h2>
+      <a class="na-related-all" href="../news.html">All news →</a>
+    </div>
+    <div class="na-rows" id="na-related-rows" data-related-for="straits-times-tooth-bank-2024"></div>
+  </section>
+
 </main>
 </div><!-- /app -->
+
+<script src="../assets/js/data/news.js"></script>
 <script src="../assets/js/shared.js"></script>
+<script src="../assets/js/news-article.js" defer></script>
 <script>
 var I18N = {
   en: {},

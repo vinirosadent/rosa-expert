@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,128 +7,106 @@
 <meta name="description" content="A/P Vinicius Rosa was recognised among the world's top 2% most-cited scientists (2022) in the Stanford–Elsevier ranking based on Scopus data.">
 <link rel="stylesheet" href="../assets/css/tokens.css">
 <link rel="stylesheet" href="../assets/css/components.css">
-<style>
-.art-page { min-height: 60vh; padding-bottom: var(--space-20); }
-.art-global { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter); }
-.art-back { display: inline-block; padding: 0; margin-bottom: 20px; font-size: 12px; font-weight: 500; color: var(--text-faint); text-decoration: none; }
-.art-back:hover { color: var(--text-muted); }
-.art-badge-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-.art-badge { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
-.art-badge-orange { background: var(--wash-orange); color: var(--orange-600); }
-.art-badge-rule { flex: 1; height: 1px; background: var(--border-subtle); }
-.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
-.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
-.lang-opt:hover { color: var(--text-muted); }
-.lang-opt.active { color: var(--blue-700); }
-.lang-sep { color: var(--border-strong); user-select: none; }
-.art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
-.art-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); display: inline-block; flex-shrink: 0; }
-.art-headline { font-family: var(--font-serif); font-size: var(--fs-page-title); font-weight: 500; letter-spacing: -0.025em; line-height: 1.07; color: var(--text-strong); margin: 0 0 20px; }
-.art-deck { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0; }
-.aw-grid { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px; margin-top: 16px; }
-.aw-main { flex: 1 1 440px; max-width: 680px; min-width: 0; }
-.aw-main p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 22px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
-.award-figure { margin: 0 0 28px; }
-.award-figure-box { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 12px; border: 1px solid var(--border-subtle); }
-.award-figure-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.award-figcaption { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
-.art-pull { margin: 14px 0 34px; text-align: center; }
-.art-pull-mark { font-family: var(--font-serif); font-size: 88px; line-height: 0.6; color: var(--orange-200); user-select: none; display: block; margin-bottom: 10px; }
-.art-pull .art-pull-text { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
-.aw-rail { flex: 1 1 280px; max-width: 320px; min-width: 0; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px; }
-.aw-card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--orange-500); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; }
-.aw-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
-.aw-medal { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--orange-400), var(--orange-600)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow-sm); }
-.aw-medal span { font-size: 20px; color: #fff; line-height: 1; }
-.aw-card-head-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--orange-600); }
-.aw-card-head-org { font-family: var(--font-serif); font-size: 19px; font-weight: 500; color: var(--text-strong); line-height: 1.3; margin-top: 2px; }
-.aw-row { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); }
-.aw-row:last-of-type { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
-.aw-row-label { font-size: 13.5px; color: var(--text-muted); flex-shrink: 0; }
-.aw-row-value { font-size: 13.5px; font-weight: 600; color: var(--text-strong); text-align: right; }
-.aw-btn { margin-top: 22px; }
-.aw-callout { background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px 22px; }
-.aw-callout-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--teal-600); }
-.aw-callout p { margin: 11px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--text-body); }
-.art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-8); padding-top: 20px; border-top: 1px solid var(--border-subtle); }
-.art-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--blue-700); border: 1.5px solid var(--border-strong); padding: 10px 20px; border-radius: 10px; text-decoration: none; }
-.art-cta:hover { border-color: var(--blue-400); }
-@media (max-width: 760px) { .aw-rail { position: static; max-width: none; flex-basis: 100%; } }
-@media (max-width: 600px) { .art-headline { line-height: 1.12; } }
-</style>
+<link rel="stylesheet" href="../assets/css/news-article.css">
 </head>
 <body>
+<script>document.documentElement.classList.remove('no-js');</script>
 <div id="app">
-<main class="art-page">
-  <div class="art-global" style="padding-top:24px;">
-    <a href="../news.html" class="art-back" data-i18n="back">← All news</a>
-    <div class="art-badge-row">
-      <span class="art-badge art-badge-orange" data-i18n="badge">Award</span>
-      <div class="art-badge-rule"></div>
-      <div class="lang-switch" aria-label="Language">
-        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="zh">中文</button>
-      </div>
-    </div>
-    <div class="art-meta">
-      <span style="color:var(--orange-600);">Stanford&ndash;Elsevier</span>
-      <span class="art-meta-dot"></span>
-      <span data-i18n="date">October 2022</span>
-      <span class="art-meta-dot"></span>
-      <span data-i18n="read">2 min read</span>
-    </div>
-    <div class="aw-grid">
-      <div class="aw-main">
-        <h1 class="art-headline" data-i18n="headline">A/P Rosa ranked among the world's top 2% most-cited scientists (2022)</h1>
-        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">Recognised for the second consecutive year in the Stanford–Elsevier ranking of the world's most-cited scientists, based on Scopus bibliometric data across all disciplines.</p>
-        <figure class="award-figure">
-          <div class="award-figure-box"><img src="Assets/top2pct-2022.png" alt="World's Top 2% Most-Cited Scientists 2022"></div>
-          <figcaption class="award-figcaption" data-i18n="figCaption">World's Top 2% Most-Cited Scientists — 2022.</figcaption>
-        </figure>
-        <p data-i18n="p1">A/P Rosa has been listed for the second consecutive year among the world's top 2% most-cited scientists, in the 2022 edition of the ranking compiled by Stanford University and Elsevier.</p>
-        <div class="art-pull">
-          <span class="art-pull-mark">&ldquo;</span>
-          <p class="art-pull-text" data-i18n="pull">Among the world's top 2% most-cited scientists.</p>
-        </div>
-        <p data-i18n="p2">The ranking draws on Scopus bibliometric data and spans all scientific disciplines, reflecting sustained international citation impact.</p>
-        <div class="art-tags">
-          <span class="tag tag-orange" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagAward">Award</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagTop2">Top 2% Scientists</span>
-          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagCite">Citation Impact</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span>
-        </div>
-        <div style="margin-top:16px;">
-          <a href="#" target="_blank" rel="noopener" class="art-cta" data-i18n="cta">About the ranking →</a>
+<main class="na">
+
+  <article>
+  <header class="na-hero">
+    <img class="na-hero-img" src="Assets/top2pct-2022.png" alt="World's Top 2% Most-Cited Scientists 2022" decoding="async">
+    <div class="na-hero-scrim" aria-hidden="true"></div>
+    <div class="na-hero-inner">
+      <div class="na-topbar">
+        <a href="../news.html" class="na-back" data-i18n="back">← All news</a>
+        <span class="na-badge na-badge--award" data-i18n="badge">Award</span>
+        <span class="na-topbar-rule" aria-hidden="true"></span>
+        <div class="lang-switch" aria-label="Language">
+          <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="zh">中文</button>
         </div>
       </div>
-      <aside class="aw-rail">
-        <div class="aw-card">
-          <div class="aw-card-head">
-            <div class="aw-medal"><span>&#9733;</span></div>
-            <div>
-              <div class="aw-card-head-label" data-i18n="cardKicker">The recognition</div>
-              <div class="aw-card-head-org" data-i18n="cardOrg">World's Top 2% Scientists</div>
-            </div>
-          </div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowYear">Year</span><span class="aw-row-value">2022</span></div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowSource">Source</span><span class="aw-row-value">Stanford&ndash;Elsevier</span></div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowData">Data</span><span class="aw-row-value">Scopus</span></div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowScope">Coverage</span><span class="aw-row-value" data-i18n="valScope">All disciplines</span></div>
-          <div class="aw-btn"><a href="#" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" data-i18n="cardBtn">About the ranking →</a></div>
+      <div class="na-hero-copy">
+        <div class="na-meta">
+          <span class="na-meta-src na-meta-src--award">Stanford&ndash;Elsevier</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="date">October 2022</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="read">2 min read</span>
         </div>
-        <div class="aw-callout">
-          <div class="aw-callout-label" data-i18n="calloutLabel">Why it matters</div>
+        <h1 class="na-h1" data-i18n="headline">A/P Rosa ranked among the world's top 2% most-cited scientists (2022)</h1>
+        <p class="na-deck" data-i18n="deck">Recognised for the second consecutive year in the Stanford–Elsevier ranking of the world's most-cited scientists, based on Scopus bibliometric data across all disciplines.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- A legenda fica FORA da imagem: legenda é texto, nunca overlay. -->
+  <div class="na-hero-caption">
+    <figcaption class="na-cap">
+      <span class="na-cap-text" data-i18n="figCaption">World's Top 2% Most-Cited Scientists — 2022.</span>
+    </figcaption>
+  </div>
+
+  <div class="na-wrap">
+    <div class="na-body" data-article-body>
+      <p data-i18n="p1">A/P Rosa has been listed for the second consecutive year among the world's top 2% most-cited scientists, in the 2022 edition of the ranking compiled by Stanford University and Elsevier.</p>
+      <blockquote class="na-quote">
+        <p data-i18n="pull">Among the world's top 2% most-cited scientists.</p>
+      </blockquote>
+      <p data-i18n="p2">The ranking draws on Scopus bibliometric data and spans all scientific disciplines, reflecting sustained international citation impact.</p>
+    </div>
+    <aside class="na-side">
+      <div class="na-side-card na-side-card--award">
+        <div class="na-record">
+          <span class="na-record-label" data-i18n="cardKicker">The recognition</span>
+          <p class="na-record-org" data-i18n="cardOrg">World's Top 2% Scientists</p>
+          <dl>
+            <div class="na-record-row"><dt data-i18n="rowYear">Year</dt><dd>2022</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowSource">Source</dt><dd>Stanford&ndash;Elsevier</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowData">Data</dt><dd>Scopus</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowScope">Coverage</dt><dd data-i18n="valScope">All disciplines</dd></div>
+          </dl>
+          <a class="na-cta" href="#" target="_blank" rel="noopener" data-i18n="cta">About the ranking →</a>
+        </div>
+      </div>
+      <div class="na-side-card na-side-card--award">
+        <div class="na-note">
+          <span class="na-record-label" data-i18n="calloutLabel">Why it matters</span>
           <p data-i18n="calloutP">Reflects sustained international citation impact across all scientific disciplines.</p>
         </div>
-      </aside>
-    </div>
+      </div>
+      <div class="na-kw">
+        <span class="na-kw-label">Keywords</span>
+        <div class="na-kw-list">
+          <a href="../news.html?tag=award" data-i18n="tagAward">Award</a>
+          <a href="../news.html?tag=top-2-scientists" data-i18n="tagTop2">Top 2% Scientists</a>
+          <a href="../news.html?tag=citation-impact" data-i18n="tagCite">Citation Impact</a>
+          <a href="../news.html?tag=nus-dentistry">NUS Dentistry</a>
+        </div>
+      </div>
+    </aside>
   </div>
+  </article>
+
+  <section class="na-related" aria-labelledby="na-related-h">
+    <div class="na-related-head">
+      <h2 class="na-related-title" id="na-related-h">Related</h2>
+      <a class="na-related-all" href="../news.html">All news →</a>
+    </div>
+    <div class="na-rows" id="na-related-rows" data-related-for="top2pct-scientists-2022"></div>
+  </section>
+
 </main>
 </div><!-- /app -->
+
+<script src="../assets/js/data/news.js"></script>
 <script src="../assets/js/shared.js"></script>
+<script src="../assets/js/news-article.js" defer></script>
 <script>
 var I18N = {
   en: {},

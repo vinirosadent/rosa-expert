@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,126 +7,127 @@
 <meta name="description" content="NUS researchers including A/P Rosa invented the Dental DART, a foldable chairside shield that eliminated the rise in surface contamination during aerosol-generating dental procedures.">
 <link rel="stylesheet" href="../assets/css/tokens.css">
 <link rel="stylesheet" href="../assets/css/components.css">
-<style>
-.art-page { min-height: 60vh; padding-bottom: var(--space-20); }
-.art-global { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter); }
-.art-back { display: inline-block; padding: 0; margin-bottom: 20px; font-size: 12px; font-weight: 500; color: var(--text-faint); text-decoration: none; }
-.art-back:hover { color: var(--text-muted); }
-.art-badge-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-.art-badge { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
-.art-badge-teal { background: var(--wash-teal); color: var(--teal-700); }
-.art-badge-rule { flex: 1; height: 1px; background: var(--border-subtle); }
-.lang-switch { flex-shrink: 0; display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
-.lang-opt { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: var(--text-faint); transition: color .15s ease; }
-.lang-opt:hover { color: var(--text-muted); }
-.lang-opt.active { color: var(--blue-700); }
-.lang-sep { color: var(--border-strong); user-select: none; }
-.art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
-.art-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); display: inline-block; flex-shrink: 0; }
-.art-headline { font-family: var(--font-serif); font-size: var(--fs-page-title); font-weight: 500; letter-spacing: -0.025em; line-height: 1.07; color: var(--text-strong); margin: 0 0 20px; }
-.art-deck { font-family: var(--font-serif); font-style: italic; font-size: 18.5px; line-height: 1.6; color: var(--text-muted); margin: 0; }
-.appt-grid { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px; margin-top: 16px; }
-.appt-main { flex: 1 1 440px; max-width: 680px; min-width: 0; }
-.appt-main p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 22px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
-.appt-figure { margin: 6px 0 28px; }
-.appt-figure img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--border-subtle); }
-.appt-figcaption { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
-.art-pull { margin: 14px 0 34px; text-align: center; }
-.art-pull-mark { font-family: var(--font-serif); font-size: 88px; line-height: 0.6; color: var(--teal-200); user-select: none; display: block; margin-bottom: 10px; }
-.art-pull .art-pull-text { text-align: center; font-family: var(--font-serif); font-style: italic; font-size: 22px; line-height: 1.44; color: var(--text-strong); max-width: 480px; margin: 0 auto; }
-.appt-rail { flex: 1 1 280px; max-width: 320px; min-width: 0; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px; }
-.spec-card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-top: 3px solid var(--teal-600); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; }
-.spec-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
-.spec-medal { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--teal-500), var(--teal-700)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow-sm); color: #fff; }
-.spec-card-head-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--teal-600); }
-.spec-card-head-title { font-family: var(--font-serif); font-weight: 500; font-size: 19px; line-height: 1.3; color: var(--text-strong); margin-top: 2px; }
-.spec-row { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); }
-.spec-row:last-of-type { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
-.spec-row-label { font-size: 13.5px; color: var(--text-muted); flex-shrink: 0; }
-.spec-row-value { font-size: 13.5px; font-weight: 600; color: var(--text-strong); text-align: right; }
-.spec-btn { display: flex; justify-content: center; margin-top: 22px; }
-.scope-card { background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px 22px; }
-.scope-card-label { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--teal-600); }
-.scope-card p { margin: 11px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--text-body); }
-.art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-8); padding-top: 20px; border-top: 1px solid var(--border-subtle); }
-.art-cta { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--blue-700); border: 1.5px solid var(--border-strong); padding: 10px 20px; border-radius: 10px; text-decoration: none; }
-.art-cta:hover { border-color: var(--blue-400); }
-@media (max-width: 760px) { .appt-rail { position: static; max-width: none; flex-basis: 100%; } }
-@media (max-width: 600px) { .art-headline { line-height: 1.12; } }
-</style>
+<link rel="stylesheet" href="../assets/css/news-article.css">
 </head>
 <body>
+<script>document.documentElement.classList.remove('no-js');</script>
 <div id="app">
-<main class="art-page">
-  <div class="art-global" style="padding-top:24px;">
-    <a href="../news.html" class="art-back" data-i18n="back">← All news</a>
-    <div class="art-badge-row">
-      <span class="art-badge art-badge-teal" data-i18n="badge">Innovation</span>
-      <div class="art-badge-rule"></div>
-      <div class="lang-switch" aria-label="Language">
-        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="zh">中文</button>
-      </div>
-    </div>
-    <div class="art-meta">
-      <span style="color:var(--teal-600);">NUS Dentistry</span>
-      <span class="art-meta-dot"></span>
-      <span data-i18n="date">December 2020</span>
-      <span class="art-meta-dot"></span>
-      <span data-i18n="read">4 min read</span>
-    </div>
-    <div class="appt-grid">
-      <div class="appt-main">
-        <h1 class="art-headline" data-i18n="headline">Dental DART: a foldable tent for safer dental care during the pandemic</h1>
-        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">NUS researchers — including A/P Rosa — invented the Dental Droplet and Aerosol Reducing Tent, a portable chairside shield that contains the saliva and aerosols generated during dental procedures.</p>
-        <figure class="appt-figure"><img src="Assets/dental-dart-01.jpg" alt="Dental DART team with the prototype"><figcaption class="appt-figcaption" data-i18n="fig1">The Dental DART team (from left): Prof Freddy Boey, Mr Sudarshan Anantharaman and A/P Vinicius Rosa.</figcaption></figure>
-        <p data-i18n="p1">Dental treatments are carried out very close to the patient's mouth and nose, and many procedures generate aerosols while clinicians handle saliva and blood. That places dentists among the workers at highest risk of exposure to COVID-19 — and to other agents that can cause influenza, hepatitis, pneumonitis, and eye or skin infections during routine care.</p>
-        <p data-i18n="p2">In response, researchers at the National University of Singapore (NUS) invented a portable, tent-like shield that is placed around the patient's head to act as a barrier protecting dentists, nurses and patients from direct and indirect exposure. By containing droplets and aerosols, the Dental DART also limits their spread onto surrounding surfaces, reducing pathogen availability and cross-contamination. It is an adaptation of an earlier NUS device, DART, created to protect healthcare workers during droplet- and aerosol-generating procedures such as intubation and extubation.</p>
-        <figure class="appt-figure"><img src="Assets/dental-dart-03.jpg" alt="Fitting the Dental DART to a dental chair"><figcaption class="appt-figcaption" data-i18n="fig2">Adapting the foldable shield to a dental chair.</figcaption></figure>
-        <p data-i18n="p3">The Dental DART is a clear tented shield 64 cm high with a 54 cm base, and its width adjusts between 60 and 70 cm to fit different dental chairs. Three access ports let the dentist and nurse reach in and work safely. The tent connects to the vacuum pumps already built into the chair, drawing contaminated air into the scavenging system and reducing the material that reaches the clinicians' hands, arms and instruments. The team needed three months to reach the final model, designing universal hinges so it suits any chair and engineering it to fold flat.</p>
-        <div class="art-pull"><span class="art-pull-mark">&ldquo;</span><p class="art-pull-text" data-i18n="pull">No increase in viable bacteria with the Dental DART — versus a 14-fold rise without it.</p></div>
-        <figure class="appt-figure"><img src="Assets/dental-dart-02.jpg" alt="Dental DART mounted on a dental chair"><figcaption class="appt-figcaption" data-i18n="fig3">The Dental DART mounted on a dental chair and connected to the chair's suction.</figcaption></figure>
-        <p data-i18n="p4">The shield was tested in a clinical setting by measuring bacterial content on the dental-chair light and on the dentist's face shield, before and after scaling — a procedure known to sharply increase airborne contamination. With the Dental DART, there was no increase in viable bacteria on those surfaces; without it, contamination rose roughly fourteenfold.</p>
-        <figure class="appt-figure"><img src="Assets/dental-dart-04.jpg" alt="Dental DART in clinical use"><figcaption class="appt-figcaption" data-i18n="fig4">Clinicians performing a procedure inside the Dental DART.</figcaption></figure>
-        <p data-i18n="p5">Dentistry is an essential service that was hit hard by the pandemic, with many providers in Singapore suspending aerosol-generating procedures and leaving patients without care. By making the clinic safer, the device also helps ease the anxiety the pandemic placed on patients and staff. The four NUS inventors filed a patent for the design and are seeking healthcare and industry partners to bring it to dentists in Singapore and worldwide.</p>
-        <div class="art-tags">
-          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagInnovation">Innovation</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagCovid">COVID-19</span>
-          <span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;" data-i18n="tagAerosol">Aerosol Control</span>
-          <span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span>
-        </div>
-        <div style="margin-top:16px;">
-          <a href="https://news.nus.edu.sg/a-foldable-tent-for-safe-dental-care-during-the-pandemic/" target="_blank" rel="noopener" class="art-cta" data-i18n="cta">Read the NUS announcement →</a>
+<main class="na">
+
+  <article>
+  <header class="na-hero">
+    <img class="na-hero-img" src="Assets/dental-dart-01.jpg" alt="Dental DART team with the prototype" decoding="async">
+    <div class="na-hero-scrim" aria-hidden="true"></div>
+    <div class="na-hero-inner">
+      <div class="na-topbar">
+        <a href="../news.html" class="na-back" data-i18n="back">← All news</a>
+        <span class="na-badge na-badge--appt" data-i18n="badge">Innovation</span>
+        <span class="na-topbar-rule" aria-hidden="true"></span>
+        <div class="lang-switch" aria-label="Language">
+          <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="zh">中文</button>
         </div>
       </div>
-      <aside class="appt-rail">
-        <div class="spec-card">
-          <div class="spec-card-head">
-            <div class="spec-medal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <div>
-              <div class="spec-card-head-label" data-i18n="specKicker">The device</div>
-              <div class="spec-card-head-title">Dental DART</div>
-            </div>
-          </div>
-          <div class="spec-row"><span class="spec-row-label" data-i18n="rowMechanism">Mechanism</span><span class="spec-row-value" data-i18n="valMechanism">Connects to chair vacuum</span></div>
-          <div class="spec-row"><span class="spec-row-label" data-i18n="rowAccess">Access</span><span class="spec-row-value" data-i18n="valAccess">3 ports</span></div>
-          <div class="spec-row"><span class="spec-row-label" data-i18n="rowHeight">Height</span><span class="spec-row-value">64 cm</span></div>
-          <div class="spec-row"><span class="spec-row-label" data-i18n="rowWidth">Width</span><span class="spec-row-value" data-i18n="valWidth">60–70 cm (adjustable)</span></div>
-          <div class="spec-btn"><a href="https://news.nus.edu.sg/a-foldable-tent-for-safe-dental-care-during-the-pandemic/" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" data-i18n="specBtn">Read the NUS announcement →</a></div>
+      <div class="na-hero-copy">
+        <div class="na-meta">
+          <span class="na-meta-src na-meta-src--appt">NUS Dentistry</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="date">December 2020</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="read">4 min read</span>
         </div>
-        <div class="scope-card">
-          <div class="scope-card-label" data-i18n="calloutLabel">Clinical result</div>
+        <h1 class="na-h1" data-i18n="headline">Dental DART: a foldable tent for safer dental care during the pandemic</h1>
+        <p class="na-deck" data-i18n="deck">NUS researchers — including A/P Rosa — invented the Dental Droplet and Aerosol Reducing Tent, a portable chairside shield that contains the saliva and aerosols generated during dental procedures.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- A legenda fica FORA da imagem: legenda é texto, nunca overlay. -->
+  <div class="na-hero-caption">
+    <figcaption class="na-cap">
+      <span class="na-cap-text" data-i18n="fig1">The Dental DART team (from left): Prof Freddy Boey, Mr Sudarshan Anantharaman and A/P Vinicius Rosa.</span>
+    </figcaption>
+  </div>
+
+  <div class="na-wrap">
+    <div class="na-body" data-article-body>
+      <p data-i18n="p1">Dental treatments are carried out very close to the patient's mouth and nose, and many procedures generate aerosols while clinicians handle saliva and blood. That places dentists among the workers at highest risk of exposure to COVID-19 — and to other agents that can cause influenza, hepatitis, pneumonitis, and eye or skin infections during routine care.</p>
+      <p data-i18n="p2">In response, researchers at the National University of Singapore (NUS) invented a portable, tent-like shield that is placed around the patient's head to act as a barrier protecting dentists, nurses and patients from direct and indirect exposure. By containing droplets and aerosols, the Dental DART also limits their spread onto surrounding surfaces, reducing pathogen availability and cross-contamination. It is an adaptation of an earlier NUS device, DART, created to protect healthcare workers during droplet- and aerosol-generating procedures such as intubation and extubation.</p>
+      <figure class="na-fig">
+        <img src="Assets/dental-dart-03.jpg" alt="Fitting the Dental DART to a dental chair" loading="lazy" decoding="async">
+        <figcaption class="na-cap">
+          <span class="na-cap-text" data-i18n="fig2">Adapting the foldable shield to a dental chair.</span>
+        </figcaption>
+      </figure>
+      <p data-i18n="p3">The Dental DART is a clear tented shield 64 cm high with a 54 cm base, and its width adjusts between 60 and 70 cm to fit different dental chairs. Three access ports let the dentist and nurse reach in and work safely. The tent connects to the vacuum pumps already built into the chair, drawing contaminated air into the scavenging system and reducing the material that reaches the clinicians' hands, arms and instruments. The team needed three months to reach the final model, designing universal hinges so it suits any chair and engineering it to fold flat.</p>
+      <blockquote class="na-quote">
+        <p data-i18n="pull">No increase in viable bacteria with the Dental DART — versus a 14-fold rise without it.</p>
+      </blockquote>
+      <figure class="na-fig">
+        <img src="Assets/dental-dart-02.jpg" alt="Dental DART mounted on a dental chair" loading="lazy" decoding="async">
+        <figcaption class="na-cap">
+          <span class="na-cap-text" data-i18n="fig3">The Dental DART mounted on a dental chair and connected to the chair's suction.</span>
+        </figcaption>
+      </figure>
+      <p data-i18n="p4">The shield was tested in a clinical setting by measuring bacterial content on the dental-chair light and on the dentist's face shield, before and after scaling — a procedure known to sharply increase airborne contamination. With the Dental DART, there was no increase in viable bacteria on those surfaces; without it, contamination rose roughly fourteenfold.</p>
+      <figure class="na-fig">
+        <img src="Assets/dental-dart-04.jpg" alt="Dental DART in clinical use" loading="lazy" decoding="async">
+        <figcaption class="na-cap">
+          <span class="na-cap-text" data-i18n="fig4">Clinicians performing a procedure inside the Dental DART.</span>
+        </figcaption>
+      </figure>
+      <p data-i18n="p5">Dentistry is an essential service that was hit hard by the pandemic, with many providers in Singapore suspending aerosol-generating procedures and leaving patients without care. By making the clinic safer, the device also helps ease the anxiety the pandemic placed on patients and staff. The four NUS inventors filed a patent for the design and are seeking healthcare and industry partners to bring it to dentists in Singapore and worldwide.</p>
+    </div>
+    <aside class="na-side">
+      <div class="na-side-card na-side-card--appt">
+        <div class="na-record">
+          <span class="na-record-label" data-i18n="specKicker">The device</span>
+          <p class="na-record-org">Dental DART</p>
+          <dl>
+            <div class="na-record-row"><dt data-i18n="rowMechanism">Mechanism</dt><dd data-i18n="valMechanism">Connects to chair vacuum</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowAccess">Access</dt><dd data-i18n="valAccess">3 ports</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowHeight">Height</dt><dd>64 cm</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowWidth">Width</dt><dd data-i18n="valWidth">60–70 cm (adjustable)</dd></div>
+          </dl>
+          <a class="na-cta" href="https://news.nus.edu.sg/a-foldable-tent-for-safe-dental-care-during-the-pandemic/" target="_blank" rel="noopener" data-i18n="cta">Read the NUS announcement →</a>
+        </div>
+      </div>
+      <div class="na-side-card na-side-card--appt">
+        <div class="na-note">
+          <span class="na-record-label" data-i18n="calloutLabel">Clinical result</span>
           <p data-i18n="calloutP">Zero increase in viable bacteria with the shield, versus a 14× rise without it.</p>
         </div>
-      </aside>
-    </div>
+      </div>
+      <div class="na-kw">
+        <span class="na-kw-label">Keywords</span>
+        <div class="na-kw-list">
+          <a href="../news.html?tag=innovation" data-i18n="tagInnovation">Innovation</a>
+          <a href="../news.html?tag=covid-19" data-i18n="tagCovid">COVID-19</a>
+          <a href="../news.html?tag=aerosol-control" data-i18n="tagAerosol">Aerosol Control</a>
+          <a href="../news.html?tag=nus-dentistry">NUS Dentistry</a>
+        </div>
+      </div>
+    </aside>
   </div>
+  </article>
+
+  <section class="na-related" aria-labelledby="na-related-h">
+    <div class="na-related-head">
+      <h2 class="na-related-title" id="na-related-h">Related</h2>
+      <a class="na-related-all" href="../news.html">All news →</a>
+    </div>
+    <div class="na-rows" id="na-related-rows" data-related-for="dental-dart-aerosol-2020"></div>
+  </section>
+
 </main>
 </div><!-- /app -->
+
+<script src="../assets/js/data/news.js"></script>
 <script src="../assets/js/shared.js"></script>
+<script src="../assets/js/news-article.js" defer></script>
 <script>
 var I18N = {
   en: {},

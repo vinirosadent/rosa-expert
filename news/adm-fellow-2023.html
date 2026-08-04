@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,116 +7,95 @@
 <meta name="description" content="A/P Vinicius Rosa has been elected Fellow of the Academy of Dental Materials, one of the highest honours in dental materials science worldwide.">
 <link rel="stylesheet" href="../assets/css/tokens.css">
 <link rel="stylesheet" href="../assets/css/components.css">
-<style>
-
-.art-page{min-height:60vh;padding-bottom:var(--space-20)}
-.art-global{max-width:var(--container-base);margin:0 auto;padding:0 var(--gutter)}
-.art-back{display:inline-block;padding:0;margin-bottom:20px;font-size:12px;font-weight:500;color:var(--text-faint);text-decoration:none}
-.art-back:hover{color:var(--text-muted)}
-.art-badge-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.art-badge{flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;padding:4px 12px;border-radius:100px;white-space:nowrap}
-.art-badge-orange{background:var(--wash-orange);color:var(--orange-600)}
-.art-badge-blue{background:var(--wash-blue);color:var(--blue-700)}
-.art-badge-teal{background:var(--wash-teal);color:var(--teal-700)}
-.art-badge-rule{flex:1;height:1px;background:var(--border-subtle)}
-.lang-switch{flex-shrink:0;display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;letter-spacing:.08em}
-.lang-opt{background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;color:var(--text-faint);transition:color .15s ease}
-.lang-opt:hover{color:var(--text-muted)}
-.lang-opt.active{color:var(--blue-700)}
-.lang-sep{color:var(--border-strong);user-select:none}
-.art-meta{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint)}
-.art-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--border-strong);display:inline-block;flex-shrink:0}
-.art-headline{font-family:var(--font-serif);font-size:var(--fs-page-title);font-weight:500;letter-spacing:-0.025em;line-height:1.07;color:var(--text-strong);margin:0 0 20px}
-.art-deck{font-family:var(--font-serif);font-style:italic;font-size:18.5px;line-height:1.6;color:var(--text-muted);margin:0}
-.aw-grid{display:flex;flex-wrap:wrap;align-items:flex-start;gap:48px;margin-top:16px}
-.aw-main{flex:1 1 440px;max-width:680px;min-width:0}
-.aw-main p{font-size:17px;line-height:1.8;color:var(--text-body);margin-bottom:22px;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
-.award-figure{margin:0 0 28px}
-.award-figure-box{overflow:hidden;border-radius:12px;border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center}
-.award-figure-box img{width:100%;height:100%;display:block}
-.award-figcaption{font-size:13px;color:var(--text-muted);line-height:1.5;margin-top:12px}
-.art-pull{margin:14px 0 34px;text-align:center}
-.art-pull-mark{font-family:var(--font-serif);font-size:88px;line-height:0.6;color:var(--teal-200);user-select:none;display:block;margin-bottom:10px}
-.art-pull .art-pull-text{text-align:center;font-family:var(--font-serif);font-style:italic;font-size:22px;line-height:1.44;color:var(--text-strong);max-width:480px;margin:0 auto}
-.aw-rail{flex:1 1 280px;max-width:320px;min-width:0;position:sticky;top:96px;display:flex;flex-direction:column;gap:20px}
-.aw-card{background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:24px}
-.aw-card-head{display:flex;align-items:center;gap:13px;margin-bottom:20px}
-.aw-icon-wrap{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-sm);font-size:20px}
-.aw-card-head-label{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.aw-card-head-org{font-family:var(--font-serif);font-size:17px;font-weight:500;color:var(--text-strong);line-height:1.3;margin-top:2px}
-.aw-row{display:flex;justify-content:space-between;gap:12px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--border-subtle)}
-.aw-row:last-of-type{padding-bottom:0;margin-bottom:0;border-bottom:none}
-.aw-row-label{font-size:13.5px;color:var(--text-muted);flex-shrink:0}
-.aw-row-value{font-size:13.5px;font-weight:600;color:var(--text-strong);text-align:right}
-.aw-callout{background:var(--surface-subtle);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:20px 22px}
-.aw-callout-label{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--teal-600)}
-.aw-callout p{margin:11px 0 0;font-size:13.5px;line-height:1.55;color:var(--text-body)}
-.art-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--space-8);padding-top:20px;border-top:1px solid var(--border-subtle)}
-@media(max-width:760px){.aw-rail{position:static;max-width:none;flex-basis:100%}}
-
-.aw-card{border-top:3px solid var(--teal-500)}
-.art-pull-mark{color:var(--teal-200)}
-</style>
+<link rel="stylesheet" href="../assets/css/news-article.css">
 </head>
 <body>
+<script>document.documentElement.classList.remove('no-js');</script>
 <div id="app">
-<main class="art-page">
-  <div class="art-global" style="padding-top:24px;">
-    <a href="../news.html" class="art-back" data-i18n="back">&larr; All news</a>
-    <div class="art-badge-row">
-      <span class="art-badge art-badge-teal" data-i18n="badge">ADM Fellowship</span>
-      <div class="art-badge-rule"></div>
-      <div class="lang-switch" aria-label="Language">
-        <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">&middot;</span>
-        <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">&middot;</span>
-        <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">&middot;</span>
-        <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">&middot;</span>
-        <button type="button" class="lang-opt" data-lang="zh">&#20013;&#25991;</button>
-      </div>
-    </div>
-    <div class="art-meta">
-      <span style="color:var(--teal-600);">ADM</span>
-      <span class="art-meta-dot"></span>
-      <span data-i18n="date">October 2023</span>
-      <span class="art-meta-dot"></span>
-      <span data-i18n="read">2 min read</span>
-    </div>
-    <div class="aw-grid">
-      <div class="aw-main">
-        <h1 class="art-headline" data-i18n="headline">A/P Rosa elected Fellow of the Academy of Dental Materials</h1>
-        <p class="art-deck" style="margin-bottom:28px;" data-i18n="deck">The honour places A/P Rosa among the global leaders in dental materials science, as recognised by a peer-nominated fellowship within one of the field's most prestigious professional bodies.</p>
+<main class="na">
 
-        <p data-i18n="p1">The Academy of Dental Materials (ADM) has elected A/P Vinicius Rosa as a Fellow — one of its highest honours. The ADM Fellowship is awarded to active members who have made outstanding contributions to dental materials research, education, or service to the field. Election requires nomination and endorsement by existing Fellows, making it a direct expression of peer recognition at the international level.</p>
-        <p data-i18n="p2">A/P Rosa's research programme &mdash; spanning hydrogels for dental pulp tissue regeneration, bioactive cements, and predictive modelling of biomaterial performance &mdash; represents the kind of sustained, high-impact science that ADM Fellowship seeks to recognise. His contributions extend from fundamental materials characterisation to international guidelines for biocompatibility testing, placing his group among the most influential in the field globally.</p>
-        <div class="art-pull">
-          <span class="art-pull-mark">&ldquo;</span>
-          <p class="art-pull-text" data-i18n="pull">A recognition granted by peers who have spent careers shaping dental materials science.</p>
+  <article>
+  <header class="na-hero na-hero--nopic">
+    <div class="na-hero-inner">
+      <div class="na-topbar">
+        <a href="../news.html" class="na-back" data-i18n="back">&larr; All news</a>
+        <span class="na-badge na-badge--appt" data-i18n="badge">ADM Fellowship</span>
+        <span class="na-topbar-rule" aria-hidden="true"></span>
+        <div class="lang-switch" aria-label="Language">
+          <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="zh">中文</button>
         </div>
-        <p data-i18n="p3">Founded in 1959, the ADM is the professional home of scientists and clinicians dedicated to advancing dental materials research and education. It publishes <em>Dental Materials</em> &mdash; one of the most important scientific journals in the field &mdash; and supports professional development through meetings, awards, and educational initiatives. ADM Fellows span more than 40 countries and include many of the most distinguished researchers in dental science.</p>
-        <div class="art-tags"><span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">ADM</span><span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">Fellowship</span><span class="tag tag-blue" style="text-transform:none;letter-spacing:.02em;">Dental Materials</span><span class="tag tag-teal" style="text-transform:none;letter-spacing:.02em;">NUS Dentistry</span></div>
       </div>
-      <aside class="aw-rail">
-        <div class="aw-card">
-          <div class="aw-card-head">
-            <div class="aw-icon-wrap" style="background:linear-gradient(135deg,var(--teal-400),var(--teal-600));">&#127963;</div>
-            <div>
-              <div class="aw-card-head-label" style="color:var(--teal-700);" data-i18n="cardKicker">ADM Fellowship</div>
-              <div class="aw-card-head-org">Academy of<br>Dental Materials</div>
-            </div>
-          </div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowYear">Year</span><span class="aw-row-value">2023</span></div>
-          <div class="aw-row"><span class="aw-row-label" data-i18n="rowOrg">Organisation</span><span class="aw-row-value">ADM</span></div>
+      <div class="na-hero-copy">
+        <div class="na-meta">
+          <span class="na-meta-src na-meta-src--appt">ADM</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="date">October 2023</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="read">2 min read</span>
         </div>
-        <div class="aw-callout">
-          <div class="aw-callout-label" data-i18n="calloutLabel">About the ADM</div>
+        <h1 class="na-h1" data-i18n="headline">A/P Rosa elected Fellow of the Academy of Dental Materials</h1>
+        <p class="na-deck" data-i18n="deck">The honour places A/P Rosa among the global leaders in dental materials science, as recognised by a peer-nominated fellowship within one of the field's most prestigious professional bodies.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="na-wrap">
+    <div class="na-body" data-article-body>
+      <p data-i18n="p1">The Academy of Dental Materials (ADM) has elected A/P Vinicius Rosa as a Fellow — one of its highest honours. The ADM Fellowship is awarded to active members who have made outstanding contributions to dental materials research, education, or service to the field. Election requires nomination and endorsement by existing Fellows, making it a direct expression of peer recognition at the international level.</p>
+      <p data-i18n="p2">A/P Rosa's research programme &mdash; spanning hydrogels for dental pulp tissue regeneration, bioactive cements, and predictive modelling of biomaterial performance &mdash; represents the kind of sustained, high-impact science that ADM Fellowship seeks to recognise. His contributions extend from fundamental materials characterisation to international guidelines for biocompatibility testing, placing his group among the most influential in the field globally.</p>
+      <blockquote class="na-quote">
+        <p data-i18n="pull">A recognition granted by peers who have spent careers shaping dental materials science.</p>
+      </blockquote>
+      <p data-i18n="p3">Founded in 1959, the ADM is the professional home of scientists and clinicians dedicated to advancing dental materials research and education. It publishes <em>Dental Materials</em> &mdash; one of the most important scientific journals in the field &mdash; and supports professional development through meetings, awards, and educational initiatives. ADM Fellows span more than 40 countries and include many of the most distinguished researchers in dental science.</p>
+    </div>
+    <aside class="na-side">
+      <div class="na-side-card na-side-card--appt">
+        <div class="na-record">
+          <span class="na-record-label" data-i18n="cardKicker">ADM Fellowship</span>
+          <p class="na-record-org">Academy of<br>Dental Materials</p>
+          <dl>
+            <div class="na-record-row"><dt data-i18n="rowYear">Year</dt><dd>2023</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowOrg">Organisation</dt><dd>ADM</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="na-side-card na-side-card--appt">
+        <div class="na-note">
+          <span class="na-record-label" data-i18n="calloutLabel">About the ADM</span>
           <p data-i18n="calloutP">The Academy of Dental Materials was founded in 1959 and is the premier international professional organisation for dental materials scientists. Fellowship in the ADM is awarded by peer nomination and is considered one of the highest honours in the field. Members span over 40 countries and include leading researchers, educators, and clinicians.</p>
         </div>
-      </aside>
-    </div>
+      </div>
+      <div class="na-kw">
+        <span class="na-kw-label">Keywords</span>
+        <div class="na-kw-list">
+          <a href="../news.html?tag=adm">ADM</a>
+          <a href="../news.html?tag=fellowship">Fellowship</a>
+          <a href="../news.html?tag=dental-materials">Dental Materials</a>
+          <a href="../news.html?tag=nus-dentistry">NUS Dentistry</a>
+        </div>
+      </div>
+    </aside>
   </div>
+  </article>
+
+  <section class="na-related" aria-labelledby="na-related-h">
+    <div class="na-related-head">
+      <h2 class="na-related-title" id="na-related-h">Related</h2>
+      <a class="na-related-all" href="../news.html">All news →</a>
+    </div>
+    <div class="na-rows" id="na-related-rows" data-related-for="adm-fellow-2023"></div>
+  </section>
+
 </main>
-</div>
+</div><!-- /app -->
+
+<script src="../assets/js/data/news.js"></script>
 <script src="../assets/js/shared.js"></script>
+<script src="../assets/js/news-article.js" defer></script>
 <script>
 
 var I18N = {
