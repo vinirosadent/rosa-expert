@@ -1,142 +1,358 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>News — Vinicius Rosa · NUS Faculty of Dentistry</title>
-<meta name="description" content="Top stories, press coverage, awards and appointments across A/P Rosa's research.">
+<meta name="description" content="Press coverage, awards, appointments and institutional work across A/P Rosa's research.">
+<link rel="canonical" href="https://rosa.expert/news.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rosa.expert/news.html">
+<meta property="og:title" content="News | Vinicius Rosa">
+<meta property="og:description" content="Press coverage, awards, appointments and institutional work across A/P Rosa's research.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<style>
+/* ============================================================
+   News — estilos da página (prefixo nw-)
+   Estrutura, tipografia e cor vêm de tokens.css / components.css.
+   Aqui só existe o que é desta página: a APARIÇÃO do hero.
+
+   A ideia, em uma frase: a fotografia da matéria principal se desfaz
+   em ivory da direita para a esquerda, e é na faixa já desfeita que a
+   nuvem de pontos ganha densidade. Imagem e campo são um corpo só —
+   um continua o outro. Nada de card, nada de moldura.
+   ============================================================ */
+
+/* O ivory é o MESMO da premissa da home e de Connected Science
+   (--premise-ivory #FDF6EE). Reusar o valor é o que faz a news ler como
+   parte do site em vez de um terceiro tom quente. */
+.nw { --nw-ivory: #FDF6EE; background: var(--nw-ivory); }
+body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o near-white do body */
+
+.nw-eyebrow { letter-spacing: .2em; }
+
+/* ── Hero ────────────────────────────────────────────────────
+   Não é tela cheia: a altura é limitada para que "Also this year" já
+   esteja começando a aparecer a 1440x900. O visitante não deve rolar e
+   encontrar apenas outro título grande. */
+.nw-hero {
+  position: relative; overflow: hidden;
+  /* A faixa da foto para no MESMO 1180 do header (.header-inner) e do
+     "Also this year". Full-bleed custava duas coisas, medidas a 2560px:
+     a foto passava 754px do texto do nav — a margem vazia da esquerda
+     contra foto sangrando na direita — e o object-fit:cover jogava fora
+     61% da ALTURA da imagem, que era o que decapitava o dente. Preso em
+     1180 sobram 84% da imagem (90% a 1920, 84% a 1440). */
+  max-width: var(--container-base); margin: 0 auto;
+  min-height: clamp(460px, 62vh, 600px);
+  display: flex; align-items: center;
+}
+.nw-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+/* O véu: vertical (para a foto não bater no header nem no conteúdo) +
+   96° (o que dissolve a imagem para a esquerda). Os stops do 96° são os
+   mesmos da .premise-scrim da home; mudar um deles muda a faixa em que
+   a nuvem pode viver — os dois números andam juntos. */
+.nw-hero-scrim {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--nw-ivory) 0%, rgba(253,246,238,0) 16%, rgba(253,246,238,0) 84%, var(--nw-ivory) 100%),
+    linear-gradient(96deg, var(--nw-ivory) 0%, rgba(253,246,238,.96) 27%, rgba(253,246,238,.74) 42%, rgba(253,246,238,.22) 58%, rgba(253,246,238,0) 72%);
+}
+/* Acima de 1180 o container corta a faixa e nasce uma borda vertical dura
+   do lado direito — a foto é quase preta ali, então o corte grita. Ela
+   morre em ivory por feather, nunca por corte: é a mesma regra do
+   CLAUDE.md para imagem que "sangra". 20% e não 14%: a 14% a borda escura
+   ainda lia numa simulação do recorte; e 20% é o teto, porque o dente
+   termina em 84% da faixa e um feather maior comeria o dente.
+   Abaixo de 1180 a faixa vai até a borda da tela e não há emenda a
+   esconder — por isso isto vive numa min-width, não na regra base. */
+@media (min-width: 1180px) {
+  .nw-hero-scrim {
+    background:
+      linear-gradient(180deg, var(--nw-ivory) 0%, rgba(253,246,238,0) 16%, rgba(253,246,238,0) 84%, var(--nw-ivory) 100%),
+      linear-gradient(270deg, var(--nw-ivory) 0%, rgba(253,246,238,0) 20%),
+      linear-gradient(96deg, var(--nw-ivory) 0%, rgba(253,246,238,.96) 27%, rgba(253,246,238,.74) 42%, rgba(253,246,238,.22) 58%, rgba(253,246,238,0) 72%);
+  }
+}
+.nw-cloud { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 2; pointer-events: none; }
+.nw-hero-inner {
+  position: relative; z-index: 3; width: 100%;
+  max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter);
+}
+.nw-hero-copy { max-width: 30rem; }
+/* Sem fotografia a manchete fica sozinha e pode respirar mais — e a
+   nuvem recua (data-cloud="wide") para não passar por baixo dela. */
+.nw-hero--nopic { min-height: clamp(400px, 52vh, 520px); }
+.nw-hero--nopic .nw-hero-copy { max-width: 34rem; }
+
+.nw-hero h1 {
+  font-family: var(--font-serif); font-weight: var(--weight-medium);
+  font-size: var(--fs-page-title);      /* mesma rampa de Who / To read / Connected Science */
+  line-height: 1.04; letter-spacing: var(--tracking-tight);
+  color: var(--text-strong); margin: 16px 0 0;
+}
+.nw-dek { margin-top: 18px; font-size: clamp(1rem, .93rem + .35vw, 1.15rem); line-height: 1.62; color: var(--text-body); max-width: 38ch; }
+.nw-kicker {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 24px;
+  font-family: var(--font-sans); font-size: 11.5px; font-weight: var(--weight-bold);
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.nw-kicker-src { color: var(--blue-700); }
+.nw-kicker-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); flex: none; }
+.nw-kicker-faint { color: var(--text-faint); }
+.nw-cta {
+  display: inline-block; margin-top: 26px;
+  font-size: 13.5px; font-weight: var(--weight-semibold); color: var(--blue-700);
+  border-bottom: 1.5px solid var(--orange-500); padding-bottom: 4px;
+}
+a:hover .nw-cta, .nw-cta:hover { color: var(--orange-600); }
+
+/* ── Also this year ──────────────────────────────────────────
+   Registro, não grade. Duas matérias com placa (as que têm fotografia
+   que vale) e o resto em filetes de duas colunas. */
+.nw-also { max-width: var(--container-base); margin: 0 auto; padding: var(--space-12) var(--gutter) var(--space-16); }
+.nw-also-head { display: flex; align-items: baseline; gap: var(--space-6); border-top: 1px solid var(--border-subtle); padding-top: var(--space-5); }
+.nw-also-title { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 26px; color: var(--text-strong); }
+.nw-also-count { font-size: 13px; color: var(--text-muted); margin-left: auto; }
+
+.nw-feature { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: var(--space-8); align-items: center; padding: var(--space-8) 0; border-bottom: 1px solid var(--border-subtle); text-decoration: none; }
+.nw-feature-media { position: relative; overflow: hidden; aspect-ratio: 5 / 3; }
+.nw-feature-media img { width: 100%; height: 100%; object-fit: cover; }
+/* A mesma dissolução do hero, em miniatura e no eixo curto: a placa não
+   tem borda do lado que encosta no texto. */
+.nw-feature-veil { position: absolute; inset: 0; background: linear-gradient(84deg, rgba(253,246,238,.72) 0%, rgba(253,246,238,.10) 62%, rgba(253,246,238,0) 100%); }
+.nw-feature-src { font-family: var(--font-sans); font-size: 11px; font-weight: var(--weight-bold); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+.nw-feature-src--lead { color: var(--orange-600); }
+.nw-feature-title { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 27px; line-height: 1.18; letter-spacing: var(--tracking-tight); color: var(--text-strong); margin-top: 12px; }
+.nw-feature-dek { margin-top: 12px; font-size: 15.5px; line-height: 1.65; color: var(--text-muted); max-width: 56ch; }
+
+.nw-rows { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-12); margin-top: var(--space-3); }
+.nw-row { display: flex; gap: 18px; align-items: baseline; padding: var(--space-4) 0; border-bottom: 1px solid var(--border-subtle); text-decoration: none; }
+.nw-row-date { flex: none; width: 74px; font-size: 12px; color: var(--text-faint); }
+.nw-row-title { font-family: var(--font-serif); font-size: 18px; line-height: 1.35; color: var(--text-strong); }
+.nw-row:hover .nw-row-title { color: var(--blue-600); }
+
+.nw-more { margin-top: var(--space-8); }
+
+/* ── Arquivo por ano ─────────────────────────────────────────
+   Mesmos filetes, agrupados. O ano é um numeral serif discreto: a lista
+   continua sendo o objeto, o ano é só onde ela dobra. */
+.nw-archive { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter) var(--space-16); }
+.nw-archive[hidden] { display: none; }
+.nw-year { display: flex; align-items: baseline; gap: var(--space-5); margin-top: var(--space-10); }
+.nw-year-label { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 24px; color: var(--blue-700); }
+.nw-year-count { font-size: 12.5px; color: var(--text-faint); }
+
+/* ── Entrada ─────────────────────────────────────────────────
+   Um fade-and-rise curto, igual ao de Connected Science, e nada mais. */
+.nw-reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+.nw-reveal.is-in { opacity: 1; transform: none; }
+.no-js .nw-reveal { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .nw-reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ── Responsivo ──────────────────────────────────────────────
+   No telefone não existe "direita": a dissolução vira vertical (a foto
+   entra em cima e se apaga para baixo) e a nuvem muda de faixa para
+   'lower' — trocado no script, porque o atributo é a fonte da verdade
+   da faixa. */
+@media (max-width: 900px) {
+  .nw-feature { grid-template-columns: 1fr; gap: var(--space-5); }
+  .nw-rows { grid-template-columns: 1fr; }
+}
+@media (max-width: 780px) {
+  .nw-hero { min-height: 0; display: block; padding-top: 46vw; }
+  .nw-hero-img { height: 62%; object-position: center 18%; }
+  .nw-hero-scrim {
+    background: linear-gradient(180deg, rgba(253,246,238,.30) 0%, rgba(253,246,238,.10) 16%, rgba(253,246,238,.62) 40%, var(--nw-ivory) 62%);
+  }
+  .nw-hero-inner { padding-bottom: var(--space-10); }
+  .nw-hero-copy { max-width: none; }
+  .nw-dek { max-width: 40ch; }
+  .nw-hero--nopic { padding-top: var(--space-12); }
+}
+</style>
 </head>
 <body>
+<script>document.documentElement.classList.remove('no-js');</script>
 <div id="app">
-<main>
+<main class="nw">
 
-  <div style="max-width:var(--container-base);margin:0 auto;padding:var(--space-10) var(--gutter) 0;">
-
-    <div style="max-width:680px;margin-bottom:var(--space-8);">
-      <div class="eyebrow">Newsroom</div>
-      <h1 class="display" style="font-size:var(--fs-page-title);margin-top:12px;">Latest news</h1>
-      <p style="margin-top:14px;font-size:17px;line-height:1.6;color:var(--text-muted);">Top stories, press coverage, awards and appointments across A/P Rosa's research.</p>
-    </div>
-
-    <!-- Featured editorial split: lead (60%) + 2 secondary stacked (40%) -->
-    <div class="news-editorial-split" id="news-editorial-split">
-      <div id="news-feat-primary"></div>
-      <div class="news-secondary-stack" id="news-feat-secondary"></div>
-    </div>
-
-    <!-- Category filters -->
-    <div style="margin-bottom:var(--space-6);">
-      <div class="filter-row">
-        <button class="pill-btn active"   data-cat="all"          onclick="setFilter('all')">All</button>
-        <button class="pill-btn inactive" data-cat="press"        onclick="setFilter('press')">Press</button>
-        <button class="pill-btn inactive" data-cat="awards"       onclick="setFilter('awards')">Awards</button>
-        <button class="pill-btn inactive" data-cat="appointments" onclick="setFilter('appointments')">Appointments</button>
-        <button class="pill-btn inactive" data-cat="institutional"onclick="setFilter('institutional')">Institutional</button>
+  <!-- Hero: a matéria principal. Preenchido pelo script porque a fonte
+       é assets/js/data/news.js — nada de manchete duplicada em HTML. -->
+  <section class="nw-hero" id="nw-hero" aria-labelledby="nw-h1">
+    <img class="nw-hero-img" id="nw-hero-img" alt="" decoding="async">
+    <div class="nw-hero-scrim" aria-hidden="true"></div>
+    <canvas class="nw-cloud" data-cloud="left" aria-hidden="true"></canvas>
+    <div class="nw-hero-inner">
+      <div class="nw-hero-copy">
+        <p class="eyebrow nw-eyebrow">Newsroom · Lead story</p>
+        <h1 id="nw-h1"></h1>
+        <p class="nw-dek" id="nw-dek"></p>
+        <div class="nw-kicker" id="nw-kicker"></div>
+        <a href="#" id="nw-cta"><span class="nw-cta">Read the story →</span></a>
       </div>
     </div>
+  </section>
 
-    <!-- 4-col grid for the rest of the news items -->
-    <div class="news-grid-4" id="news-grid" style="padding-bottom:var(--space-12);"></div>
+  <section class="nw-also nw-reveal" aria-labelledby="nw-also-h">
+    <div class="nw-also-head">
+      <h2 class="nw-also-title" id="nw-also-h">Also this year</h2>
+      <span class="nw-also-count" id="nw-also-count"></span>
+    </div>
+    <div id="nw-features"></div>
+    <div class="nw-rows" id="nw-rows"></div>
+    <div class="nw-more">
+      <a href="#nw-archive" id="nw-more-link"><span class="nw-cta" id="nw-more-label">Earlier years →</span></a>
+    </div>
+  </section>
 
-  </div>
+  <section class="nw-archive" id="nw-archive" aria-labelledby="nw-archive-h" hidden>
+    <h2 class="nw-also-title" id="nw-archive-h" style="position:absolute;left:-9999px;">News archive</h2>
+    <div id="nw-archive-body"></div>
+  </section>
 
 </main>
 </div><!-- /app -->
 
 <script src="assets/js/data/news.js"></script>
 <script src="assets/js/shared.js"></script>
+<script src="assets/js/news-apparition.js" defer></script>
 <script>
-let newsFilter = 'all';
+(function () {
+  'use strict';
+  var ALL = (window.NEWS || []).slice();
+  if (!ALL.length) return;
 
-function articleHref(item) {
-  return 'news/' + item.slug + '.html';
-}
+  function href(item) { return 'news/' + item.slug + '.html'; }
+  function esc(s) { return String(s == null ? '' : s).replace(/&(?![a-z#0-9]+;)/gi, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
-// ── Featured horizontal card ───────────────────────────────────
-function newsFeaturedHTML(item) {
-  const imgCls = 'nc-feat-img-' + item.tone;
-  const srcCls = 'nc-feat-src-' + item.tone;
-  const imgInner = item.image
-    ? `<img src="${item.image}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;">`
-    : '';
-  return `<a href="${articleHref(item)}" class="nc-feat" style="height:100%;min-height:300px;text-decoration:none;display:flex;">
-    <div class="nc-feat-img ${imgCls}" style="flex:0 0 42%;overflow:hidden;">${imgInner}</div>
-    <div class="nc-feat-body">
-      <div style="display:inline-flex;align-items:center;background:var(--wash-orange);color:var(--orange-600);font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:var(--radius-pill);margin-bottom:12px;">Lead story</div>
-      <div class="nc-feat-meta">
-        <span class="${srcCls}">${item.source.toUpperCase()}</span>
-        <span class="nc-feat-sep">/</span>
-        <span class="nc-feat-date">${item.date.toUpperCase()}</span>
-      </div>
-      <div class="nc-feat-headline" style="font-size:clamp(17px,2.2vw,22px);">${item.headline}</div>
-      <span class="nc-feat-cta">Read full story →</span>
-    </div>
-  </a>`;
-}
+  /* Ordem e ano vêm de dateISO quando existe; sem ele, cai para o ano
+     que estiver escrito em `date` (é o que 41 entradas antigas têm) e a
+     ordem do array decide o resto. Entrada nova SEM dateISO é bug. */
+  function year(item) {
+    if (item.dateISO) return +item.dateISO.slice(0, 4);
+    var m = String(item.date || '').match(/(\d{4})/);
+    return m ? +m[1] : 0;
+  }
+  function stamp(item) { return item.dateISO ? item.dateISO : year(item) + '-00-00'; }
+  ALL.sort(function (a, b) { return stamp(b).localeCompare(stamp(a)); });
 
-// ── Secondary card (vertical bar + text) ──────────────────────
-function newsSecondaryHTML(item) {
-  const barCls = 'nc-secondary-bar-' + item.tone;
-  const srcCls = 'nc-secondary-src-' + item.tone;
-  return `<a href="${articleHref(item)}" class="nc-secondary" style="text-decoration:none;flex:1;display:flex;">
-    <div class="nc-secondary-bar ${barCls}"></div>
-    <div class="nc-secondary-body">
-      <div class="nc-secondary-meta">
-        <span class="${srcCls}">${item.source.toUpperCase()}</span>
-        <span style="width:3px;height:3px;border-radius:50%;background:var(--border-strong);display:inline-block;flex-shrink:0;"></span>
-        <span class="nc-secondary-date">${item.date.toUpperCase()}</span>
-      </div>
-      <div class="nc-secondary-headline">${item.headline}</div>
-      <span class="nc-secondary-cta">Read more →</span>
-    </div>
-  </a>`;
-}
+  var lead = ALL.filter(function (n) { return n.lead; })[0] || ALL[0];
+  var rest = ALL.filter(function (n) { return n !== lead; });
+  var newest = year(lead);
+  var thisYear = rest.filter(function (n) { return year(n) === newest; });
+  var older = rest.filter(function (n) { return year(n) !== newest; });
 
-// ── Standard grid card ─────────────────────────────────────────
-function newsCardHTML(item) {
-  const barCls = 'news-card-bar-' + item.tone;
-  const srcCls = 'news-card-source-' + item.tone;
-  return `<a href="${articleHref(item)}" class="news-card" style="text-decoration:none;">
-    <div class="news-card-bar ${barCls}"></div>
-    <div class="news-card-body">
-      <div class="news-card-meta">
-        <span class="${srcCls}">${item.source}</span>
-        <span style="width:3px;height:3px;border-radius:50%;background:var(--border-strong);"></span>
-        <span class="news-card-date">${item.date}</span>
-      </div>
-      <div class="news-card-headline">${item.headline}</div>
-      <span class="news-card-cta">Read more →</span>
-    </div>
-  </a>`;
-}
+  /* ── Hero ── */
+  var hero = document.getElementById('nw-hero');
+  var img = document.getElementById('nw-hero-img');
+  if (lead.image) {
+    img.src = lead.image;
+    img.alt = lead.imageAlt || '';
+    if (lead.imageFocus) img.style.objectPosition = lead.imageFocus;
+  } else {
+    /* Estado degradado, previsto: sem foto o hero é a nuvem e a
+       manchete. Nenhuma imagem entra só para preencher. */
+    hero.classList.add('nw-hero--nopic');
+    img.remove();
+    hero.querySelector('.nw-hero-scrim').remove();
+    hero.querySelector('.nw-cloud').setAttribute('data-cloud', 'wide');
+  }
+  document.getElementById('nw-h1').innerHTML = lead.headline;
+  var dek = document.getElementById('nw-dek');
+  if (lead.dek) dek.innerHTML = lead.dek; else dek.remove();
+  document.getElementById('nw-kicker').innerHTML =
+    '<span class="nw-kicker-src">' + lead.source + '</span>' +
+    '<span class="nw-kicker-dot"></span>' +
+    '<time class="nw-kicker-faint"' + (lead.dateISO ? ' datetime="' + lead.dateISO + '"' : '') + '>' + lead.date + '</time>' +
+    (lead.readMinutes ? '<span class="nw-kicker-dot"></span><span class="nw-kicker-faint">' + lead.readMinutes + ' min read</span>' : '');
+  document.getElementById('nw-cta').href = href(lead);
 
-// ── Filter ─────────────────────────────────────────────────────
-function setFilter(id) {
-  newsFilter = id;
-  document.querySelectorAll('[data-cat]').forEach(b => {
-    b.classList.toggle('active',   b.dataset.cat === id);
-    b.classList.toggle('inactive', b.dataset.cat !== id);
-  });
-  renderGrid();
-}
+  /* No telefone a dissolução é vertical, então a faixa da nuvem muda.
+     matchMedia, não innerWidth: o breakpoint tem de ser o MESMO do CSS
+     e existir num só lugar. */
+  if (window.matchMedia && lead.image) {
+    var mq = window.matchMedia('(max-width: 780px)');
+    var apply = function () {
+      var cv = hero.querySelector('.nw-cloud');
+      if (cv) cv.setAttribute('data-cloud', mq.matches ? 'lower' : 'left');
+    };
+    apply();
+    mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener && mq.addListener(apply);
+  }
 
-// ── Render grid (items 3+, filtered) ──────────────────────────
-function renderGrid() {
-  const rest = NEWS.slice(3).filter(n => newsFilter === 'all' || n.category === newsFilter);
-  const grid = document.getElementById('news-grid');
-  grid.innerHTML = rest.length
-    ? rest.map(newsCardHTML).join('')
-    : (newsFilter === 'all'
-        ? ''
-        : '<p style="color:var(--text-muted);padding:var(--space-10) 0;grid-column:1/-1;">No items in this category.</p>');
-}
+  /* ── Also this year: até duas placas + filetes ── */
+  var withPic = thisYear.filter(function (n) { return n.image; }).slice(0, 2);
+  document.getElementById('nw-features').innerHTML = withPic.map(function (n, i) {
+    return '<a class="nw-feature" href="' + href(n) + '">' +
+      '<div class="nw-feature-media"><img src="' + esc(n.image) + '" alt="' + esc(n.imageAlt || '') + '" loading="lazy" decoding="async">' +
+      '<div class="nw-feature-veil" aria-hidden="true"></div></div>' +
+      '<div><div class="nw-feature-src' + (i === 0 ? ' nw-feature-src--lead' : '') + '">' + n.source + ' · ' + n.date + '</div>' +
+      '<div class="nw-feature-title">' + n.headline + '</div>' +
+      (n.dek ? '<p class="nw-feature-dek">' + n.dek + '</p>' : '') +
+      '</div></a>';
+  }).join('');
 
-// ── Init ───────────────────────────────────────────────────────
-document.getElementById('news-feat-primary').innerHTML   = newsFeaturedHTML(NEWS[0]);
-document.getElementById('news-feat-secondary').innerHTML = NEWS.slice(1, 3).map(newsSecondaryHTML).join('');
-renderGrid();
+  function rowHTML(n) {
+    return '<a class="nw-row" href="' + href(n) + '">' +
+      '<span class="nw-row-date">' + n.date + '</span>' +
+      '<span class="nw-row-title">' + n.headline + '</span></a>';
+  }
+  var rows = thisYear.filter(function (n) { return withPic.indexOf(n) < 0; });
+  document.getElementById('nw-rows').innerHTML = rows.map(rowHTML).join('');
+  document.getElementById('nw-also-count').textContent =
+    newest + ' · ' + thisYear.length + (thisYear.length === 1 ? ' entry' : ' entries');
+
+  /* ── Arquivo ── */
+  var years = [];
+  older.forEach(function (n) { var y = year(n); if (years.indexOf(y) < 0) years.push(y); });
+  document.getElementById('nw-archive-body').innerHTML = years.map(function (y) {
+    var items = older.filter(function (n) { return year(n) === y; });
+    return '<div class="nw-year"><span class="nw-year-label">' + y + '</span>' +
+      '<span class="nw-year-count">' + items.length + (items.length === 1 ? ' entry' : ' entries') + '</span></div>' +
+      '<div class="nw-rows">' + items.map(rowHTML).join('') + '</div>';
+  }).join('');
+
+  var more = document.getElementById('nw-more-link');
+  var archive = document.getElementById('nw-archive');
+  document.getElementById('nw-more-label').textContent =
+    years.length ? 'Earlier years, ' + years[years.length - 1] + '–' + years[0] + ' →' : '';
+  if (!years.length) { more.remove(); } else {
+    more.addEventListener('click', function (e) {
+      e.preventDefault();
+      archive.hidden = false;
+      more.remove();
+      archive.scrollTop;                       /* força layout antes do reveal */
+    });
+  }
+
+  /* ── Entrada ──
+     Progressive enhancement com fail-safe: callbacks de
+     IntersectionObserver rodam no ciclo de renderização, que o navegador
+     suspende em aba de fundo — uma página aberta em segundo plano ficaria
+     em opacity 0 para sempre. Depois de 2,5s a entrada já não é entrada. */
+  var items = document.querySelectorAll('.nw-reveal');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!('IntersectionObserver' in window) || reduce) {
+    Array.prototype.forEach.call(items, function (el) { el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+    Array.prototype.forEach.call(items, function (el) { io.observe(el); });
+    setTimeout(function () {
+      Array.prototype.forEach.call(items, function (el) {
+        if (!el.classList.contains('is-in')) { el.style.transition = 'none'; el.classList.add('is-in'); }
+      });
+    }, 2500);
+  }
+})();
 </script>
 </body>
 </html>
