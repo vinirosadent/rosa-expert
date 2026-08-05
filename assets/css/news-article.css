@@ -80,6 +80,27 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
 .na-hero--nopic { min-height: clamp(340px, 40vh, 420px); }
 .na-hero--nopic .na-hero-copy { max-width: 34rem; }
 
+/* ── Hero com motivo de pontos ────────────────────────────────────────
+   Materias de periodico: em vez de fotografia, o campo de pontos
+   flutuantes da home aplicado a uma anatomia (assets/js/news-hero-motif.js).
+   Mantem a altura do hero COM foto — o motivo precisa da altura para caber
+   na zona livre sem encostar na .na-topbar.
+   O canvas e' elemento substituido: com position:absolute; inset:0 e SEM
+   width/height explicitos ele usa o tamanho intrinseco (300x150) e desenha
+   num quadradinho no canto. Ja' custou um diagnostico inteiro no hero da
+   news.html — width/height 100% sao obrigatorios. */
+.na-hero--motif { min-height: clamp(420px, 56vh, 540px); }
+.na-hero-motif {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 1; pointer-events: none;
+}
+/* Nao ha' "direita" no telefone: o texto ocupa a largura toda e o motivo
+   colidiria com ele. */
+@media (max-width: 780px) {
+  .na-hero--motif { min-height: 0; padding-top: var(--space-10); }
+  .na-hero-motif { display: none; }
+}
+
 /* ── Barra do topo: volta + tipo + idiomas, numa linha ────────
    Em linha própria, o "← All news" empurrava a matéria ~45px para baixo
    do header sem ganhar nada. Ele pertence à régua que já existe. */

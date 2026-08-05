@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOCK — motivo de pontos do hero de periodico</title>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/news-article.css">
+<style>
+  /* Pagina isolada: so' o hero, sem shared.js, sem news-article.js. Serve
+     para saber se o problema esta' no motivo ou na pagina de materia. */
+  body { background:#FDF6EE; margin:0; }
+  .dbg { position:absolute; inset:0; z-index:9; pointer-events:none; }
+  .dbg i { position:absolute; top:0; bottom:0; width:1px; background:rgba(239,124,0,.5); }
+  .dbg b { position:absolute; left:0; right:0; height:1px; background:rgba(226,75,74,.55); font:10px/1 sans-serif; color:#A32D2D; }
+  .note { max-width:1180px; margin:0 auto; padding:24px clamp(1.25rem,5vw,4rem); font:14px/1.6 system-ui; color:#33424F; }
+</style></head>
+<body>
+<main class="na">
+  <header class="na-hero na-hero--motif" data-hero-motif="petri-paper">
+    <div class="dbg">
+      <i style="left:48%"></i><i style="left:71%"></i><i style="left:94%"></i>
+      <b style="top:24%"></b>
+    </div>
+    <div class="na-hero-inner">
+      <div class="na-topbar">
+        <a href="#" class="na-back">&larr; All news</a>
+        <span class="na-badge na-badge--appt">Appointment</span>
+        <span class="na-topbar-rule"></span>
+        <div class="lang-switch"><button class="lang-opt active">EN</button><span class="lang-sep">·</span><button class="lang-opt">ES</button><span class="lang-sep">·</span><button class="lang-opt">PT</button><span class="lang-sep">·</span><button class="lang-opt">FR</button><span class="lang-sep">·</span><button class="lang-opt">中文</button></div>
+      </div>
+      <div class="na-hero-copy">
+        <div class="na-meta"><span class="na-meta-src na-meta-src--appt">Journal of Clinical Periodontology</span><span class="na-meta-dot"></span><span class="na-meta-faint">2026</span></div>
+        <h1 class="na-h1">A/P Rosa joins the Editorial Board of the Journal of Clinical Periodontology</h1>
+        <p class="na-deck">The Journal of Clinical Periodontology is the flagship publication of the European Federation of Periodontology.</p>
+      </div>
+    </div>
+  </header>
+  <div class="note">
+    Linhas laranja: 48% · 71% · 94% da largura. Linha vermelha: 24% da altura
+    (limite inferior da topbar). Nenhum ponto pode ficar acima dela nem fora
+    das laranjas das pontas. Ciclo: panorama &rarr; faixa &rarr; insercao.
+    <span id="diag" style="display:block;margin-top:12px;font-weight:600"></span>
+  </div>
+</main>
+<script src="assets/js/news-hero-motif.js?v=20"></script>
+<script>
+  var d = document.getElementById('diag');
+  var cv = document.querySelector('.na-hero-motif');
+  d.textContent = cv
+    ? 'canvas criado: ' + cv.width + '×' + cv.height + ' (css ' + cv.clientWidth + '×' + cv.clientHeight + ')'
+    : 'FALHOU: o canvas nao foi criado — o script nao rodou ou o motivo nao foi encontrado.';
+</script>
+</body></html>
