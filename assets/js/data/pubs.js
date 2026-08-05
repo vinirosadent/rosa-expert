@@ -86,6 +86,9 @@ const PUBS = [
     summary: 'A practical framework for stronger, more meaningful biocompatibility assessment in biomaterials research.',
   },
 
+  /* ── 2026 ───────────────────────────────────────────────── */
+  { title: 'Microbial biofilm reduces the strength reliability of 3D-printed appliance resins', authors: 'Watt S.M., Ng Z., Rosa V., Foong K.W.C.', venue: 'Dentistry Journal', year: 2026, category: 'bio', doi: '10.3390/dj14080487' },
+
   /* ── 2025 ───────────────────────────────────────────────── */
   { title: 'From human dental pulp stem cells to functional cholinergic neurons: An optimized neurogenic differentiation protocol for new approach methodologies', authors: 'Sawutdeechaikul P., Pimpakan T., Van Phan T., Rosa V., Ferreira J.N.', venue: 'Journal of Dental Sciences', year: 2025, category: 'regen', doi: '10.1016/j.jds.2025.10.025' },
   { title: 'Guidance on biomaterials for periodontal tissue regeneration: Fabrication methods, materials and biological considerations', authors: 'Fischer N.G., de Souza Araújo I.J., Daghrery A., Yu B., Dal-Fabbro R., dos Reis-Prado A.H., Silikas N., Rosa V., Aparicio C., Watts D.C., Bottino M.C.', venue: 'Dental Materials', year: 2025, category: 'ai', doi: '10.1016/j.dental.2024.12.019' },
