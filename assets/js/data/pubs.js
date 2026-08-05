@@ -87,7 +87,7 @@ const PUBS = [
   },
 
   /* ── 2026 ───────────────────────────────────────────────── */
-  { title: 'Microbial biofilm reduces the strength reliability of 3D-printed appliance resins', authors: 'Watt S.M., Ng Z., Rosa V., Foong K.W.C.', venue: 'Dentistry Journal', year: 2026, category: 'bio', doi: '10.3390/dj14080487' },
+  { title: 'Microbial biofilm reduces the strength reliability of 3D-printed appliance resins', authors: 'Watt S.M., Ng Z., Rosa V., Foong K.W.C.', venue: 'Dentistry Journal', year: 2026, category: 'bio' },
 
   /* ── 2025 ───────────────────────────────────────────────── */
   { title: 'From human dental pulp stem cells to functional cholinergic neurons: An optimized neurogenic differentiation protocol for new approach methodologies', authors: 'Sawutdeechaikul P., Pimpakan T., Van Phan T., Rosa V., Ferreira J.N.', venue: 'Journal of Dental Sciences', year: 2025, category: 'regen', doi: '10.1016/j.jds.2025.10.025' },
