@@ -1,6 +1,11 @@
 /* ============================================================
    data/pubs.js — Publications data
-   category: 'bio' | 'regen' | 'ai'
+   category: 'bio' | 'regen' | 'design' | 'review' | 'ai'
+     bio    → Biomaterials & biointerfaces
+     regen  → Regeneration & living models
+     design → Design intelligence   (modelo/otimização guiando o desenho)
+     review → Reviews               (revisões e análises críticas)
+     ai     → Methods & translation (guidance papers, standards, política)
    featured: true  →  shown in "Selected breakthroughs" cards
    doi: string     →  enables direct DOI link (optional)
    ============================================================ */
@@ -11,7 +16,7 @@ const PUBS = [
     title: 'pH prediction in commercial and experimental calcium silicate cements via material informatics',
     authors: 'Sabino C.F., Grymak A., Silikas N., Rosa V.',
     venue: 'Dental Materials', year: 2025,
-    featured: true, category: 'ai', badge: 'Material informatics',
+    featured: true, category: 'design', badge: 'Design intelligence',
     doi: '10.1016/j.dental.2025.08.018',
     spotlight: 'publications/ph-prediction-calcium-silicate.html',
     thumb: 'assets/spotlights/ph-prediction-calcium-silicate/card.png',
@@ -21,7 +26,7 @@ const PUBS = [
     title: 'Designing C3S cements with on-demand properties for precision endodontics',
     authors: 'Cahyanto A., Rath P., Teo T.X., Tong S.S., Malhotra R., Cavalcanti B.N., Lim L.Z., Min K.S., Ho D., Lu W.F., Rosa V.',
     venue: 'Journal of Dental Research', year: 2023,
-    featured: true, category: 'ai', badge: 'On-demand biomaterials',
+    featured: true, category: 'design', badge: 'On-demand biomaterials',
     doi: '10.1177/00220345231198185',
     spotlight: 'publications/designing-c3s-cements-on-demand.html',
     thumb: 'assets/spotlights/designing-c3s-cements-on-demand/card.png',
@@ -32,7 +37,7 @@ const PUBS = [
     authors: 'Rosa V., Sriram G., McDonald N., Cavalcanti B.N.',
     venue: 'International Endodontic Journal', year: 2022,
     doi: '10.1111/iej.13712',
-    category: 'ai',
+    category: 'review',
     summary: 'A conceptual and methodological analysis of how pulp regeneration research is designed, interpreted and translated, highlighting the need for more meaningful experimental models.',
   },
   {
@@ -118,7 +123,7 @@ const PUBS = [
   { title: 'Antimicrobial-free graphene nanocoating decreases fungal yeast-to-hyphal switching and maturation of cross-kingdom biofilms containing clinical and antibiotic-resistant bacteria', authors: 'Agarwalla S.V., Ellepola K., Sorokin V., Ihsan M., Silikas N., Neto A.C., Seneviratne C.J., Rosa V.', venue: 'Biomaterials and Biosystems', year: 2022, category: 'bio', doi: '10.1016/j.bbiosy.2022.100069' },
   { title: 'Advanced scaffolds and strategies for dental pulp regeneration', authors: 'Soares D.G., Rosa V.', venue: 'Dental Clinics of North America', year: 2022, category: 'regen', doi: '10.1016/j.cden.2022.05.010' },
   { title: 'Characterization of silver diamine fluoride cytotoxicity using microfluidic tooth-on-a-chip and gingival equivalents', authors: 'Hu S., Muniraj G., Mishra A., Hong K., Lum J.L., Hong C.H.L., Rosa V., Sriram G.', venue: 'Dental Materials', year: 2022, category: 'regen', doi: '10.1016/j.dental.2022.06.025' },
-  { title: 'Pandemic preparedness and response: a foldable tent to safely remove contaminated dental aerosols', authors: 'Rosa V., Agarwalla S.V., Tan B.L., Choo S.Y., Sim Y.F., Boey F.Y.C., Anantharaman S., Duggal M.S., Tan K.S.', venue: 'Applied Sciences', year: 2022, category: 'ai', doi: '10.3390/app12157409' },
+  { title: 'Pandemic preparedness and response: a foldable tent to safely remove contaminated dental aerosols', authors: 'Rosa V., Agarwalla S.V., Tan B.L., Choo S.Y., Sim Y.F., Boey F.Y.C., Anantharaman S., Duggal M.S., Tan K.S.', venue: 'Applied Sciences', year: 2022, category: 'design', doi: '10.3390/app12157409' },
   { title: 'RoBDEMAT: a risk of bias tool and guideline to support reporting of pre-clinical dental materials research and assessment of systematic reviews', authors: 'Delgado A.H., Sauro S., Lima A.F., Loguercio A.D., Della Bona A., Mazzoni A., Collares F.M., Staxrud F., Ferracane J., Tsoi J., Amato J., Neuhaus K.W., Ceballos L., Breschi L., Hanning M., Melo M.A., Özcan M., Scotti N., Opdam N., Yamaguchi S., Paris S., Turkun L.S., Doméjean S., Rosa V., Palin W., Schwendicke F.', venue: 'Journal of Dentistry', year: 2022, category: 'ai', doi: '10.1016/j.jdent.2022.104350' },
   { title: 'SMART: silver diamine fluoride reduces microtensile bond strength of glass ionomer cement to sound and artificial caries-affected dentin', authors: 'Khor M.M.-Y., Rosa V., Sim C.J., Hong C.H.L., Hu S.', venue: 'Dental Materials Journal', year: 2022, category: 'bio', doi: '10.4012/dmj.2021-319' },
 
@@ -128,7 +133,7 @@ const PUBS = [
   { title: 'Persistent inhibition of Candida albicans biofilm and hyphae growth on titanium by graphene nanocoating', authors: 'Agarwalla S.V., Ellepola K., Silikas N., Castro Neto A.H., Seneviratne C.J., Rosa V.', venue: 'Dental Materials', year: 2021, category: 'bio', doi: '10.1016/j.dental.2020.11.028' },
   { title: 'Graphene nanocoating provides superb long-lasting corrosion protection to titanium alloy', authors: 'Malhotra R., Han Y., Nijhuis C.A., Silikas N., Castro Neto A.H., Rosa V.', venue: 'Dental Materials', year: 2021, category: 'bio', doi: '10.1016/j.dental.2021.08.004' },
   { title: 'Pulsed electromagnetic fields synergize with graphene to enhance dental pulp stem cell-derived motor neurogenesis by targeting TRPC1 channel', authors: 'Madanagopal T.T., Tai Y.K., Lim S.H., Fong C.H.H., Cao T., Rosa V., Franco-Obregón A.', venue: 'European Cells and Materials', year: 2021, category: 'regen', doi: '10.22203/eCM.v041a16' },
-  { title: 'Two-photon fluorescence microscopy and applications in angiogenesis and related molecular events', authors: 'Lee M., Kannan S., Muniraj G., Rosa V., Lu W.F., Fuh J.Y.H., Sriram G., Cao T.', venue: 'Tissue Engineering Part B: Reviews', year: 2021, category: 'ai', doi: '10.1089/ten.TEB.2021.0140' },
+  { title: 'Two-photon fluorescence microscopy and applications in angiogenesis and related molecular events', authors: 'Lee M., Kannan S., Muniraj G., Rosa V., Lu W.F., Fuh J.Y.H., Sriram G., Cao T.', venue: 'Tissue Engineering Part B: Reviews', year: 2021, category: 'review', doi: '10.1089/ten.TEB.2021.0140' },
   { title: 'Characterization, antimicrobial effects, and cytocompatibility of a root canal sealer produced by pozzolan reaction between calcium hydroxide and silica', authors: 'Kim M.-A., Rosa V., Neelakantan P., Hwang Y.-C., Min K.-S.', venue: 'Materials', year: 2021, category: 'bio', doi: '10.3390/ma14112863' },
   { title: 'Mechanical properties and in vitro cytocompatibility of dense and porous Ti-6Al-4V ELI manufactured by selective laser melting technology for biomedical applications', authors: 'Suresh S., Sun C.-N., Tekumalla S., Rosa V., Ling Nai S.M., Wong R.C.W.', venue: 'Journal of the Mechanical Behavior of Biomedical Materials', year: 2021, category: 'bio', doi: '10.1016/j.jmbbm.2021.104712' },
 
@@ -157,7 +162,7 @@ const PUBS = [
   {
     title: 'Taguchi methods to optimize the properties and bioactivity of 3D printed polycaprolactone/mineral trioxide aggregate scaffold: theoretical predictions and experimental validation',
     authors: 'Bhargav A., Min K.-S., Wen Feng L., Fuh J.Y.H., Rosa V.',
-    venue: 'Journal of Biomedical Materials Research Part B', year: 2020, category: 'ai',
+    venue: 'Journal of Biomedical Materials Research Part B', year: 2020, category: 'design',
     featured: true, badge: 'Design of experiments',
     doi: '10.1002/jbm.b.34417',
     spotlight: 'publications/taguchi-pcl-mta-scaffold.html',
@@ -166,12 +171,12 @@ const PUBS = [
   },
 
   /* ── 2018 ── */
-  { title: 'Applications of additive manufacturing in dentistry: A review', authors: 'Bhargav A., Sanjairaj V., Rosa V., Feng L.W., Fuh YH J.', venue: 'Journal of Biomedical Materials Research - Part B Applied Biomaterials', year: 2018, category: 'ai', doi: '10.1002/jbm.b.33961' },
+  { title: 'Applications of additive manufacturing in dentistry: A review', authors: 'Bhargav A., Sanjairaj V., Rosa V., Feng L.W., Fuh YH J.', venue: 'Journal of Biomedical Materials Research - Part B Applied Biomaterials', year: 2018, category: 'review', doi: '10.1002/jbm.b.33961' },
   { title: 'Carbon nanocomposites for implant dentistry and bone tissue engineering', authors: 'Madanagopal T.T., Agarwalla S.V., Rosa V.', venue: 'Applications of Nanocomposite Materials in Dentistry', year: 2018, category: 'regen', doi: '10.1016/B978-0-12-813742-0.00003-1' },
   { title: 'Effect of staining beverages on color and translucency of CAD/CAM composites', authors: 'Quek S.H.Q., Yap A.U.J., Rosa V., Tan K.B.C., Teoh K.H.', venue: 'Journal of Esthetic and Restorative Dentistry', year: 2018, category: 'bio', doi: '10.1111/jerd.12359' },
   { title: 'Enhanced Skin Permeation of Anti-wrinkle Peptides via Molecular Modification', authors: 'Lim S.H., Sun Y., Madanagopal Thiruvallur T., Rosa V., Kang L.', venue: 'Scientific Reports', year: 2018, category: 'bio', doi: '10.1038/s41598-017-18454-z' },
   { title: 'Graphene onto medical grade titanium: an atom-thick multimodal coating that promotes osteoblast maturation and inhibits biofilm formation from distinct species', authors: 'Dubey N., Ellepola K., Decroix F.E.D., Morin J.L.P., Castro Neto A.H., Seneviratne C.J., Rosa V.', venue: 'Nanotoxicology', year: 2018, category: 'bio', doi: '10.1080/17435390.2018.1434911' },
-  { title: 'Optimization of surface scaffold morphology and structure using Taguchi’s design of experiments', authors: 'Bhargav A., Rosa V., Feng L.W., Fuh J.Y.H.', venue: 'Frontiers in Biomedical Devices, BIOMED - 2018 Design of Medical Devices Conference, DMD 2018', year: 2018, category: 'ai', doi: '10.1115/DMD2018-6813' },
+  { title: 'Optimization of surface scaffold morphology and structure using Taguchi’s design of experiments', authors: 'Bhargav A., Rosa V., Feng L.W., Fuh J.Y.H.', venue: 'Frontiers in Biomedical Devices, BIOMED - 2018 Design of Medical Devices Conference, DMD 2018', year: 2018, category: 'design', doi: '10.1115/DMD2018-6813' },
   { title: 'Root Canal Filling Quality of a Premixed Calcium Silicate Endodontic Sealer Applied Using Gutta-percha Cone-mediated Ultrasonic Activation', authors: 'Kim J.-A., Hwang Y.-C., Rosa V., Yu M.-K., Lee K.-W., Min K.-S.', venue: 'Journal of Endodontics', year: 2018, category: 'bio', doi: '10.1016/j.joen.2017.07.023' },
   { title: 'Thermo-setting glass ionomer cements promote variable biological responses of human dental pulp stem cells', authors: 'Collado-González M., Pecci-Lloret M.R., Tomás-Catalá C.J., García-Bernal D., Oñate-Sánchez R.E., Llena C., Forner L., Rosa V., Rodríguez-Lozano F.J.', venue: 'Dental Materials', year: 2018, category: 'regen', doi: '10.1016/j.dental.2018.03.015' },
 

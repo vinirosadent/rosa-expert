@@ -41,7 +41,9 @@
       <button class="pill-btn active"   data-filter="all"  onclick="setPubFilter('all')">All</button>
       <button class="pill-btn inactive" data-filter="bio"  onclick="setPubFilter('bio')">Biomaterials &amp; biointerfaces</button>
       <button class="pill-btn inactive" data-filter="regen"onclick="setPubFilter('regen')">Regeneration &amp; living models</button>
-      <button class="pill-btn inactive" data-filter="ai"   onclick="setPubFilter('ai')">AI, methods &amp; translation</button>
+      <button class="pill-btn inactive" data-filter="design" onclick="setPubFilter('design')">Design intelligence</button>
+      <button class="pill-btn inactive" data-filter="review" onclick="setPubFilter('review')">Reviews</button>
+      <button class="pill-btn inactive" data-filter="ai"   onclick="setPubFilter('ai')">Methods &amp; translation</button>
       <input class="pub-search-input" type="text" id="pub-search" placeholder="Search…" oninput="onPubSearch(this.value)" aria-label="Search publications">
     </div>
   </div>
@@ -79,7 +81,9 @@ const openBlocks = {};
 
 // ── Category colours ───────────────────────────────────────────
 function catTone(cat) {
-  if (cat === 'ai')   return { wash:'var(--wash-orange)', ink:'var(--orange-600)', label:'AI, methods & translation',    cls:'tag-orange' };
+  if (cat === 'design')return{ wash:'var(--wash-orange)', ink:'var(--orange-600)', label:'Design intelligence',           cls:'tag-orange' };
+  if (cat === 'review')return{ wash:'var(--green-50)',    ink:'var(--green-500)',  label:'Reviews',                       cls:'tag-teal' };
+  if (cat === 'ai')   return { wash:'var(--slate-100)',   ink:'var(--slate-700)',  label:'Methods & translation',         cls:'tag-blue' };
   if (cat === 'regen')return { wash:'var(--wash-teal)',   ink:'var(--teal-600)',   label:'Regeneration & living models',  cls:'tag-teal' };
   if (cat === 'bio')  return { wash:'var(--wash-blue)',   ink:'var(--blue-600)',   label:'Biomaterials & biointerfaces',  cls:'tag-blue' };
   return                     { wash:'var(--wash-teal)',   ink:'var(--teal-600)',   label:'Collaborative applications',    cls:'tag-teal' };
