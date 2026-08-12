@@ -15,6 +15,18 @@
 .lang-sep { color: var(--border-strong); user-select: none; }
 .bio-lang-row { display: flex; align-items: center; gap: 14px; margin-top: var(--space-8); }
 .bio-lang-rule { flex: 1; height: 1px; background: var(--border-subtle); }
+
+/* ── Arabic: text direction only. Page layout stays LTR by design. ───── */
+html[lang="ar"] [data-i18n] { direction: rtl; text-align: right; unicode-bidi: isolate; }
+html[lang="ar"] .eyebrow[data-i18n],
+html[lang="ar"] .editorial-col-header[data-i18n] { letter-spacing: 0; }
+html[lang="ar"] .display[data-i18n] { font-family: 'Noto Kufi Arabic', var(--font-sans); font-weight: 600; line-height: 1.45; }
+html[lang="ar"] .bio-lede,
+html[lang="ar"] .bio-body { font-family: 'Noto Naskh Arabic', var(--font-serif); line-height: 1.95; }
+html[lang="ar"] .bio-lede { font-size: 20px; }
+html[lang="ar"] .bio-body { font-size: 16px; }
+html[lang="ar"] .editorial-name[data-i18n] { font-family: 'Noto Naskh Arabic', var(--font-serif); font-style: normal; }
+html[lang="ar"] .award-text[data-i18n] { font-family: 'Noto Kufi Arabic', var(--font-sans); }
 </style>
 </head>
 <body>
@@ -41,7 +53,8 @@
         <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
         <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
         <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
-        <button type="button" class="lang-opt" data-lang="zh">中文</button>
+        <button type="button" class="lang-opt" data-lang="zh">中文</button><span class="lang-sep">·</span>
+        <button type="button" class="lang-opt" data-lang="ar" lang="ar">العربية</button>
       </div>
     </div>
 
@@ -194,13 +207,45 @@ var I18N = {
     comm1: "主席，IADR 牙科材料组",
     comm2: "董事会成员，牙科材料学会（Academy of Dental Materials）",
     comm3: "IADR 青年研究者奖委员会"
+  },
+  ar: {
+    eyebrow: "السيرة العلمية",
+    subhead: "أستاذ مشارك، كلية طب الأسنان، جامعة سنغافورة الوطنية",
+    secAboutEyebrow: "نبذة", secAboutTitle: "نبذة عن فينيسيوس روزا",
+    lede: "الأستاذ المشارك فينيسيوس روزا هو أكاديمي وباحث في جامعة سنغافورة الوطنية. تلقّى تدريبه في طب الأسنان وعلوم المواد، وتركّز أبحاثه على كيفية الاستفادة من المواد الحيوية والخلايا والأساليب الحاسوبية لتطوير طب الأسنان التجديدي وتقنيات صحة الفم.",
+    p1: "يركّز عمله على استخدام الذكاء الاصطناعي في تصميم المواد الحيوية وتقييمها، من خلال مناهج قائمة على البيانات للتنبؤ بخصائص المواد واستجاباتها البيولوجية. كما تشمل أبحاثه طب الأسنان التجديدي، والنماذج المشتقة من الخلايا الجذعية، والمواد النانوية، مع اهتمام خاص بكيفية تفاعل المواد مع الخلايا والأنسجة.",
+    p2: "حصل فينيسيوس على درجة الدكتوراه في جراحة الأسنان (DDS) من جامعة باسو فوندو، ودرجتي الماجستير والدكتوراه في مواد طب الأسنان من جامعة ساو باولو. وأجرى أبحاث الدكتوراه بالتعاون مع البروفيسور جاك إي. نور في جامعة ميشيغان. وقد أظهرت أبحاثه خلال الدكتوراه إمكانية تجديد نسيج شبيه بلبّ الأسنان داخل قنوات جذور بشرية كاملة الطول باستخدام الخلايا الجذعية المأخوذة من لبّ الأسنان وسقالات حيوية قابلة للحقن.",
+    p3: "حظيت أبحاثه بتقدير دولي، من بينها جائزة George C. Paffenbarger Award من أكاديمية مواد طب الأسنان، وجائزة IADR Distinguished Scientist Young Investigator Award، وجائزة IADR Innovation in Oral Care Award. كما حصل باحثون تحت إشرافه على جوائز من الجمعية الدولية لأبحاث طب الأسنان (IADR) ومن مجموعاتها العلمية المتخصصة.",
+    p4: "يساهم فينيسيوس في المجتمع العلمي من خلال أدوار قيادية في التحرير العلمي، والمجالس الاستشارية، والمشاركة في الجمعيات المهنية. وفي جامعة سنغافورة الوطنية، شملت مساهماته تولّي منصب نائب العميد للبحث العلمي، وإنشاء أول بنك لأنسجة الأسنان وبنك للخلايا الجذعية السنية في سنغافورة، إضافة إلى تطوير الاستراتيجية التي أدّت إلى تأسيس برنامج ORCHIDS.",
+    p5: "ومن خلال البحث العلمي والإشراف والقيادة الأكاديمية، يواصل فينيسيوس تطوير مناهج أكثر قدرة على التنبؤ، وأكثر ارتباطاً بالبيولوجيا، وأكثر أهمية من الناحية السريرية في أبحاث صحة الفم والابتكار.",
+    secAwardsEyebrow: "أبرز المحطات المهنية", secAwardsTitle: "الجوائز والتكريم",
+    traineeEyebrow: "إنجازات الباحثين تحت إشرافه",
+    trainee1: "IADR Kulzer Travel Award — مشرف مشارك", trainee2: "IADR Kulzer Travel Award — مشرف",
+    trainee3: "IADR Pediatric Oral Health Research Group Student Award — مشرف مشارك",
+    trainee4: "IADR-APR Unilever Hatton Award — مشرف",
+    secEditEyebrow: "خدمة المجال العلمي", secEditTitle: "الأدوار التحريرية والاستشارية",
+    colAssocEditor: "محرر مشارك", colEditBoard: "هيئة التحرير والمجالس الاستشارية", colCommittee: "اللجان ومجموعات العمل",
+    comm1: "رئيس مجموعة مواد طب الأسنان في IADR",
+    comm2: "عضو مجلس الإدارة، Academy of Dental Materials",
+    comm3: "لجنة جائزة الباحث الشاب في IADR"
   }
 };
 (function () {
   var nodes = document.querySelectorAll('[data-i18n]');
   var EN = {}; nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; }); I18N.en = EN;
+  // Arabic webfonts are fetched only the first time AR is selected, so
+  // readers of the other four languages pay nothing for them.
+  var arFontsLoaded = false;
+  function loadArabicFonts() {
+    if (arFontsLoaded) return; arFontsLoaded = true;
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap';
+    document.head.appendChild(l);
+  }
   function setLang(lang) {
     var dict = I18N[lang]; if (!dict) return;
+    if (lang === 'ar') loadArabicFonts();
     nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'); if (dict[k] != null) el.innerHTML = dict[k]; });
     document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
     document.querySelectorAll('.lang-opt').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
