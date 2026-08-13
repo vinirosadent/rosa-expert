@@ -77,6 +77,29 @@
   var mark = rail.querySelector('.na-rail-mark');
   var current = -1;
 
+  /* O trilho é montado por JS DEPOIS que o i18n inline já capturou os nós da
+     página, então ele nunca entra na troca de idioma: o rótulo ficaria em
+     inglês e os itens congelados no idioma do carregamento. Ressincronizar
+     aqui é mais barato que reescrever o IIFE inline das 41 páginas.
+     Fallback embutido porque "indexLabel" não existe nos dicionários. */
+  var RAIL_LABEL = {
+    en: 'In this story', es: 'En esta historia', pt: 'Nesta matéria',
+    fr: 'Dans cet article', zh: '\u672C\u6587\u5BFC\u8BFB',
+    ar: '\u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u062A\u0642\u0631\u064A\u0631'
+  };
+  var label = rail.querySelector('.na-rail-label');
+  function syncRail(lang) {
+    var dict = (window.I18N || {})[lang] || {};
+    if (label) label.innerHTML = dict.indexLabel || RAIL_LABEL[lang] || RAIL_LABEL.en;
+    /* o texto do item vem do h2 já traduzido, não de uma cópia guardada */
+    items.forEach(function (a, k) { if (subs[k]) a.textContent = subs[k].textContent; });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) {
+    b.addEventListener('click', function () { syncRail(b.getAttribute('data-lang')); });
+  });
+  var on = document.querySelector('.lang-opt.active');
+  syncRail(on ? on.getAttribute('data-lang') : 'en');
+
   function activate(i) {
     if (i === current) return;
     current = i;
