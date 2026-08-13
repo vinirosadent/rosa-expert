@@ -302,3 +302,47 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
   .na-hero-copy { max-width: none; }
   .na-hero--nopic { padding-top: var(--space-10); }
 }
+
+/* ── Árabe ───────────────────────────────────────────────────────────────
+   Só a direção do TEXTO. O layout não espelha: foto, trilho e coluna
+   lateral ficam onde estão nas outras quatro línguas (decisão de 13 ago
+   2026). `unicode-bidi: isolate` é o que coloca o ponto final e os blocos
+   latinos — "IADR", "Vinicius Rosa", "ISO/TC 194" — na posição certa
+   dentro da frase árabe; sem ele a pontuação migra para a ponta errada.
+
+   Todo `letter-spacing` é zerado: o árabe é cursivo e o espaçamento entre
+   letras DESLIGA a ligadura, quebrando a palavra em glifos soltos. Os
+   rótulos do site usam .10–.14em, então isso valeria para badge, record,
+   keyword e trilho — todos abaixo.
+
+   As duas famílias Noto entram por news-article.js só no 1º clique em AR;
+   DM Sans e Source Serif 4 não têm glifo árabe e o fallback do sistema
+   varia de máquina para máquina. */
+html[lang="ar"] [data-i18n] { direction: rtl; text-align: right; unicode-bidi: isolate; }
+html[lang="ar"] .na-h1,
+html[lang="ar"] .na-badge,
+html[lang="ar"] .na-record-label,
+html[lang="ar"] .na-kw-label,
+html[lang="ar"] .na-kw-list a,
+html[lang="ar"] .na-quote-label,
+html[lang="ar"] .na-rail-label { letter-spacing: normal; }
+/* Árabe não tem itálico; o navegador o falsifica inclinando o glifo. */
+html[lang="ar"] .na-deck,
+html[lang="ar"] .na-quote p { font-style: normal; }
+html[lang="ar"] .na-h1,
+html[lang="ar"] .na-badge,
+html[lang="ar"] .na-back,
+html[lang="ar"] .na-record-label,
+html[lang="ar"] .na-kw-label,
+html[lang="ar"] .na-kw-list a { font-family: 'Noto Kufi Arabic', var(--font-sans); }
+html[lang="ar"] .na-h1 { line-height: 1.4; }
+html[lang="ar"] .na-deck,
+html[lang="ar"] .na-body p,
+html[lang="ar"] .na-quote p,
+html[lang="ar"] .na-cap-text,
+html[lang="ar"] .na-record-org,
+html[lang="ar"] .na-note p { font-family: 'Noto Naskh Arabic', var(--font-serif); }
+html[lang="ar"] .na-body p { line-height: 1.95; }
+html[lang="ar"] .na-deck { line-height: 1.8; }
+/* A barra do pull-quote acompanha o texto, não a página. */
+html[lang="ar"] .na-quote { padding-left: 0; padding-right: 18px; border-left: 0; border-right: 3px solid var(--orange-500); }

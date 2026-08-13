@@ -128,3 +128,23 @@
     });
   });
 })();
+
+/* ── Fontes árabes, sob demanda ────────────────────────────────────────
+   DM Sans e Source Serif 4 não trazem glifos árabes. Carregar as duas
+   famílias Noto sempre custaria a todo leitor das outras quatro línguas
+   um download que ele nunca usa, então o <link> só entra no primeiro
+   clique em العربية. Listener delegado em captura: o IIFE de i18n é
+   inline em cada página e este arquivo carrega com defer — não há ordem
+   garantida entre os dois. */
+(function () {
+  var loaded = false;
+  document.addEventListener('click', function (e) {
+    if (loaded || !e.target || !e.target.closest) return;
+    if (!e.target.closest('.lang-opt[data-lang="ar"]')) return;
+    loaded = true;
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;700&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap';
+    document.head.appendChild(l);
+  }, true);
+})();

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A/P Rosa's AI-enabled "living" laboratory models featured by The Straits Times — Vinicius Rosa · NUS Faculty of Dentistry</title>
+<meta name="description" content="Research developed at NUS Dentistry was highlighted by The Straits Times for its potential to make biomedical testing safer, faster and more predictive.">
+<link rel="canonical" href="https://rosa.expert/news/straits-times-ai-models.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A/P Rosa's AI-enabled &quot;living&quot; laboratory models featured by The Straits Times">
+<meta property="og:description" content="Research developed at NUS Dentistry was highlighted by The Straits Times for its potential to make biomedical testing safer, faster and more predictive.">
+<meta property="og:image" content="https://rosa.expert/news/Assets/straits-times-ai-models.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<style>
+/* ============================================================
+   Article — estilos da página (prefixo na-)
+   Estrutura, cor e tipo vêm de tokens.css / components.css.
+   Aqui só existe o que é desta página.
+
+   As três decisões que definem este template (2026-08-04):
+   1. o topo é a APARIÇÃO da news (foto full-bleed dissolvendo em
+      ivory a 96° + faixa de pontos onde a foto já é ivory);
+   2. uma medida só e uma proporção só — texto e fotografia
+      compartilham 640px, toda foto ancorada é 3:2. Nada de figura
+      órfã de 258px ao lado do texto, nada de coluna vazia;
+   3. a legenda é CONTEÚDO: serif de 15,5px em cor de leitura, com
+      o crédito separado. Quem só olha as imagens lê as legendas —
+      é o caminho mais provável, não o mais raro.
+   ============================================================ */
+
+.na { --na-ivory: #FDF6EE; background: var(--na-ivory); }
+body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o body near-white */
+
+/* ── Hero: a aparição ────────────────────────────────────── */
+.na-hero { position: relative; overflow: hidden; min-height: clamp(420px, 56vh, 540px); display: flex; align-items: center; }
+.na-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+/* Os stops do 96° e a faixa da nuvem andam juntos: o gradiente libera a
+   imagem a partir de ~72% e a nuvem morre em 0.70–0.86. Mudar um sem o
+   outro põe ponto sobre foto legível. Ver news-apparition.js. */
+.na-hero-scrim {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--na-ivory) 0%, rgba(253,246,238,0) 18%, rgba(253,246,238,0) 82%, var(--na-ivory) 100%),
+    linear-gradient(96deg, var(--na-ivory) 0%, rgba(253,246,238,.96) 27%, rgba(253,246,238,.74) 42%, rgba(253,246,238,.22) 58%, rgba(253,246,238,0) 72%);
+}
+.na-cloud { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 2; pointer-events: none; }
+.na-hero-inner { position: relative; z-index: 3; width: 100%; max-width: var(--container-base); margin: 0 auto; padding: var(--space-6) var(--gutter); }
+.na-hero-copy { max-width: 30rem; }
+/* Sem fotografia: some a imagem, some o véu, a coluna respira mais e a
+   nuvem recua para a faixa 'wide'. É o estado normal de ~20 das 41 páginas. */
+.na-hero--nopic { min-height: clamp(360px, 44vh, 460px); }
+.na-hero--nopic .na-hero-copy { max-width: 34rem; }
+
+/* ── Barra do topo: volta + tipo + idiomas, numa linha ───────
+   Em linha própria, o "← All news" empurrava a matéria ~45px para baixo do
+   header sem ganhar nada. Ele pertence à régua que já existe. */
+.na-topbar { display: flex; align-items: center; gap: 18px; margin-bottom: 20px; flex-wrap: wrap; }
+.na-back { font-size: 12px; font-weight: var(--weight-medium); color: var(--text-faint); text-decoration: none; }
+.na-back:hover { color: var(--text-muted); }
+.na-badge { font-size: 11px; font-weight: var(--weight-bold); letter-spacing: .10em; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius-pill); white-space: nowrap; }
+.na-badge--press { background: var(--wash-blue); color: var(--blue-700); }
+.na-badge--award { background: var(--wash-orange); color: var(--orange-600); }
+.na-badge--appt  { background: var(--wash-teal); color: var(--teal-700); }
+.na-topbar-rule { flex: 1; height: 1px; background: var(--border-subtle); min-width: 40px; }
+.lang-switch { display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: var(--weight-bold); letter-spacing: .08em; }
+.lang-opt { background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: var(--text-faint); transition: color var(--dur-fast) var(--ease-out); }
+.lang-opt:hover { color: var(--text-muted); }
+.lang-opt.active { color: var(--blue-700); }
+.lang-sep { color: var(--border-strong); user-select: none; }
+
+.na-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 11.5px; font-weight: var(--weight-bold); letter-spacing: .12em; text-transform: uppercase; }
+.na-meta-src { color: var(--blue-700); }
+.na-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); flex: none; }
+.na-meta-faint { color: var(--text-faint); }
+.na-h1 { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: var(--fs-page-title); line-height: 1.06; letter-spacing: var(--tracking-tight); color: var(--text-strong); margin: 14px 0 0; }
+.na-deck { font-family: var(--font-serif); font-style: italic; font-size: 18px; line-height: 1.55; color: var(--text-muted); margin: 16px 0 0; }
+
+/* ── Corpo: índice + coluna única de 640px ────────────────── */
+.na-wrap { max-width: var(--container-base); margin: 0 auto; padding: var(--space-8) var(--gutter) var(--space-12); display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: var(--space-12); align-items: start; }
+/* Índice vazio (menos de 2 subtítulos) não deixa coluna morta. */
+.na-wrap:has(.na-rail[data-empty]) { grid-template-columns: minmax(0, 1fr); }
+.na-wrap:has(.na-rail[data-empty]) .na-rail { display: none; }
+
+/* O sticky vive no ITEM DA GRADE, não num filho: sticky só viaja dentro do
+   seu bloco contentor, e a aside tem a altura do próprio índice. Foi esse o
+   bug que fazia o índice andar 12px e ir embora com a página. */
+.na-rail { align-self: start; position: sticky; top: 96px; }
+.na-rail-inner { position: relative; padding-left: 14px; }
+.na-rail-label { display: block; font-size: 10.5px; font-weight: var(--weight-bold); letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 14px; }
+.na-rail-line { position: absolute; left: 0; top: 26px; bottom: 4px; width: 1px; background: var(--border-subtle); }
+.na-rail-mark { position: absolute; left: -1px; width: 3px; background: var(--orange-500); transition: top var(--dur-base) var(--ease-out), height var(--dur-base) var(--ease-out); }
+.na-rail-item { display: block; font-size: 13.5px; line-height: 1.4; color: var(--text-muted); text-decoration: none; padding: 5px 0; }
+.na-rail-item.is-on { color: var(--text-strong); font-weight: var(--weight-semibold); }
+.na-rail-item:hover { color: var(--blue-600); }
+
+.na-body { max-width: 552px; }        /* 66 caracteres a 16,5px — medido; 640px dava 78 */
+.na-body p { font-size: 16.5px; line-height: 1.55; color: var(--text-body); margin: 0 0 17px; }
+/* Justificado abre rios de espaço no meio da linha e piora a volta do olho;
+   a página no ar justificava a 82 caracteres, que era o pior dos dois mundos. */
+.na-sub { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 24px; line-height: 1.2; letter-spacing: var(--tracking-tight); color: var(--text-strong); margin: 34px 0 14px; scroll-margin-top: 96px; }
+
+/* ── Citação ─────────────────────────────────────────────── */
+.na-quote { margin: 4px 0 26px; padding-left: 18px; border-left: 3px solid var(--orange-500); }
+.na-quote-label { font-family: var(--font-sans); font-size: 12px; font-weight: var(--weight-semibold); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+.na-quote p { margin-top: .6rem; font-family: var(--font-serif); font-style: italic; font-size: 1.35rem; line-height: 1.36; color: var(--blue-700); }
+
+/* ── Figuras ─────────────────────────────────────────────── */
+.na-fig { margin: 26px 0; }
+.na-fig img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+.na-hero-caption { max-width: var(--container-base); margin: 12px auto 0; padding: 0 var(--gutter); }
+.na-cap { margin-top: 12px; max-width: 62ch; }
+.na-cap-text { font-family: var(--font-serif); font-size: 15.5px; line-height: 1.5; color: var(--text-body); }
+.na-cap-credit { display: block; margin-top: 6px; font-family: var(--font-sans); font-size: 11px; font-weight: var(--weight-semibold); letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
+
+/* ── Ficha + keywords + CTA ──────────────────────────────── */
+.na-record { margin-top: var(--space-10); }
+.na-record-label, .na-kw-label { font-size: 10.5px; font-weight: var(--weight-bold); letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); padding-bottom: 10px; border-bottom: 1px solid var(--slate-700); display: block; }
+.na-record-row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--border-subtle); }
+.na-record-row dt { font-size: 13px; color: var(--text-muted); margin: 0; }
+.na-record-row dd { font-size: 13px; font-weight: var(--weight-semibold); color: var(--text-strong); text-align: right; margin: 0; }
+.na-record dl { margin: 0; }
+.na-kw { margin-top: var(--space-8); }
+.na-kw-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.na-kw-list a { font-size: 11px; font-weight: var(--weight-bold); letter-spacing: .02em; padding: 5px 12px; border-radius: var(--radius-pill); background: var(--wash-blue); color: var(--blue-600); text-decoration: none; }
+.na-kw-list a:hover { background: var(--blue-100); color: var(--blue-700); }
+.na-cta { display: inline-block; margin-top: var(--space-6); font-size: 13.5px; font-weight: var(--weight-semibold); color: var(--blue-700); border-bottom: 1.5px solid var(--orange-500); padding-bottom: 4px; text-decoration: none; }
+.na-cta:hover { color: var(--orange-600); }
+
+/* ── Related ─────────────────────────────────────────────── */
+.na-related { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter) var(--space-16); }
+.na-related-head { display: flex; align-items: baseline; gap: var(--space-6); border-top: 1px solid var(--border-subtle); padding-top: var(--space-5); }
+.na-related-title { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 24px; color: var(--text-strong); }
+.na-related-all { margin-left: auto; font-size: 13px; }
+.na-rows { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-12); margin-top: var(--space-3); }
+.na-row { display: flex; gap: 18px; align-items: baseline; padding: var(--space-4) 0; border-bottom: 1px solid var(--border-subtle); text-decoration: none; }
+.na-row-date { flex: none; width: 74px; font-size: 12px; color: var(--text-faint); }
+.na-row-title { font-family: var(--font-serif); font-size: 18px; line-height: 1.35; color: var(--text-strong); }
+.na-row:hover .na-row-title { color: var(--blue-600); }
+
+/* ── Responsivo ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .na-wrap { grid-template-columns: 150px minmax(0, 1fr); gap: var(--space-8); }
+}
+@media (max-width: 860px) {
+  /* O índice deixa de ser margem e vira uma linha de atalhos acima do texto:
+     no telefone não há margem, e esconder o índice é perder a orientação
+     exatamente onde a rolagem é o problema. */
+  .na-wrap { grid-template-columns: minmax(0, 1fr); }
+  .na-rail { position: static; border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--space-4); margin-bottom: var(--space-6); }
+  .na-rail-inner { padding-left: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; }
+  .na-rail-line, .na-rail-mark { display: none; }
+  .na-rail-label { width: 100%; margin-bottom: 8px; }
+  .na-rail-item { padding: 0; }
+  .na-rail-item.is-on { border-bottom: 2px solid var(--orange-500); }
+  .na-rows { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 780px) {
+  /* Sem "direita" no telefone: a dissolução vira vertical e a nuvem muda de
+     faixa para 'lower' (trocado no script — o atributo é a fonte da verdade). */
+  .na-hero { min-height: 0; display: block; padding-top: 46vw; }
+  .na-hero-img { height: 62%; object-position: center 18%; }
+  .na-hero-scrim { background: linear-gradient(180deg, rgba(253,246,238,.30) 0%, rgba(253,246,238,.10) 16%, rgba(253,246,238,.62) 40%, var(--na-ivory) 62%); }
+  .na-hero-copy { max-width: none; }
+  .na-hero--nopic { padding-top: var(--space-10); }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.remove('no-js');</script>
+<div id="app">
+<main class="na">
+
+  <!-- ═══ Hero: foto 1 dissolvendo + nuvem na faixa desfeita ═══
+       Sem foto: remova <img> e .na-hero-scrim, ponha class="na-hero na-hero--nopic"
+       e data-cloud="wide" no canvas. -->
+  <article>
+  <header class="na-hero">
+    <img class="na-hero-img" src="Assets/straits-times-ai-models.png" alt="A/P Rosa directs a light source onto a hydrogel sample in the laboratory." style="object-position: 64% 24%;" decoding="async">
+    <div class="na-hero-scrim" aria-hidden="true"></div>
+    <canvas class="na-cloud" data-cloud="left" aria-hidden="true"></canvas>
+    <div class="na-hero-inner">
+      <div class="na-topbar">
+        <a href="../news.html" class="na-back" data-i18n="back">← All news</a>
+        <span class="na-badge na-badge--press" data-i18n="badge">Media feature</span>
+        <span class="na-topbar-rule" aria-hidden="true"></span>
+        <div class="lang-switch" aria-label="Language">
+          <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">·</span>
+          <button type="button" class="lang-opt" data-lang="zh">中文</button>
+        </div>
+      </div>
+      <div class="na-hero-copy">
+        <div class="na-meta">
+          <span class="na-meta-src">The Straits Times</span>
+          <span class="na-meta-dot"></span>
+          <time class="na-meta-faint" datetime="2026-05-14" data-i18n="date">14 May 2026</time>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="read">5 min read</span>
+        </div>
+        <h1 class="na-h1" data-i18n="headline">A/P Rosa's AI-enabled “living” laboratory models featured by The Straits Times</h1>
+        <p class="na-deck" data-i18n="deck">Research developed at NUS Dentistry was highlighted by Singapore's national newspaper for its potential to make biomedical testing safer, faster, and more predictive.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- A legenda do hero fica FORA da imagem: legenda é texto, nunca overlay. -->
+  <div class="na-hero-caption">
+    <figcaption class="na-cap">
+      <span class="na-cap-text" data-i18n="heroCap">A/P Rosa shines a light source on a hydrogel at the National University Centre for Oral Health Singapore.</span>
+      <span class="na-cap-credit" data-i18n="heroCredit">Photograph · The Straits Times</span>
+    </figcaption>
+  </div>
+
+  <div class="na-wrap">
+    <!-- Índice montado por news-article.js a partir dos h2.na-sub do corpo -->
+    <aside class="na-rail" data-article-index aria-label="In this story"></aside>
+
+    <div class="na-body" data-article-body>
+      <h2 class="na-sub" id="sec-1" data-i18n="sub1">The coverage</h2>
+      <p data-i18n="p1">Associate Professor Vinicius Rosa's research on AI-enabled “living” laboratory models was featured in The Straits Times in May 2026, highlighting work developed by his team at the National University of Singapore Faculty of Dentistry.</p>
+
+      <h2 class="na-sub" id="sec-2" data-i18n="sub2">What the models do</h2>
+      <p data-i18n="p2">The article presents the team's efforts to create advanced hydrogel-based systems that better replicate the behaviour of human tissues during biomedical testing. Traditional laboratory models rely on static cell culture systems that do not fully capture the complex, changing conditions found inside the human body.</p>
+
+      <!-- Foto ancorada: mesma medida do texto (640px), sempre 3:2 -->
+      <figure class="na-fig">
+        <img src="Assets/tooth-bank-st.png" alt="" style="object-position: center 32%;" loading="lazy" decoding="async">
+        <figcaption class="na-cap">
+          <span class="na-cap-text" data-i18n="cap2">Legenda da foto 2 — uma frase que valha por si, para quem só olha as imagens.</span>
+          <span class="na-cap-credit" data-i18n="credit2">Legenda e crédito · a escrever</span>
+        </figcaption>
+      </figure>
+
+      <p data-i18n="p3">A/P Rosa's approach addresses this by developing dynamic biomaterial platforms that can evolve over time — allowing researchers to study how cells respond to changing biological environments such as inflammation, acidity, tissue degradation, and repair.</p>
+
+      <blockquote class="na-quote">
+        <span class="na-quote-label" data-i18n="quoteLabel">In his words</span>
+        <p data-i18n="quote">“We are not petri dishes.”</p>
+      </blockquote>
+
+      <h2 class="na-sub" id="sec-3" data-i18n="sub3">Where AI enters</h2>
+      <p data-i18n="p4">A key aspect of the research is the integration of artificial intelligence with biomaterials design. Instead of relying on trial-and-error experimentation, the team uses AI models trained on real experimental data to guide the composition and properties of hydrogel systems — designing biomaterials around predicted cell behaviour and specific biological conditions.</p>
+
+      <figure class="na-fig">
+        <img src="Assets/iso-tc194-mirror-group.png" alt="" loading="lazy" decoding="async">
+        <figcaption class="na-cap">
+          <span class="na-cap-text" data-i18n="cap3">Legenda da foto 3 — idem: o que se vê e por que importa.</span>
+          <span class="na-cap-credit" data-i18n="credit3">Legenda e crédito · a escrever</span>
+        </figcaption>
+      </figure>
+
+      <h2 class="na-sub" id="sec-4" data-i18n="sub4">Beyond dentistry</h2>
+      <p data-i18n="p5">Although the work was initially developed using dental pulp models, its potential extends well beyond dentistry. The same approach could be adapted to study other tissues — including gum, cartilage, bone, and disease-related environments such as cancer models.</p>
+
+      <div class="na-record">
+        <span class="na-record-label" data-i18n="recordLabel">The coverage</span>
+        <dl>
+          <div class="na-record-row"><dt data-i18n="rowOutlet">Outlet</dt><dd>The Straits Times</dd></div>
+          <div class="na-record-row"><dt data-i18n="rowDate">Date</dt><dd data-i18n="date">14 May 2026</dd></div>
+          <div class="na-record-row"><dt data-i18n="rowType">Type</dt><dd data-i18n="valType">National feature</dd></div>
+          <div class="na-record-row"><dt data-i18n="rowHeadline">Original headline</dt><dd data-i18n="valHeadline">‘Living’ lab models by NUS Dentistry team could make developing medical treatments safer, faster</dd></div>
+        </dl>
+        <a class="na-cta" href="https://www.straitstimes.com/singapore/health/living-lab-models-by-nus-dentistry-researchers-could-make-developing-medical-treatments-safer-faster" target="_blank" rel="noopener" data-i18n="cta">Read it at the source →</a>
+      </div>
+
+      <div class="na-kw">
+        <span class="na-kw-label" data-i18n="kwLabel">Keywords</span>
+        <div class="na-kw-list">
+          <a href="../news.html?tag=press" data-i18n="kw1">Media feature</a>
+          <a href="../news.html?tag=ai" data-i18n="kw2">Artificial intelligence</a>
+          <a href="../news.html?tag=biomaterials" data-i18n="kw3">Biomaterials</a>
+          <a href="../news.html?tag=hydrogels" data-i18n="kw4">Hydrogels</a>
+          <a href="../news.html?tag=nus-dentistry">NUS Dentistry</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </article>
+
+  <section class="na-related" aria-labelledby="na-related-h">
+    <div class="na-related-head">
+      <h2 class="na-related-title" id="na-related-h" data-i18n="relatedLabel">Related</h2>
+      <a class="na-related-all" href="../news.html" data-i18n="relatedAll">All news →</a>
+    </div>
+    <div class="na-rows" id="na-related-rows"></div>
+  </section>
+
+</main>
+</div><!-- /app -->
+
+<script src="../assets/js/data/news.js"></script>
+<script src="../assets/js/shared.js"></script>
+<script src="../assets/js/news-apparition.js" defer></script>
+<script src="../assets/js/news-article.js" defer></script>
+<script>
+/* ── Related: 4 entradas, a partir do próprio news.js ──────────
+   Nunca escritas à mão: uma lista fixa envelhece e passa a mostrar
+   "relacionadas" que já não são as mais recentes. */
+(function () {
+  'use strict';
+  var SLUG = 'straits-times-ai-models';
+  var rows = document.getElementById('na-related-rows');
+  if (!rows || !window.NEWS) return;
+  var list = NEWS.filter(function (n) { return n.slug !== SLUG; }).slice(0, 4);
+  rows.innerHTML = list.map(function (n) {
+    return '<a class="na-row" href="' + n.slug + '.html">' +
+      '<span class="na-row-date">' + n.date + '</span>' +
+      '<span class="na-row-title">' + n.headline + '</span></a>';
+  }).join('');
+})();
+
+/* ── Faixa da nuvem no telefone ────────────────────────────────
+   matchMedia com o MESMO breakpoint do CSS: a faixa muda porque a
+   dissolução muda de eixo. */
+(function () {
+  var cv = document.querySelector('.na-cloud');
+  if (!cv || !window.matchMedia) return;
+  if (!document.querySelector('.na-hero-img')) return;   // hero sem foto fica em 'wide'
+  var mq = window.matchMedia('(max-width: 780px)');
+  var apply = function () { cv.setAttribute('data-cloud', mq.matches ? 'lower' : 'left'); };
+  apply();
+  mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener && mq.addListener(apply);
+})();
+
+/* ── i18n ──────────────────────────────────────────────────────
+   Mesmo mecanismo das páginas atuais: EN é lido do próprio DOM, os
+   outros idiomas são dicionários por chave data-i18n. Só as chaves
+   novas (sub1..sub4, cap2, credit2, recordLabel, kwLabel…) precisam
+   de tradução ao migrar uma página existente. */
+var I18N = {
+  en: {},
+  pt: {
+    back: "← Todas as notícias", badge: "Reportagem", date: "14 de maio de 2026", read: "5 min de leitura",
+    headline: "Os modelos de laboratório “vivos” habilitados por IA do A/P Rosa em destaque no The Straits Times",
+    deck: "A pesquisa desenvolvida na NUS Dentistry foi destacada pelo jornal nacional de Singapura por seu potencial de tornar os testes biomédicos mais seguros, rápidos e preditivos.",
+    heroCap: "A/P Rosa ilumina um hidrogel com uma fonte de luz no National University Centre for Oral Health Singapore.",
+    heroCredit: "Fotografia · The Straits Times",
+    indexLabel: "Nesta matéria", sub1: "A repercussão", sub2: "O que os modelos fazem", sub3: "Onde a IA entra", sub4: "Além da odontologia",
+    p1: "A pesquisa do Professor Associado Vinicius Rosa sobre modelos de laboratório “vivos” habilitados por IA foi apresentada no The Straits Times em maio de 2026, destacando o trabalho desenvolvido por sua equipe na Faculdade de Odontologia da Universidade Nacional de Singapura.",
+    p2: "O artigo apresenta os esforços da equipe para criar sistemas avançados baseados em hidrogéis que replicam melhor o comportamento dos tecidos humanos durante os testes biomédicos. Os modelos tradicionais dependem de culturas celulares estáticas, que não capturam as condições complexas e mutáveis do interior do corpo humano.",
+    cap2: "Legenda da foto 2 — uma frase que valha por si, para quem só olha as imagens.",
+    credit2: "Legenda e crédito · a escrever",
+    cap3: "Legenda da foto 3 — idem: o que se vê e por que importa.",
+    credit3: "Legenda e crédito · a escrever",
+    p3: "A abordagem do A/P Rosa enfrenta esse desafio com plataformas dinâmicas de biomateriais que evoluem ao longo do tempo — permitindo estudar como as células respondem a ambientes biológicos em mudança, como inflamação, acidez, degradação tecidual e reparo.",
+    quoteLabel: "Nas palavras dele", quote: "“Não somos placas de Petri.”",
+    p4: "Um aspecto central da pesquisa é a integração da inteligência artificial ao design de biomateriais. Em vez de tentativa e erro, a equipe usa modelos de IA treinados com dados experimentais reais para guiar a composição e as propriedades dos hidrogéis — projetando biomateriais em função do comportamento celular previsto.",
+    p5: "Embora o trabalho tenha começado com modelos de polpa dentária, seu potencial vai muito além da odontologia. A mesma abordagem pode ser adaptada a outros tecidos — gengiva, cartilagem e osso — e a ambientes de doença, como modelos de câncer.",
+    recordLabel: "A repercussão", rowOutlet: "Veículo", rowDate: "Data", rowType: "Tipo", valType: "Reportagem nacional",
+    rowHeadline: "Manchete original", valHeadline: "‘Living’ lab models by NUS Dentistry team could make developing medical treatments safer, faster",
+    cta: "Ler na fonte →", kwLabel: "Palavras-chave", kw1: "Reportagem", kw2: "Inteligência artificial", kw3: "Biomateriais", kw4: "Hidrogéis",
+    relatedLabel: "Relacionadas", relatedAll: "Todas as notícias →"
+  }
+  /* es, fr, zh: copiar os dicionários que já existem nesta página no repo e
+     acrescentar as chaves novas. */
+};
+(function () {
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {};
+  nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; });
+  I18N.en = EN;
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n');
+      if (dict[k] != null) el.innerHTML = dict[k];
+    });
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.querySelectorAll('.lang-opt').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); });
+  });
+})();
+</script>
+</body>
+</html>
