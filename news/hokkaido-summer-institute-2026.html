@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI &amp; Biomaterials at Hokkaido Summer Institute 2026 | Vinicius Rosa</title>
+<meta name="description" content="Vinicius Rosa joins Hokkaido Summer Institute 2026 at Hokkaido University to discuss how AI can support the design of new bioactive materials.">
+<link rel="canonical" href="https://rosa.expert/news/hokkaido-summer-institute-2026.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://rosa.expert/news/hokkaido-summer-institute-2026.html">
+<meta property="og:title" content="AI &amp; Biomaterials at Hokkaido Summer Institute 2026 | Vinicius Rosa">
+<meta property="og:description" content="Vinicius Rosa joins Hokkaido Summer Institute 2026 at Hokkaido University to discuss how AI can support the design of new bioactive materials.">
+<meta property="og:image" content="https://rosa.expert/news/Assets/hokkaido-summer-institute-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI &amp; Biomaterials at Hokkaido Summer Institute 2026 | Vinicius Rosa">
+<meta name="twitter:description" content="Vinicius Rosa joins Hokkaido Summer Institute 2026 at Hokkaido University to discuss how AI can support the design of new bioactive materials.">
+<meta name="twitter:image" content="https://rosa.expert/news/Assets/hokkaido-summer-institute-cover.png">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/news-article.css">
+<style>
+/* ── Hokkaido Summer Institute 2026 ───────────────────────────────────────
+   Identidade escopada a ESTA pagina: nenhum componente global e' tocado, e
+   nada aqui vaza para as outras 41 materias. Tudo o que muda e' superficie —
+   o papel do hero, uma regua coral e um ramo de cerejeira. A estrutura, a
+   largura de coluna, a escala tipografica, o seletor de idiomas e o footer
+   continuam sendo os do site.
+
+   As cores saem do POSTER do evento, amostradas pixel a pixel, nao chutadas:
+   papel #F8F5F0, coral da regua #B7625B, coral da flor #AE7466, galho #564D48.
+   O azul e' o token do site (--blue-700), nao o do poster: e' o que mantem a
+   pagina como rosa.expert em vez de virar um microsite japones. */
+:root {
+  --hok-paper:  #F8F5F0;
+  --hok-coral:  #B7625B;
+  --hok-petal:  #E7C4BC;
+  --hok-branch: #9C8E86;
+  --hok-centre: #C98C79;
+}
+.na-hero--hok {
+  background: var(--hok-paper);
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(360px, 46vh, 460px);
+}
+/* O ramo vive na metade direita e PARA antes da coluna de texto (max-width
+   30rem = 480px). Nao e' opacidade baixa "por seguranca": e' geometria — ele
+   nao chega onde a manchete esta'. */
+/* O ramo encolheu quando a chapa de Hokkaido entrou na coluna direita: os dois
+   dividem o mesmo canto. Ele fica em z-index 1 e a chapa em 2, entao onde os
+   dois se cruzam (uma faixa de ~38 px, medida) o ramo aparece POR BAIXO da
+   transparencia da ilustracao e lê como camada de papel, nao como sujeira.
+   Hierarquia: manchete domina, chapa e' o visual secundario, ramo e' detalhe. */
+.hok-branch {
+  position: absolute; top: 0; right: 0;
+  width: clamp(160px, 20vw, 240px); height: auto;
+  opacity: .38; pointer-events: none; z-index: 1;
+}
+.na-hero--hok .na-hero-inner { position: relative; z-index: 2; }
+/* regua fina coral sob a linha de metadados, como no poster */
+.na-hero--hok .na-meta { position: relative; padding-bottom: 14px; }
+.na-hero--hok .na-meta::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 52px; height: 1.5px; background: var(--hok-coral); opacity: .85;
+}
+.na-hero--hok .na-meta-src { color: var(--hok-coral); }
+.na-hero--hok .na-h1 { color: var(--blue-700); }
+
+/* ── O hero em duas colunas ────────────────────────────────────────────────
+   Texto forte a esquerda, Hokkaido como atmosfera a direita. A linha de
+   METADADOS fica de fora da grade de proposito: com ela dentro, o
+   align-items:center alinharia a ilustracao pelo bloco inteiro e o centro dela
+   cairia ~44 px acima do pedido, que e' "entre o inicio do headline e o fim do
+   dek". Fora, o centro e' exatamente esse. */
+.hok-lede {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);  /* 63 / 37 */
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+}
+/* a coluna ja' limita a medida da manchete; o max-width de 30rem da
+   .na-hero-copy passaria a estrangular o texto dentro de meia largura */
+.na-hero--hok .na-hero-copy { max-width: none; }
+
+/* Quem manda na altura do hero e' o TEXTO, nao a chapa. Por isso o limite
+   principal e' max-height e nao max-width: com a razao 1.142 da arte, 255 px de
+   altura dao 291 px de largura, dentro da faixa pedida (250-300). O bloco de
+   texto tem ~310 px (cinco linhas de manchete mais tres de dek), entao ele
+   continua definindo a altura da linha da grade e o hero nao cresce.
+   Os dois limites convivem de proposito: max-height governa no desktop,
+   max-width entra quando a coluna fica estreita antes do breakpoint.
+   Sem card, borda, sombra ou raio: a arte tem fundo transparente e encosta
+   direto no papel do hero. */
+.hok-plate { display: block; justify-self: center; }
+.hok-plate img {
+  display: block;
+  width: auto; height: auto;
+  max-width: min(100%, clamp(250px, 26vw, 300px));
+  max-height: clamp(200px, 22vw, 255px);
+  object-fit: contain;
+  opacity: .94;
+}
+
+/* O poster: 1:1, largura contida, sem recorte. width/height explicitos para
+   o navegador reservar a caixa antes de baixar e nao empurrar o texto. */
+.hok-figure { margin: var(--space-10) 0 0; }
+.hok-figure img {
+  display: block; width: 100%; max-width: 520px; height: auto;
+  aspect-ratio: 1 / 1; margin: 0 auto;
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
+}
+.hok-figure figcaption {
+  max-width: 520px; margin: 12px auto 0;
+  font-size: 12.5px; line-height: 1.5; color: var(--text-faint); text-align: center;
+}
+.na-side-card--hok { border-left: 2px solid var(--hok-coral); }
+.na-side-card--hok .na-record-label { color: var(--hok-coral); }
+
+/* O ramo SOME em 780px, que e' exatamente onde news-article.css tira o
+   max-width da .na-hero-copy e a manchete passa a ocupar a largura toda.
+   Medido: acima de 780 o ramo comeca em 577 px e o texto termina em 519 —
+   nao se tocam; em 700 o texto vai ate 665 e o ramo comeca em 500, ou seja
+   165 px de sobreposicao em cima da manchete e do seletor de idiomas.
+   Encolher o ramo nao resolveria: o problema e' a coluna crescer, nao ele. */
+@media (max-width: 780px) {
+  .hok-branch { display: none; }
+  .na-hero--hok { min-height: 0; padding-top: var(--space-10); }
+  /* uma coluna so': metadados, manchete, dek, ilustracao */
+  .hok-lede { display: block; }
+  .hok-plate { margin: var(--space-8) auto 0; }
+  /* no telefone o limite volta a ser a largura: max-height travaria a arte
+     num tamanho menor do que os 72% pedidos */
+  .hok-plate img { max-width: 72%; max-height: none; margin: 0 auto; }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.remove('no-js');</script>
+<div id="app">
+<main class="na">
+
+  <article>
+  <header class="na-hero na-hero--hok">
+    <svg class="hok-branch" viewBox="0 0 320 190" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="var(--hok-branch)" stroke-width="2.1" stroke-linecap="round">
+        <path d="M320 26 C 276 34, 236 46, 198 64 C 170 77, 146 92, 124 108"/>
+        <path d="M236 46 C 232 62, 226 76, 214 88"/>
+        <path d="M186 71 C 190 88, 190 104, 184 118"/>
+        <path d="M150 96 C 146 110, 138 122, 126 130"/>
+      </g>
+      <g fill="var(--hok-petal)" stroke="none">
+        <g transform="translate(268,32)"><circle cx="0" cy="-9" r="6.4"/><circle cx="8.6" cy="-2.8" r="6.4"/><circle cx="5.3" cy="7.3" r="6.4"/><circle cx="-5.3" cy="7.3" r="6.4"/><circle cx="-8.6" cy="-2.8" r="6.4"/></g>
+        <g transform="translate(212,92) scale(.86)"><circle cx="0" cy="-9" r="6.4"/><circle cx="8.6" cy="-2.8" r="6.4"/><circle cx="5.3" cy="7.3" r="6.4"/><circle cx="-5.3" cy="7.3" r="6.4"/><circle cx="-8.6" cy="-2.8" r="6.4"/></g>
+        <g transform="translate(182,124) scale(.72)"><circle cx="0" cy="-9" r="6.4"/><circle cx="8.6" cy="-2.8" r="6.4"/><circle cx="5.3" cy="7.3" r="6.4"/><circle cx="-5.3" cy="7.3" r="6.4"/><circle cx="-8.6" cy="-2.8" r="6.4"/></g>
+        <g transform="translate(124,134) scale(.62)"><circle cx="0" cy="-9" r="6.4"/><circle cx="8.6" cy="-2.8" r="6.4"/><circle cx="5.3" cy="7.3" r="6.4"/><circle cx="-5.3" cy="7.3" r="6.4"/><circle cx="-8.6" cy="-2.8" r="6.4"/></g>
+      </g>
+      <g fill="var(--hok-centre)" stroke="none">
+        <circle cx="268" cy="32" r="2.4"/><circle cx="212" cy="92" r="2.1"/>
+        <circle cx="182" cy="124" r="1.8"/><circle cx="124" cy="134" r="1.6"/>
+      </g>
+    </svg>
+    <div class="na-hero-inner">
+      <div class="na-topbar">
+        <a href="../news.html" class="na-back" data-i18n="back">&larr; All news</a>
+        <span class="na-badge na-badge--press" data-i18n="badge">Invited lecture</span>
+        <span class="na-topbar-rule" aria-hidden="true"></span>
+        <div class="lang-switch" aria-label="Language">
+          <button type="button" class="lang-opt active" data-lang="en">EN</button><span class="lang-sep">&#183;</span>
+          <button type="button" class="lang-opt" data-lang="es">ES</button><span class="lang-sep">&#183;</span>
+          <button type="button" class="lang-opt" data-lang="pt">PT</button><span class="lang-sep">&#183;</span>
+          <button type="button" class="lang-opt" data-lang="fr">FR</button><span class="lang-sep">&#183;</span>
+          <button type="button" class="lang-opt" data-lang="zh">&#x4E2D;&#x6587;</button><span class="lang-sep">&#183;</span>
+          <button type="button" class="lang-opt" data-lang="ar" lang="ar">&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;</button>
+        </div>
+      </div>
+      <div class="na-hero-copy">
+        <div class="na-meta">
+          <span class="na-meta-src">Hokkaido Summer Institute</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="date">September 2026</span>
+          <span class="na-meta-dot"></span>
+          <span class="na-meta-faint" data-i18n="read">2 min read</span>
+        </div>
+        <div class="hok-lede">
+          <div class="hok-lede-text">
+            <h1 class="na-h1" data-i18n="headline">Artificial Intelligence Applied Imagination at Hokkaido Summer Institute 2026</h1>
+            <p class="na-deck" data-i18n="deck">A/P Rosa will share how artificial intelligence can bring precision and imagination together to design new bioactive materials.</p>
+          </div>
+          <!-- Decorativa: Hokkaido, a universidade e o campus ja' aparecem na
+               manchete, no dek, no corpo e no card ao lado. Repetir isso num alt
+               so' faria o leitor de tela ouvir a mesma informacao cinco vezes,
+               entao a imagem sai do fluxo de acessibilidade em vez de duplicar. -->
+          <picture class="hok-plate">
+            <source srcset="Assets/hokkaido-campus.webp" type="image/webp">
+            <img src="Assets/hokkaido-campus.png" width="797" height="698"
+                 alt="" aria-hidden="true" decoding="async">
+          </picture>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="na-wrap">
+    <div class="na-body" data-article-body>
+      <p data-i18n="p1">A/P Rosa will join the Hokkaido Summer Institute 2026 as an invited speaker at Hokkaido University in Sapporo, Japan.</p>
+      <p data-i18n="p2">His lecture, <em>Artificial Intelligence Applied | Imagination</em>, will explore how AI can support the design of new bioactive materials &mdash; moving beyond the analysis of materials that already exist toward imagining the ones that should exist.</p>
+      <blockquote class="na-quote">
+        <p data-i18n="pull">Designing the biomaterials that should exist.</p>
+      </blockquote>
+      <p data-i18n="p3">Precision and imagination. Two ideas that are becoming increasingly connected as researchers rethink how biomaterials can be discovered, designed and optimized.</p>
+      <p data-i18n="p4">Rosa looks forward to the discussions in Hokkaido and to meeting Kenta Tsuchiya, colleagues and students in Sapporo.</p>
+      <figure class="hok-figure">
+        <img src="Assets/hokkaido-summer-institute-2026.png" width="800" height="800" loading="lazy" decoding="async"
+             alt="Hokkaido Summer Institute 2026 invited lecture announcement for Vinicius Rosa at Hokkaido University in Sapporo." data-i18n-alt="imgAlt">
+        <figcaption data-i18n="figCaption">Announcement for the invited lecture at Hokkaido Summer Institute 2026, Hokkaido University, Sapporo.</figcaption>
+      </figure>
+    </div>
+    <aside class="na-side">
+      <div class="na-side-card na-side-card--hok">
+        <div class="na-record">
+          <span class="na-record-label" data-i18n="specKicker">The lecture</span>
+          <p class="na-record-org">Hokkaido University</p>
+          <dl>
+            <div class="na-record-row"><dt data-i18n="rowEvent">Event</dt><dd data-i18n="valEvent">Hokkaido Summer Institute 2026</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowDates">Dates</dt><dd data-i18n="valDates">September 7&ndash;11, 2026</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowLocation">Location</dt><dd data-i18n="valLocation">Hokkaido University &middot; Sapporo, Japan</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowLecture">Lecture</dt><dd data-i18n="valLecture">Artificial Intelligence Applied | Imagination</dd></div>
+            <div class="na-record-row"><dt data-i18n="rowFocus">Focus</dt><dd data-i18n="valFocus">AI &middot; Biomaterials &middot; Materials design</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="na-kw">
+        <span class="na-kw-label">Keywords</span>
+        <div class="na-kw-list">
+          <a href="../news.html?tag=invited-lecture" data-i18n="tagLecture">Invited Lecture</a>
+          <a href="../news.html?tag=artificial-intelligence" data-i18n="tagAI">Artificial Intelligence</a>
+          <a href="../news.html?tag=biomaterials" data-i18n="tagBio">Biomaterials</a>
+          <a href="../news.html?tag=materials-design" data-i18n="tagDesign">Materials Design</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+  </article>
+
+  <section class="na-related" aria-labelledby="na-related-h">
+    <div class="na-related-head">
+      <h2 class="na-related-title" id="na-related-h">Related</h2>
+      <a class="na-related-all" href="../news.html">All news &rarr;</a>
+    </div>
+    <div class="na-rows" id="na-related-rows" data-related-for="hokkaido-summer-institute-2026"></div>
+  </section>
+
+</main>
+</div><!-- /app -->
+
+<script src="../assets/js/data/news.js"></script>
+<script src="../assets/js/shared.js"></script>
+<script src="../assets/js/news-article.js" defer></script>
+<script>
+var I18N = {
+  "pt": {
+  "back": "&larr; Todas as notícias",
+  "badge": "Palestra convidada",
+  "read": "2 min de leitura",
+  "date": "Setembro de 2026",
+  "headline": "Inteligência Artificial Aplicada Imaginação no Hokkaido Summer Institute 2026",
+  "deck": "A/P Rosa vai compartilhar como a inteligência artificial pode unir precisão e imaginação para projetar novos materiais bioativos.",
+  "p1": "A/P Rosa participará do Hokkaido Summer Institute 2026 como palestrante convidado na Hokkaido University, em Sapporo, Japão.",
+  "p2": "Sua palestra, <em>Artificial Intelligence Applied | Imagination</em>, explorará como a inteligência artificial pode apoiar o desenvolvimento de novos materiais bioativos &mdash; indo além da análise dos materiais que já existem para imaginar aqueles que deveriam existir.",
+  "pull": "Projetando os biomateriais que deveriam existir.",
+  "p3": "Precisão e imaginação. Duas ideias cada vez mais conectadas à medida que pesquisadores repensam como os biomateriais podem ser descobertos, projetados e otimizados.",
+  "p4": "Rosa espera pelas discussões em Hokkaido e pela oportunidade de encontrar Kenta Tsuchiya, colegas e estudantes em Sapporo.",
+  "figCaption": "Anúncio da palestra convidada no Hokkaido Summer Institute 2026, Hokkaido University, Sapporo.",
+  "imgAlt": "Anúncio da palestra convidada de Vinicius Rosa no Hokkaido Summer Institute 2026, na Hokkaido University, em Sapporo.",
+  "specKicker": "A palestra",
+  "rowEvent": "Evento",
+  "valEvent": "Hokkaido Summer Institute 2026",
+  "rowDates": "Datas",
+  "valDates": "7&ndash;11 de setembro de 2026",
+  "rowLocation": "Local",
+  "valLocation": "Hokkaido University &middot; Sapporo, Japão",
+  "rowLecture": "Palestra",
+  "valLecture": "Artificial Intelligence Applied | Imagination",
+  "rowFocus": "Foco",
+  "valFocus": "IA &middot; Biomateriais &middot; Design de materiais",
+  "tagLecture": "Palestra Convidada",
+  "tagAI": "Inteligência Artificial",
+  "tagBio": "Biomateriais",
+  "tagDesign": "Design de Materiais"
+  },
+  "es": {
+  "back": "&larr; Todas las noticias",
+  "badge": "Conferencia invitada",
+  "read": "2 min de lectura",
+  "date": "Septiembre de 2026",
+  "headline": "Inteligencia Artificial Aplicada Imaginación en el Hokkaido Summer Institute 2026",
+  "deck": "A/P Rosa compartirá cómo la inteligencia artificial puede unir precisión e imaginación para diseñar nuevos materiales bioactivos.",
+  "p1": "A/P Rosa participará en el Hokkaido Summer Institute 2026 como ponente invitado en la Universidad de Hokkaido, en Sapporo, Japón.",
+  "p2": "Su conferencia, <em>Artificial Intelligence Applied | Imagination</em>, explorará cómo la inteligencia artificial puede apoyar el diseño de nuevos materiales bioactivos, avanzando más allá del análisis de los materiales que ya existen hacia la imaginación de aquellos que deberían existir.",
+  "pull": "Diseñando los biomateriales que deberían existir.",
+  "p3": "Precisión e imaginación. Dos ideas cada vez más conectadas a medida que los investigadores replantean cómo pueden descubrirse, diseñarse y optimizarse los biomateriales.",
+  "p4": "Rosa espera con interés las conversaciones en Hokkaido y la oportunidad de encontrarse con Kenta Tsuchiya, colegas y estudiantes en Sapporo.",
+  "figCaption": "Anuncio de la conferencia invitada en el Hokkaido Summer Institute 2026, Universidad de Hokkaido, Sapporo.",
+  "imgAlt": "Anuncio de la conferencia invitada de Vinicius Rosa en el Hokkaido Summer Institute 2026, en la Universidad de Hokkaido, en Sapporo.",
+  "specKicker": "La conferencia",
+  "rowEvent": "Evento",
+  "valEvent": "Hokkaido Summer Institute 2026",
+  "rowDates": "Fechas",
+  "valDates": "7&ndash;11 de septiembre de 2026",
+  "rowLocation": "Lugar",
+  "valLocation": "Universidad de Hokkaido &middot; Sapporo, Japón",
+  "rowLecture": "Conferencia",
+  "valLecture": "Artificial Intelligence Applied | Imagination",
+  "rowFocus": "Enfoque",
+  "valFocus": "IA &middot; Biomateriales &middot; Diseño de materiales",
+  "tagLecture": "Conferencia Invitada",
+  "tagAI": "Inteligencia Artificial",
+  "tagBio": "Biomateriales",
+  "tagDesign": "Diseño de Materiales"
+  },
+  "fr": {
+  "back": "&larr; Toutes les actualités",
+  "badge": "Conférence invitée",
+  "read": "2 min de lecture",
+  "date": "Septembre 2026",
+  "headline": "Intelligence artificielle appliquée Imagination au Hokkaido Summer Institute 2026",
+  "deck": "A/P Rosa partagera comment l’intelligence artificielle peut associer précision et imagination pour concevoir de nouveaux matériaux bioactifs.",
+  "p1": "A/P Rosa participera au Hokkaido Summer Institute 2026 en tant que conférencier invité à l’Université de Hokkaido, à Sapporo, au Japon.",
+  "p2": "Sa conférence, <em>Artificial Intelligence Applied | Imagination</em>, explorera comment l’intelligence artificielle peut soutenir la conception de nouveaux matériaux bioactifs &mdash; en allant au-delà de l’analyse des matériaux existants pour imaginer ceux qui devraient exister.",
+  "pull": "Concevoir les biomatériaux qui devraient exister.",
+  "p3": "Précision et imagination. Deux idées de plus en plus étroitement liées à mesure que les chercheurs repensent la manière dont les biomatériaux peuvent être découverts, conçus et optimisés.",
+  "p4": "Rosa se réjouit des échanges à Hokkaido et de la perspective de rencontrer Kenta Tsuchiya, ses collègues et les étudiants à Sapporo.",
+  "figCaption": "Annonce de la conférence invitée au Hokkaido Summer Institute 2026, Université de Hokkaido, Sapporo.",
+  "imgAlt": "Annonce de la conférence invitée de Vinicius Rosa au Hokkaido Summer Institute 2026, à l’Université de Hokkaido, à Sapporo.",
+  "specKicker": "La conférence",
+  "rowEvent": "Événement",
+  "valEvent": "Hokkaido Summer Institute 2026",
+  "rowDates": "Dates",
+  "valDates": "7&ndash;11 septembre 2026",
+  "rowLocation": "Lieu",
+  "valLocation": "Université de Hokkaido &middot; Sapporo, Japon",
+  "rowLecture": "Conférence",
+  "valLecture": "Artificial Intelligence Applied | Imagination",
+  "rowFocus": "Thèmes",
+  "valFocus": "IA &middot; Biomatériaux &middot; Conception de matériaux",
+  "tagLecture": "Conférence Invitée",
+  "tagAI": "Intelligence Artificielle",
+  "tagBio": "Biomatériaux",
+  "tagDesign": "Conception de Matériaux"
+  },
+  "zh": {
+  "back": "&larr; 所有新闻",
+  "badge": "受邀讲座",
+  "read": "阅读时间 2 分钟",
+  "date": "2026年9月",
+  "headline": "人工智能应用 想象力：北海道夏季学院 2026",
+  "deck": "A/P Rosa 将分享人工智能如何将精准与想象力结合起来，推动新型生物活性材料的设计。",
+  "p1": "A/P Rosa 将作为受邀讲者参加在日本札幌北海道大学举办的 Hokkaido Summer Institute 2026。",
+  "p2": "他的讲座 <em>Artificial Intelligence Applied | Imagination</em> 将探讨人工智能如何支持新型生物活性材料的设计——不仅分析已经存在的材料，更进一步想象那些应该存在的材料。",
+  "pull": "设计那些应该存在的生物材料。",
+  "p3": "精准与想象力。随着研究人员重新思考如何发现、设计和优化生物材料，这两个理念正变得越来越紧密。",
+  "p4": "Rosa 期待在北海道展开交流，并在札幌与 Kenta Tsuchiya、同事和学生见面。",
+  "figCaption": "北海道夏季学院 2026 受邀讲座公告，北海道大学，札幌。",
+  "imgAlt": "Vinicius Rosa 在札幌北海道大学举办的北海道夏季学院 2026 受邀讲座公告。",
+  "specKicker": "讲座信息",
+  "rowEvent": "活动",
+  "valEvent": "Hokkaido Summer Institute 2026",
+  "rowDates": "日期",
+  "valDates": "2026年9月7&ndash;11日",
+  "rowLocation": "地点",
+  "valLocation": "北海道大学 &middot; 日本札幌",
+  "rowLecture": "讲座",
+  "valLecture": "Artificial Intelligence Applied | Imagination",
+  "rowFocus": "主题",
+  "valFocus": "人工智能 &middot; 生物材料 &middot; 材料设计",
+  "tagLecture": "受邀讲座",
+  "tagAI": "人工智能",
+  "tagBio": "生物材料",
+  "tagDesign": "材料设计"
+  },
+  "ar": {
+  "back": "&larr; كل الأخبار",
+  "badge": "محاضرة مدعوة",
+  "read": "قراءة في دقيقتين",
+  "date": "سبتمبر 2026",
+  "headline": "الذكاء الاصطناعي التطبيقي الخيال في معهد هوكايدو الصيفي 2026",
+  "deck": "سيشارك <span lang=\"en\" dir=\"ltr\">A/P Rosa</span> كيف يمكن للذكاء الاصطناعي أن يجمع بين الدقة والخيال لتصميم مواد حيوية نشطة جديدة.",
+  "p1": "سيشارك <span lang=\"en\" dir=\"ltr\">A/P Rosa</span> في معهد هوكايدو الصيفي 2026 بصفته متحدثًا مدعوًا في جامعة هوكايدو بمدينة سابورو في اليابان.",
+  "p2": "ستتناول محاضرته، <em lang=\"en\" dir=\"ltr\">Artificial Intelligence Applied | Imagination</em>، كيف يمكن للذكاء الاصطناعي أن يدعم تصميم مواد حيوية نشطة جديدة &mdash; بالانتقال من تحليل المواد الموجودة بالفعل إلى تخيّل المواد التي ينبغي أن توجد.",
+  "pull": "تصميم المواد الحيوية التي ينبغي أن توجد.",
+  "p3": "الدقة والخيال. فكرتان تزدادان ترابطًا مع إعادة الباحثين التفكير في كيفية اكتشاف المواد الحيوية وتصميمها وتحسينها.",
+  "p4": "ويتطلع <span lang=\"en\" dir=\"ltr\">Rosa</span> إلى النقاشات في هوكايدو وإلى لقاء <span lang=\"en\" dir=\"ltr\">Kenta Tsuchiya</span> والزملاء والطلاب في سابورو.",
+  "figCaption": "إعلان المحاضرة المدعوة في معهد هوكايدو الصيفي 2026، جامعة هوكايدو، سابورو.",
+  "imgAlt": "إعلان المحاضرة المدعوة لفينيسيوس روزا في معهد هوكايدو الصيفي 2026 بجامعة هوكايدو في سابورو.",
+  "specKicker": "المحاضرة",
+  "rowEvent": "الفعالية",
+  "valEvent": "<span lang=\"en\" dir=\"ltr\">Hokkaido Summer Institute 2026</span>",
+  "rowDates": "التواريخ",
+  "valDates": "<span dir=\"ltr\">7&ndash;11</span> سبتمبر 2026",
+  "rowLocation": "المكان",
+  "valLocation": "جامعة هوكايدو &middot; سابورو، اليابان",
+  "rowLecture": "المحاضرة",
+  "valLecture": "<span lang=\"en\" dir=\"ltr\">Artificial Intelligence Applied | Imagination</span>",
+  "rowFocus": "المحاور",
+  "valFocus": "الذكاء الاصطناعي &middot; المواد الحيوية &middot; تصميم المواد",
+  "tagLecture": "محاضرة مدعوة",
+  "tagAI": "الذكاء الاصطناعي",
+  "tagBio": "المواد الحيوية",
+  "tagDesign": "تصميم المواد"
+  }
+  };
+(function () {
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {}; nodes.forEach(function (el) { EN[el.getAttribute('data-i18n')] = el.innerHTML; }); I18N.en = EN;
+  /* O alt da imagem tambem e' conteudo traduzivel, e nao esta' no innerHTML de
+     ninguem — por isso o data-i18n-alt separado. */
+  var alts = document.querySelectorAll('[data-i18n-alt]');
+  var ENA = {}; alts.forEach(function (el) { ENA[el.getAttribute('data-i18n-alt')] = el.getAttribute('alt'); });
+  I18N.en = I18N.en || {}; Object.keys(ENA).forEach(function (k) { if (I18N.en[k] == null) I18N.en[k] = ENA[k]; });
+  function setLang(lang) {
+    var dict = I18N[lang]; if (!dict) return;
+    nodes.forEach(function (el) { var k = el.getAttribute('data-i18n'); if (dict[k] != null) el.innerHTML = dict[k]; });
+    alts.forEach(function (el) { var k = el.getAttribute('data-i18n-alt'); if (dict[k] != null) el.setAttribute('alt', dict[k]); });
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+    document.querySelectorAll('.lang-opt').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+  }
+  document.querySelectorAll('.lang-opt').forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); }); });
+})();
+</script>
+</body>
+</html>
