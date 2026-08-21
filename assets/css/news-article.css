@@ -76,7 +76,12 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
 .na-hero-inner { position: relative; z-index: 3; width: 100%; max-width: var(--container-base); margin: 0 auto; padding: var(--space-6) var(--gutter); }
 .na-hero-copy { max-width: 30rem; }
 /* Sem fotografia — 12 das 41. Some a imagem, some o véu, a coluna
-   respira mais. Nenhuma imagem entra só para preencher o hero. */
+   respira mais. Nenhuma imagem entra só para preencher o hero.
+   2026-08-21 — testada uma versão com coluna larga (1100px) numa
+   matéria sem foto; revertida a pedido do Vinicius, que comparou com
+   hokkaido-summer-institute-2026.html (coluna estreita ao lado da
+   ilustração) e preferiu a proporção padrão do site. Volta ao valor
+   original. */
 .na-hero--nopic { min-height: clamp(340px, 40vh, 420px); }
 .na-hero--nopic .na-hero-copy { max-width: 34rem; }
 
@@ -199,11 +204,40 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
 .na-quote-label { font-family: var(--font-sans); font-size: 12px; font-weight: var(--weight-semibold); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
 .na-quote p { margin-top: .6rem; font-family: var(--font-serif); font-style: italic; font-size: 1.35rem; line-height: 1.36; color: var(--blue-700); }
 
+/* ── Trajetória (Top 2% Scientists: ranking em Dentistry ao longo dos
+   anos) ──────────────────────────────────────────────────────────────
+   2026-08-21 — bloco novo para a série Top 2% Scientists (2022–2025):
+   editorial, não painel de bibliometria. Um número forte por ano, a
+   seta entre eles rotulada com o delta de posições, e uma legenda de
+   uma frase que diz explicitamente "menor = melhor" — nunca um eixo
+   pra estimar visualmente. --single é o 2022 (não há ano anterior):
+   mesmo cartão, um item só, alinhado à esquerda em vez de esticado. */
+.na-traj { margin: 8px 0 26px; padding: var(--space-6) clamp(16px, 3vw, 28px); background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); }
+.na-traj-kicker { display: block; font-family: var(--font-sans); font-size: 10.5px; font-weight: var(--weight-bold); letter-spacing: .14em; text-transform: uppercase; color: var(--orange-600); margin-bottom: 18px; }
+.na-traj-row { display: flex; align-items: center; gap: clamp(8px, 2vw, 22px); }
+.na-traj-row--single { justify-content: flex-start; }
+.na-traj-item { flex: 1 1 0; min-width: 0; text-align: center; }
+.na-traj-row--single .na-traj-item { flex: 0 0 auto; text-align: left; }
+.na-traj-item-year { display: block; font-family: var(--font-sans); font-size: 12px; font-weight: var(--weight-bold); letter-spacing: .06em; color: var(--text-faint); margin-bottom: 6px; }
+.na-traj-item-rank { display: block; font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: clamp(21px, 2.6vw, 27px); line-height: 1.1; color: var(--text-strong); white-space: nowrap; }
+.na-traj-item.is-current .na-traj-item-rank { color: var(--orange-600); }
+.na-traj-item-of { display: block; font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.na-traj-item-pct { display: inline-block; margin-top: 9px; font-size: 11px; font-weight: var(--weight-bold); letter-spacing: .02em; padding: 3px 11px; border-radius: var(--radius-pill); background: var(--wash-orange); color: var(--orange-600); white-space: nowrap; }
+.na-traj-arrow { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--border-strong); padding-bottom: 22px; }
+.na-traj-arrow svg { display: block; width: 22px; height: 14px; }
+.na-traj-arrow-delta { font-family: var(--font-sans); font-size: 11px; font-weight: var(--weight-bold); color: var(--teal-700); white-space: nowrap; }
+.na-traj-legend { margin-top: 18px; padding-top: 15px; border-top: 1px solid var(--border-subtle); font-family: var(--font-sans); font-size: 13px; line-height: 1.55; color: var(--text-muted); }
+.na-traj-legend strong { color: var(--text-strong); font-weight: var(--weight-semibold); }
+
 /* ── Figuras ──────────────────────────────────────────────────
    Foto ancorada é 3:2 e tem a medida do texto: uma medida, uma
    proporção, nenhuma figura órfã ao lado da coluna. */
 .na-fig { margin: 26px 0; }
 .na-fig img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+/* Vídeo embutido — mesma figura/legenda do na-fig, mas moldura 16:9 com
+   iframe responsivo no lugar da imagem 3:2. */
+.na-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.na-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 .na-hero-caption { max-width: var(--container-base); margin: 12px auto 0; padding: 0 var(--gutter); }
 .na-cap { margin-top: 12px; max-width: 62ch; }
 /* A legenda é CONTEÚDO, não rodapé: quem só olha as imagens lê as
@@ -237,6 +271,22 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
 /* Nome da instituição/veículo logo abaixo do rótulo da ficha: é valor sem
    par, então não vira linha de dt/dd. */
 .na-record-org { font-family: var(--font-serif); font-size: 17px; line-height: 1.3; color: var(--text-strong); margin: 12px 0 4px; }
+/* Subtítulo do registro — o programa dentro do veículo (ex.: "Talking
+   Point" sob "Channel News Asia (CNA)"). Sans, discreto: o nome do
+   veículo é quem domina visualmente o cartão; isto é só o rótulo do
+   programa, não compete com ele. */
+.na-record-sub { font-family: var(--font-sans); font-size: 12.5px; font-weight: var(--weight-semibold); color: var(--text-muted); margin: 0 0 12px; }
+
+/* Estatística dominante no topo da ficha — usada na série Top 2%
+   Scientists (posição em Dentistry) no lugar do primeiro dt/dd comum,
+   quando o número em si é o fato principal da matéria. */
+.na-record-stat { margin: 4px 0 14px; }
+.na-record-stat-field { display: block; font-family: var(--font-sans); font-size: 10.5px; font-weight: var(--weight-bold); letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 5px; }
+.na-record-stat-num { font-family: var(--font-serif); font-weight: var(--weight-medium); font-size: 30px; line-height: 1.1; color: var(--text-strong); }
+.na-record-stat-of { font-size: 13px; color: var(--text-muted); margin-left: 6px; }
+/* Linha de variação positiva (posições ganhas) — mesmo verbo visual do
+   teal já usado no selo de nomeação (--appt). */
+.na-record-row--positive dd { color: var(--teal-700); }
 
 /* Bloco livre: o escopo das nomeações, o resultado clínico, o headline
    original das matérias de imprensa. Vem como lista ou como prosa curta,
@@ -254,6 +304,14 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
 .na-kw-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .na-kw-list a { font-size: 11px; font-weight: var(--weight-bold); letter-spacing: .02em; padding: 5px 12px; border-radius: var(--radius-pill); background: var(--wash-blue); color: var(--blue-600); text-decoration: none; }
 .na-kw-list a:hover { background: var(--blue-100); color: var(--blue-700); }
+
+/* ── Navegação da série (Top 2% Scientists, edições ligadas) ──────────
+   Discreta de propósito: uma linha fina acima do bloco de relacionadas,
+   mesma largura de container — não é um segundo bloco de destaque. */
+.na-series-nav { max-width: var(--container-base); margin: 0 auto; padding: var(--space-5) var(--gutter) 0; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); border-top: 1px solid var(--border-subtle); font-family: var(--font-sans); font-size: 13px; font-weight: var(--weight-semibold); }
+.na-series-link { color: var(--text-muted); text-decoration: none; }
+.na-series-link:hover { color: var(--blue-600); }
+.na-series-next { margin-left: auto; text-align: right; }
 
 /* ── Related ──────────────────────────────────────────────── */
 .na-related { max-width: var(--container-base); margin: 0 auto; padding: 0 var(--gutter) var(--space-16); }
@@ -301,6 +359,15 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
   .na-hero-scrim { background: linear-gradient(180deg, rgba(253,246,238,.30) 0%, rgba(253,246,238,.10) 16%, rgba(253,246,238,.62) 40%, var(--na-ivory) 62%); }
   .na-hero-copy { max-width: none; }
   .na-hero--nopic { padding-top: var(--space-10); }
+  /* Trajetória empilha: sem largura pra três/quatro números lado a
+     lado, o ano vira uma linha e a seta deita 90°. */
+  .na-traj-row { flex-direction: column; align-items: stretch; gap: 14px; }
+  .na-traj-row--single { align-items: flex-start; }
+  .na-traj-item, .na-traj-row--single .na-traj-item { text-align: left; }
+  .na-traj-arrow { flex-direction: row; justify-content: flex-start; gap: 8px; padding-bottom: 0; padding-left: 2px; }
+  .na-traj-arrow svg { transform: rotate(90deg); }
+  .na-series-nav { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .na-series-next { margin-left: 0; text-align: left; }
 }
 
 /* ── Árabe ───────────────────────────────────────────────────────────────
@@ -346,3 +413,36 @@ html[lang="ar"] .na-body p { line-height: 1.95; }
 html[lang="ar"] .na-deck { line-height: 1.8; }
 /* A barra do pull-quote acompanha o texto, não a página. */
 html[lang="ar"] .na-quote { padding-left: 0; padding-right: 18px; border-left: 0; border-right: 3px solid var(--orange-500); }
+
+/* Trajetória e navegação da série seguem a leitura direita→esquerda: o
+   ano mais antigo fica à direita, o mais novo à esquerda — espelho
+   visual de EN/ES/PT/FR/ZH, mas a MESMA ordem cronológica de leitura
+   (confirmado no docx: a versão árabe do trajeto usa ← entre os anos,
+   não →). A seta só espelha (scaleX), nunca gira o texto dentro dela. */
+html[lang="ar"] .na-traj-row { flex-direction: row-reverse; }
+html[lang="ar"] .na-traj-row--single { justify-content: flex-end; }
+html[lang="ar"] .na-traj-row--single .na-traj-item { text-align: right; }
+html[lang="ar"] .na-traj-arrow svg { transform: scaleX(-1); }
+html[lang="ar"] .na-traj-kicker,
+html[lang="ar"] .na-traj-item-pct,
+html[lang="ar"] .na-record-stat-field { letter-spacing: normal; }
+html[lang="ar"] .na-traj-item-year,
+html[lang="ar"] .na-traj-item-rank,
+html[lang="ar"] .na-traj-item-of,
+html[lang="ar"] .na-traj-kicker { font-family: 'Noto Kufi Arabic', var(--font-sans); }
+html[lang="ar"] .na-record-stat-num { font-family: 'Noto Kufi Arabic', var(--font-serif); }
+html[lang="ar"] .na-traj-legend { font-family: 'Noto Naskh Arabic', var(--font-serif); line-height: 1.85; }
+html[lang="ar"] .na-series-nav { flex-direction: row-reverse; }
+html[lang="ar"] .na-series-next { margin-left: 0; margin-right: auto; text-align: left; }
+/* No telefone o empilhamento vertical já resolve a cronologia — volta
+   a ser column, senão o AR ficaria espelhado dentro de uma pilha sem
+   sentido de "direita/esquerda". */
+@media (max-width: 780px) {
+  html[lang="ar"] .na-traj-row { flex-direction: column; }
+  html[lang="ar"] .na-traj-row--single { justify-content: flex-start; }
+  html[lang="ar"] .na-traj-row--single .na-traj-item { text-align: right; }
+  html[lang="ar"] .na-traj-arrow { flex-direction: row-reverse; }
+  html[lang="ar"] .na-traj-arrow svg { transform: rotate(90deg) scaleX(-1); }
+  html[lang="ar"] .na-series-nav { flex-direction: column; align-items: flex-end; }
+  html[lang="ar"] .na-series-next { margin-right: 0; text-align: right; }
+}
