@@ -239,6 +239,13 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
    fotografia, onde cortar a borda é inofensivo; numa prancha ele decapita
    rótulo e número. Aqui a proporção é a do próprio arquivo e nada é cortado. */
 .na-fig--plate img { aspect-ratio: auto; height: auto; object-fit: contain; }
+/* Trajetória animada (Top 2% Scientists 2025): não é <img>, é um <div>
+   montado e animado por assets/js/rank-trajectory.js (ver comentário no
+   topo daquele arquivo — reimplementação vanilla-JS de uma peça feita no
+   Claude Design, sem framework/build system). A proporção 700:450 e o fundo
+   ficam aqui em CSS, não só via JS, pra reservar o espaço certo mesmo antes
+   do script carregar (ou se ele falhar) — nunca uma <div> vazia colapsada. */
+.rank-traj { position: relative; width: 100%; aspect-ratio: 700 / 360; overflow: hidden; background: var(--na-ivory, #FDF6EE); }
 /* Vídeo embutido — mesma figura/legenda do na-fig, mas moldura 16:9 com
    iframe responsivo no lugar da imagem 3:2. */
 .na-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
