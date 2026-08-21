@@ -234,6 +234,11 @@ body { background: #FDF6EE; }   /* a emenda com o footer não pode mostrar o bod
    proporção, nenhuma figura órfã ao lado da coluna. */
 .na-fig { margin: 26px 0; }
 .na-fig img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+/* Prancha gráfica (não fotografia): um gráfico/diagrama já composto, com
+   números e rótulos dentro. O 3:2 + object-fit:cover do .na-fig existe para
+   fotografia, onde cortar a borda é inofensivo; numa prancha ele decapita
+   rótulo e número. Aqui a proporção é a do próprio arquivo e nada é cortado. */
+.na-fig--plate img { aspect-ratio: auto; height: auto; object-fit: contain; }
 /* Vídeo embutido — mesma figura/legenda do na-fig, mas moldura 16:9 com
    iframe responsivo no lugar da imagem 3:2. */
 .na-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
