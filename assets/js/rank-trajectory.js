@@ -18,7 +18,7 @@
  * rótulos de ano, o texto de delta) cai a 6-9px — ilegível. Então as FONTES
  * foram recalibradas à mão pra esse tamanho de exibição (não são a metade
  * matemática das originais), e a ALTURA do canvas foi fechada em cima do
- * que o conteúdo realmente ocupa com essas fontes: 700x400, não a metade
+ * que o conteúdo realmente ocupa com essas fontes: 700x330, não a metade
  * proporcional de 900. Tentar manter a proporção original com fontes
  * maiores foi o que produziu, em duas revisões, ou sobreposição ou uma
  * faixa morta embaixo. A escala responsiva (fit) fica perto de 1.0 na
@@ -93,17 +93,17 @@
   var FOCUS = 9.4;
   var TOTAL = 16.2;
 
-  // ── Geometria (canvas nativo 700x360) ────────────────────────────────────
-  // A altura saiu de 520 pra 360 porque 520 deixava uma faixa morta embaixo
-  // que lia como QUEBRA de página, não como respiro: a figura interrompia o
-  // fluxo de leitura entre p1 e p2 em vez de pertencer a ele. 360 é a altura
-  // do que o conteúdo REALMENTE ocupa mais respiro simétrico:
-  //   construção  cabeçalho 34..104, fileira 150..~321  → 34 em cima, 39 embaixo
-  //   repouso     herói 138.4 medidos x 2.05             → ~38 dos dois lados
-  // As duas fases fecham com a mesma margem, então nenhuma delas parece
-  // frouxa. Em ~650px de coluna isso vira ~334px renderizados — proporção de
-  // figura de artigo, não de banner.
-  var CANVAS_W = 700, CANVAS_H = 360;
+  // ── Geometria (canvas nativo 700x330) ────────────────────────────────────
+  // A altura saiu de 520 pra 330 em duas etapas, pelo mesmo motivo: sobra
+  // vertical numa figura no meio do texto não lê como respiro, lê como
+  // QUEBRA de página — a figura interrompe a leitura entre p1 e p2 em vez de
+  // pertencer a ela. 330 é o que o conteúdo REALMENTE ocupa mais respiro
+  // parecido nas duas fases:
+  //   construção  cabeçalho 34..104, fileira 150..~284  → 34 em cima, 46 embaixo
+  //   repouso     herói 138.4 medidos x 1.95            → ~30 dos dois lados
+  // O vão entre o rank e o "Top X%" também encolheu junto (PCT_Y 285 → 248):
+  // 58px de vazio entre os dois abria um buraco no meio de cada coluna.
+  var CANVAS_W = 700, CANVAS_H = 330;
   var CX = CANVAS_W / 2;
   var PTS = [
     { x: 100.0, y: 190.0 },
@@ -111,8 +111,8 @@
     { x: 435.0, y: 176.0 },
     { x: 602.5, y: 168.0 }
   ];
-  var RANK_Y = 225.0, PCT_Y = 285.0;
-  var HERO_S_TARGET = 2.05;
+  var RANK_Y = 225.0, PCT_Y = 248.0;
+  var HERO_S_TARGET = 1.95;
 
   // ── Tipografia recalibrada para exibição em ~650-700px (ver nota acima) ──
   var F = {
@@ -122,13 +122,21 @@
     heroKicker: 11, heroRank: 56, heroPct: 16, heroOf: 12
   };
 
-  // O herói NASCE na coluna de 2025, alinhado com os outros ranks, e só
-  // depois viaja pro centro. Como ele tem um kicker ACIMA do número (que
-  // fica invisível durante a construção mas ocupa espaço no fluxo), o topo
-  // da caixa precisa subir a altura desse kicker pra que o "#738" caia na
-  // mesma linha de "#1,075"/"#832"/"#794".
+  // O herói NASCE na coluna de 2025, do MESMO TAMANHO dos irmãos, e só
+  // depois viaja pro centro e cresce. Durante a construção a fileira é uma
+  // comparação uniforme — quem marca 2025 é a cor laranja, não o corpo da
+  // fonte; o destaque por tamanho acontece só no beat de Focus.
+  //
+  // Em vez de duplicar o número num segundo elemento de 34px (dois nós com
+  // o mesmo dado, que teriam de fazer crossfade um com o outro), o bloco do
+  // herói inteiro COMEÇA numa escala menor: 34/56 faz o "#738" renderizar
+  // em exatamente 34px, o corpo dos irmãos. Kicker, régua, pct e legenda
+  // estão invisíveis nessa fase, então a escala reduzida deles não importa.
+  var HERO_S_START = F.rank / F.heroRank; // ≈ 0.607
+  // Com transform-origin no topo, o número cai em RANK_Y-32 quando a pilha
+  // do kicker acima dele também está reduzida por HERO_S_START.
   var HERO_KICKER_STACK = F.heroKicker * 1.15 + 5; // linha do kicker + margin-bottom
-  var HERO_TOP = (RANK_Y - 32) - HERO_KICKER_STACK;
+  var HERO_TOP = (RANK_Y - 32) - HERO_S_START * HERO_KICKER_STACK;
   var HERO_LEFT = PTS[3].x - 150; // caixa de 300px centrada no ponto de 2025
   var HERO_DX_TARGET = CX - PTS[3].x;
   // Altura de fluxo do herói: MEDIDA em runtime (offsetHeight), nunca
@@ -235,27 +243,31 @@
       yearDiv.textContent = YEAR_LABELS[y];
       row.appendChild(yearDiv); this.yearEls.push(yearDiv);
 
+      // O RANK de 2025 vem do herói (grande, laranja), não da fileira — por
+      // isso rankEls só existe pra 0..2. Mas o PAR pct/of existe para os
+      // QUATRO anos: 2025 sem "Top 0.78% / of 95,125" deixava um buraco
+      // visível na coluna dele enquanto os outros três tinham os dois
+      // rótulos. O par de 2025 vive na fileira (mesma linha PCT_Y dos
+      // irmãos, some junto com ela); o herói tem o seu próprio par, que só
+      // aparece no repouso.
+      var pctWrap = el('div', 'rt-pctof', {
+        position: 'absolute', left: (p.x - 125) + 'px', top: PCT_Y + 'px', width: '250px', textAlign: 'center'
+      });
+      var pctSpan = el('div', 'rt-pct', { fontSize: F.pct + 'px', fontWeight: '500', color: 'var(--orange-600)' });
+      var ofSpan = el('div', 'rt-of', { fontSize: F.of + 'px', color: 'var(--text-muted)', marginTop: '5px', fontWeight: '400' });
+      pctWrap.appendChild(pctSpan); pctWrap.appendChild(ofSpan);
+      row.appendChild(pctWrap); this.pctEls.push(pctSpan); this.ofEls.push(ofSpan);
+      if (!this._pctWraps) this._pctWraps = [];
+      this._pctWraps.push(pctWrap);
+
       if (y < 3) {
         var rankDiv = el('div', 'rt-rank', {
           position: 'absolute', left: (p.x - 125) + 'px', top: (RANK_Y - 32) + 'px', width: '250px', textAlign: 'center',
           fontFamily: 'var(--font-serif)', fontSize: F.rank + 'px', lineHeight: '1', color: 'var(--text-strong)', letterSpacing: '-0.01em'
         });
         row.appendChild(rankDiv); this.rankEls.push(rankDiv);
-
-        // A fileira não encolhe mais no Focus (ver render()), então pct/of
-        // ficam num lugar FIXO — não precisam de "top" animado.
-        var pctWrap = el('div', 'rt-pctof', {
-          position: 'absolute', left: (p.x - 125) + 'px', top: PCT_Y + 'px', width: '250px', textAlign: 'center'
-        });
-        var pctSpan = el('div', 'rt-pct', { fontSize: F.pct + 'px', fontWeight: '500', color: 'var(--orange-600)' });
-        var ofSpan = el('div', 'rt-of', { fontSize: F.of + 'px', color: 'var(--text-muted)', marginTop: '5px', fontWeight: '400' });
-        pctWrap.appendChild(pctSpan); pctWrap.appendChild(ofSpan);
-        row.appendChild(pctWrap); this.pctEls.push(pctSpan); this.ofEls.push(ofSpan);
-        pctWrap._el = pctWrap;
-        if (!this._pctWraps) this._pctWraps = [];
-        this._pctWraps.push(pctWrap);
       } else {
-        this.rankEls.push(null); this.pctEls.push(null); this.ofEls.push(null);
+        this.rankEls.push(null);
       }
     }
 
@@ -391,7 +403,7 @@
     // disputa atenção com o número de 2025 no repouso.
     var headFadeOut = mix(t, 1, 0, f - 0.1, f + 0.7, easeInOutCubic);
 
-    var heroS = mix(t, 1, HERO_S_TARGET, f - 0.1, f + 1.4, easeInOutCubic);
+    var heroS = mix(t, HERO_S_START, HERO_S_TARGET, f - 0.1, f + 1.4, easeInOutCubic);
     // Destino vertical calculado com a altura MEDIDA do bloco (ver
     // heroFlowHeight): centraliza a caixa já escalada no quadro. Medir em
     // vez de estimar é o que garante margem de cima == margem de baixo.
@@ -430,14 +442,15 @@
       this.yearEls[y].style.opacity = String(yOp);
       this.yearEls[y].style.transform = 'translateY(' + yY + 'px)';
 
+      // pct/of existe para os quatro anos (inclusive 2025)
+      var pOp = mix(t, 0, 1, CUE[y] + 0.45, CUE[y] + 1.1);
+      this._pctWraps[y].style.opacity = String(pOp);
+
       if (y < 3) {
         var rOp = mix(t, 0, 1, CUE[y] + 0.15, CUE[y] + 0.9);
         var rY = mix(t, 22, 0, CUE[y] + 0.15, CUE[y] + 0.9);
         this.rankEls[y].style.opacity = String(rOp);
         this.rankEls[y].style.transform = 'translateY(' + rY + 'px)';
-
-        var pOp = mix(t, 0, 1, CUE[y] + 0.45, CUE[y] + 1.1);
-        this._pctWraps[y].style.opacity = String(pOp);
       }
     }
 
@@ -458,8 +471,11 @@
     this.heroRank.style.transform = 'translateY(' + heroRankY + 'px)';
     this.heroRule.style.opacity = String(0.5 * heroRuleP);
     this.heroRule.style.width = (100 * heroRuleP) + 'px';
-    var heroPctOp = mix(t, 0, 1, CUE[3] + 0.45, CUE[3] + 1.1);
-    this.heroPct.style.opacity = String(heroPctOp);
+    // O pct do herói só entra no REPOUSO. Durante a construção quem mostra
+    // "Top 0.78% / of 95,125" é o par da fileira, na mesma linha dos outros
+    // três anos; se os dois aparecessem juntos o mesmo dado sairia duplicado
+    // em alturas diferentes na coluna de 2025.
+    this.heroPct.style.opacity = String(heroMeta);
     this.heroOf.style.opacity = String(heroMeta);
     this.heroOf.style.transform = 'translateY(' + ((1 - heroMeta) * 4) + 'px)';
   };

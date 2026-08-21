@@ -53,9 +53,13 @@ Research papers/           PDFs dos artigos + Handoffs/
 
 1. **Conteúdo** — `index`, `who`, `publications`, `news`, `contact`. Chrome
    compartilhado, container 1180, tema claro.
-2. **Notícia** — `news/<slug>.html`. Layout `.art-*` e seletor de idioma na
-   própria página: `data-lang` em `en · es · pt · fr · zh`. As cinco versões
-   convivem no mesmo arquivo.
+2. **Notícia** — `news/<slug>.html`. Layout `.na-*` (de
+   `assets/css/news-article.css`, folha **compartilhada por ~42 páginas** — toda
+   edição na regra base tem raio de alcance do site inteiro; prefira uma classe
+   modificadora) e seletor de idioma na própria página: `data-lang` em
+   `en · es · pt · fr · zh · ar`. As seis versões convivem no mesmo arquivo.
+   **Só o dicionário árabe é escrito com entidades** (`&#xHEX;`); es/pt/fr/zh
+   ficam em UTF-8 literal dentro do literal JS — não "padronize" isso.
 3. **Article Spotlight** — `publications/<slug>.html`. Página modular por artigo:
    header fixo, hero editorial + caixa do registro do paper, fast-facts, faixa
    azul de números, seções de leitura com trilho lateral (figura / pull-quote /
@@ -240,6 +244,118 @@ que já foi decidido. No fim, quando figuras e texto estiverem fechados,
   models". Nada de "AI-guided", nada de "standards".
 - Pull-quotes são centrados.
 - Nada de estatística vaidosa nas páginas de pilar (nº de citações, rankings).
+
+---
+
+## Figuras animadas dentro de página
+
+Vale para o motivo de pontos do hero, a rede de `news.html`, a trajetória de
+ranking (`assets/js/rank-trajectory.js`) e os fundos das páginas de programa.
+Sem framework: JS vanilla + DOM/SVG/canvas por `requestAnimationFrame`.
+
+### Peça vinda do Claude Design
+
+O `.zip` que o Vinicius exporta traz um componente **React** sobre um motor de
+composição próprio, pensado para **export de vídeo** — não dá para publicar como
+está. Reimplemente a coreografia em vanilla e reancorе nos tokens: `OM_SCENES` dá
+a linha do tempo (cues = soma acumulada das durações), copie as curvas de easing
+**literalmente** (confira qual é o *default* de `animate()` antes de assumir — o
+original usa `easeOutCubic`, e trocar por `easeInOutCubic` inverte a sensação das
+entradas) e os pontos de corte. **Não copie a geometria.** O arquivo não é
+fetchável por URL; peça o export.
+
+### Recalibrar tipo primeiro, derivar o canvas depois
+
+Encolher um canvas de vídeo (1400×900) para a coluna de ~650px joga kicker e
+rótulos para 6–9px, ilegíveis. A ordem é: **recalibrar as fontes à mão** para o
+tamanho de exibição real, e **só então fechar a altura do canvas** no que o
+conteúdo passa a ocupar. Manter a proporção original com fonte maior produz,
+alternando, sobreposição ou faixa morta — e **faixa morta numa figura no meio do
+texto não lê como respiro, lê como quebra de página**. Alvo: margem parecida em
+cima e embaixo, e parecida **entre as fases** da animação.
+
+### Medir, nunca estimar
+
+Para centralizar, leia `element.offsetHeight` — altura de *layout*, imune ao
+`transform:scale` aplicado por cima. Somar `font-size × line-height + margin` à
+mão nunca bate com o navegador, e o erro inteiro sobra num lado só (margem de
+cima maior que a de baixo). Guarde em cache e **invalide na troca de idioma e no
+resize**. Mesmo princípio do `matchCopy` no `news-hero-motif.js`.
+
+### Estado inicial ≠ estado de repouso
+
+Se o elemento nasce num lugar e termina em outro, **não** o centralize pelo
+container: um flex container do tamanho do quadro centraliza desde o primeiro
+frame, e o número final aparece por cima da linha do tempo ainda sendo desenhada.
+Padrão certo: **ancorar e viajar** — posicionado onde pertence, `translate` para
+o centro só no beat de destaque. Se ele tem partes invisíveis mas presentes no
+fluxo (um kicker que só aparece depois), compense a altura delas na âncora. E se
+ele precisa nascer do tamanho dos irmãos e crescer depois, **anime a escala do
+bloco** (começando em `corpo-irmão / corpo-herói`) em vez de duplicar o dado em
+dois elementos que fazem crossfade.
+
+### Verificar — o painel de preview mente
+
+O preview **não dispara `requestAnimationFrame`** e o sandbox não instala
+Chromium. Três camadas, nesta ordem:
+
+1. **Varredura numérica** — rodar o JS real em Node/jsdom, chamar `render(t)` de
+   0 ao fim do loop em passos de 0,05s, assertando zero exceção e zero
+   `NaN`/`Infinity`.
+2. **Troca de idioma** — percorrer os 6 e comparar cada rótulo com o dict.
+3. **Rasterizar e OLHAR** — despejar o DOM em quadros-chave e reconstruir com PIL
+   num contact sheet. Validação só numérica já deixou passar figura ilegível com
+   todos os limites corretos. `.claude/motif/` já faz isso; siga o desenho.
+
+Em jsdom, `offsetHeight` devolve 0 (precisa de fallback explícito) e um loop de
+`requestAnimationFrame` sem guarda trava o processo — force
+`prefers-reduced-motion` no stub de `matchMedia` nos testes que só chamam
+`render(t)`.
+
+---
+
+## Deploy: o agente prepara, o Vinicius commita
+
+Não há build system — nenhum `package.json`, Jekyll, Action ou `dist`. **O HTML
+do repo É o artefato publicado.** Se a página no ar está velha, não existe
+"build desatualizado" para culpar.
+
+### `.git\index.lock` — a armadilha que já custou uma sessão inteira
+
+Um lock órfão (script interrompido) faz **todo `git add`/`commit`/`rm` falhar**
+com `Unable to create '.../index.lock': File exists`, enquanto o `git push`
+responde, corretamente, **"Everything up-to-date"** — porque nada foi preparado.
+O agente relata "publicado", a página mostra a versão velha, e a conversa entra
+em rodadas de "está feito"/"não está". Aconteceu em duas frentes na mesma sessão.
+
+Todo script de commit começa com:
+
+```powershell
+Remove-Item ".git\index.lock" -Force -ErrorAction SilentlyContinue
+```
+
+Se não sair, há processo segurando — o GitHub Desktop é o suspeito de sempre,
+inclusive minimizado na bandeja.
+
+### Verificação em três níveis antes de dizer "está no ar"
+
+Arquivo local correto não significa publicado:
+
+1. **Fonte** — conteúdo novo no arquivo, e 0 bytes NUL.
+2. **Branch publicado** — `git fetch origin main`; `git rev-parse HEAD` e
+   `origin/main` têm de bater; `git show origin/main:<caminho>` contém a string
+   nova e **não** contém a velha.
+3. **URL pública** — buscar `https://rosa.expert/<caminho>`.
+
+Cache é a **última** hipótese, nunca a primeira: antes dele vêm o lock, o escopo
+do `git add` e o push.
+
+### Higiene do script PowerShell
+
+`$ErrorActionPreference = "Stop"`, try/catch, `$LASTEXITCODE` conferido depois de
+**cada** comando git, `git commit -m "..." -m "..."` (nada de here-string, que
+vira cascata de `>>` quando colada), e `Read-Host` no fim para a janela não
+fechar antes de dar pra ler o erro. Todo bloco começa com `cd` no repo.
 
 ---
 
