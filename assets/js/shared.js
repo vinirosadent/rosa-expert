@@ -93,7 +93,7 @@
         <span class="footer-logo-top">Vinicius</span>
         <span class="footer-logo-bottom">ROSA</span>
       </a>
-      <p class="footer-blurb">A/P Vinicius Rosa creates novel technologies for oral health, combining materials science, artificial intelligence, regenerative concepts and translational infrastructure.</p>
+      <p class="footer-blurb">A/P Vinicius Rosa creates novel technologies for oral health, combining materials science, artificial intelligence and novel regenerative concepts</p>
     </div>
     <div>
       <div class="footer-eyebrow">Contact</div>
