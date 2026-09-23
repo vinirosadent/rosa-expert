@@ -19,7 +19,7 @@ var NEWS = [
     image:'news/Assets/iso-tc194-mirror-group.png',
     imageAlt:"Graphic with the ISO logo and text &#39;ISO / TC 194 2026 NMWG&#39; beside a stylized blue globe with glass arcs.",
     headline:"A/P Rosa appointed to Singapore&#39;s National Mirror Working Group for ISO/TC 194", category:'appointments' },
-  { id:'n5',  slug:'jcp-editorial-board-2026', tags:['editorial-board','journal-of-clinical-periodontology','periodontology'], tagLabels:["Editorial Board","Journal of Clinical Periodontology","Periodontology"],                     source:'Journal of Clinical Periodontology', date:'2026',     tone:'teal',
+  { id:'n5',  slug:'jcp-editorial-board-2026', tags:['editorial-board','journal-of-clinical-periodontology','periodontology'], tagLabels:["Editorial Board","Journal of Clinical Periodontology","Periodontology"],                     source:'Journal of Clinical Periodontology', date:'January 2026', dateISO:'2026-01-01', tone:'teal',
     headline:"A/P Rosa joins the Editorial Board of the Journal of Clinical Periodontology", category:'appointments' },
   { id:'n26', slug:'biocompatibility-guidance-jcr-dental-materials-2025', tags:['jcr-2025','biocompatibility','dental-materials','nus-dentistry'], tagLabels:["JCR 2025","Biocompatibility","Dental Materials","NUS Dentistry"],  source:'Dental Materials', date:'June 2026', dateISO:'2026-06-01', tone:'orange',
     image:'news/Assets/biocompatibility-guidance-jcr-2025.png',
@@ -154,7 +154,7 @@ var NEWS = [
   { id:'n49', slug:'iadr-board-of-directors-2021', tags:['professional-service','iadr','board-of-directors','nus-dentistry'], tagLabels:["Professional Service","IADR","Board of Directors","NUS Dentistry"], source:'IADR', date:'July 2021', dateISO:'2021-07-01', tone:'teal',
     dek:'He served a two-year term as the Young Investigator Representative from 2021 to 2023.',
     headline:'A/P Rosa joins the IADR Board of Directors', category:'appointments' },
-  { id:'n50', slug:'iadr-sea-hatton-senior-clarice-sabino-2026', tags:['student-award','iadr-sea','hatton-award','nus-dentistry'], tagLabels:["Student Award","IADR-SEA","Hatton Award","NUS Dentistry"], source:'IADR-SEA', date:'2026', tone:'orange',
+  { id:'n50', slug:'iadr-sea-hatton-senior-clarice-sabino-2026', tags:['student-award','iadr-sea','hatton-award','nus-dentistry'], tagLabels:["Student Award","IADR-SEA","Hatton Award","NUS Dentistry"], source:'IADR-SEA', date:'September 2026', dateISO:'2026-09-01', tone:'orange',
     dek:'The award recognises work using digital holography to study the biological performance of dental cements.',
     headline:"Clarice Sabino Receives the IADR Hatton Award SEA in the Senior Category", category:'awards' },
 ];
