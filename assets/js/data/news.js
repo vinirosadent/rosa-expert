@@ -154,4 +154,7 @@ var NEWS = [
   { id:'n49', slug:'iadr-board-of-directors-2021', tags:['professional-service','iadr','board-of-directors','nus-dentistry'], tagLabels:["Professional Service","IADR","Board of Directors","NUS Dentistry"], source:'IADR', date:'July 2021', dateISO:'2021-07-01', tone:'teal',
     dek:'He served a two-year term as the Young Investigator Representative from 2021 to 2023.',
     headline:'A/P Rosa joins the IADR Board of Directors', category:'appointments' },
+  { id:'n50', slug:'iadr-sea-hatton-senior-clarice-sabino-2026', tags:['student-award','iadr-sea','hatton-award','nus-dentistry'], tagLabels:["Student Award","IADR-SEA","Hatton Award","NUS Dentistry"], source:'IADR-SEA', date:'2026', tone:'orange',
+    dek:'The award recognises work using digital holography to study the biological performance of dental cements.',
+    headline:"Clarice Sabino Receives the IADR Hatton Award SEA in the Senior Category", category:'awards' },
 ];
