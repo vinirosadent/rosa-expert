@@ -294,9 +294,24 @@ a:hover .nw-cta, .nw-cta:hover { color: var(--orange-600); }
   var rest = ALL.filter(function (n) { return n !== lead; });
   /* As 5 mais recentes, sem olhar pra ano — `rest` já vem ordenado do
      .sort() acima (mais novo primeiro). O resto (older) segue pro
-     arquivo por ano, exatamente como antes. */
+     arquivo por ano, exatamente como antes.
+     Ressalva (2026-09-23): o corte de 5 é fixo e pode cair no meio de um
+     ano — quando isso acontece, o arquivo abre um cabeçalho de ano
+     "órfão" pro resto daquele mesmo ano que já apareceu sem cabeçalho
+     ali em cima (ex.: 6ª notícia de 2026 virando um grupo "2026 · 1
+     entry" sozinho). Corrigido estendendo `recent` até o fim da
+     sequência do ano de fronteira, pra o arquivo só abrir cabeçalho
+     quando o ano realmente muda. */
   var recent = rest.slice(0, 5);
-  var older = rest.slice(5);
+  var cut = 5;
+  if (recent.length === 5) {
+    var boundaryYear = year(recent[4]);
+    while (cut < rest.length && year(rest[cut]) === boundaryYear) {
+      recent.push(rest[cut]);
+      cut++;
+    }
+  }
+  var older = rest.slice(cut);
 
   /* ── Hero ── */
   var hero = document.getElementById('nw-hero');
