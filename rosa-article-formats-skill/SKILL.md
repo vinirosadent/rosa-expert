@@ -118,7 +118,7 @@ heading ~8 palavras + 2 parágrafos fixos (~83 palavras) + 3º parágrafo "balan
 
 | Template (com fig 3:4) | Alvo de prosa ao lado |
 |---|---|
-| 4 figuras | **[ALVO A DEFINIR — piso 83]** (≥3 parágrafos + caixa teal) |
+| 4 figuras | **piso 83** (≥3 parágrafos + caixa teal) |
 | 2 figuras + vídeo | **~133 palavras** |
 | 3 figuras + vídeo | **~136 palavras** |
 | 3 figuras | **~171 palavras** (coluna longa) |
