@@ -9,7 +9,7 @@ description: >
   ratio + pixels + descrição científica), além do orçamento de palavras por área.
   Acione SEMPRE que o usuário for trabalhar numa página de artigo / Article
   Spotlight, mencionar "Scientific articles page", "página de artigo", "research
-  paper page", citar um paper em C:\Users\vinir\Google Drive\Papers\Published, ou
+  paper page", citar um paper em C:\Users\vinir\My Drive\Papers\Published, ou
   pedir "formatos", "que figuras pedir", "tamanhos de figura", "quantas palavras".
 ---
 
@@ -29,21 +29,11 @@ Fonte de verdade dos formatos: `Claude design/Research paper pages/_REFERENCIA-m
 
 ## PASSO 1 — Localizar e ler o paper criticamente
 
-Artigos ficam em **`C:\Users\vinir\Google Drive\Papers\Published`** (e subpastas).
-**Procure o artigo lá ATIVAMENTE — não peça o PDF de cara.** Sequência obrigatória:
-
-1. **Tente ler a pasta primeiro.** Se ela já estiver montada/acessível, faça `Glob`
-   recursivo por `**/*.pdf` (e por subpasta) e case pelo título/autor/tema que o
-   usuário citou. Em bash o caminho montado costuma ser
-   `/sessions/<sessão>/mnt/<pasta>/...` — verifique os mounts disponíveis.
-2. **Se a pasta NÃO estiver montada**, chame `request_cowork_directory` apontando
-   **exatamente para `C:\Users\vinir\Google Drive\Papers\Published`** para o usuário
-   conceder acesso. Depois do OK, repita a busca recursiva do passo 1.
-3. **Só se o usuário recusar conectar a pasta**, ofereça as alternativas: anexar o
-   PDF aqui, ou indicar o caminho/subpasta exata.
-
-Nunca conclua que "não tem acesso" sem antes tentar (1) e (2). Não invente conteúdo
-do paper.
+Artigos ficam em `C:\Users\vinir\My Drive\Papers\Published` (e subpastas).
+Procure o artigo lá antes de pedir o PDF: se a pasta estiver acessível, busque
+`**/*.pdf` e case pelo título/autor/tema que o usuário citou; se não estiver, peça
+acesso a essa pasta pela ferramenta de diretório da sessão e repita a busca. Só se
+ele recusar, peça o PDF ou o caminho exato. Não invente conteúdo do paper.
 
 - Leia o PDF e extraia: pergunta de pesquisa, abordagem/método, principais
   resultados (com números), e a "imagem mental" central do estudo (o que um leitor
@@ -73,7 +63,7 @@ Templates disponíveis (escolha por nº de figuras + vídeo):
 | **3 figuras + 1 vídeo** | 1× **24:9** · 1× **3:4** · 1× **16:9** | 1× 16:9 |
 | **4 figuras** | 1× **24:9** · 1× **3:4** · 2× **4:3** (par comparativo) | — |
 
-Papéis: **24:9** = panorâmica full-bleed / graphical abstract · **16:9** = figura
+Papéis: **24:9** = faixa panorâmica na largura do container (bordas em máscara) / graphical abstract · **16:9** = figura
 de corpo padrão · **3:4** = figura de margem retrato (SEM, micrografia, detalhe) ·
 **4:3** = par lado a lado para comparação.
 
@@ -91,22 +81,23 @@ Dimensões padrão:
 
 | Ratio | Pixels | Uso |
 |---|---|---|
-| 24:9 | **2400 × 900 px** | Panorâmica full-bleed (graphical abstract / esquema) |
+| 24:9 | **2400 × 900 px** | Faixa panorâmica (graphical abstract / esquema) |
 | 16:9 | **1600 × 900 px** | Figura padrão na coluna de conteúdo |
 | 3:4 | **900 × 1200 px** | Figura de margem retrato |
 | 4:3 | **1000 × 750 px** | Par lado a lado (comparação) |
 
 Esqueleto de cada prompt (preencher com o conteúdo real do paper):
 
-> "Crie uma figura científica em proporção **[RATIO] ([PX])**, [orientação
-> horizontal/vertical], fundo claro e limpo, estilo editorial científico. Conteúdo:
-> [descrição fiel do que a figura mostra, com os elementos, rótulos e relações
-> definidos com o usuário]. Composição: [respiro nas bordas / sem texto crítico nas
-> margens / paleta sóbria / etc.]. Evite texto decorativo e elementos fora de escala."
+> "Crie uma ilustração científica em proporção **[RATIO] ([PX])**, [orientação
+> horizontal/vertical], registro editorial/aquarela, matte, [fundo da página: claro,
+> ou #120C0E nas páginas escuras de polpa]. Conteúdo: [descrição fiel do que a
+> figura mostra, com os elementos e relações definidos com o usuário]. Composição:
+> [respiro nas bordas / paleta sóbria / etc.]. Nenhum texto, rótulo ou número na
+> imagem. Sem fotorrealismo, CGI ou brilho de render; nada fora de escala."
 
 Regras de qualidade dos prompts:
 - A descrição vem do **conteúdo real do paper** + do que foi acordado, nunca genérica.
-- 24:9: peça respiro lateral e nada essencial nas bordas (é full-bleed).
+- 24:9: peça respiro lateral e nada essencial nas bordas (a página aplica máscara nelas).
 - 3:4: peça enquadramento vertical pensado para coluna estreita lateral.
 - Par 4:3: peça **mesmo enquadramento, escala e estilo** nas duas, mudando só a condição.
 
@@ -127,12 +118,13 @@ heading ~8 palavras + 2 parágrafos fixos (~83 palavras) + 3º parágrafo "balan
 
 | Template (com fig 3:4) | Alvo de prosa ao lado |
 |---|---|
-| 4 figuras | **~83 palavras** (2 parágrafos; coluna curta) |
+| 4 figuras | **[ALVO A DEFINIR — piso 83]** (≥3 parágrafos + caixa teal) |
 | 2 figuras + vídeo | **~133 palavras** |
 | 3 figuras + vídeo | **~136 palavras** |
 | 3 figuras | **~171 palavras** (coluna longa) |
 
-Regra: piso = 83 palavras; alvo = **130–170** conforme o template.
+Regra: 83 palavras é o piso, não a meta — a prosa tem de preencher a altura da
+figura 3:4, na prática ≥3 parágrafos + a caixa teal; alvo = **130–170** conforme o template.
 **Sem texto lateral:** templates **"2 figuras"** e **"1 figura + 1 vídeo"**.
 
 ---

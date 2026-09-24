@@ -30,7 +30,7 @@ Três arquivos governam a aparência de tudo:
   página está em `news/`, `publications/` ou `research/` e reescreve todos os
   `href`/`src` com prefixo `../`. O nav é a constante `NAV` ali dentro; hoje:
   Home · Who · **Living Matter Engines** · **Matter for Vitality** · To read ·
-  News · Contact. Trocar um rótulo é editar `NAV`, não sete arquivos.
+  Connected Science · News · Contact. Trocar um rótulo é editar `NAV`, não sete arquivos.
 
 Componente novo só quando o sistema existente comprovadamente não resolve.
 
@@ -379,8 +379,8 @@ diagnóstico inteiro.
   Vinicius commita pelo GitHub Desktop ou PowerShell. Ofereça isso nos marcos.
 - **Escrita pelo mount do Drive já corrompeu arquivo em silêncio.** Sintoma:
   padding de bytes NUL depois do `</html>`, invisível ao reler o arquivo, mas o
-  `grep` passa a tratá-lo como binário. Medido hoje: 622–645 bytes de NUL em
-  todos os 9 arquivos de `publications/`. Como conferir e limpar:
+  `grep` passa a tratá-lo como binário. Já apareceu como 622–645 bytes de NUL
+  nos arquivos de `publications/`. Como conferir e limpar:
 
   ```
   tr -cd '\000' < arquivo.html | wc -c        # tem de dar 0
@@ -389,8 +389,8 @@ diagnóstico inteiro.
   Quando der diferente de zero, reescreva o arquivo fora do mount e copie por
   cima com `cp`.
 - **O painel de preview do Claude Code não dispara `requestAnimationFrame`** e o
-  relógio de animação fica parado em zero. Verificação de animação aqui é
-  numérica e geométrica, nunca visual — foi isso que escondeu dois bugs.
+  relógio de animação fica parado em zero — uma captura dele já escondeu dois
+  bugs. Verifique animação pelas três camadas de "Figuras animadas → Verificar".
 
 ---
 
