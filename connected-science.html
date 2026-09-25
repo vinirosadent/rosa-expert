@@ -179,10 +179,11 @@ body { background: #FDF6EE; }
   display: grid; grid-template-columns: repeat(8, 1fr);
   column-gap: 36px; row-gap: 44px;
 }
-/* Collaborations has 5 entries: 4+1 read as a stray last card, so this
-   list runs at 3 visual columns instead of Exchange's 4 — 3 over 2,
-   centred by the same half-track math. Exchange is untouched. */
-.cs-inst-grid--collab { grid-template-columns: repeat(6, 1fr); }
+/* Collaborations ran a 3-column modifier (.cs-inst-grid--collab) while it
+   had 5 then 6 entries, where 4 columns would have stranded a lonely last
+   card. With Ajman as the 7th (2026-09-25) it's back to Exchange's own
+   4-column math — 4+3, centred by centreLastRow() same as Exchange's
+   11-item case — so the modifier is gone; both lists share one grid now. */
 .cs-inst { min-width: 0; grid-column-end: span 2; text-align: center; }
 /* One shared height for every crest, in both lists — Vinicius's call
    (2026-08-03): UNESP's own crest as the baliza, every other mark scaled
@@ -397,7 +398,7 @@ a.cs-pub-title:hover { color: var(--text-link-hover); }
         </div>
         <div class="cs-inst-field">
           <canvas class="cs-inst-canvas" aria-hidden="true"></canvas>
-          <ul class="cs-inst-grid cs-inst-grid--collab" id="cs-collab-list"></ul>
+          <ul class="cs-inst-grid" id="cs-collab-list"></ul>
         </div>
       </section>
     </section>

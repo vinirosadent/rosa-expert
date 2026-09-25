@@ -57,25 +57,28 @@ window.connectedScienceData = {
     'producing joint publications and continued research.',
 
   collaborationInstitutions: [
-    /* Real list from Vinicius (2026-08-02, Michigan added 2026-08-03),
-       order as given. Chulalongkorn and Padjadjaran/UNESP crests are the
-       same official files already used in Exchange — repetition across
-       the two lists is intentional (see file header), and they now render
-       at the SAME height there too (see the Exchange comment above —
-       height is a single global CSS value, not a per-list computation).
-       Manchester's source had a white backdrop outside the shield
-       silhouette, keyed out by flood-fill from the corners; Jeonbuk's seal
-       already carried a transparent background; Michigan's seal was the
-       same white-square case as Manchester/Otago, same flood-fill
-       treatment. Six items on a 3-column grid (.cs-inst-grid--collab)
-       lands exactly 3+3 — no last-row centring needed, unlike the
-       previous 5-item 3+2. */
+    /* Real list from Vinicius (2026-08-02, Michigan added 2026-08-03, Ajman
+       added 2026-09-25), order as given. Chulalongkorn and Padjadjaran/UNESP
+       crests are the same official files already used in Exchange —
+       repetition across the two lists is intentional (see file header), and
+       they now render at the SAME height there too (see the Exchange
+       comment above — height is a single global CSS value, not a per-list
+       computation). Manchester's source had a white backdrop outside the
+       shield silhouette, keyed out by flood-fill from the corners;
+       Jeonbuk's seal already carried a transparent background; Michigan's
+       and Ajman's seals were the same white-square case as
+       Manchester/Otago, same flood-fill treatment (Ajman: circular seal,
+       447x447 canvas, autocropped to 407x407 after background removal).
+       Seven items is back to Exchange's own 4-column grid (4+3, centred by
+       centreLastRow()) — the 3-column .cs-inst-grid--collab modifier this
+       list used at 5-6 entries is gone (see connected-science.html). */
     { institutionName: 'University of Manchester', country: 'United Kingdom', logo: 'assets/connected-science/logos/crest/manchester-crest.png', url: null, displayOrder: 1 },
     { institutionName: 'Chulalongkorn University', country: 'Thailand', logo: 'assets/connected-science/logos/crest/chula-crest.png', url: null, displayOrder: 2 },
     { institutionName: 'Jeonbuk National University', country: 'South Korea', logo: 'assets/connected-science/logos/crest/jeonbuk-crest.png', url: null, displayOrder: 3 },
     { institutionName: 'University of Michigan', country: 'United States', logo: 'assets/connected-science/logos/crest/michigan-crest.png', url: null, displayOrder: 4 },
     { institutionName: 'Universitas Padjadjaran', country: 'Indonesia', logo: 'assets/connected-science/logos/crest/unpad-crest.png', url: null, displayOrder: 5 },
     { institutionName: 'São Paulo State University (UNESP)', country: 'Brazil', logo: 'assets/connected-science/logos/crest/unesp-crest.png', url: null, displayOrder: 6 },
+    { institutionName: 'Ajman University of Science & Technology', country: 'United Arab Emirates', logo: 'assets/connected-science/logos/crest/ajman-crest.png', url: null, displayOrder: 7 },
   ],
 
   /* ---- Work built together --------------------------------------- */
