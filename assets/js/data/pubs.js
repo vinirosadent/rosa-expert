@@ -92,6 +92,7 @@ const PUBS = [
   },
 
   /* ── 2026 ───────────────────────────────────────────────── */
+  { title: 'Balancing mechanical integrity and healing efficiency: The role of microcapsule loading in self-healing dental resin composites − A systematic review', authors: 'Tuygunov N., Samaranayake L., Cahyanto A., Rosa V., Tojiyev F., Shohrukh K., Muratdjonovna A.N., Rustamov O.', venue: 'Dental Materials', year: 2026, category: 'review', doi: '10.1016/j.dental.2026.09.013' },
   { title: 'Microbial biofilm reduces the strength reliability of 3D-printed appliance resins', authors: 'Watt S.M., Ng Z., Rosa V., Foong K.W.C.', venue: 'Dentistry Journal', year: 2026, category: 'bio', url: 'https://www.mdpi.com/2304-6767/14/8/487' },
 
   /* ── 2025 ───────────────────────────────────────────────── */
