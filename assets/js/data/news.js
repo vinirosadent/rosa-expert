@@ -19,6 +19,8 @@ var NEWS = [
     image:'news/Assets/iso-tc194-mirror-group.png',
     imageAlt:"Graphic with the ISO logo and text &#39;ISO / TC 194 2026 NMWG&#39; beside a stylized blue globe with glass arcs.",
     headline:"A/P Rosa appointed to Singapore&#39;s National Mirror Working Group for ISO/TC 194", category:'appointments' },
+  { id:'n4',  slug:'top2pct-scientists-2026', tags:['award','top-2-scientists','citation-impact','nus-dentistry'], tagLabels:["Award","Top 2% Scientists","Citation Impact","NUS Dentistry"],                      source:'Stanford&#8211;Elsevier',        date:'2026',          dateISO:'2026-10-01', tone:'orange',
+    headline:"A/P Rosa ranked among the world&#39;s top 2% most-cited scientists (2026)", category:'awards' },
   { id:'n5',  slug:'jcp-editorial-board-2026', tags:['editorial-board','journal-of-clinical-periodontology','periodontology'], tagLabels:["Editorial Board","Journal of Clinical Periodontology","Periodontology"],                     source:'Journal of Clinical Periodontology', date:'January 2026', dateISO:'2026-01-01', tone:'teal',
     headline:"A/P Rosa joins the Editorial Board of the Journal of Clinical Periodontology", category:'appointments' },
   { id:'n26', slug:'biocompatibility-guidance-jcr-dental-materials-2025', tags:['jcr-2025','biocompatibility','dental-materials','nus-dentistry'], tagLabels:["JCR 2025","Biocompatibility","Dental Materials","NUS Dentistry"],  source:'Dental Materials', date:'June 2026', dateISO:'2026-06-01', tone:'orange',
