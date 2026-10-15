@@ -1,7 +1,7 @@
 var NEWS = [
   { id:'n52', slug:'three-awards-2026', tags:['award','iadr','academy-of-dental-materials','artificial-intelligence','biomaterials','nus-dentistry'], tagLabels:["Award","IADR","Academy of Dental Materials","Artificial Intelligence","Biomaterials","NUS Dentistry"], source:'IADR · ADM', date:'October 2026', dateISO:'2026-10-15', tone:'orange', lead:true, readMinutes:6,
-    image:'news/Assets/three-awards-2026-hero.jpg',
-    imageAlt:'Watercolour illustration in which grains of calcium silicate cement dissolve into a porous blue hydrogel matrix populated by pink dental pulp stem cells, which in turn resolve into flowing lines, network nodes and a grid of coloured data squares on the right.',
+    image:'news/Assets/three-awards-2026-hero-v2.jpg',
+    imageAlt:'Watercolour illustration in which grains of calcium silicate cement dissolve into a porous blue hydrogel matrix holding pale peach dental pulp stem cells, which in turn resolve into network nodes, flowing lines and a grid of coloured data squares on the right.',
     imageFocus:'70% 50%',
     dek:'Three distinct projects integrate materials science, biology and artificial intelligence to advance how dental biomaterials are designed, developed and biologically evaluated.',
     headline:"Three awards recognise a shared vision for the dental materials that should exist", category:'awards' },
