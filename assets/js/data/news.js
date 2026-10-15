@@ -1,5 +1,11 @@
 var NEWS = [
-  { id:'n1',  slug:'straits-times-ai-models', tags:['media-feature','artificial-intelligence','biomaterials','hydrogels','nus-dentistry'], tagLabels:["Media Feature","Artificial Intelligence","Biomaterials","Hydrogels","NUS Dentistry"],                      source:'The Straits Times',              date:'May 2026',      dateISO:'2026-05-14', tone:'blue', lead:true,
+  { id:'n52', slug:'three-awards-2026', tags:['award','iadr','academy-of-dental-materials','artificial-intelligence','biomaterials','nus-dentistry'], tagLabels:["Award","IADR","Academy of Dental Materials","Artificial Intelligence","Biomaterials","NUS Dentistry"], source:'IADR · ADM', date:'October 2026', dateISO:'2026-10-15', tone:'orange', lead:true, readMinutes:6,
+    image:'news/Assets/three-awards-2026-hero.jpg',
+    imageAlt:'Watercolour illustration in which grains of calcium silicate cement dissolve into a porous blue hydrogel matrix populated by pink dental pulp stem cells, which in turn resolve into flowing lines, network nodes and a grid of coloured data squares on the right.',
+    imageFocus:'70% 50%',
+    dek:'Three distinct projects integrate materials science, biology and artificial intelligence to advance how dental biomaterials are designed, developed and biologically evaluated.',
+    headline:"Three awards recognise a shared vision for the dental materials that should exist", category:'awards' },
+  { id:'n1',  slug:'straits-times-ai-models', tags:['media-feature','artificial-intelligence','biomaterials','hydrogels','nus-dentistry'], tagLabels:["Media Feature","Artificial Intelligence","Biomaterials","Hydrogels","NUS Dentistry"],                      source:'The Straits Times',              date:'May 2026',      dateISO:'2026-05-14', tone:'blue',
     image:'news/Assets/ai-living-lab-hydrogel-wide.png',
     imageAlt:'Macro image of a translucent amber hydrogel disc on a dark laboratory bench, its interior flecked with golden points and threaded with a network of cyan nodes and connecting lines suspended through the material.',
     imageFocus:'72% 48%',
