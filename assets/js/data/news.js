@@ -159,4 +159,7 @@ var NEWS = [
   { id:'n50', slug:'iadr-sea-hatton-senior-clarice-sabino-2026', tags:['student-award','iadr-sea','hatton-award','nus-dentistry'], tagLabels:["Student Award","IADR-SEA","Hatton Award","NUS Dentistry"], source:'IADR-SEA', date:'September 2026', dateISO:'2026-09-01', tone:'orange',
     dek:'The award recognises work using digital holography to study the biological performance of dental cements.',
     headline:"Clarice Sabino Receives the IADR Hatton Award SEA in the Senior Category", category:'awards' },
+  { id:'n51', slug:'adm-paffenbarger-award-clarice-sabino-2026', tags:['award','academy-of-dental-materials','paffenbarger-award','nus-dentistry'], tagLabels:["Award","Academy of Dental Materials","Paffenbarger Award","NUS Dentistry"], source:'Academy of Dental Materials', date:'9 October 2026', dateISO:'2026-10-09', tone:'orange',
+    dek:'The award recognises an AI-driven atlas for screening the biological performance of calcium silicate cements.',
+    headline:"Clarice Sabino Receives the Academy of Dental Materials Paffenbarger Award", category:'awards' },
 ];
