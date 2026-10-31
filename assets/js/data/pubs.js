@@ -92,7 +92,7 @@ const PUBS = [
   },
 
   /* ── 2026 ───────────────────────────────────────────────── */
-  { title: 'Brief Exposure to Pulsed Magnetic Fields Supports Dental Pulp Tissue Engineering: In Vitro Evaluation and In Vivo Proof of Concept', authors: 'Malhotra R., Mardhian D.F., Lim L.M.J.A., Sabino C.F., Yu B., Ruangsawasdi N., Santaliestra e Silva P.H., Iversen J.N., Abdul Razar R.B.B., Sim Y.F., Tai Y.K., Chew R.J.J., Ferreira J.N., Franco-Obregón A., Rosa V.', venue: 'Biomaterials and Biosystems', year: 2026, category: 'regen' },
+  { title: 'Brief Exposure to Pulsed Magnetic Fields Supports Dental Pulp Tissue Engineering: In Vitro Evaluation and In Vivo Proof of Concept', authors: 'Malhotra R., Mardhian D.F., Lim L.M.J.A., Sabino C.F., Yu B., Ruangsawasdi N., Silva P.H.S., Iversen J.N., Abdul Razar R.B.B., Sim Y.F., Tai Y.K., Chew R.J.J., Ferreira J.N., Franco-Obregón A., Rosa V.', venue: 'Biomaterials and Biosystems', year: 2026, category: 'regen', doi: '10.1016/j.bbiosy.2026.100151' },
   { title: 'Balancing mechanical integrity and healing efficiency: The role of microcapsule loading in self-healing dental resin composites − A systematic review', authors: 'Tuygunov N., Samaranayake L., Cahyanto A., Rosa V., Tojiyev F., Shohrukh K., Muratdjonovna A.N., Rustamov O.', venue: 'Dental Materials', year: 2026, category: 'review', doi: '10.1016/j.dental.2026.09.013' },
   { title: 'Microbial biofilm reduces the strength reliability of 3D-printed appliance resins', authors: 'Watt S.M., Ng Z., Rosa V., Foong K.W.C.', venue: 'Dentistry Journal', year: 2026, category: 'bio', url: 'https://www.mdpi.com/2304-6767/14/8/487' },
 
