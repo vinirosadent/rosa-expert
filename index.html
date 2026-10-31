@@ -399,13 +399,15 @@ let W=0,H=0,DPR=1,cx=0,cy=0,S=1;
    devia nascer da densidade nascia de ~10 mil pontos. Com este, 160 mil distintos. */
 const rnd=(()=>{let a=12345;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);
   t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};})();
-/* holograma: posicao das duas fontes (espaco do objeto) e lambda VISUAL das
-   franjas. O lambda real e' 0,63 um; aqui ~1/9 da largura da coroa, para que
-   as franjas sejam lidas — escala didatica, nao fisica. */
-const HSRC=[[-0.95,-1.85,0.0],[0.95,-1.85,0.0]], HLAM=0.11, HK=0.606, HSH=0.30;  /* medidos: o maior raio
-   da cena nova (fontes + cones) cabe no mesmo raio maximo que a cena antiga
-   ocupava (1,223), para nenhuma outra forma encolher; o dente fica a 87% do
-   tamanho anterior. */
+/* holograma: posicao das duas fontes (espaco do objeto) e comprimento de onda
+   VISUAL. O real e' 0,63 um; aqui 0,20 — as frentes de onda e as franjas
+   precisam ser lidas, escala didatica, nao fisica. */
+let HRMX=2.6;   /* raio da ultima calota de onda, medido na geracao */
+const HRB=1.40, HCEN=[0.0,0.02,0.0];   /* esfera iluminada em volta do dente */
+const HSRC=[[-0.95,-1.85,0.0],[0.95,-1.85,0.0]], HLAM=0.20, HK=0.622, HSH=0.35;  /* medidos: a cena (fontes +
+   calotas de onda ja' deslocadas ao maximo), em qualquer angulo do giro, cabe
+   no mesmo raio maximo que a cena antiga ocupava (1,223) — nenhuma outra forma
+   encolhe; o dente fica a 89% do tamanho anterior. */
 function makeFormsRaw(N,rnd){
   const A=()=>new Float32Array(N*3);
   function hydrogel(){
@@ -453,81 +455,67 @@ function makeFormsRaw(N,rnd){
       o[k*3]=p[0]+Math.cos(th)*s*rr;o[k*3+1]=p[1]+uu*rr;o[k*3+2]=p[2]+Math.sin(th)*s*rr;}
     return {pts:o,node0};}
 
-  /* CELULA = FIBROBLASTO / CELULA-TRONCO DA POLPA ADERIDA, como num confocal
-     (faloidina + DAPI). A leitura vem das fibras, nao do citoplasma cheio:
-     fibras de estresse ventrais ligando adesoes focais em pontas opostas,
-     lamelipodio (malha densa ramificada a ~70 graus, Arp2/3) na frente, poucos
-     filopodios irregulares, arcos transversais atras do lamelipodio, actina
-     cortical no contorno, nucleo oval com cromatina em grumos e 2 nucleolos.
-     Achatada em Z (aderida): por isso a forma usa face:true. Devolve tambem a
-     faixa de indices do nucleo, que o shader tinge no azul da marca. */
+  /* CELULA = CELULA-TRONCO DA POLPA / FIBROBLASTO EM MATRIZ 3D (dentro de um
+     hidrogel ou scaffold). Em 3D a celula nao se espalha num plano: fica
+     estrelada, com prolongamentos em varias direcoes — por isso gira como as
+     outras formas. O corpo e' irregular e ESCORRE para dentro dos
+     prolongamentos (base larga, afinando), que curvam e dois deles se
+     bifurcam; filopodios finos nas pontas. Nucleo elipsoide com cromatina em
+     grumos e 2 nucleolos (o shader tinge o nucleo no azul da marca).
+     Devolve a faixa de indices do nucleo. */
   function cell(){
     const o=A(), TAU=6.2832;
-    /* contorno estrelado: lamelipodio largo e irregular (frente), tres processos
-       afilados e uma cauda de retracao curta. Bordas concavas entre os pontos de
-       adesao — e' isso que tira a celula do circulo. */
-    const LOBES=[[0.00,0.36,0.30],[0.55,0.30,0.26],[2.15,0.58,0.16],[-2.30,0.50,0.15],[-1.05,0.32,0.18],[3.10,0.26,0.10],[1.35,0.12,0.20]];
-    const ad=(a,b)=>{let d=a-b;while(d>Math.PI)d-=TAU;while(d<-Math.PI)d+=TAU;return d;};
-    function E(th){let r=0.44;
-      for(const L of LOBES){const d=ad(th,L[0]);r+=L[1]*Math.exp(-d*d/(2*L[2]*L[2]));}
-      const lam=Math.exp(-Math.pow(ad(th,0.27),2)/(2*0.45*0.45));       /* babado so na frente */
-      r+=lam*(0.018*Math.sin(11*th+0.7)+0.014*Math.sin(23*th+2.1)+0.010*Math.sin(37*th+4.0));
-      return r;}
-    const NUC={x:-0.12,y:0.00,a:0.31,b:0.20,rot:0.35,h:0.20};
-    function zAt(x,y){const th=Math.atan2(y,x),f=Math.min(1,Math.hypot(x,y)/E(th));
-      let z=0.06*Math.pow(1-f*f,1.5);
-      const cx=x-NUC.x,cy=y-NUC.y,c=Math.cos(-NUC.rot),s=Math.sin(-NUC.rot);
-      const u=(cx*c-cy*s)/NUC.a,v=(cx*s+cy*c)/NUC.b,q=u*u+v*v; if(q<1)z=Math.max(z,NUC.h*Math.sqrt(1-q));
-      return z;}
     const put=(k,x,y,z)=>{o[k*3]=x;o[k*3+1]=y;o[k*3+2]=z;};
-    const edgePt=(th,f)=>{const r=E(th)*f;return [Math.cos(th)*r,Math.sin(th)*r];};
-    const nCort=(N*0.09)|0,nLam=(N*0.13)|0,nFil=(N*0.05)|0,nSF=(N*0.34)|0,nArc=(N*0.03)|0,nFA=(N*0.04)|0,nNuc=(N*0.20)|0;
+    const nrm3=v=>{const l=Math.hypot(v[0],v[1],v[2])||1;return [v[0]/l,v[1]/l,v[2]/l];};
+    const add=(a,b,s)=>[a[0]+b[0]*s,a[1]+b[1]*s,a[2]+b[2]*s];
+    /* corpo: elipsoide irregular, alongado no eixo do prolongamento principal */
+    const somaR=(d)=>0.36*(1+0.10*Math.sin(3*d[0]+1.3)+0.08*Math.sin(4*d[1]+0.4)+0.07*Math.sin(5*d[2]+2.1))*(1+0.22*Math.abs(d[0]));
+    /* ramos: [origem, direcao, comprimento, raio na base, desvio de curvatura] */
+    const RAW=[[[ 1.00, 0.15, 0.12],0.72,0.20,[0.00, 0.30, 0.10]],
+               [[-0.70, 0.60, 0.30],0.60,0.20,[0.10,-0.25, 0.25]],
+               [[-0.50,-0.72, 0.45],0.66,0.19,[0.25, 0.10,-0.15]],
+               [[ 0.15,-0.40,-0.90],0.52,0.17,[-0.25,0.15, 0.00]]];
+    const BR=[];
+    RAW.forEach((P,i)=>{const d=nrm3(P[0]),r0=somaR(d)*0.80,base=d.map(x=>x*r0),tip=d.map(x=>x*(r0+P[1]));
+      const mid=add([(base[0]+tip[0])/2,(base[1]+tip[1])/2,(base[2]+tip[2])/2],P[3],0.40);
+      BR.push({base,mid,tip,r0:P[2],r1:0.035,w:1.0});
+      /* bifurcacao nos ramos 0 e 2: dois filhos saem a 60% do pai */
+      if(i===0||i===2){const t=0.6,it=1-t,pt=[0,1,2].map(q=>it*it*base[q]+2*it*t*mid[q]+t*t*tip[q]);
+        const T=nrm3([0,1,2].map(q=>2*it*(mid[q]-base[q])+2*t*(tip[q]-mid[q])));
+        for(const sg of [1,-1]){const side=nrm3([T[1]*sg,-T[0]*sg+0.4,T[2]+0.5*sg]);
+          const dd=nrm3(add(T,side,0.75)),L=0.30+0.08*sg,tp=add(pt,dd,L),md=add(add(pt,dd,L*0.5),side,0.05);
+          BR.push({base:pt,mid:md,tip:tp,r0:0.045,r1:0.014,w:0.45});}}});
+    const bez=(B,t)=>{const it=1-t;return [0,1,2].map(i=>it*it*B.base[i]+2*it*t*B.mid[i]+t*t*B.tip[i]);};
+    const tan=(B,t)=>nrm3([0,1,2].map(i=>2*(1-t)*(B.mid[i]-B.base[i])+2*t*(B.tip[i]-B.mid[i])));
+    function frame(T){const a=Math.abs(T[1])<0.9?[0,1,0]:[1,0,0];
+      const u=nrm3([T[1]*a[2]-T[2]*a[1],T[2]*a[0]-T[0]*a[2],T[0]*a[1]-T[1]*a[0]]);
+      return [u,[T[1]*u[2]-T[2]*u[1],T[2]*u[0]-T[0]*u[2],T[0]*u[1]-T[1]*u[0]]];}
+    const radAt=(B,t)=>B.r1+(B.r0-B.r1)*Math.pow(1-t,1.8);       /* afunila como membrana, nao como cano */
+    const Ltot=BR.reduce((s,B)=>s+B.w,0), pickB=()=>{let r=rnd()*Ltot;for(const B of BR){r-=B.w;if(r<=0)return B;}return BR[0];};
+    /* filopodios nas pontas */
+    const FIL=[]; BR.forEach(B=>{if(B.w<1&&B.r1<0.02||B.w===1){const T=tan(B,1),[u,v]=frame(T),n=B.w===1?3:2;
+      for(let i=0;i<n;i++){const a=rnd()*TAU,d=nrm3(add(T,add(u.map(x=>x*Math.cos(a)),v,Math.sin(a)),0.6));FIL.push({p:B.tip,d,L:0.08+rnd()*0.12});}}});
+    const nNuc=(N*0.22)|0, nSoma=(N*0.20)|0, nMem=(N*0.36)|0, nAx=(N*0.08)|0, nFil=(N*0.05)|0;
     let k=0;
-    /* fibras de estresse ventrais: entre adesoes nas pontas dos processos e na
-       base do lamelipodio — cruzam a celula em angulos diferentes, por cima do
-       nucleo. Peso variavel: feixes grossos e finos. */
-    const ANCH=[[2.15,0.06],[-2.30,0.06],[-1.05,0.10],[3.10,0.08]];
-    const fibers=[];
-    for(const T of ANCH)for(let i=0;i<5;i++){
-      const ta=T[0]+(rnd()-0.5)*2*T[1], tb=0.27+(rnd()-0.5)*1.2;
-      fibers.push({a:edgePt(ta,0.80+rnd()*0.12),b:edgePt(tb,0.70+rnd()*0.10),w:0.4+rnd()*1.2});}
-    for(let i=0;i<6;i++){const A0=ANCH[(rnd()*4)|0],B0=ANCH[(rnd()*4)|0]; if(A0===B0)continue;
-      fibers.push({a:edgePt(A0[0]+(rnd()-0.5)*0.1,0.80),b:edgePt(B0[0]+(rnd()-0.5)*0.1,0.80),w:0.3+rnd()*0.6});}
-    const wsum=fibers.reduce((s,f)=>s+f.w*Math.hypot(f.b[0]-f.a[0],f.b[1]-f.a[1]),0);
-    const pickF=()=>{let r=rnd()*wsum;for(const f of fibers){r-=f.w*Math.hypot(f.b[0]-f.a[0],f.b[1]-f.a[1]);if(r<=0)return f;}return fibers[0];};
-    for(let i=0;i<nCort;i++,k++){const th=rnd()*TAU,p=edgePt(th,0.975+rnd()*0.025);put(k,p[0],p[1],zAt(p[0],p[1])+(rnd()-0.5)*0.01);}
-    /* lamelipodio: malha densa ramificada (~70 graus, Arp2/3), largura irregular */
-    for(let i=0;i<nLam;i++,k++){const th=0.27+(rnd()-0.5)*1.5, wl=0.10+0.06*Math.sin(th*7.1+0.4);
-      if(Math.abs(ad(th,0.27))>0.75*(0.6+0.4*rnd())){i--;k--;continue;}
-      const p=edgePt(th,1-wl*Math.sqrt(rnd())), ang=th+(rnd()<0.5?1:-1)*0.61+(rnd()-0.5)*0.3, l=(rnd()-0.5)*0.04;
-      put(k,p[0]+Math.cos(ang)*l,p[1]+Math.sin(ang)*l,0.006*(rnd()-0.5));}
-    /* filopodios: poucos, irregulares */
-    const filo=[[-0.38,0.20],[-0.10,0.11],[0.12,0.26],[0.31,0.08],[0.62,0.17],[0.83,0.12],[2.17,0.10],[-2.28,0.13],[-1.03,0.07]];
-    for(let i=0;i<nFil;i++,k++){const F=filo[(rnd()*filo.length)|0],t=rnd(),p0=edgePt(F[0],0.99);
-      const dir=F[0]+0.10*Math.sin(F[0]*13), L=F[1]*t, j=0.003*(1-t)*(rnd()-0.5);
-      put(k,p0[0]+Math.cos(dir)*L-Math.sin(dir)*j,p0[1]+Math.sin(dir)*L+Math.cos(dir)*j,0.002);}
-    for(let i=0;i<nSF;i++,k++){const F=pickF(),t=rnd(),x=F.a[0]+(F.b[0]-F.a[0])*t,y=F.a[1]+(F.b[1]-F.a[1])*t;
-      const dx=F.b[0]-F.a[0],dy=F.b[1]-F.a[1],L=Math.hypot(dx,dy),j=(rnd()-0.5)*0.0045*F.w;
-      const xx=x-dy/L*j,yy=y+dx/L*j; put(k,xx,yy,Math.min(zAt(xx,yy),0.035)+0.004*(rnd()-0.5));}
-    for(let i=0;i<nArc;i++,k++){const th=0.27+(rnd()-0.5)*0.9,f=[0.66,0.74][(rnd()*2)|0]+(rnd()-0.5)*0.008,p=edgePt(th,f);
-      put(k,p[0],p[1],zAt(p[0],p[1])*0.6);}
-    for(let i=0;i<nFA;i++,k++){const F=pickF(),end=rnd()<0.5?F.a:F.b,oth=end===F.a?F.b:F.a;
-      const dx=oth[0]-end[0],dy=oth[1]-end[1],L=Math.hypot(dx,dy),s=(rnd()-0.2)*0.05,w=(rnd()-0.5)*0.014;
-      put(k,end[0]+dx/L*s-dy/L*w,end[1]+dy/L*s+dx/L*w,0.0);}
+    for(let i=0;i<nSoma;i++,k++){const uu=rnd()*2-1,th=rnd()*TAU,s2=Math.sqrt(1-uu*uu),d=[Math.cos(th)*s2,uu,Math.sin(th)*s2],r=somaR(d)*(0.96+0.04*rnd());
+      put(k,d[0]*r,d[1]*r*0.88,d[2]*r);}
+    for(let i=0;i<nMem;i++,k++){const B=pickB(),t=Math.pow(rnd(),0.85),c=bez(B,t),[u,v]=frame(tan(B,t)),a=rnd()*TAU,r=radAt(B,t);
+      put(k,c[0]+(u[0]*Math.cos(a)+v[0]*Math.sin(a))*r,c[1]+(u[1]*Math.cos(a)+v[1]*Math.sin(a))*r,c[2]+(u[2]*Math.cos(a)+v[2]*Math.sin(a))*r);}
+    for(let i=0;i<nAx;i++,k++){const B=pickB(),c=bez(B,rnd()),j=0.014;put(k,c[0]+(rnd()-0.5)*j,c[1]+(rnd()-0.5)*j,c[2]+(rnd()-0.5)*j);}
+    for(let i=0;i<nFil;i++,k++){const F=FIL[(rnd()*FIL.length)|0],t=rnd(),j=0.004*(1-t);
+      put(k,F.p[0]+F.d[0]*F.L*t+(rnd()-0.5)*j,F.p[1]+F.d[1]*F.L*t+(rnd()-0.5)*j,F.p[2]+F.d[2]*F.L*t+(rnd()-0.5)*j);}
     const nuc0=k;
-    const cl=[];for(let i=0;i<40;i++){const a=rnd()*TAU,r=Math.sqrt(rnd())*0.85;cl.push([Math.cos(a)*r,Math.sin(a)*r]);}
-    const nl=[[0.25,0.15],[-0.30,-0.20]];
-    const toW=(u,v)=>{const c=Math.cos(NUC.rot),s=Math.sin(NUC.rot),x=u*NUC.a,y=v*NUC.b;return [NUC.x+x*c-y*s,NUC.y+x*s+y*c];};
-    for(let i=0;i<nNuc;i++,k++){const q=rnd();let u,v,shell=false;
-      if(q<0.40){const a=rnd()*TAU,r=0.96+rnd()*0.04;u=Math.cos(a)*r;v=Math.sin(a)*r;shell=true;}
-      else if(q<0.86){const c=cl[(rnd()*cl.length)|0],g=0.11;u=c[0]+(rnd()+rnd()-1)*g;v=c[1]+(rnd()+rnd()-1)*g;
-        if(u*u+v*v>0.92){u*=0.9;v*=0.9;}}
-      else{const c=nl[(rnd()*2)|0],a=rnd()*TAU,r=0.10*Math.sqrt(rnd());u=c[0]+Math.cos(a)*r;v=c[1]+Math.sin(a)*r;}
-      const p=toW(u,v),qq=Math.min(1,u*u+v*v),zt=NUC.h*Math.sqrt(1-qq);
-      put(k,p[0],p[1],shell?(rnd()<0.5?zt:-0.01):(rnd()*2-1)*zt*0.9);}
+    const NA=[0.25,0.18,0.17], cl=[];
+    for(let i=0;i<40;i++){let q;do{q=[rnd()*2-1,rnd()*2-1,rnd()*2-1];}while(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]>0.75);cl.push(q);}
+    const nl=[[0.30,0.20,0.10],[-0.35,-0.15,-0.20]];
+    for(let i=0;i<nNuc;i++,k++){const q=rnd();let p;
+      if(q<0.40){const uu=rnd()*2-1,th=rnd()*TAU,s2=Math.sqrt(1-uu*uu),r=0.97+0.03*rnd();p=[Math.cos(th)*s2*r,uu*r,Math.sin(th)*s2*r];}
+      else if(q<0.86){const c=cl[(rnd()*cl.length)|0],g=0.12;p=[c[0]+(rnd()+rnd()-1)*g,c[1]+(rnd()+rnd()-1)*g,c[2]+(rnd()+rnd()-1)*g];}
+      else{const c=nl[(rnd()*2)|0],uu=rnd()*2-1,th=rnd()*TAU,s2=Math.sqrt(1-uu*uu),r=0.12*Math.cbrt(rnd());p=[c[0]+Math.cos(th)*s2*r,c[1]+uu*r,c[2]+Math.sin(th)*s2*r];}
+      put(k,p[0]*NA[0]-0.05,p[1]*NA[1]+0.02,p[2]*NA[2]);}
     const nuc1=k;
-    for(;k<N;k++){let x,y;do{x=(rnd()*2-1)*1.2;y=(rnd()*2-1)*1.2;}while(Math.hypot(x,y)>E(Math.atan2(y,x))*0.97);
-      put(k,x,y,(rnd()*2-1)*zAt(x,y)*0.8);}
+    for(;k<N;k++){const uu=rnd()*2-1,th=rnd()*TAU,s2=Math.sqrt(1-uu*uu),d=[Math.cos(th)*s2,uu,Math.sin(th)*s2],r=somaR(d)*0.92*Math.cbrt(rnd());
+      put(k,d[0]*r,d[1]*r*0.88,d[2]*r);}
     return {pts:o,nuc0,nuc1};}
 
   function crystal(){const nodes=[],step=0.75;
@@ -719,10 +707,10 @@ function makeFormsRaw(N,rnd){
        HIPERBOLOIDES com focos nas fontes (Young). Simplificacao assumida: na
        bancada os dois feixes vem do MESMO laser, dividido; aqui so as duas
        saidas aparecem. A modulacao do dente pelas franjas fica no shader,
-       ancorada no espaco: o dente gira, as franjas nao.
+       ancorada no espaco: o dente gira atraves delas.
        Cada cone e' dimensionado a partir do proprio dente, em 16 angulos do
        giro, com 6% de folga — nenhuma raiz sai da luz (antes saiam). */
-    const SRC=HSRC, CEN=[0.0,0.02,0.0];
+    const SRC=HSRC, CEN=HCEN;
     const cones=SRC.map(S=>{const ax=[CEN[0]-S[0],CEN[1]-S[1],CEN[2]-S[2]],L=Math.hypot(ax[0],ax[1],ax[2]);
       const u=ax.map(x=>x/L); let tmax=0;
       for(let i=0;i<nSpin;i+=7){const r=Math.hypot(o[i*3],o[i*3+2]),y=o[i*3+1];
@@ -732,30 +720,36 @@ function makeFormsRaw(N,rnd){
       return {S,u,L,half:tmax*1.06};});
     for(const C of cones){let v=[C.u[1],-C.u[0],0];const vl=Math.hypot(v[0],v[1]);v=v.map(x=>x/vl);
       C.v=v; C.w=[C.u[1]*v[2]-C.u[2]*v[1],C.u[2]*v[0]-C.u[0]*v[2],C.u[0]*v[1]-C.u[1]*v[0]];}
-    const inCone=(P,C)=>{const d=[P[0]-C.S[0],P[1]-C.S[1],P[2]-C.S[2]],l=Math.hypot(d[0],d[1],d[2])||1;
-      return (d[0]*C.u[0]+d[1]*C.u[1]+d[2]*C.u[2])/l>Math.cos(C.half);};
-    /* luz, em tres faixas de indice seguidas (o shader le' o indice):
-       1. raios de borda de cada cone no plano da tela — desenham o feixe;
-       2. franjas no plano z=0: curvas onde a diferenca de caminho e' n*lambda,
-          so' dentro do cruzamento dos dois cones;
-       3. um preenchimento tenue do volume. */
-    const nBeam=(N*0.26)|0, nRay=(nBeam*0.40)|0, nFr=(nBeam*0.54)|0, EXT=0.45;
-    for(let i=0;i<nRay;i++,k++){const C=cones[k&1], sgn=rnd()<0.5?1:-1, t=Math.pow(rnd(),0.9)*(C.L+EXT), a=Math.atan2(C.u[1],C.u[0])+sgn*C.half;
-      o[k*3]=C.S[0]+Math.cos(a)*t+(rnd()-0.5)*0.006;o[k*3+1]=C.S[1]+Math.sin(a)*t+(rnd()-0.5)*0.006;o[k*3+2]=(rnd()-0.5)*0.006;}
-    for(let i=0;i<nFr;i++,k++){let P,tries=0;
-      do{P=[(rnd()*2-1)*1.25,-0.95+rnd()*2.10,0];
-         const d=Math.hypot(P[0]-SRC[0][0],P[1]-SRC[0][1])-Math.hypot(P[0]-SRC[1][0],P[1]-SRC[1][1]);
-         if(Math.abs(d-Math.round(d/HLAM)*HLAM)<0.0025&&inCone(P,cones[0])&&inCone(P,cones[1]))break;}while(++tries<4000);
-      o[k*3]=P[0];o[k*3+1]=P[1];o[k*3+2]=(rnd()-0.5)*0.004;}
-    for(;k<nSpin+nBeam;k++){const C=cones[k&1], t=Math.pow(rnd(),0.85)*(C.L+EXT), rr=Math.tan(C.half)*t*Math.sqrt(rnd()), a2=rnd()*TAU;
-      for(let q=0;q<3;q++)o[k*3+q]=C.S[q]+C.u[q]*t+(C.v[q]*Math.cos(a2)+C.w[q]*Math.sin(a2))*rr;}
+    /* LUZ = FRENTES DE ONDA, em 3D. Cada ponto mora numa calota esferica
+       centrada na sua fonte (paridade do indice), a um multiplo inteiro de
+       lambda, dentro do cone. O shader empurra todas as calotas para fora em
+       fase com o relogio — as ondas saem das fontes e atravessam o dente.
+       Onde as calotas das duas fontes se encontram, a crista coincide:
+       r1-r2 = m*lambda, as franjas de interferencia (hiperboloides). As ondas
+       andam; esses encontros ficam no lugar. */
+    /* REGIAO ILUMINADA: o cone da fonte ate' o plano do centro do dente e,
+       dali em diante, uma esfera de raio HRB em volta do dente. Assim a luz
+       envolve a coroa e as raizes inteiras sem abrir um leque enorme que
+       obrigaria a encolher a cena. O shader apaga o que sai dela. */
+    const lit=(P,C)=>{const d=[P[0]-CEN[0],P[1]-CEN[1],P[2]-CEN[2]];
+      if(Math.hypot(d[0],d[1],d[2])<HRB) return true;
+      return ((P[0]-C.S[0])*C.u[0]+(P[1]-C.S[1])*C.u[1]+(P[2]-C.S[2])*C.u[2])<C.L;};
+    const nBeam=(N*0.33)|0;
+    const RMX=Math.ceil((cones[0].L+HRB+0.05)/HLAM)*HLAM, NSH=Math.round(RMX/HLAM);
+    for(;k<nSpin+nBeam;k++){const C=cones[k&1]; let P;
+      do{let n; do{n=1+((rnd()*NSH)|0);}while(rnd()>(n*n)/(NSH*NSH));       /* area da calota ~ r^2 */
+        const r=n*HLAM-HLAM*0.5+(rnd()-0.5)*0.008, ct=1-(1-Math.cos(C.half))*rnd(), st=Math.sqrt(1-ct*ct), a2=rnd()*TAU;
+        P=[0,1,2].map(q=>C.S[q]+(C.u[q]*ct+(C.v[q]*Math.cos(a2)+C.w[q]*Math.sin(a2))*st)*r);}while(!lit(P,C));
+      o[k*3]=P[0];o[k*3+1]=P[1];o[k*3+2]=P[2];}
+    HRMX=RMX;
     /* as duas saidas: pinhole + tubo curto apontado ao longo do eixo */
     for(;k<N;k++){const C=cones[k&1];
       if(rnd()<0.35){const uu=rnd()*2-1,th=rnd()*TAU,rr=0.035*Math.cbrt(rnd()),s2=Math.sqrt(1-uu*uu);
         o[k*3]=C.S[0]+Math.cos(th)*s2*rr;o[k*3+1]=C.S[1]+uu*rr;o[k*3+2]=C.S[2]+Math.sin(th)*s2*rr;}
       else{const t=-0.06-rnd()*0.30,a2=rnd()*TAU,rr=0.045*Math.sqrt(rnd());
         for(let q=0;q<3;q++)o[k*3+q]=C.S[q]+C.u[q]*t+(C.v[q]*Math.cos(a2)+C.w[q]*Math.sin(a2))*rr;}}
-    return {pts:o,edge:eEdge,node:eNode,pulp:ePulp,spin:nSpin,fill:nSpin+nRay+nFr,beam:nSpin+nBeam};}
+    return {pts:o,edge:eEdge,node:eNode,pulp:ePulp,spin:nSpin,fill:nSpin+nBeam,beam:nSpin+nBeam,
+            axis:cones.map(c=>c.u),cosHalf:Math.cos(cones[0].half)};}
   /* HIERARQUIA = SELECAO NATURAL. Nao aparece pronta: cresce da base para a
      ponta (ordem por GERACAO, pai antes do filho) e depois PODA — as linhagens
      perdedoras desaparecem das geracoes mais profundas para tras, ate sobrar
@@ -803,7 +797,7 @@ function makeFormsRaw(N,rnd){
   return {drop:HG.pts,cell:CE.pts,crystal:crystal(),scaffold:scaffold(),
           cellNuc:[CE.nuc0,CE.nuc1],gelNode:[HG.node0,N],
           holo:HO.pts,holoEdge:HO.edge,holoNode:HO.node,holoPulp:HO.pulp,
-          holoSpin:HO.spin,holoFill:HO.fill,holoBeam:HO.beam,
+          holoSpin:HO.spin,holoFill:HO.fill,holoBeam:HO.beam,holoAxis:HO.axis,holoCos:HO.cosHalf,
           hier:HI.pts,hierGrow:HI.grow,hierSel:HI.sel,
           e0:e0,e1:e1,et:et,seed:seed};
 }
@@ -813,7 +807,7 @@ function makeForms(N){
   return {pos:[null,R.crystal,R.cell,R.drop,R.scaffold,R.holo,R.hier],
           cellNuc:R.cellNuc,gelNode:R.gelNode,
           e0:R.e0,e1:R.e1,et:R.et,seed:R.seed,grow:grow,sel:sel,
-          hEdge:R.holoEdge,hNode:R.holoNode,hPulp:R.holoPulp,hSpin:R.holoSpin,hFill:R.holoFill,hBeam:R.holoBeam};
+          hEdge:R.holoEdge,hNode:R.holoNode,hPulp:R.holoPulp,hSpin:R.holoSpin,hFill:R.holoFill,hBeam:R.holoBeam,hAxis:R.holoAxis,hCos:R.holoCos};
 }
 /* ───────── shaders ───────── */
 const VS=`#version 300 es
@@ -822,7 +816,9 @@ uniform float uMix,uTessA,uTessB,uAng,uBreath,uBob,uS,uUnit,uDpr,uOld;
 uniform float uHierA,uHierB,uEmis,uYaw,uPitch,uT,uHolo,uHoloA,uHoloB,uHoloSpin;
 uniform float uHEdge,uHNode,uHPulp,uHSpin,uHBeam,uSelP,uK,uShiftY,uWob;
 uniform float uLeave,uScatter;
-uniform float uHFill,uLam;
+uniform float uHFill,uLam,uHCos,uHRmx,uHRB;
+uniform vec3 uHCen;
+uniform vec3 uA1,uA2;
 uniform vec3 uS1,uS2;
 /* destaque por faixa de indice, para a forma de origem [0] e a de destino [1]:
    R=(de,ate,peso,mistura de cor)  M=(alfa,tamanho)  C=cor */
@@ -849,6 +845,13 @@ void main(){
   float cs=cos(uHoloSpin), ss=sin(uHoloSpin);
   if(uHoloA>0.5 && spinIt) pa=vec3(pa.x*cs-pa.z*ss, pa.y, pa.x*ss+pa.z*cs);
   if(uHoloB>0.5 && spinIt) pb=vec3(pb.x*cs-pb.z*ss, pb.y, pb.x*ss+pb.z*cs);
+  /* ONDAS: as calotas do holograma andam para fora, uma lambda por ciclo, e a
+     ultima volta para junto da fonte (o shader apaga as duas pontas). */
+  bool waveIt = vid>=uHSpin && vid<uHBeam;
+  vec3 srcW = (gl_VertexID%2)==1 ? uS2 : uS1;
+  float wph = fract(uT*0.32)*uLam;
+  if(waveIt && uHoloA>0.5){ vec3 d=pa-srcW; float r=length(d); float rn=mod(r+wph,uHRmx); pa=srcW+d*(rn/max(r,1e-4)); }
+  if(waveIt && uHoloB>0.5){ vec3 d=pb-srcW; float r=length(d); float rn=mod(r+wph,uHRmx); pb=srcW+d*(rn/max(r,1e-4)); }
   /* a arvore cresce da base para a ponta durante a transformacao */
   float t=uMix;
   float ord = uHierB>0.5 ? aGrow : (uHierA>0.5 ? 1.0-aGrow : -1.0);
@@ -906,15 +909,33 @@ void main(){
      piscada sairam: sao tropos de tela CRT, nao de holografia. */
   if(uHolo>0.01){
     float spark=pow(0.5+0.5*sin(uT*2.6+s1*88.0),9.0);
-    float ph=(distance(objP,uS1)-distance(objP,uS2))/uLam;
-    float fr=cos(3.14159265*ph); fr*=fr;
+    float r1=distance(objP,uS1), r2=distance(objP,uS2);
+    /* franjas: intensidade da soma das duas ondas = cos^2(pi*(r1-r2)/lambda).
+       A fase entre os feixes deriva devagar (como num espelho em piezo), e as
+       laminas atravessam o dente — sao da luz, nao do objeto. */
+    float drift=0.0;   /* franjas paradas: sao as ondas que andam */
+    float fr=cos(3.14159265*((r1-r2)/uLam+drift)); fr*=fr;
     float hf; vec3 hc;
-    if(vid>=uHBeam){        hf=1.55; hc=vec3(34.0,52.0,64.0); size*=1.05; }             /* saidas dos feixes */
-    else if(vid>=uHFill){   hf=0.60; hc=vec3(70.0,176.0,190.0); size*=0.75; }           /* volume tenue */
-    else if(vid>=uHSpin){   hf=1.30; hc=vec3(70.0,176.0,190.0); size*=0.75; }           /* raios e franjas */
-    else if(vid>=uHNode){   hf=(0.40+0.60*fr)*(1.3+1.0*spark);                          /* POLPA */
+    if(vid>=uHBeam){        hf=1.55; hc=vec3(34.0,52.0,64.0); size*=1.05; }              /* saidas dos feixes */
+    else if(vid>=uHSpin){
+      /* LUZ: o ponto esta' numa crista da sua fonte. Onde a crista da OUTRA
+         fonte passa junto, as duas somam (construtiva) e o ponto acende —
+         esses lugares sao fixos (r1-r2 = m*lambda) enquanto as ondas andam. */
+      bool src2=(gl_VertexID%2)==1;
+      float rOwn=src2?r2:r1, rOth=src2?r1:r2;
+      float co=pow(0.5+0.5*cos(6.2832*(rOth-rOwn)/uLam),6.0);
+      bool both=dot(normalize(objP-uS1),uA1)>uHCos && dot(normalize(objP-uS2),uA2)>uHCos;
+      float ends=smoothstep(0.05,0.45,rOwn);
+      /* fora da regiao iluminada (cone ate' o centro, esfera depois) a luz some */
+      vec3 Sown=src2?uS2:uS1, Aown=src2?uA2:uA1;
+      float tAx=dot(objP-Sown,Aown), Lax=dot(uHCen-Sown,Aown);
+      float inBall=1.0-smoothstep(uHRB-0.30,uHRB,distance(objP,uHCen));
+      ends*=max(inBall, tAx<Lax?1.0:0.0);
+      hf=(both ? 0.55+2.60*co : 0.95)*ends;
+      hc=mix(vec3(70.0,176.0,190.0),vec3(20.0,150.0,170.0),both?co:0.0); size*=0.95; }
+    else if(vid>=uHNode){   hf=(0.40+0.60*fr)*(1.3+1.0*spark);                           /* POLPA */
                             hc=vec3(232.0,150.0,64.0); size*=1.15; }
-    else {                  hf=(0.25+0.75*fr)*(1.1+0.9*spark);                          /* dente */
+    else {                  hf=(0.35+0.65*fr)*(1.1+0.9*spark);                           /* dente */
                             hc=mix(col,vec3(20.0,168.0,178.0),0.55); }
     a*=mix(1.0,hf,uHolo);
     col=mix(col,hc,uHolo);
@@ -970,7 +991,7 @@ gl.linkProgram(prog);
 if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(prog));
 gl.useProgram(prog);
 const U={};['uMix','uTessA','uTessB','uAng','uBreath','uBob','uS','uUnit','uDpr','uOld',
-  'uHierA','uHierB','uEmis','uYaw','uPitch','uT','uHolo','uHoloA','uHoloB','uHoloSpin','uHEdge','uHNode','uHPulp','uHSpin','uHBeam','uSelP','uK','uShiftY','uWob','uLeave','uScatter','uHFill','uLam','uS1','uS2','uAccR','uAccM','uAccC','uCenter','uRes','uTint','uRim','uKey','uRimDir','uDeep','uLit']
+  'uHierA','uHierB','uEmis','uYaw','uPitch','uT','uHolo','uHoloA','uHoloB','uHoloSpin','uHEdge','uHNode','uHPulp','uHSpin','uHBeam','uSelP','uK','uShiftY','uWob','uLeave','uScatter','uHFill','uLam','uHCos','uHRmx','uHRB','uHCen','uA1','uA2','uS1','uS2','uAccR','uAccM','uAccC','uCenter','uRes','uTint','uRim','uKey','uRimDir','uDeep','uLit']
   .forEach(k=>U[k]=gl.getUniformLocation(prog,k));
 function reqAttr(n){const l=gl.getAttribLocation(prog,n);
   if(l<0) console.warn('[hero] atributo ausente no shader:',n);
@@ -1012,12 +1033,12 @@ function bindForm(loc,i){const b=BUF[i];
 const FORMS=[
   {tint:[26,54,104], rim:[124,172,255], emis:0.26, tess:true, k:1.00},      /* tesserato */
   {tint:[32,52,84],  rim:[242,182,112], emis:0.16, k:1.00},           /* cristal */
-  {tint:[18,80,96],  rim:[124,212,192], emis:0.48, k:1.10, face:true,  /* celula: achatada, de frente; 1,10 = raio 1,22, o teto da cena */
+  {tint:[18,80,96],  rim:[124,212,192], emis:0.48, k:0.99,               /* celula em matriz 3D: gira como as outras; 0,99 = raio 3D 1,23 cabendo em 1,22 em qualquer giro */
    acc:{r:'cellNuc', c:[0,37,74], m:0.55, a:1.25, s:1.00}},
   {tint:[24,58,98],  rim:[ 96,196,206], emis:0.38, k:1.22,             /* hidrogel: o bloco tem raio 0,885; 1,22 o leva a altura das outras */
    acc:{r:'gelNode', c:[0,37,74], m:0.50, a:1.60, s:0.90}},
   {tint:[28,56,88],  rim:[204,218,232], emis:0.20, k:1.00},           /* scaffold */
-  {tint:[16,86,110], rim:[ 92,204,232], emis:0.74, k:HK, wob:0.55, face:true},   /* holograma: as fontes ficam no plano da tela; so' o dente gira */
+  {tint:[16,86,110], rim:[ 92,204,232], emis:0.74, k:HK, wob:0.55},   /* holograma: gira com a cena (a luz e' volume); o dente gira tambem no proprio eixo */
   {tint:[18,84,90],  rim:[132,222,172], emis:0.44, k:1.00, face:true}  /* hierarquia */
 ];
 const HIER=6, TESS=0, HOLO=5;
@@ -1181,7 +1202,8 @@ function frame(now){
   gl.uniform1f(U.uHPulp,FR.hPulp);
   gl.uniform1f(U.uHSpin,FR.hSpin); gl.uniform1f(U.uHBeam,FR.hBeam); gl.uniform1f(U.uHFill,FR.hFill);
   gl.uniform3f(U.uS1,HSRC[0][0],HSRC[0][1],HSRC[0][2]); gl.uniform3f(U.uS2,HSRC[1][0],HSRC[1][1],HSRC[1][2]);
-  gl.uniform1f(U.uLam,HLAM);
+  gl.uniform1f(U.uLam,HLAM); gl.uniform1f(U.uHCos,FR.hCos); gl.uniform1f(U.uHRmx,HRMX); gl.uniform1f(U.uHRB,HRB); gl.uniform3f(U.uHCen,HCEN[0],HCEN[1],HCEN[2]);
+  gl.uniform3f(U.uA1,FR.hAxis[0][0],FR.hAxis[0][1],FR.hAxis[0][2]); gl.uniform3f(U.uA2,FR.hAxis[1][0],FR.hAxis[1][1],FR.hAxis[1][2]);
   { const R=new Float32Array(8), M=new Float32Array(4), C=new Float32Array(6);
     [[idx,1-mix],[nxt,mix]].forEach(function(pr,j){ const f=FORMS[pr[0]], ac=f.acc;
       if(!ac||pr[1]<=0) return; const rg=FR[ac.r];
