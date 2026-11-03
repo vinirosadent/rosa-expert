@@ -79,6 +79,7 @@ window.connectedScienceData = {
     { institutionName: 'Universitas Padjadjaran', country: 'Indonesia', logo: 'assets/connected-science/logos/crest/unpad-crest.png', url: null, displayOrder: 5 },
     { institutionName: 'São Paulo State University (UNESP)', country: 'Brazil', logo: 'assets/connected-science/logos/crest/unesp-crest.png', url: null, displayOrder: 6 },
     { institutionName: 'Ajman University of Science & Technology', country: 'United Arab Emirates', logo: 'assets/connected-science/logos/crest/ajman-crest.png', url: null, displayOrder: 7 },
+    { institutionName: 'University of Maryland', country: 'United States', logo: 'assets/connected-science/logos/crest/umd-crest.png', url: null, displayOrder: 8 },
   ],
 
   /* ---- Work built together --------------------------------------- */
