@@ -82,7 +82,14 @@
   #pl-list.fading{opacity:0;transition:opacity .15s}
   .pl-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--slate-900);color:#fff;font:500 13px var(--font-sans);padding:10px 16px;border-radius:var(--radius-pill);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:50}
   .pl-toast.show{opacity:1;transform:translate(-50%,0)}
+  /* Back-to-top: appears after the first screen, bottom-right */
+  .pl-top{position:fixed;right:max(20px,calc((100vw - var(--container-base)) / 2 + 8px));bottom:24px;z-index:40;display:inline-flex;align-items:center;gap:8px;padding:11px 18px 11px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-pill);background:var(--surface-card);box-shadow:var(--shadow-md);font:600 13px var(--font-sans);color:var(--blue-700);cursor:pointer;opacity:0;transform:translateY(12px);visibility:hidden;transition:opacity .25s,transform .25s,visibility .25s,border-color .2s,color .2s}
+  .pl-top.show{opacity:1;transform:none;visibility:visible}
+  .pl-top:hover{border-color:var(--blue-500);color:var(--blue-500)}
+  .pl-top:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+  .pl-top svg{width:14px;height:14px}
   @media (max-width:860px){
+    .pl-top{right:16px;bottom:16px;padding:10px 14px 10px 12px}
     .pl{grid-template-columns:minmax(0,1fr);gap:24px;padding-top:var(--space-10)}
     .pl-side{position:static;min-width:0}
     .pl-nav{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
@@ -95,7 +102,7 @@
     .pl-e.open{margin:6px -12px;padding:16px 12px}
   }
   @media (prefers-reduced-motion:reduce){
-    .pl-e,.pl-e .more,#pl-list,.pl-pop,.pl-toast{transition:none}
+    .pl-e,.pl-e .more,#pl-list,.pl-pop,.pl-toast,.pl-top{transition:none}
     .pl-e{opacity:1;transform:none}
   }
 </style>
@@ -151,6 +158,9 @@
 </main>
 </div><!-- /app -->
 <div class="pl-toast" id="pl-toast" role="status" aria-live="polite"></div>
+<button type="button" class="pl-top" id="pl-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Top
+</button>
 
 <script src="assets/js/data/pubs.js"></script>
 <script src="assets/js/shared.js"></script>
@@ -438,6 +448,13 @@ $('pl-nav').addEventListener('click', e => {
   if (scrollY > top) scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 });
 
+
+// Back-to-top button (shows after one screen of scrolling)
+const topBtn = $('pl-top');
+function topVis() { topBtn.classList.toggle('show', scrollY > innerHeight * 0.8); }
+addEventListener('scroll', topVis, { passive: true });
+topBtn.addEventListener('click', () => scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+topVis();
 
 readURL();
 renderList(false);
