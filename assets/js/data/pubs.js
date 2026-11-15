@@ -147,11 +147,11 @@ const PUBS = [
   { title: 'Osteogenic potential of graphene coated titanium is independent of transfer technique', authors: 'Dubey N., Morin J.L.P., Luong-Van E.K., Agarwalla S.V., Silikas N., Castro Neto A.H., Rosa V.', venue: 'Materialia', year: 2020, category: 'regen', doi: '10.1016/j.mtla.2020.100604' },
   { title: 'Polymer Nanocomposites Based on Poly(ε-caprolactone), Hydroxyapatite and Graphene Oxide', authors: 'Medeiros G.S., Muñoz P.A.R., de Oliveira C.F.P., da Silva L.C.E., Malhotra R., Gonçalves M.C., Rosa V., Fechine G.J.M.', venue: 'Journal of Polymers and the Environment', year: 2020, category: 'bio', doi: '10.1007/s10924-019-01613-w' },
   { title: 'Potential applications of graphene-based nanomaterials in biomedical, dental, and implant applications', authors: 'Rokaya D., Srimaneepong V., Thunyakitpisal P., Qin J., Rosa V., Sapkota J.', venue: 'Advances in Dental Implantology using Nanomaterials and Allied Technology Applications', year: 2020, category: 'bio', doi: '10.1007/978-3-030-52207-0_4' },
-  { title: 'Sodium Hypochlorite Treatment Post-Etching Improves the Bond Strength of Resin-Based Sealant to Hypomineralized Enamel by Removing Surface Organic Content', authors: 'Yang Q.N., Rosa V., Hong C.H.L., Tan H.X.M., Hu S.', venue: 'Pediatric dentistry', year: 2020, category: 'bio' },
+  { title: 'Sodium Hypochlorite Treatment Post-Etching Improves the Bond Strength of Resin-Based Sealant to Hypomineralized Enamel by Removing Surface Organic Content', authors: 'Yang Q.N., Rosa V., Hong C.H.L., Tan H.X.M., Hu S.', venue: 'Pediatric Dentistry', year: 2020, category: 'bio' },
   { title: 'Inhibiting corrosion of biomedical Ti-6Al-4V alloys with graphene nanocoating', authors: 'Malhotra R., Han Y.M., Morin J.L.P., Luong-Van E.K., Chew R.J.J., Castro Neto A.H., Nijhuis C.A., Rosa V.', venue: 'Journal of Dental Research', year: 2020, category: 'bio', doi: '10.1177/0022034519897003' },
   { title: 'Mechanisms of graphene influence on cell differentiation', authors: 'Luong-Van E.K., Madanagopal T.T., Rosa V.', venue: 'Materials Today Chemistry', year: 2020, category: 'bio', doi: '10.1016/j.mtchem.2020.100250' },
   { title: 'Biomechanics of alloplastic mandible reconstruction using biomaterials: The effect of implant design on stress concentration influences choice of material', authors: 'Prasadh S., Suresh S., Hong K.L., Bhargav A., Rosa V., Wong R.C.W.', venue: 'Journal of the Mechanical Behavior of Biomedical Materials', year: 2020, category: 'bio', doi: '10.1016/j.jmbbm.2019.103548' },
-  { title: 'Effect of a calcium hydroxide-based intracanal medicament containing N-2-methyl pyrrolidone as a vehicle against Enterococcus faecalis biofilm', authors: 'Kim T., Kim M.-A., Hwang Y.-C., Rosa V., Del Fabbro M., Min K.-S.', venue: 'Journal of Applied Oral Sciences', year: 2020, category: 'regen', doi: '10.1590/1678-7757-2019-0516' },
+  { title: 'Effect of a calcium hydroxide-based intracanal medicament containing N-2-methyl pyrrolidone as a vehicle against Enterococcus faecalis biofilm', authors: 'Kim T., Kim M.-A., Hwang Y.-C., Rosa V., Del Fabbro M., Min K.-S.', venue: 'Journal of Applied Oral Science', year: 2020, category: 'regen', doi: '10.1590/1678-7757-2019-0516' },
 
   /* ── 2019 ───────────────────────────────────────────────── */
   { title: 'Antibiotics Used in Regenerative Endodontics Modify Immune Response of Macrophages to Bacterial Infection', authors: 'Tan E.E., Quah S.Y., Bergenholtz G., Rosa V., Hoon Yu V.S., Tan K.S.', venue: 'Journal of Endodontics', year: 2019, category: 'regen', doi: '10.1016/j.joen.2019.08.001' },
@@ -164,7 +164,7 @@ const PUBS = [
   {
     title: 'Taguchi methods to optimize the properties and bioactivity of 3D printed polycaprolactone/mineral trioxide aggregate scaffold: theoretical predictions and experimental validation',
     authors: 'Bhargav A., Min K.-S., Wen Feng L., Fuh J.Y.H., Rosa V.',
-    venue: 'Journal of Biomedical Materials Research Part B', year: 2020, category: 'design',
+    venue: 'Journal of Biomedical Materials Research Part B: Applied Biomaterials', year: 2020, category: 'design',
     featured: true, badge: 'Design of experiments',
     doi: '10.1002/jbm.b.34417',
     spotlight: 'publications/taguchi-pcl-mta-scaffold.html',
@@ -173,7 +173,7 @@ const PUBS = [
   },
 
   /* ── 2018 ── */
-  { title: 'Applications of additive manufacturing in dentistry: A review', authors: 'Bhargav A., Sanjairaj V., Rosa V., Feng L.W., Fuh YH J.', venue: 'Journal of Biomedical Materials Research - Part B Applied Biomaterials', year: 2018, category: 'review', doi: '10.1002/jbm.b.33961' },
+  { title: 'Applications of additive manufacturing in dentistry: A review', authors: 'Bhargav A., Sanjairaj V., Rosa V., Feng L.W., Fuh YH J.', venue: 'Journal of Biomedical Materials Research Part B: Applied Biomaterials', year: 2018, category: 'review', doi: '10.1002/jbm.b.33961' },
   { title: 'Carbon nanocomposites for implant dentistry and bone tissue engineering', authors: 'Madanagopal T.T., Agarwalla S.V., Rosa V.', venue: 'Applications of Nanocomposite Materials in Dentistry', year: 2018, category: 'regen', doi: '10.1016/B978-0-12-813742-0.00003-1' },
   { title: 'Effect of staining beverages on color and translucency of CAD/CAM composites', authors: 'Quek S.H.Q., Yap A.U.J., Rosa V., Tan K.B.C., Teoh K.H.', venue: 'Journal of Esthetic and Restorative Dentistry', year: 2018, category: 'bio', doi: '10.1111/jerd.12359' },
   { title: 'Enhanced Skin Permeation of Anti-wrinkle Peptides via Molecular Modification', authors: 'Lim S.H., Sun Y., Madanagopal Thiruvallur T., Rosa V., Kang L.', venue: 'Scientific Reports', year: 2018, category: 'bio', doi: '10.1038/s41598-017-18454-z' },
@@ -218,14 +218,14 @@ const PUBS = [
     spotlight: 'publications/graphene-2d-3d-osteogenic.html',
     thumb: 'assets/spotlights/graphene-2d-3d-osteogenic/card.png',
   },
-  { title: 'Bioactivity, physical and chemical properties of MTA mixed with propylene glycol', authors: 'Natu V.P., Dubey N., Loke G.C.L., Tan T.S., Ng W.H., Yong C.W., Cao T., Rosa V.', venue: 'Journal of Applied Oral Sciences', year: 2015, category: 'regen', doi: '10.1590/1678-775720150084' },
+  { title: 'Bioactivity, physical and chemical properties of MTA mixed with propylene glycol', authors: 'Natu V.P., Dubey N., Loke G.C.L., Tan T.S., Ng W.H., Yong C.W., Cao T., Rosa V.', venue: 'Journal of Applied Oral Science', year: 2015, category: 'regen', doi: '10.1590/1678-775720150084' },
 
   /* ── 2014 ───────────────────────────────────────────────── */
-  { title: 'Structural reinforcement and sealing ability of temporary fillings in premolar with class II mod cavities', authors: 'Bello Y.D., Barbizam J.V., Rosa V.', venue: 'The journal of contemporary dental practice', year: 2014, category: 'bio', doi: '10.5005/jp-journals-10024-1489' },
+  { title: 'Structural reinforcement and sealing ability of temporary fillings in premolar with class II mod cavities', authors: 'Bello Y.D., Barbizam J.V., Rosa V.', venue: 'Journal of Contemporary Dental Practice', year: 2014, category: 'bio', doi: '10.5005/jp-journals-10024-1489' },
   { title: 'Inducing pluripotency for disease modeling, drug development and craniofacial applications', authors: 'Rosa V., Toh W.S., Cao T., Shim W.', venue: 'Expert Opinion on Biological Therapy', year: 2014, category: 'regen', doi: '10.1517/14712598.2014.915306' },
 
   /* ── 2013 ───────────────────────────────────────────────── */
-  { title: 'What and where are the stem cells for Dentistry?', authors: 'Rosa V.', venue: 'Singapore dental journal', year: 2013, category: 'regen', doi: '10.1016/j.sdj.2013.11.003' },
+  { title: 'What and where are the stem cells for Dentistry?', authors: 'Rosa V.', venue: 'Singapore Dental Journal', year: 2013, category: 'regen', doi: '10.1016/j.sdj.2013.11.003' },
   { title: 'Dental pulp tissue engineering in full-length root canals', authors: 'Rosa V., Zhang Z., Grande R.H.M., Nör J.E.', venue: 'Journal of Dental Research', year: 2013, category: 'regen', doi: '10.1177/0022034513505772' },
 
   /* ── 2012 ───────────────────────────────────────────────── */

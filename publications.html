@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/components.css">
 <style>
-  /* Copy-citation control (page-scoped) */
+  /* Copy-citation control (page-scoped, featured cards) */
   .cite-btn{
     display:inline-flex; align-items:center; gap:6px;
     font-family:var(--font-sans); font-size:12.5px; font-weight:600;
@@ -18,10 +18,83 @@
   .cite-btn:hover{ color:var(--blue-600); }
   .cite-btn.copied{ color:var(--teal-600); }
   .cite-btn svg{ width:13px; height:13px; }
-  /* Archive row: keep whole row clickable, float the cite button top-right */
-  .archive-item-wrap{ position:relative; }
-  .archive-item-wrap .archive-item{ padding-right:70px; }
-  .archive-item-wrap .cite-btn{ position:absolute; top:var(--space-5); right:0; }
+  /* ── All publications: research lines + one filter element ──
+     Replaces the old year accordions, which hid ~105 of the 113 papers behind
+     five closed toggles. Classes are page-scoped (pl-*) so nothing collides
+     with components.css (.nav / .e etc. are taken there). */
+  .pl{max-width:var(--container-base);margin:0 auto;padding:var(--space-16) var(--gutter) var(--space-16);display:grid;grid-template-columns:230px minmax(0,1fr);gap:56px}
+  .pl-side{position:sticky;top:calc(var(--header-height) + 24px);align-self:start}
+  .pl-nav{display:block}
+  .pl-nav a{display:block;padding:10px 0 10px 16px;border-left:2px solid var(--border-subtle);font:500 14px/1.35 var(--font-sans);color:var(--text-muted);text-decoration:none;transition:color .25s,border-color .25s,opacity .25s}
+  .pl-nav a:hover{color:var(--text-strong)}
+  .pl-nav a.on{border-left-color:var(--orange-500);color:var(--text-strong)}
+  .pl-nav a.off{opacity:.35;pointer-events:none}
+  /* The filter opens INSIDE the side column (pushes down), never over the list */
+  .pl-rf{margin-top:24px}
+  .pl-rf-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-pill);background:var(--surface-card);font:500 13px var(--font-sans);color:var(--text-body);cursor:pointer;text-align:left;transition:border-color .2s}
+  .pl-rf-btn:hover,.pl-rf.open .pl-rf-btn{border-color:var(--blue-400)}
+  .pl-rf-btn svg{width:15px;height:15px;flex:none;color:var(--text-faint)}
+  .pl-rf-btn .sum{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pl-rf-btn .x{font-size:15px;color:var(--text-faint);display:none;padding:0 2px}
+  .pl-rf.active .pl-rf-btn{border-color:var(--blue-500);color:var(--blue-700)}
+  .pl-rf.active .pl-rf-btn .x{display:inline}
+  .pl-pop{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .3s ease,opacity .25s,visibility .3s}
+  .pl-pop>div{overflow:hidden;min-height:0}
+  .pl-rf.open .pl-pop{grid-template-rows:1fr;opacity:1;visibility:visible}
+  .pl-pop .in{margin-top:10px;background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:14px;padding:14px}
+  .pl-pop label{display:block;font:700 10px var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin:2px 0 8px}
+  .pl-q{width:100%;padding:9px 12px;border:1px solid var(--border-strong);border-radius:10px;font:500 13px var(--font-sans);color:var(--text-strong);outline:none;margin-bottom:16px}
+  .pl-q:focus{border-color:var(--blue-500)}
+  .pl-yrs{display:flex;align-items:center;gap:8px}
+  .pl-yrs select{flex:1;min-width:0;padding:8px;border:1px solid var(--border-strong);border-radius:10px;font:500 13px var(--font-sans);background:var(--surface-card);color:var(--text-strong)}
+  .pl-yrs span{font:500 12px var(--font-sans);color:var(--text-faint)}
+  .pl-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border-subtle);font:600 12.5px var(--font-sans)}
+  .pl-foot button{background:none;border:0;padding:0;cursor:pointer;font:inherit;color:var(--blue-600)}
+  .pl-foot .clr{color:var(--text-faint)}
+  .pl-line{margin-bottom:72px;scroll-margin-top:calc(var(--header-height) + 24px)}
+  .pl-lh{padding-bottom:16px;border-bottom:1px solid var(--text-strong)}
+  .pl-lh .kick{font:700 11px var(--font-sans);letter-spacing:.09em;text-transform:uppercase;color:var(--lc)}
+  .pl-lh h2{font:400 40px/1.1 var(--font-serif);color:var(--text-strong);letter-spacing:-.015em;margin-top:8px}
+  .pl-intro{margin:18px 0 6px;max-width:640px;font:italic 17px/1.55 var(--font-serif);color:var(--text-muted)}
+  .pl-e{display:grid;grid-template-columns:62px minmax(0,1fr) 20px;gap:20px;padding:17px 0;border-bottom:1px solid var(--border-subtle);cursor:pointer;outline:none;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.2,1),background .25s,box-shadow .25s,margin .25s,padding .25s,border-radius .25s}
+  .pl-e.vis{opacity:1;transform:none}
+  .pl-e:focus-visible{box-shadow:var(--shadow-focus);border-radius:8px}
+  .pl-e .y{font:500 15px var(--font-serif);color:var(--text-faint);padding-top:3px;transition:color .25s}
+  .pl-e .t{font:400 18.5px/1.38 var(--font-serif);color:var(--text-strong);transition:color .25s}
+  .pl-e .m{margin-top:5px;font:italic 14px var(--font-serif);color:var(--text-muted)}
+  .pl-e .sp{font:700 10px var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--orange-600);font-style:normal;margin-left:10px}
+  .pl-e .go{display:inline-block;align-self:start;height:22px;padding-top:4px;text-align:center;font:600 18px/1 var(--font-sans);color:var(--border-strong);transition:transform .25s,color .25s}
+  .pl-e:hover .t{color:var(--blue-700)}
+  .pl-e:hover .go{color:var(--orange-500);transform:translateX(4px)}
+  .pl-e .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+  .pl-e .more>div{overflow:hidden;min-height:0}
+  .pl-e.open{background:var(--surface-card);box-shadow:var(--shadow-md);border-radius:12px;margin:6px -22px;padding:22px;border-bottom-color:transparent}
+  .pl-e.open .more{grid-template-rows:1fr}
+  .pl-e.open .y{color:var(--orange-600)}
+  .pl-e.open .t{color:var(--blue-700)}
+  .pl-e.open .go{transform:rotate(90deg);color:var(--orange-500)}
+  .pl-e .au{margin-top:12px;font:400 12.5px/1.55 var(--font-sans);color:var(--text-muted)}
+  .pl-e .acts{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:14px;font:600 12.5px var(--font-sans)}
+  .pl-e .acts a,.pl-e .acts button{color:var(--blue-600);background:none;border:0;padding:0;font:inherit;cursor:pointer;text-decoration:none}
+  .pl-e .acts button.ok{color:var(--teal-600)}
+  .pl-empty{display:none;padding:40px 0;font:italic 17px var(--font-serif);color:var(--text-muted)}
+  #pl-list{transition:opacity .2s}
+  #pl-list.fading{opacity:0;transition:opacity .15s}
+  .pl-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--slate-900);color:#fff;font:500 13px var(--font-sans);padding:10px 16px;border-radius:var(--radius-pill);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:50}
+  .pl-toast.show{opacity:1;transform:translate(-50%,0)}
+  @media (max-width:860px){
+    .pl{grid-template-columns:1fr;gap:24px;padding-top:var(--space-10)}
+    .pl-side{position:static}
+    .pl-nav{display:none}
+    .pl-rf{margin-top:16px}
+    .pl-lh h2{font-size:30px}
+    .pl-e{grid-template-columns:44px minmax(0,1fr) 16px;gap:12px}
+    .pl-e.open{margin:6px -12px;padding:16px 12px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .pl-e,.pl-e .more,#pl-list,.pl-pop,.pl-toast{transition:none}
+    .pl-e{opacity:1;transform:none}
+  }
 </style>
 </head>
 <body>
@@ -35,21 +108,6 @@
     <p style="margin-top:16px;font-family:var(--font-serif);font-style:italic;font-size:20px;line-height:1.5;color:var(--text-muted);">Selected work on biomaterials, regeneration, AI-guided design and translational oral-health technologies.</p>
   </div>
 
-  <!-- ── Filters ───────────────────────────────────────────── -->
-  <div class="pub-filters">
-    <div class="filter-row">
-      <button class="pill-btn active"   data-filter="all"  onclick="setPubFilter('all')">All</button>
-      <button class="pill-btn inactive" data-filter="bio"  onclick="setPubFilter('bio')">Biomaterials &amp; biointerfaces</button>
-      <button class="pill-btn inactive" data-filter="regen"onclick="setPubFilter('regen')">Regeneration &amp; living models</button>
-      <button class="pill-btn inactive" data-filter="design" onclick="setPubFilter('design')">Design intelligence</button>
-      <button class="pill-btn inactive" data-filter="review" onclick="setPubFilter('review')">Reviews</button>
-      <button class="pill-btn inactive" data-filter="ai"   onclick="setPubFilter('ai')">Methods &amp; translation</button>
-      <input class="pub-search-input" type="text" id="pub-search" placeholder="Search…" oninput="onPubSearch(this.value)" aria-label="Search publications">
-    </div>
-  </div>
-
-  <div id="pub-empty" class="empty-state" style="display:none;">No publications match this filter.</div>
-
   <!-- ── Featured breakthroughs ────────────────────────────── -->
   <div class="pub-section" id="featured-section">
     <div class="section-divider">
@@ -59,26 +117,41 @@
     <div class="featured-grid" id="featured-grid"></div>
   </div>
 
-  <!-- ── Archive ───────────────────────────────────────────── -->
-  <div class="pub-section" style="padding-bottom:var(--space-12);">
-    <div class="section-divider">
-      <div class="eyebrow">Selected archive</div>
-      <div class="section-divider-line"></div>
+  <!-- ── All publications (by research line) ──────────────── -->
+  <section class="pl" aria-label="All publications">
+    <aside class="pl-side">
+      <div class="eyebrow" style="margin-bottom:18px;">All publications</div>
+      <nav class="pl-nav" id="pl-nav" aria-label="Research lines"></nav>
+      <div class="pl-rf" id="pl-rf">
+        <button type="button" class="pl-rf-btn" id="pl-rfb" aria-expanded="false" aria-controls="pl-pop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          <span class="sum" id="pl-sum">Search &amp; filter</span>
+          <span class="x" id="pl-x" role="button" aria-label="Clear filters" title="Clear">×</span>
+        </button>
+        <div class="pl-pop" id="pl-pop"><div><div class="in">
+          <label for="pl-q">Search</label>
+          <input class="pl-q" id="pl-q" type="search" placeholder="Title, author, journal…" autocomplete="off">
+          <label for="pl-yf">Years</label>
+          <div class="pl-yrs">
+            <select id="pl-yf" aria-label="From year"></select><span>–</span><select id="pl-yt" aria-label="To year"></select>
+          </div>
+          <div class="pl-foot"><button type="button" class="clr" id="pl-clr">Clear</button><button type="button" id="pl-cpv">Copy link to this view</button></div>
+        </div></div></div>
+      </div>
+    </aside>
+    <div>
+      <div id="pl-list"></div>
+      <p class="pl-empty" id="pl-empty">No publications match these filters.</p>
     </div>
-    <div class="archive-list" id="archive-list"></div>
-  </div>
+  </section>
 
 </main>
 </div><!-- /app -->
+<div class="pl-toast" id="pl-toast" role="status" aria-live="polite"></div>
 
 <script src="assets/js/data/pubs.js"></script>
 <script src="assets/js/shared.js"></script>
 <script>
-// ── State ──────────────────────────────────────────────────────
-let pubFilter = 'all';
-let pubQuery  = '';
-const openBlocks = {};
-
 // ── Category colours ───────────────────────────────────────────
 function catTone(cat) {
   if (cat === 'design')return{ wash:'var(--wash-orange)', ink:'var(--orange-600)', label:'Design intelligence',           cls:'tag-orange' };
@@ -91,6 +164,7 @@ function catTone(cat) {
 
 // ── HTML builders ──────────────────────────────────────────────
 function authorsHTML(a){ return a ? a.replace(/Rosa V\./g, '<strong style="color:var(--text-strong);">Rosa V.</strong>') : ''; }
+function pubLink(p){ return p.doi ? 'https://doi.org/' + p.doi : (p.url || ''); }
 
 // ── Copy citation ──────────────────────────────────────────────
 const CITE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
@@ -105,22 +179,23 @@ function buildCitation(p) {
   else if (p.url) s += ' ' + p.url;
   return s;
 }
-function copyCitation(idx, btn) {
-  const p = PUBS[idx];
-  if (!p) return;
-  const text = buildCitation(p);
-  const span = btn.querySelector('span');
-  const orig = span ? span.textContent : '';
-  const done = () => {
-    if (span) span.textContent = 'Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { if (span) span.textContent = orig; btn.classList.remove('copied'); }, 1600);
-  };
+function copyText(text, done) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
   } else {
     fallbackCopy(text, done);
   }
+}
+function copyCitation(idx, btn) {
+  const p = PUBS[idx];
+  if (!p) return;
+  const span = btn.querySelector('span');
+  const orig = span ? span.textContent : '';
+  copyText(buildCitation(p), () => {
+    if (span) span.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { if (span) span.textContent = orig; btn.classList.remove('copied'); }, 1600);
+  });
 }
 function fallbackCopy(text, done) {
   const ta = document.createElement('textarea');
@@ -155,99 +230,201 @@ function pubCardHTML(p) {
   </div>`;
 }
 
-function archiveItemHTML(p) {
-  const inner = `<span class="archive-item-year">${p.year}</span>
-    <span class="archive-item-body">
-      <span class="archive-title">${p.title}</span>
-      ${p.authors ? `<span style="display:block;font-size:12px;line-height:1.45;color:var(--text-muted);margin:3px 0 1px;">${authorsHTML(p.authors)}</span>` : ''}
-      <span class="archive-meta">
-        <span class="archive-venue">${p.venue}</span>${p.spotlight ? ' <span class="archive-venue" style="color:var(--orange-600); font-weight:700;">· Spotlight</span>' : ''}
-      </span>
-    </span>`;
-  const link = p.spotlight
-    ? `<a href="${p.spotlight}" class="archive-item">${inner}</a>`
-    : ((p.doi || p.url)
-        ? `<a href="${p.doi ? 'https://doi.org/' + p.doi : p.url}" target="_blank" rel="noopener" class="archive-item">${inner}</a>`
-        : `<div class="archive-item">${inner}</div>`);
-  return `<div class="archive-item-wrap">${link}${citeBtnHTML(p, 'Cite')}</div>`;
+// ── Featured cards (curated: featured:true in pubs.js) ────────
+document.getElementById('featured-grid').innerHTML = PUBS.filter(p => p.featured).slice(0, 8).map(pubCardHTML).join('');
+
+// ── All publications, grouped by research line ────────────────
+// Line order and colours follow catTone(). An intro paragraph is shown only
+// when text exists here — Vinicius writes these; never fill them in.
+const LINES = ['bio', 'regen', 'design', 'review', 'ai'];
+const LINE_COLOR = { bio:'var(--blue-500)', regen:'var(--teal-500)', design:'var(--orange-500)', review:'var(--green-500)', ai:'var(--slate-500)' };
+const LINE_INTRO = { bio:'', regen:'', design:'', review:'', ai:'' };
+
+const YMIN = Math.min(...PUBS.map(p => p.year));
+const YMAX = Math.max(...PUBS.map(p => p.year));
+const st = { from:'', to:'', q:'' };
+const $ = id => document.getElementById(id);
+
+function yearOptions(first) {
+  let h = first;
+  for (let y = YMAX; y >= YMIN; y--) h += `<option>${y}</option>`;
+  return h;
+}
+$('pl-yf').innerHTML = yearOptions('<option value="">From</option>');
+$('pl-yt').innerHTML = yearOptions('<option value="">Present</option>');
+$('pl-nav').innerHTML = LINES.map(k => `<a href="#line-${k}" data-k="${k}">${catTone(k).label}</a>`).join('');
+
+function matches(p) {
+  if (st.from && p.year < +st.from) return false;
+  if (st.to && p.year > +st.to) return false;
+  if (st.q && !(p.title + ' ' + (p.authors || '') + ' ' + p.venue).toLowerCase().includes(st.q)) return false;
+  return true;
 }
 
-// ── Filters ────────────────────────────────────────────────────
-function setPubFilter(id) {
-  pubFilter = id;
-  document.querySelectorAll('[data-filter]').forEach(b => {
-    const active = b.dataset.filter === id;
-    b.classList.toggle('active', active);
-    b.classList.toggle('inactive', !active);
-  });
-  render();
+function rowHTML(p) {
+  const i = PUBS.indexOf(p), L = pubLink(p);
+  return `<div class="pl-e" data-i="${i}" role="button" tabindex="0" aria-expanded="false">
+    <span class="y">${p.year}</span>
+    <div>
+      <div class="t">${p.title}</div>
+      <div class="m">${p.venue}${p.spotlight ? '<span class="sp">Spotlight</span>' : ''}</div>
+      <div class="more"><div>
+        ${p.authors ? `<div class="au">${authorsHTML(p.authors)}</div>` : ''}
+        <div class="acts">
+          ${p.spotlight ? `<a href="${p.spotlight}">Read spotlight →</a>` : ''}
+          ${L ? `<a href="${L}" target="_blank" rel="noopener">Open link ↗</a><button type="button" data-copy="${L}">Copy link</button>` : ''}
+          <button type="button" data-cite="${i}">Cite</button>
+        </div>
+      </div></div>
+    </div>
+    <span class="go" aria-hidden="true">→</span>
+  </div>`;
 }
 
-function onPubSearch(val) {
-  pubQuery = val.toLowerCase();
-  render();
+function renderList(animate) {
+  const list = $('pl-list');
+  const draw = () => {
+    let n = 0;
+    list.innerHTML = LINES.map(k => {
+      const ps = PUBS.filter(p => p.category === k && matches(p)).sort((a, z) => z.year - a.year);
+      n += ps.length;
+      const nav = document.querySelector(`#pl-nav a[data-k="${k}"]`);
+      if (nav) nav.classList.toggle('off', !ps.length);
+      if (!ps.length) return '';
+      return `<section class="pl-line" id="line-${k}" style="--lc:${LINE_COLOR[k]}">
+        <div class="pl-lh"><div class="kick">Research line</div><h2>${catTone(k).label}</h2></div>
+        ${LINE_INTRO[k] ? `<p class="pl-intro">${LINE_INTRO[k]}</p>` : ''}
+        ${ps.map(rowHTML).join('')}
+      </section>`;
+    }).join('');
+    $('pl-empty').style.display = n ? 'none' : 'block';
+    list.classList.remove('fading');
+    reveal(); updateSummary(); syncURL(); spy();
+  };
+  if (animate) { list.classList.add('fading'); setTimeout(draw, 160); } else draw();
 }
 
-// ── Accordion toggle ───────────────────────────────────────────
-function toggleBlock(id) {
-  const cur = !!openBlocks[id];
-  openBlocks[id] = !cur;
-  const body = document.getElementById('ab-' + id);
-  const chev = document.getElementById('chev-' + id);
-  if (body) body.style.display = !cur ? 'block' : 'none';
-  if (chev) chev.textContent = !cur ? '▲' : '▼';
-}
-
-// ── Render ─────────────────────────────────────────────────────
-function render() {
-  const filtered = PUBS.filter(p => {
-    const matchCat = pubFilter === 'all' || p.category === pubFilter;
-    const matchQ   = !pubQuery || (p.title + p.venue).toLowerCase().includes(pubQuery);
-    return matchCat && matchQ;
-  });
-
-  document.getElementById('pub-empty').style.display = filtered.length === 0 ? 'block' : 'none';
-
-  // Featured
-  const featured = filtered.filter(p => p.featured).slice(0, 8);
-  const featSec  = document.getElementById('featured-section');
-  const featGrid = document.getElementById('featured-grid');
-  if (featured.length > 0) {
-    featSec.style.display = '';
-    featGrid.innerHTML = featured.map(pubCardHTML).join('');
-  } else {
-    featSec.style.display = 'none';
+// Rows ease in as they scroll into view (staggered for the first screen).
+let io = null;
+function reveal() {
+  const rows = document.querySelectorAll('.pl-e');
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    rows.forEach(r => r.classList.add('vis')); return;
   }
-
-  // Archive blocks
-  const blocks = [
-    { id:'b1', label:'2024 – 2026', min:2024, max:2026 },
-    { id:'b2', label:'2021 – 2023', min:2021, max:2023 },
-    { id:'b3', label:'2018 – 2020', min:2018, max:2020 },
-    { id:'b4', label:'2012 – 2017', min:2012, max:2017 },
-    { id:'b5', label:'2007 – 2011', min:2007, max:2011 },
-  ];
-  const archiveEl = document.getElementById('archive-list');
-  archiveEl.innerHTML = blocks.map(b => {
-    const items = filtered.filter(p => p.year >= b.min && p.year <= b.max).sort((a,z) => z.year - a.year);
-    if (!items.length) return '';
-    const open = !!openBlocks[b.id];
-    return `<div class="archive-group" id="ag-${b.id}">
-      <button class="archive-toggle" onclick="toggleBlock('${b.id}')">
-        <span class="archive-year-label">${b.label}</span>
-        <span style="display:flex;align-items:center;gap:10px;">
-          <span class="archive-count">${items.length} items</span>
-          <span class="archive-chevron" id="chev-${b.id}">${open ? '▲' : '▼'}</span>
-        </span>
-      </button>
-      <div id="ab-${b.id}" style="display:${open?'block':'none'};">
-        <div class="archive-items">${items.map(archiveItemHTML).join('')}</div>
-      </div>
-    </div>`;
-  }).join('');
+  if (io) io.disconnect();
+  io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    setTimeout(() => el.classList.add('vis'), +el.dataset.d || 0);
+    io.unobserve(el);
+  }), { rootMargin: '0px 0px -6% 0px' });
+  let d = 0;
+  rows.forEach(r => {
+    if (r.getBoundingClientRect().top < innerHeight) { r.dataset.d = Math.min(d, 600); d += 45; }
+    io.observe(r);
+  });
 }
 
-render();
+function updateSummary() {
+  const parts = [];
+  if (st.q) parts.push('“' + st.q + '”');
+  if (st.from || st.to) parts.push((st.from || YMIN) + '–' + (st.to || 'present'));
+  $('pl-sum').textContent = parts.length ? parts.join(' · ') : 'Search & filter';
+  $('pl-rf').classList.toggle('active', parts.length > 0);
+}
+
+// Filters live in the URL, so "Copy link to this view" shares the filtered page.
+function syncURL() {
+  const u = new URLSearchParams();
+  if (st.from) u.set('from', st.from);
+  if (st.to) u.set('to', st.to);
+  if (st.q) u.set('q', st.q);
+  const qs = u.toString();
+  history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+}
+function readURL() {
+  const u = new URLSearchParams(location.search);
+  const y = v => (v && +v >= YMIN && +v <= YMAX) ? String(+v) : '';
+  st.from = y(u.get('from')); st.to = y(u.get('to'));
+  st.q = (u.get('q') || '').trim().toLowerCase();
+  $('pl-yf').value = st.from; $('pl-yt').value = st.to; $('pl-q').value = st.q;
+  if (st.from || st.to || st.q) setOpen(true);
+}
+
+function toast(msg) {
+  const t = $('pl-toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1600);
+}
+function setOpen(open) {
+  $('pl-rf').classList.toggle('open', open);
+  $('pl-rfb').setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function clearFilters() {
+  st.from = st.to = st.q = '';
+  $('pl-yf').value = ''; $('pl-yt').value = ''; $('pl-q').value = '';
+  renderList(true);
+}
+
+// ── Events ─────────────────────────────────────────────────────
+$('pl-rfb').addEventListener('click', e => {
+  if (e.target.id === 'pl-x') { clearFilters(); return; }
+  const open = !$('pl-rf').classList.contains('open');
+  setOpen(open);
+  if (open) setTimeout(() => $('pl-q').focus(), 60);
+});
+$('pl-yf').addEventListener('change', () => {
+  st.from = $('pl-yf').value;
+  if (st.to && st.from && +st.to < +st.from) { st.to = ''; $('pl-yt').value = ''; }
+  renderList(true);
+});
+$('pl-yt').addEventListener('change', () => {
+  st.to = $('pl-yt').value;
+  if (st.from && st.to && +st.to < +st.from) { st.from = ''; $('pl-yf').value = ''; }
+  renderList(true);
+});
+let qTimer;
+$('pl-q').addEventListener('input', () => {
+  clearTimeout(qTimer);
+  qTimer = setTimeout(() => { st.q = $('pl-q').value.trim().toLowerCase(); renderList(true); }, 200);
+});
+$('pl-clr').addEventListener('click', clearFilters);
+$('pl-cpv').addEventListener('click', () => copyText(location.href, () => toast('Link to this view copied')));
+
+function toggleRow(r) {
+  const open = !r.classList.contains('open');
+  r.classList.toggle('open', open);
+  r.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+$('pl-list').addEventListener('click', e => {
+  const c = e.target.closest('[data-copy]'), ci = e.target.closest('[data-cite]');
+  if (c) {
+    copyText(c.dataset.copy, () => {
+      c.textContent = 'Copied'; c.classList.add('ok');
+      setTimeout(() => { c.textContent = 'Copy link'; c.classList.remove('ok'); }, 1500);
+    });
+    return;
+  }
+  if (ci) { copyText(buildCitation(PUBS[+ci.dataset.cite]), () => toast('Citation copied')); return; }
+  if (e.target.closest('a')) return;
+  const r = e.target.closest('.pl-e');
+  if (r) toggleRow(r);
+});
+$('pl-list').addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('pl-e')) { e.preventDefault(); toggleRow(e.target); }
+});
+
+// Side menu: highlight the line being read.
+function spy() {
+  let cur = null;
+  document.querySelectorAll('.pl-line').forEach(s => { if (s.getBoundingClientRect().top < 200) cur = s.id; });
+  if (!cur) { const f = document.querySelector('.pl-line'); cur = f && f.id; }
+  document.querySelectorAll('#pl-nav a').forEach(a => a.classList.toggle('on', 'line-' + a.dataset.k === cur));
+}
+addEventListener('scroll', spy, { passive: true });
+
+readURL();
+renderList(false);
 </script>
 </body>
 </html>
