@@ -25,7 +25,7 @@
   .pl{max-width:var(--container-base);margin:0 auto;padding:var(--space-16) var(--gutter) var(--space-16);display:grid;grid-template-columns:230px minmax(0,1fr);gap:56px}
   .pl-side{position:sticky;top:calc(var(--header-height) + 24px);align-self:start}
   .pl-nav{display:block}
-  .pl-nav a{display:block;padding:10px 0 10px 16px;border-left:2px solid var(--border-subtle);font:500 14px/1.35 var(--font-sans);color:var(--text-muted);text-decoration:none;transition:color .25s,border-color .25s,opacity .25s}
+  .pl-nav a{display:block;cursor:pointer;padding:10px 0 10px 16px;border-left:2px solid var(--border-subtle);font:500 14px/1.35 var(--font-sans);color:var(--text-muted);text-decoration:none;transition:color .25s,border-color .25s,opacity .25s}
   .pl-nav a:hover{color:var(--text-strong)}
   .pl-nav a.on{border-left-color:var(--orange-500);color:var(--text-strong)}
   .pl-nav a.off{opacity:.35;pointer-events:none}
@@ -83,9 +83,12 @@
   .pl-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--slate-900);color:#fff;font:500 13px var(--font-sans);padding:10px 16px;border-radius:var(--radius-pill);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:50}
   .pl-toast.show{opacity:1;transform:translate(-50%,0)}
   @media (max-width:860px){
-    .pl{grid-template-columns:1fr;gap:24px;padding-top:var(--space-10)}
-    .pl-side{position:static}
-    .pl-nav{display:none}
+    .pl{grid-template-columns:minmax(0,1fr);gap:24px;padding-top:var(--space-10)}
+    .pl-side{position:static;min-width:0}
+    .pl-nav{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+    .pl-nav::-webkit-scrollbar{display:none}
+    .pl-nav a{flex:none;white-space:nowrap;padding:8px 14px;border:1px solid var(--border-strong);border-left-width:1px;border-radius:var(--radius-pill);font-size:13px}
+    .pl-nav a.on{border-color:var(--blue-500);background:var(--blue-500);color:#fff}
     .pl-rf{margin-top:16px}
     .pl-lh h2{font-size:30px}
     .pl-e{grid-template-columns:44px minmax(0,1fr) 16px;gap:12px}
@@ -242,7 +245,7 @@ const LINE_INTRO = { bio:'', regen:'', design:'', review:'', ai:'' };
 
 const YMIN = Math.min(...PUBS.map(p => p.year));
 const YMAX = Math.max(...PUBS.map(p => p.year));
-const st = { from:'', to:'', q:'' };
+const st = { line:'', from:'', to:'', q:'' };
 const $ = id => document.getElementById(id);
 
 function yearOptions(first) {
@@ -252,7 +255,7 @@ function yearOptions(first) {
 }
 $('pl-yf').innerHTML = yearOptions('<option value="">From</option>');
 $('pl-yt').innerHTML = yearOptions('<option value="">Present</option>');
-$('pl-nav').innerHTML = LINES.map(k => `<a href="#line-${k}" data-k="${k}">${catTone(k).label}</a>`).join('');
+$('pl-nav').innerHTML = [`<a href="#" data-k="">All</a>`].concat(LINES.map(k => `<a href="#line-${k}" data-k="${k}">${catTone(k).label}</a>`)).join('');
 
 function matches(p) {
   if (st.from && p.year < +st.from) return false;
@@ -285,11 +288,18 @@ function renderList(animate) {
   const list = $('pl-list');
   const draw = () => {
     let n = 0;
-    list.innerHTML = LINES.map(k => {
-      const ps = PUBS.filter(p => p.category === k && matches(p)).sort((a, z) => z.year - a.year);
+    // Menu state reflects the search/year filters for EVERY line, so a line
+    // with no matches is dimmed even while another line is selected.
+    const byLine = {};
+    LINES.forEach(k => { byLine[k] = PUBS.filter(p => p.category === k && matches(p)).sort((a, z) => z.year - a.year); });
+    document.querySelectorAll('#pl-nav a').forEach(a => {
+      const k = a.dataset.k;
+      a.classList.toggle('on', k === st.line);
+      a.classList.toggle('off', k !== '' && !byLine[k].length);
+    });
+    list.innerHTML = LINES.filter(k => !st.line || k === st.line).map(k => {
+      const ps = byLine[k];
       n += ps.length;
-      const nav = document.querySelector(`#pl-nav a[data-k="${k}"]`);
-      if (nav) nav.classList.toggle('off', !ps.length);
       if (!ps.length) return '';
       return `<section class="pl-line" id="line-${k}" style="--lc:${LINE_COLOR[k]}">
         <div class="pl-lh"><div class="kick">Research line</div><h2>${catTone(k).label}</h2></div>
@@ -299,7 +309,7 @@ function renderList(animate) {
     }).join('');
     $('pl-empty').style.display = n ? 'none' : 'block';
     list.classList.remove('fading');
-    reveal(); updateSummary(); syncURL(); spy();
+    reveal(); updateSummary(); syncURL();
   };
   if (animate) { list.classList.add('fading'); setTimeout(draw, 160); } else draw();
 }
@@ -336,6 +346,7 @@ function updateSummary() {
 // Filters live in the URL, so "Copy link to this view" shares the filtered page.
 function syncURL() {
   const u = new URLSearchParams();
+  if (st.line) u.set('line', st.line);
   if (st.from) u.set('from', st.from);
   if (st.to) u.set('to', st.to);
   if (st.q) u.set('q', st.q);
@@ -345,6 +356,7 @@ function syncURL() {
 function readURL() {
   const u = new URLSearchParams(location.search);
   const y = v => (v && +v >= YMIN && +v <= YMAX) ? String(+v) : '';
+  st.line = LINES.includes(u.get('line')) ? u.get('line') : '';
   st.from = y(u.get('from')); st.to = y(u.get('to'));
   st.q = (u.get('q') || '').trim().toLowerCase();
   $('pl-yf').value = st.from; $('pl-yt').value = st.to; $('pl-q').value = st.q;
@@ -414,14 +426,18 @@ $('pl-list').addEventListener('keydown', e => {
   if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('pl-e')) { e.preventDefault(); toggleRow(e.target); }
 });
 
-// Side menu: highlight the line being read.
-function spy() {
-  let cur = null;
-  document.querySelectorAll('.pl-line').forEach(s => { if (s.getBoundingClientRect().top < 200) cur = s.id; });
-  if (!cur) { const f = document.querySelector('.pl-line'); cur = f && f.id; }
-  document.querySelectorAll('#pl-nav a').forEach(a => a.classList.toggle('on', 'line-' + a.dataset.k === cur));
-}
-addEventListener('scroll', spy, { passive: true });
+// Side menu = line selector. Picking a line shows ONLY that line; "All" restores everything.
+$('pl-nav').addEventListener('click', e => {
+  const a = e.target.closest('a[data-k]');
+  if (!a) return;
+  e.preventDefault();
+  if (a.classList.contains('off')) return;
+  st.line = a.dataset.k;
+  renderList(true);
+  const top = document.querySelector('.pl').getBoundingClientRect().top + scrollY - (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 72) - 8;
+  if (scrollY > top) scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+});
+
 
 readURL();
 renderList(false);
