@@ -338,7 +338,9 @@ a:hover .nw-cta, .nw-cta:hover { color: var(--orange-600); }
   document.getElementById('nw-cta').href = href(lead);
 
   /* ── Últimas 5: até duas placas + filetes ── */
-  var withPic = recent.filter(function (n) { return n.image; }).slice(0, 2);
+  /* compact:true tira a matéria das placas (continua como filete). Hokkaido saiu
+     das placas em 2026-11-21 a pedido do Vinicius; a vaga passa à próxima com imagem. */
+  var withPic = recent.filter(function (n) { return n.image && !n.compact; }).slice(0, 2);
   document.getElementById('nw-features').innerHTML = withPic.map(function (n, i) {
     return '<a class="nw-feature" href="' + href(n) + '">' +
       '<div class="nw-feature-media"><img src="' + esc(n.image) + '" alt="' + esc(n.imageAlt || '') + '" loading="lazy" decoding="async">' +

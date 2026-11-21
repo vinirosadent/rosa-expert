@@ -19,7 +19,7 @@ var NEWS = [
     imageAlt:'Abstract gold and silver curved sculpture, like a stylized flame or wing, on a dark spotlit pedestal.',
     dek:'Recognised by the International Association for Dental Research for innovation that advances oral care research and practice.',
     headline:"A/P Rosa receives the 2026 IADR Innovation in Oral Care Award", category:'awards' },
-  { id:'n42', slug:'hokkaido-summer-institute-2026', tags:['invited-lecture','artificial-intelligence','biomaterials','materials-design'], tagLabels:["Invited Lecture","Artificial Intelligence","Biomaterials","Materials Design"], source:'Hokkaido Summer Institute', date:'September 2026', dateISO:'2026-09-07', tone:'blue',
+  { id:'n42', slug:'hokkaido-summer-institute-2026', tags:['invited-lecture','artificial-intelligence','biomaterials','materials-design'], tagLabels:["Invited Lecture","Artificial Intelligence","Biomaterials","Materials Design"], source:'Hokkaido Summer Institute', date:'September 2026', dateISO:'2026-09-07', tone:'blue', compact:true,
     image:'news/Assets/hokkaido-summer-institute-cover.png',
     imageAlt:'Watercolor illustration of the historic clock tower at Hokkaido University in Sapporo, framed by a blossoming cherry branch.',
     dek:'A/P Rosa shared how artificial intelligence can bring precision and imagination together to design new bioactive materials.',
