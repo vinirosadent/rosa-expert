@@ -3,7 +3,7 @@ var NEWS = [
     image:'news/Assets/three-awards-2026-hero-v2.jpg',
     imageAlt:'Watercolour illustration in which grains of calcium silicate cement dissolve into a porous blue hydrogel matrix holding pale peach dental pulp stem cells, which in turn resolve into network nodes, flowing lines and a grid of coloured data squares on the right.',
     imageFocus:'70% 50%',
-    dek:'Three distinct projects integrate materials science, biology and artificial intelligence to advance how dental biomaterials are designed, developed and biologically evaluated.',
+    dek:'Three distinct research projects bring together materials science, biology and artificial intelligence to advance how dental biomaterials are designed, developed and evaluated.',
     headline:"Three awards recognise a shared vision for the dental materials that should exist", category:'awards' },
   { id:'n53', slug:'straits-times-dyson-2026', tags:['media-feature','industry-collaboration','dyson','oral-biofilms','nus-dentistry'], tagLabels:["Media Feature","Industry Collaboration","Dyson","Oral Biofilms","NUS Dentistry"], source:'The Straits Times', date:'September 2026', dateISO:'2026-09-10', tone:'blue',
     dek:'A five-year collaboration between NUS Dentistry and Dyson demonstrates how academic research in oral biofilms can contribute to industrial innovation and technology development.',
