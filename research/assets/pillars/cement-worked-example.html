@@ -231,7 +231,7 @@ function bar3d(x,base,w,h,col,a,glow){if(h<=0||a<=0)return;var d=w*.35;ctx.save(
  var g=ctx.createLinearGradient(0,base,0,base-h);g.addColorStop(0,rgba(CR,1));g.addColorStop(1,rgba(col,1));ctx.fillStyle=g;ctx.fillRect(x,base-h,w,h);ctx.shadowBlur=0;
  ctx.beginPath();ctx.moveTo(x,base-h);ctx.lineTo(x+d,base-h-d*.6);ctx.lineTo(x+w+d,base-h-d*.6);ctx.lineTo(x+w,base-h);ctx.closePath();ctx.fillStyle=rgba(AL,.55);ctx.fill();
  ctx.beginPath();ctx.moveTo(x+w,base-h);ctx.lineTo(x+w+d,base-h-d*.6);ctx.lineTo(x+w+d,base-d*.6);ctx.lineTo(x+w,base);ctx.closePath();ctx.fillStyle=rgba(CR,.9);ctx.fill();ctx.restore();}
-function s4(L,t,a){var nw=narrow(),cyc=reduce?.999:(t%8400)/8400;
+function s4(L,t,a){var nw=narrow(),tt=reduce?1e9:t;
  tetra(L,-1,0,1);
  var cols=nw?1:3,cw=W/cols,top=nw?H*.17:H*.30,ph=nw?(H-top)/3:H-top;
  function box(k){return nw?{x:0,y:top+k*ph,w:W,h:ph}:{x:k*cw,y:top,w:cw,h:H-top};}
@@ -246,19 +246,19 @@ function s4(L,t,a){var nw=narrow(),cyc=reduce?.999:(t%8400)/8400;
  function head(b,s,v){if(nw){T(s,26,b.y+12,10.5,rgba(IV,.75*a),'left');T(v,W-6,b.y+12,10.5,rgba(GO,a),'right','500');}else{T(s,b.x+b.w/2,b.y+20,10.5,rgba(IV,.75*a));T(v,b.x+b.w/2,b.y+b.h-12,11,rgba(GO,a),'center','500');}}
  function pair(b){var r=nw?Math.min(b.h*.36,34):Math.min(b.w*.2,40),gx=nw?b.x+b.w*.52:b.x+b.w/2,gy=nw?b.y+b.h*.6:b.y+b.h*.5,off=r+(nw?18:9);return {r:r,L:[gx-off,gy],R:[gx+off,gy]};}
  // viability: similar to control
- var b=box(0),P2=pair(b),day=cyc<.33?0:cyc<.66?1:2,nC=[9,19,32][day];head(b,'VIABILITY','≈ CONTROL');
+ var b=box(0),P2=pair(b),day=tt<2600?0:tt<4000?1:2;head(b,'VIABILITY','≈ CONTROL');
  [[P2.L,'CONTROL'],[P2.R,'EXTRACT']].forEach(function(s,j){var x=s[0][0],y=s[0][1],r=P2.r;dish(x,y,r,a);
-  for(var i=0;i<nC;i++){var c=CELLS[(i*7+j*3)%40];cell(x+Math.cos(c.a)*c.r*r*.78,y+Math.sin(c.a)*c.r*r*.78*.58,3.2*c.s*(r/40),c.ph,a*eo(cl((cyc*3-day)*3)));}
+  for(var i=0;i<32;i++){var c=CELLS[(i*7+j*3)%40],st=i<9?700+i*60:i<19?2600+(i-9)*50:4000+(i-19)*40,ca=eo(cl((tt-st)/450));if(ca<=0)continue;cell(x+Math.cos(c.a)*c.r*r*.78,y+Math.sin(c.a)*c.r*r*.78*.58,3.2*c.s*(r/40),c.ph,a*ca);}
   T(s[1],x,y+r*.58+13,9.5,rgba(IV,.55*a));});
  T(['DAY 1','DAY 3','DAY 5'][day],nw?W-6:b.x+b.w/2,nw?b.y+28:b.y+36,10,rgba(A,.95*a),nw?'right':'center');
  // gene expression: control vs extract
  b=box(1);head(b,'GENE EXPRESSION','HIGHER THAN CONTROL');
  var G3=['RUNX2','COL-I','ALP'],gv=[1.7,2.1,2.4],base=nw?b.y+b.h-18:b.y+b.h-40,bh=nw?b.h*.22:b.h*.17,bw=nw?9:11,gap=nw?(W*.62)/3:b.w/3.3,x0=nw?b.x+W*.2:b.x+(b.w-gap*3)/2;
- G3.forEach(function(g,i){var cx=x0+gap*(i+.5),grow=eo(cl(cyc*2.2-i*.18));bar3d(cx-bw-3,base,bw,bh*grow,'110,90,92',a,false);bar3d(cx+3,base,bw,bh*gv[i]*grow,A,a,true);T(g,cx+2,base+11,9.5,rgba(IV,.62*a));});
+ G3.forEach(function(g,i){var cx=x0+gap*(i+.5),grow=eo(cl((tt-1000-i*250)/1100));bar3d(cx-bw-3,base,bw,bh*grow,'110,90,92',a,false);bar3d(cx+3,base,bw,bh*gv[i]*grow,A,a,true);T(g,cx+2,base+11,9.5,rgba(IV,.62*a));});
  // mineralisation: more calcium deposition than control
  b=box(2);P2=pair(b);head(b,'MINERALISATION','MORE THAN CONTROL');
  [[P2.L,'CONTROL',6,.6],[P2.R,'EXTRACT',22,1]].forEach(function(s){var x=s[0][0],y=s[0][1],r=P2.r;dish(x,y,r,a);
-  for(var i=0;i<s[2];i++){var n=NOD[i],app=eo(cl(cyc*2.4-i*.05));nod(x+Math.cos(n.a)*n.r*r*.8,y+Math.sin(n.a)*n.r*r*.8*.58,4.4*n.s*s[3]*app*(r/40),n.ph,a);}
+  for(var i=0;i<s[2];i++){var n=NOD[i],app=eo(cl((tt-2000-i*80)/500));nod(x+Math.cos(n.a)*n.r*r*.8,y+Math.sin(n.a)*n.r*r*.8*.58,4.4*n.s*s[3]*app*(r/40),n.ph,a);}
   T(s[1],x,y+r*.58+13,9.5,rgba(IV,.55*a));});
  if(!nw){ctx.strokeStyle=rgba(IV,.07*a);ctx.beginPath();ctx.moveTo(cw,top+20);ctx.lineTo(cw,H-20);ctx.moveTo(cw*2,top+20);ctx.lineTo(cw*2,H-20);ctx.stroke();}
  return 'bio';}
